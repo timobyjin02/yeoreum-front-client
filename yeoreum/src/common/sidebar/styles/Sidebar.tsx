@@ -5,7 +5,6 @@ export const Wrapper = styled.div`
   width: 100vw;
   height: 100vh;
   display: flex;
-  flex-direction: column;
   background-color: ${({ theme }) => theme.palette.background};
 `;
 
@@ -27,7 +26,9 @@ export const Logo = styled.div`
   margin-bottom: 80px;
 `;
 
-export const Main = styled.div``;
+export const Main = styled.div`
+  /* display: flex; */
+`;
 
 export const IconStyle = styled(FontAwesomeIcon)`
  margin-right: 18px;
