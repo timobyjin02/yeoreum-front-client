@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const Wrapper = styled.div`
   width: 100vw;
@@ -29,16 +29,18 @@ export const Logo = styled.div`
 
 export const Main = styled.div``;
 
-// export const IconStyle = styled(FontAwesomeIcon)`
-// margin-right: 18px;
-// `;
+export const IconStyle = styled(FontAwesomeIcon)`
+ margin-right: 18px;
+`;
 
 export const Bottom = styled.div`
+  display: flex;
+  align-items: center;
   margin-top: 190px;
 `;
 
 export const Text = styled.div`
+  margin-left: -7px;
   font-size: 15px;
   color: #32344B;
-  /* color: red; */
 `;
