@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import NavTab from "./NavTab";
 
 interface Props {
   size: number;
@@ -7,7 +8,7 @@ interface Props {
   src?: string;
 }
 
-const ProfileImg = ({ size, shadow = 2, blur = 3, src }: Props) => {
+const ProfileImg = ({ size, shadow = 2, blur = 4, src }: Props) => {
   return (
     <Profile size={size} shadow={shadow} blur={blur}>
       <Picture
@@ -22,17 +23,22 @@ function NavBar() {
   return (
     <Nav>
       <Yeoreum src="images/yeoreum.png" />
-      <Tab>
-        <TabBtn>게시판</TabBtn>
-        <TabBtn>채팅</TabBtn>
-        <TabBtn>친구</TabBtn>
-      </Tab>
-      <div style={{ display: "flex", alignItems: "center" }}>
+      <NavTab />
+      <div style={{ width: "360px", display: "flex", alignItems: "center" }}>
         <AlarmBtn>
           <Alarm src="images/alarm.png" />
         </AlarmBtn>
-        <ProfileImg size={56} src="" />
-        <Nickname>donkeykong 님</Nickname>
+        <div
+          style={{
+            marginLeft: "10px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <ProfileImg size={40} shadow={1} blur={2} src="" />
+          <Nickname>donkeykonghongwe</Nickname>님
+        </div>
         <HamburgerBtn>
           <Hamburger src="images/hamburger.png" />
         </HamburgerBtn>
@@ -45,8 +51,8 @@ export default NavBar;
 
 const Nav = styled.nav`
   width: 100vw;
-  height: 80px;
-  padding: 0 200px;
+  height: 60px;
+  padding: 0 60px;
   background-color: ${({ theme }) => theme.palette.background};
   display: flex;
   justify-content: space-between;
@@ -55,36 +61,18 @@ const Nav = styled.nav`
 `;
 
 const Yeoreum = styled.img`
-  width: 250px;
+  --nav-height: 60px;
+  width: 200px;
   height: inherit;
   &:hover {
     cursor: pointer;
-    height: 70px;
-  }
-`;
-
-const Tab = styled.div`
-  width: 450px;
-  height: inherit;
-  display: flex;
-  justify-content: flex-end;
-`;
-
-const TabBtn = styled.button`
-  width: 120px;
-  height: inherit;
-  font-size: 20px;
-  border-radius: 10px;
-  &:hover {
-    font-weight: 600;
-    box-shadow: inset 3px 3px 4px rgba(0, 0, 0, 25%),
-      inset -3px -3px 4px #ffffff;
-    transition: 0.3s;
+    height: calc(var(--nav-height) - 5px);
   }
 `;
 
 const AlarmBtn = styled.div`
   display: flex;
+  margin-right: 10px;
   justify-content: center;
   align-items: center;
   width: 55px;
@@ -105,7 +93,7 @@ const Alarm = styled.img`
 const Profile = styled.div<{ size: number; shadow: number; blur: number }>`
   width: ${(props) => props.size}px;
   height: ${(props) => props.size}px;
-  margin-left: 20px;
+  margin-left: 0px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -123,10 +111,8 @@ const Picture = styled.img<{ size: number }>`
   border-radius: 50%;
 `;
 
-const Nickname = styled.div`
-  width: 200px;
-  height: inherit;
-  font-size: 18px;
+const Nickname = styled.span`
+  font-size: 16px;
   font-weight: 500;
   margin-left: 14px;
   display: flex;
@@ -138,6 +124,7 @@ const HamburgerBtn = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-left: 10px;
   width: 55px;
   height: 55px;
   border-radius: 5px;
