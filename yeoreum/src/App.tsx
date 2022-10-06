@@ -1,12 +1,20 @@
 import { ThemeProvider } from "@emotion/react";
 import theme from "./common/styles/theme";
 import GlobalStyle from "./common/styles/global";
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import Sidebar from "./common/sidebar/components/Sidebar";
+import MyPage from "./pages/myPage/components/MyPage";
 
 function App() {
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
-      <div className="App"></div>
+        <Router>
+        <Routes>
+          <Route path='/mypage' element={<Sidebar component={<MyPage />} />} />
+        </Routes>
+        </Router>
     </ThemeProvider>
   );
 }
