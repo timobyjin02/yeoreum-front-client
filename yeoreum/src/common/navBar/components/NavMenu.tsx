@@ -1,38 +1,31 @@
-import styled from "@emotion/styled";
-import ProfileImage from "../../profileImage/components/ProfileImage";
+import styled from '@emotion/styled';
+import ProfileImage from '../../profileImage/components/ProfileImage';
 
 function NavMenu() {
   return (
-    <div
-      style={{
-        position: "relative",
-        width: "360px",
-        display: "flex",
-        alignItems: "center",
-      }}
-    >
+    <MenuWrapper>
       <AlarmBtn>
         <Alarm src="images/alarm.png" />
       </AlarmBtn>
-      <div
-        style={{
-          marginLeft: "10px",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
+      <UserProfile>
         <ProfileImage size={40} shadow={1} blur={2} src="" />
         <Nickname>donkeykong</Nickname>님
-      </div>
+      </UserProfile>
       <HamburgerBtn>
         <Hamburger src="images/hamburger.png" />
       </HamburgerBtn>
-    </div>
+    </MenuWrapper>
   );
 }
 
 export default NavMenu;
+
+const MenuWrapper = styled.div`
+  position: relative;
+  width: 360px;
+  display: flex;
+  align-items: center;
+`;
 
 const AlarmBtn = styled.div`
   display: flex;
@@ -52,6 +45,13 @@ const AlarmBtn = styled.div`
 const Alarm = styled.img`
   width: 45px;
   height: 45px;
+`;
+
+const UserProfile = styled.div`
+  margin-left: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Nickname = styled.span`
