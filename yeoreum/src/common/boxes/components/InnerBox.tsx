@@ -21,7 +21,7 @@ const Wrapper = styled.div<{ size: string[]; shadow: number }>`
   height: ${props => props.size[1]};
   ${({ theme }) => theme.common.inner}
   box-shadow: ${({ shadow }) =>
-    `${shadow}px ${shadow}px ${
+    `inset ${shadow}px ${shadow}px ${
       shadow * 2
-    }px #afafb5, -${shadow}px -${shadow}px ${shadow}px #ffffff;`}
+    }px #afafb5, -${shadow}px -${shadow}px -${shadow * 2}px #ffffff;`}
 `;
