@@ -21,6 +21,7 @@ const Container = styled.div`
   height: 100%;
   flex-direction: column;
   align-items: center;
+  color: #333333;
   border: solid 1px black;
 `;
 
@@ -31,7 +32,7 @@ const BannerWrap = styled.div`
 `;
 
 const SloganWrap = styled.div`
-  height: 500px;
+  height: 430px;
   display: flex;
   justify-content: center;
   align-items: center;
