@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styled from '@emotion/styled';
+import useOutsideClick from '../../hooks/useOutsideClick';
 
 export default function UserModal({ onClose }: { onClose: () => void }) {
+  const ref = useRef<HTMLDivElement | null>(null);
+  useOutsideClick(ref, onClose);
   return (
-    <UserModalWrapper onClick={onClose}>
-      <ModalWrapper>
+    <UserModalWrapper>
+      <ModalWrapper ref={ref}>
         <ModalBubble />
         <UserModalBox>
           <NicknameDiv>
@@ -34,10 +37,15 @@ const Items = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
 `;
 
 const Item = styled.div`
-  padding: 14px 0;
+  width: var(--width);
+  padding: 14px 20px;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const Logout = styled.div`
@@ -45,6 +53,9 @@ const Logout = styled.div`
   align-items: center;
   justify-content: flex-end;
   font-size: 14px;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const UserModalWrapper = styled.div`
@@ -87,13 +98,14 @@ const ModalBubble = styled.div`
 `;
 
 const UserModalBox = styled.div`
+  --width: 250px;
   padding: 20px 20px 12px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   position: absolute;
   top: 15px;
-  width: 250px;
+  width: var(--width);
   height: 210px;
   background-color: white;
   border: 1px solid #888;
