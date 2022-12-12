@@ -40,10 +40,8 @@ export function NavUsual({ userOpen, setUserOpen }: NavProps) {
 }
 
 export function NavService({ userOpen, setUserOpen }: NavProps) {
-  const { y } = useScroll();
-
   return (
-    <Container show={y > 0 ? true : false}>
+    <Container show>
       <NavContainer>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <YeoreumLogo service>로고</YeoreumLogo>
@@ -65,7 +63,7 @@ export function NavService({ userOpen, setUserOpen }: NavProps) {
 
 const ImageAlarm = styled(Image)`
   margin-right: 20px;
-  @media (max-width: 769px) {
+  @media (max-width: 640px) {
     display: none;
   }
 `;
@@ -112,7 +110,7 @@ const NavMenu = styled.div<{ service?: boolean }>`
   align-items: center;
   margin-right: ${({ service }) => (service ? '80px' : 'none')};
 
-  @media (max-width: 769px) {
+  @media (max-width: 640px) {
     display: none;
   }
 `;
@@ -141,7 +139,7 @@ const ProfileImg = styled.div`
   &:hover {
     cursor: pointer;
   }
-  @media (max-width: 769px) {
+  @media (max-width: 640px) {
     display: none;
   }
 `;
@@ -154,7 +152,7 @@ const Arrow = styled.div<{ toggle: boolean }>`
   border-bottom: 2px solid #000;
   transform: ${({ toggle }) => (toggle ? 'rotate(-135deg)' : 'rotate(45deg)')};
   transition: 0.1s all;
-  @media (max-width: 769px) {
+  @media (max-width: 640px) {
     display: none;
   }
 `;
