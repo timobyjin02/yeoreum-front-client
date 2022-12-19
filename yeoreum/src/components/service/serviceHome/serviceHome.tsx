@@ -6,10 +6,10 @@ export default function ServiceHome() {
   return (
     <Container>
       <BannerWrap></BannerWrap>
+      <Menu />
       <SloganWrap>
         <p>yeoreum</p>
       </SloganWrap>
-      <Menu />
       <Qna />
     </Container>
   );
@@ -22,7 +22,6 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   color: #333333;
-  border: solid 1px black;
 `;
 
 const BannerWrap = styled.div`
@@ -32,10 +31,12 @@ const BannerWrap = styled.div`
 `;
 
 const SloganWrap = styled.div`
-  height: 430px;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #f5f6f7;
+  width: 100%;
+  height: 430px;
   & > p {
     // p style
   }

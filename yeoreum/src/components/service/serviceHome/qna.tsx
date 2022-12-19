@@ -31,7 +31,10 @@ const qnaRender = (a: string, i: number) => {
 
 const Container = styled.div`
   width: 680px;
-  padding: 50px 0px;
+  padding: 3em 0px;
+  @media (max-width: 679px){
+    width: 90vw;
+  }
 `;
 
 const Title = styled.h2`

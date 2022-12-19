@@ -48,16 +48,37 @@ export default function Menu() {
 
 const MenuBackground = styled.div`
   width: 100%;
-  background-color: #f5f6f7;
+  /* background-color: #f5f6f7; */
 `;
 const MenuContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   width: 680px;
   height: 430px;
   margin: 0 auto;
+  font-weight: 500;
+  @media (max-width: 679px) {
+    flex-direction: column;
+    justify-content: center;
+    width: 90vw;
+    height: fit-content;
+    padding: 2em 0;
+    & img {
+      /* display: none; */
+      width: 40px;
+      height: 40px;
+      margin-right: 1em;
+    }
+    & > div {
+      width: 100%;
+      flex: 0 0 70px;
+      flex-direction: row;
+      justify-content: flex-start;
+      margin: 0.4em;
+      padding: 0 1em;
+    }
+  }
 `;
 
 const MenuBox = styled.div`
@@ -68,7 +89,7 @@ const MenuBox = styled.div`
   flex: 0 0 152px;
   height: 152px;
   border-radius: 16px;
-  background-color: white;
+  background-color: #f5f6f7;
   cursor: pointer;
   & img {
     margin: 15px 0px;
