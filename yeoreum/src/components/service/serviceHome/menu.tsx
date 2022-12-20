@@ -2,53 +2,39 @@ import styled from '@emotion/styled';
 import Image from 'next/image';
 
 export default function Menu() {
+  const menuInfo = [
+    { src: '/service/report.png', alt: 'report', text: '부적절한 게시글 신고' },
+    { src: '/service/enquiry.png', alt: 'enquiry', text: '이용관련 문의' },
+    { src: '/service/idea.png', alt: 'idea', text: '버그 / 개선 사항' },
+    { src: '/service/guitar.png', alt: 'guitar', text: '기타' },
+  ];
+
   return (
     <MenuBackground>
       <MenuContainer>
-        <MenuBox>
-          <Image
-            src="/service/report.png"
-            width={70}
-            height={70}
-            alt="report"
-          />
-          <p>부적절한 게시글 신고</p>
-        </MenuBox>
-        <MenuBox>
-          <Image
-            src="/service/enquiry.png"
-            width={50}
-            height={50}
-            alt="question"
-          />
-          <p>이용관련 문의</p>
-        </MenuBox>
-        <MenuBox>
-          <Image
-            src="/service/idea.png"
-            width={70}
-            height={70}
-            alt="question"
-          />
-          <p>버그 / 개선 사항</p>
-        </MenuBox>
-        <MenuBox>
-          <Image
-            src="/service/guitar.png"
-            width={50}
-            height={50}
-            alt="guitar"
-          />
-          <p>기타</p>
-        </MenuBox>
+        {menuInfo.map(info => (
+          <MenuRender src={info.src} alt={info.alt} text={info.text} />
+        ))}
       </MenuContainer>
     </MenuBackground>
   );
 }
 
+type MenuProps = {
+  src: string;
+  alt: string;
+  text: string;
+};
+
+const MenuRender = ({ src, alt, text }: MenuProps) => (
+  <MenuBox>
+    <Image src={src} width={50} height={50} alt={alt} />
+    <p>{text}</p>
+  </MenuBox>
+);
+
 const MenuBackground = styled.div`
   width: 100%;
-  /* background-color: #f5f6f7; */
 `;
 const MenuContainer = styled.div`
   display: flex;
@@ -65,14 +51,13 @@ const MenuContainer = styled.div`
     height: fit-content;
     padding: 2em 0;
     & img {
-      /* display: none; */
       width: 40px;
       height: 40px;
       margin-right: 1em;
     }
     & > div {
       width: 100%;
-      flex: 0 0 70px;
+      flex: 0 0 50px;
       flex-direction: row;
       justify-content: flex-start;
       margin: 0.4em;
@@ -82,6 +67,7 @@ const MenuContainer = styled.div`
 `;
 
 const MenuBox = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
