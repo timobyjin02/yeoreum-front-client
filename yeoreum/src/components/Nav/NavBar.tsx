@@ -12,52 +12,58 @@ export function NavUsual({ userOpen, setUserOpen }: NavProps) {
   const { y } = useScroll();
 
   return (
-    <Container show={y > 0 ? true : false}>
-      <NavContainer>
-        <div style={{ display: 'flex' }}>
-          <YeoreumLogo>로고</YeoreumLogo>
-          <NavMenu>
-            <NavMenuItem>게시판</NavMenuItem>
-            <NavMenuItem>친구</NavMenuItem>
-            <NavMenuItem>채팅</NavMenuItem>
-          </NavMenu>
-        </div>
+    <>
+      <Container show={y > 0 ? true : false}>
+        <NavContainer>
+          <div style={{ display: 'flex' }}>
+            <YeoreumLogo>로고</YeoreumLogo>
+            <NavMenu>
+              <NavMenuItem>게시판</NavMenuItem>
+              <NavMenuItem>친구</NavMenuItem>
+              <NavMenuItem>채팅</NavMenuItem>
+            </NavMenu>
+          </div>
 
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <ImageAlarm
-            alt="alarm"
-            src="/vercel.svg"
-            width={40}
-            height={40}
-            priority
-          />
-          <ProfileImg onClick={() => setUserOpen(prev => !prev)} />
-          <Arrow toggle={userOpen} />
-        </div>
-      </NavContainer>
-    </Container>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <ImageAlarm
+              alt="alarm"
+              src="/vercel.svg"
+              width={40}
+              height={40}
+              priority
+            />
+            <ProfileImg onClick={() => setUserOpen(prev => !prev)} />
+            <Arrow toggle={userOpen} />
+          </div>
+        </NavContainer>
+      </Container>
+      <div style={{ height: '60px', width: '100%' }} />
+    </>
   );
 }
 
 export function NavService({ userOpen, setUserOpen }: NavProps) {
   return (
-    <Container show>
-      <NavContainer>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <YeoreumLogo service>로고</YeoreumLogo>
-          <div style={{ fontWeight: 600, fontSize: '18px' }}>고객센터</div>
-        </div>
+    <>
+      <Container show>
+        <NavContainer>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <YeoreumLogo service>로고</YeoreumLogo>
+            <div style={{ fontWeight: 600, fontSize: '18px' }}>고객센터</div>
+          </div>
 
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <NavMenu service>
-            <NavMenuItem>문의하기</NavMenuItem>
-            <NavMenuItem>문의내역</NavMenuItem>
-          </NavMenu>
-          <ProfileImg onClick={() => setUserOpen(prev => !prev)} />
-          <Arrow toggle={userOpen} />
-        </div>
-      </NavContainer>
-    </Container>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <NavMenu service>
+              <NavMenuItem>문의하기</NavMenuItem>
+              <NavMenuItem>문의내역</NavMenuItem>
+            </NavMenu>
+            <ProfileImg onClick={() => setUserOpen(prev => !prev)} />
+            <Arrow toggle={userOpen} />
+          </div>
+        </NavContainer>
+      </Container>
+      <div style={{ height: '60px', width: '100%' }} />
+    </>
   );
 }
 
@@ -69,6 +75,7 @@ const ImageAlarm = styled(Image)`
 `;
 
 const Container = styled.nav<{ show: boolean }>`
+  z-index: 99999;
   display: flex;
   box-sizing: border-box;
   position: fixed;
@@ -78,7 +85,7 @@ const Container = styled.nav<{ show: boolean }>`
   background-color: ${({ show }) =>
     show ? 'white' : 'rgba(255, 255, 255, 0)'};
   transition-timing-function: ease-in;
-  transition: all 0.5s;
+  transition: all 0.2s;
 `;
 
 const NavContainer = styled.div`
