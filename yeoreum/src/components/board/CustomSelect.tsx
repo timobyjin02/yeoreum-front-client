@@ -24,6 +24,7 @@ function CustomSelect({ width, title, options }: CustomSelectProps) {
     setHeaderText((event.target as HTMLLIElement).innerText);
     setIsOpen(false);
   };
+  console.log(isOpen);
   return (
     <SelectBox>
       <SelectHeader width={width} onClick={() => setIsOpen(prev => !prev)}>
@@ -31,8 +32,10 @@ function CustomSelect({ width, title, options }: CustomSelectProps) {
       </SelectHeader>
       {isOpen && (
         <SelectListBox ref={ref}>
-          {options.map(option => (
-            <SelectList onClick={handleClick}>{option.value}</SelectList>
+          {options.map((option, index) => (
+            <SelectList key={index} onClick={handleClick}>
+              {option.value}
+            </SelectList>
           ))}
         </SelectListBox>
       )}
@@ -57,6 +60,10 @@ const SelectHeader = styled.div<{ width: number }>`
   border: 1px solid #bfbfbf;
   font-size: 0.75rem;
   margin-bottom: 3px;
+  &:hover {
+    background-color: #eee;
+    cursor: pointer;
+  }
 `;
 
 const SelectListBox = styled.ul`

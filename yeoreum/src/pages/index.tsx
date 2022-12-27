@@ -18,7 +18,7 @@ export default function Home() {
 const AA = styled.div`
   background-color: blue;
 
-  width: 100vw;
+  width: 100%;
   padding: 0;
   height: 2000px;
 `;
