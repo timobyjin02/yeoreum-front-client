@@ -96,20 +96,14 @@ function PostList() {
             <PostBottom>
               <Conditions>
                 <Condition>
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      marginRight: '10px',
-                    }}
-                  >
+                  <GenderCondition>
                     <임시Icon />
                     <임시Text>{p.male}명</임시Text>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                  </GenderCondition>
+                  <GenderCondition>
                     <임시Icon />
                     <임시Text>{p.female}명</임시Text>
-                  </div>
+                  </GenderCondition>
                 </Condition>
                 <Condition>
                   <임시Icon />
@@ -206,6 +200,14 @@ const Condition = styled.div`
   display: flex;
   align-items: center;
   margin-right: 20px;
+`;
+
+const GenderCondition = styled.div`
+  display: flex;
+  align-items: center;
+  :first-of-type {
+    margin-right: 10px;
+  }
 `;
 
 const 임시Icon = styled.div`

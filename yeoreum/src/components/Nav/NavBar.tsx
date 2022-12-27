@@ -9,22 +9,22 @@ interface NavProps {
 }
 
 export function NavUsual({ userOpen, setUserOpen }: NavProps) {
-  const { y } = useScroll();
+  // const { y } = useScroll();
 
   return (
     <>
-      <Container show={y > 0 ? true : false}>
+      <Container show>
         <NavContainer>
-          <div style={{ display: 'flex' }}>
+          <ArrangeContainer>
             <YeoreumLogo>로고</YeoreumLogo>
             <NavMenu>
               <NavMenuItem>게시판</NavMenuItem>
               <NavMenuItem>친구</NavMenuItem>
               <NavMenuItem>채팅</NavMenuItem>
             </NavMenu>
-          </div>
+          </ArrangeContainer>
 
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+          <ArrangeContainer>
             <ImageAlarm
               alt="alarm"
               src="/vercel.svg"
@@ -34,10 +34,10 @@ export function NavUsual({ userOpen, setUserOpen }: NavProps) {
             />
             <ProfileImg onClick={() => setUserOpen(prev => !prev)} />
             <Arrow toggle={userOpen} />
-          </div>
+          </ArrangeContainer>
         </NavContainer>
       </Container>
-      <div style={{ height: '60px', width: '100%' }} />
+      <Kernel />
     </>
   );
 }
@@ -47,25 +47,35 @@ export function NavService({ userOpen, setUserOpen }: NavProps) {
     <>
       <Container show>
         <NavContainer>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+          <ArrangeContainer>
             <YeoreumLogo service>로고</YeoreumLogo>
-            <div style={{ fontWeight: 600, fontSize: '18px' }}>고객센터</div>
-          </div>
+            <ServiceTitle>고객센터</ServiceTitle>
+          </ArrangeContainer>
 
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+          <ArrangeContainer>
             <NavMenu service>
               <NavMenuItem>문의하기</NavMenuItem>
               <NavMenuItem>문의내역</NavMenuItem>
             </NavMenu>
             <ProfileImg onClick={() => setUserOpen(prev => !prev)} />
             <Arrow toggle={userOpen} />
-          </div>
+          </ArrangeContainer>
         </NavContainer>
       </Container>
-      <div style={{ height: '60px', width: '100%' }} />
+      <Kernel />
     </>
   );
 }
+
+const Kernel = styled.div`
+  height: 60px;
+  width: 100%;
+`;
+
+const ArrangeContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
 const ImageAlarm = styled(Image)`
   margin-right: 20px;
@@ -75,7 +85,7 @@ const ImageAlarm = styled(Image)`
 `;
 
 const Container = styled.nav<{ show: boolean }>`
-  z-index: 99999;
+  z-index: 9999;
   display: flex;
   box-sizing: border-box;
   position: fixed;
@@ -110,6 +120,11 @@ const YeoreumLogo = styled.div<{ service?: boolean }>`
     cursor: pointer;
     transition: 0.5s;
   }
+`;
+
+const ServiceTitle = styled.div`
+  font-weight: 600;
+  font-size: 18px;
 `;
 
 const NavMenu = styled.div<{ service?: boolean }>`
