@@ -6,6 +6,7 @@ function PostList() {
     if (status === 0) return '모집 중';
     if (status === 1) return '여름 진행 중';
     if (status === 2) return '여름 마감';
+    if (status === 3) return '여름 신청';
   }, []);
 
   const 임시postData = [
@@ -67,7 +68,7 @@ function PostList() {
     },
     {
       postNo: 4,
-      progress: 0,
+      progress: 3,
       createdAt: '1672018499336',
       title: '도서관에서 같이 공부하실 남자 둘 구해요 IQ 200이상',
       male: 0,
@@ -155,10 +156,11 @@ type CurrentStatus = {
 };
 
 function ProgressColor({ status }: CurrentStatus) {
-  if (!(typeof status === 'number') || status < 0 || status > 2) return;
+  if (!(typeof status === 'number') || status < 0 || status > 3) return;
   if (status === 0) return '#648fff';
   if (status === 1) return '#FF2B37';
   if (status === 2) return '#525252';
+  if (status === 3) return '#4c9866';
 }
 
 const Progress = styled.p<CurrentStatus>`
