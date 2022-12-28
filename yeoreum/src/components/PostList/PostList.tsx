@@ -178,11 +178,9 @@ const CreatedAt = styled.span`
 `;
 
 const PostTitle = styled.h4`
+  color: #333;
   margin: 0;
-  font-size: 1.125rem;
-  @media (max-width: 640px) {
-    font-size: 1.0625rem;
-  }
+  font-size: 1.0625rem;
 `;
 
 const PostBottom = styled.div`
@@ -220,7 +218,7 @@ const 임시Icon = styled.div`
 `;
 
 const 임시Text = styled.span`
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   color: #666666;
 `;
 
