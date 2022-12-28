@@ -24,7 +24,6 @@ function CustomSelect({ width, title, options }: CustomSelectProps) {
     setHeaderText((event.target as HTMLLIElement).innerText);
     setIsOpen(false);
   };
-  console.log(isOpen);
   return (
     <SelectBox>
       <SelectHeader width={width} onClick={() => setIsOpen(prev => !prev)}>

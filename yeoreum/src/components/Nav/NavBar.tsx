@@ -85,6 +85,7 @@ const ImageAlarm = styled(Image)`
 `;
 
 const Container = styled.nav<{ show: boolean }>`
+  color: #181818;
   z-index: 9999;
   display: flex;
   box-sizing: border-box;
@@ -112,7 +113,7 @@ const NavContainer = styled.div`
 
 const YeoreumLogo = styled.div<{ service?: boolean }>`
   margin-bottom: 1px;
-  color: #ff2b37;
+  color: lightgray;
   margin-right: ${({ service }) => (service ? '30px' : '50px')};
   font-size: 30px;
   font-weight: 600;
@@ -123,7 +124,7 @@ const YeoreumLogo = styled.div<{ service?: boolean }>`
 `;
 
 const ServiceTitle = styled.div`
-  font-weight: 600;
+  font-weight: 400;
   font-size: 18px;
 `;
 
@@ -141,7 +142,8 @@ const NavMenuItem = styled.div`
   height: 40px;
   align-items: center;
   padding: 0 24px;
-  font-weight: 600;
+  font-size: 0.875rem;
+  font-weight: 550;
   display: flex;
   min-width: 48px;
   &:hover {
@@ -156,7 +158,7 @@ const ProfileImg = styled.div`
   height: 33px;
   margin-right: 10px;
   border-radius: 50%;
-  background-color: red;
+  background-color: lightgray;
   display: block;
   &:hover {
     cursor: pointer;
