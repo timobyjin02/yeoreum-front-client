@@ -1,37 +1,19 @@
-import styled from '@emotion/styled';
 import React from 'react';
 import Filter from '../../components/board/Filter';
 import PostList from '../../components/PostList/PostList';
 import SearchBox from '../../components/board/SearchBox';
+import BoardTitle from '../../components/common/PostPageTitle';
+import PostContainer from '../../components/common/PostContainer';
 
 function Board() {
   return (
-    <Container>
-      <BoardTitle>게시판</BoardTitle>
+    <PostContainer>
+      <BoardTitle title="게시판" />
       <Filter />
       <SearchBox />
       <PostList />
-    </Container>
+    </PostContainer>
   );
 }
 
 export default Board;
-
-const Container = styled.div`
-  position: relative;
-  margin: 20px auto;
-  display: flex;
-  flex-direction: column;
-  max-width: 640px;
-  height: 2000px;
-  padding: 20px;
-  @media (max-width: 640px) {
-    width: auto;
-  }
-`;
-
-const BoardTitle = styled.div`
-  padding-bottom: 20px;
-  font-size: 32px;
-  font-weight: 600;
-`;
