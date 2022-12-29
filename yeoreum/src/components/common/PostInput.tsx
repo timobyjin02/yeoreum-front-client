@@ -33,7 +33,7 @@ const Subject = styled.label`
 `;
 
 const Input = styled.input`
-  width: 600px;
+  max-width: 600px;
   height: 48px;
   padding: 0 12px;
   font-size: 1rem;
@@ -51,7 +51,7 @@ const Input = styled.input`
 
 const Textarea = styled.textarea`
   display: flex;
-  width: 600px;
+  max-width: 600px;
   min-height: 250px;
   padding: 12px;
   font-size: 1rem;
