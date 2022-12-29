@@ -9,57 +9,73 @@ interface NavProps {
 }
 
 export function NavUsual({ userOpen, setUserOpen }: NavProps) {
-  const { y } = useScroll();
+  // const { y } = useScroll();
 
   return (
-    <Container show={y > 0 ? true : false}>
-      <NavContainer>
-        <div style={{ display: 'flex' }}>
-          <YeoreumLogo>로고</YeoreumLogo>
-          <NavMenu>
-            <NavMenuItem>게시판</NavMenuItem>
-            <NavMenuItem>친구</NavMenuItem>
-            <NavMenuItem>채팅</NavMenuItem>
-          </NavMenu>
-        </div>
+    <>
+      <Container show>
+        <NavContainer>
+          <ArrangeContainer>
+            <YeoreumLogo>로고</YeoreumLogo>
+            <NavMenu>
+              <NavMenuItem>게시판</NavMenuItem>
+              <NavMenuItem>친구</NavMenuItem>
+              <NavMenuItem>채팅</NavMenuItem>
+            </NavMenu>
+          </ArrangeContainer>
 
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <ImageAlarm
-            alt="alarm"
-            src="/vercel.svg"
-            width={40}
-            height={40}
-            priority
-          />
-          <ProfileImg onClick={() => setUserOpen(prev => !prev)} />
-          <Arrow toggle={userOpen} />
-        </div>
-      </NavContainer>
-    </Container>
+          <ArrangeContainer>
+            <ImageAlarm
+              alt="alarm"
+              src="/vercel.svg"
+              width={40}
+              height={40}
+              priority
+            />
+            <ProfileImg onClick={() => setUserOpen(prev => !prev)} />
+            <Arrow toggle={userOpen} />
+          </ArrangeContainer>
+        </NavContainer>
+      </Container>
+      <Kernel />
+    </>
   );
 }
 
 export function NavService({ userOpen, setUserOpen }: NavProps) {
   return (
-    <Container show>
-      <NavContainer>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <YeoreumLogo service>로고</YeoreumLogo>
-          <div style={{ fontWeight: 600, fontSize: '18px' }}>고객센터</div>
-        </div>
+    <>
+      <Container show>
+        <NavContainer>
+          <ArrangeContainer>
+            <YeoreumLogo service>로고</YeoreumLogo>
+            <ServiceTitle>고객센터</ServiceTitle>
+          </ArrangeContainer>
 
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <NavMenu service>
-            <NavMenuItem>문의하기</NavMenuItem>
-            <NavMenuItem>문의내역</NavMenuItem>
-          </NavMenu>
-          <ProfileImg onClick={() => setUserOpen(prev => !prev)} />
-          <Arrow toggle={userOpen} />
-        </div>
-      </NavContainer>
-    </Container>
+          <ArrangeContainer>
+            <NavMenu service>
+              <NavMenuItem>문의하기</NavMenuItem>
+              <NavMenuItem>문의내역</NavMenuItem>
+            </NavMenu>
+            <ProfileImg onClick={() => setUserOpen(prev => !prev)} />
+            <Arrow toggle={userOpen} />
+          </ArrangeContainer>
+        </NavContainer>
+      </Container>
+      <Kernel />
+    </>
   );
 }
+
+const Kernel = styled.div`
+  height: 60px;
+  width: 100%;
+`;
+
+const ArrangeContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
 const ImageAlarm = styled(Image)`
   margin-right: 20px;
@@ -69,6 +85,8 @@ const ImageAlarm = styled(Image)`
 `;
 
 const Container = styled.nav<{ show: boolean }>`
+  color: #181818;
+  z-index: 9999;
   display: flex;
   box-sizing: border-box;
   position: fixed;
@@ -78,7 +96,7 @@ const Container = styled.nav<{ show: boolean }>`
   background-color: ${({ show }) =>
     show ? 'white' : 'rgba(255, 255, 255, 0)'};
   transition-timing-function: ease-in;
-  transition: all 0.5s;
+  transition: all 0.2s;
 `;
 
 const NavContainer = styled.div`
@@ -95,7 +113,7 @@ const NavContainer = styled.div`
 
 const YeoreumLogo = styled.div<{ service?: boolean }>`
   margin-bottom: 1px;
-  color: #ff2b37;
+  color: lightgray;
   margin-right: ${({ service }) => (service ? '30px' : '50px')};
   font-size: 30px;
   font-weight: 600;
@@ -103,6 +121,11 @@ const YeoreumLogo = styled.div<{ service?: boolean }>`
     cursor: pointer;
     transition: 0.5s;
   }
+`;
+
+const ServiceTitle = styled.div`
+  font-weight: 400;
+  font-size: 18px;
 `;
 
 const NavMenu = styled.div<{ service?: boolean }>`
@@ -119,7 +142,8 @@ const NavMenuItem = styled.div`
   height: 40px;
   align-items: center;
   padding: 0 24px;
-  font-weight: 600;
+  font-size: 0.875rem;
+  font-weight: 550;
   display: flex;
   min-width: 48px;
   &:hover {
@@ -134,7 +158,7 @@ const ProfileImg = styled.div`
   height: 33px;
   margin-right: 10px;
   border-radius: 50%;
-  background-color: red;
+  background-color: lightgray;
   display: block;
   &:hover {
     cursor: pointer;

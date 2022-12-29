@@ -1,3 +1,7 @@
+ul {
+  list-style: none;
+}
+
 html,
 body {
   padding: 0;
