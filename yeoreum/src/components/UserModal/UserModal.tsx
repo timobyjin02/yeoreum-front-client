@@ -59,6 +59,7 @@ const Logout = styled.div`
 `;
 
 const UserModalWrapper = styled.div`
+  z-index: 10000;
   width: 100%;
   height: 100%;
 
