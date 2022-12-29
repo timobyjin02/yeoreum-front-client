@@ -25,8 +25,8 @@ function CustomSelect({ width, title, options }: CustomSelectProps) {
     setIsOpen(false);
   };
   return (
-    <SelectBox>
-      <SelectHeader width={width} onClick={() => setIsOpen(prev => !prev)}>
+    <SelectBox width={width}>
+      <SelectHeader onClick={() => setIsOpen(prev => !prev)}>
         {headerText}
       </SelectHeader>
       {isOpen && (
@@ -44,13 +44,15 @@ function CustomSelect({ width, title, options }: CustomSelectProps) {
 
 export default CustomSelect;
 
-const SelectBox = styled.div`
+const SelectBox = styled.div<{ width: number }>`
+  width: ${({ width }) => width + 'px'};
+
   position: relative;
   margin-right: 8px;
 `;
 
-const SelectHeader = styled.div<{ width: number }>`
-  width: ${({ width }) => width + 'px'};
+const SelectHeader = styled.div`
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
