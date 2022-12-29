@@ -24,7 +24,7 @@ const Container = styled.div`
 
 const Title = styled.h2`
   font-weight: 550;
-  font-size: 2em;
+  font-size: 1.8em;
 `;
 
 export default Wrapper;
