@@ -9,11 +9,11 @@ interface PostInputProps {
 function PostInput({ title, textarea }: PostInputProps) {
   return (
     <Container>
-      <Subject>{title}</Subject>
+      <Subject htmlFor={title}>{title}</Subject>
       {textarea ? (
-        <Textarea placeholder={`${title}을 입력해주세요.`} />
+        <Textarea id={title} placeholder={`${title}을 입력해주세요.`} />
       ) : (
-        <Input placeholder={`${title}을 입력해주세요.`} />
+        <Input id={title} placeholder={`${title}을 입력해주세요.`} />
       )}
     </Container>
   );
@@ -27,8 +27,9 @@ const Container = styled.div`
   margin-bottom: 20px;
 `;
 
-const Subject = styled.h4`
+const Subject = styled.label`
   margin-bottom: 10px;
+  font-weight: 600;
 `;
 
 const Input = styled.input`
