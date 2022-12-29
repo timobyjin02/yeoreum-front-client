@@ -1,6 +1,6 @@
 import React from 'react';
 import PostContainer from '../../components/common/PostContainer';
-import PostList from '../../components/PostList/PostList';
+import PostList from '../../components/common/PostList';
 import PostPageTitle from '../../components/common/PostPageTitle';
 
 function ApplyStatus() {
