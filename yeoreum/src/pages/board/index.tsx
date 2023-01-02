@@ -3,7 +3,7 @@ import Filter from '../../components/board/Filter';
 import PostList from '../../components/board/PostList';
 import SearchBox from '../../components/board/SearchBox';
 import BoardTitle from '../../components/board/PostPageTitle';
-import PostContainer from '../../components/common/PostContainer';
+import PostContainer from '../../components/board/PostContainer';
 
 function Board() {
   return (

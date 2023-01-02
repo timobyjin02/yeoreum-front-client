@@ -14,13 +14,11 @@ function AddPartyMembers() {
     { nickname: '메가커피대항마' },
     { nickname: '63빌딩맨손등반' },
     { nickname: '목꺾기장인' },
-    { nickname: '메가커피대항마' },
-    { nickname: '63빌딩맨손등반' },
   ];
 
   function nicknameSlice(string: string) {
-    if (string.length <= 5) return string;
-    else return string.slice(0, 5) + '...';
+    if (string.length <= 6) return string;
+    else return string.slice(0, 6) + '...';
   }
 
   return (

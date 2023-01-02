@@ -1,5 +1,5 @@
 import React from 'react';
-import PostContainer from '../../components/common/PostContainer';
+import PostContainer from '../../components/board/PostContainer';
 import PostList from '../../components/board/PostList';
 import PostPageTitle from '../../components/board/PostPageTitle';
 
