@@ -10,7 +10,7 @@ function PostGender() {
   return (
     <Container>
       <Subject>모집 성별</Subject>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      <GenderWrapper>
         <CustomDropDown
           width={88}
           title="남성"
@@ -23,7 +23,7 @@ function PostGender() {
           placeholder="인원 수"
           options={option}
         />
-      </div>
+      </GenderWrapper>
     </Container>
   );
 }
@@ -33,23 +33,14 @@ export default PostGender;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 10px 0 20px;
+  margin: 10px 0 30px;
 `;
 
 const Subject = styled.h4`
   margin-bottom: 10px;
 `;
 
-const GenderContainer = styled.div`
+const GenderWrapper = styled.div`
   display: flex;
   align-items: center;
-  :first-of-type {
-    margin-right: 28px;
-  }
-`;
-
-const GenderItem = styled.span`
-  font-weight: 500;
-  font-size: 0.875rem;
-  margin-right: 10px;
 `;
