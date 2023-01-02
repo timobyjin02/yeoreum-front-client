@@ -1,15 +1,19 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-function CreateButton() {
+interface SubmitButtonProps {
+  content: string;
+}
+
+function SubmitButton({ content }: SubmitButtonProps) {
   return (
     <Container>
-      <Button>등록하기</Button>
+      <Button>{content}</Button>
     </Container>
   );
 }
 
-export default CreateButton;
+export default SubmitButton;
 
 const Container = styled.div`
   display: flex;
