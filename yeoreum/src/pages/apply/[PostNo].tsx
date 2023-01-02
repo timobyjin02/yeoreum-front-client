@@ -1,7 +1,7 @@
 import React from 'react';
 import PostContainer from '../../components/common/PostContainer';
-import PostList from '../../components/common/PostList';
-import PostPageTitle from '../../components/common/PostPageTitle';
+import PostList from '../../components/board/PostList';
+import PostPageTitle from '../../components/board/PostPageTitle';
 
 function ApplyStatus() {
   return (

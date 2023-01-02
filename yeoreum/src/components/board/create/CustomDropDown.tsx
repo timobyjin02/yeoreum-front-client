@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import React, { useRef, useState } from 'react';
-import useOutsideClick from '../../hooks/useOutsideClick';
+import useOutsideClick from '../../../hooks/useOutsideClick';
 
 interface CustomDropDownProps {
   width: number;

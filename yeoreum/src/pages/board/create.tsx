@@ -1,10 +1,10 @@
 import React from 'react';
-import AddPartyMembers from '../../components/common/AddPartyMembers';
-import SubmitButton from '../../components/common/SubmitButton';
-import PostContainer from '../../components/common/PostContainer';
-import PostGender from '../../components/common/PostGender';
-import PostInput from '../../components/common/PostInput';
-import PostPageTitle from '../../components/common/PostPageTitle';
+import AddPartyMembers from '../../components/board/create/AddPartyMembers';
+import SubmitButton from '../../components/board/create/SubmitButton';
+import PostContainer from '../../components/board/PostContainer';
+import PostGender from '../../components/board/create/PostGender';
+import PostInput from '../../components/board/create/PostInput';
+import PostPageTitle from '../../components/board/PostPageTitle';
 
 // 나중에 페이지에 렌더링하는 컴포넌트 div대신 section으로 바꾸기
 function PostCreate() {

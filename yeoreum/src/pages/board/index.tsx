@@ -1,8 +1,8 @@
 import React from 'react';
 import Filter from '../../components/board/Filter';
-import PostList from '../../components/common/PostList';
+import PostList from '../../components/board/PostList';
 import SearchBox from '../../components/board/SearchBox';
-import BoardTitle from '../../components/common/PostPageTitle';
+import BoardTitle from '../../components/board/PostPageTitle';
 import PostContainer from '../../components/common/PostContainer';
 
 function Board() {
