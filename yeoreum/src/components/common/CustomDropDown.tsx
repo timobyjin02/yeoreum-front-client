@@ -5,6 +5,7 @@ import useOutsideClick from '../../hooks/useOutsideClick';
 interface CustomDropDownProps {
   width: number;
   title: string;
+  placeholder: string;
   options: OptionObject[];
 }
 
@@ -12,7 +13,12 @@ interface OptionObject {
   value?: string;
 }
 
-function CustomDropDown({ width, title, options }: CustomDropDownProps) {
+function CustomDropDown({
+  width,
+  title,
+  placeholder,
+  options,
+}: CustomDropDownProps) {
   const [headerText, setHeaderText] = useState('');
   const [isOpen, setIsOpen] = useState(false);
 
@@ -26,30 +32,48 @@ function CustomDropDown({ width, title, options }: CustomDropDownProps) {
   };
 
   return (
-    <DropDownBox width={width}>
-      <DropDownHeader
-        isPlaceholder={headerText === ''}
-        isFocus={isOpen}
-        onClick={() => setIsOpen(prev => !prev)}
-      >
-        {headerText ? headerText : title}
-        <Arrow />
-      </DropDownHeader>
+    <GenderContainer>
+      <GenderItem onClick={() => setIsOpen(true)}>{title}</GenderItem>
+      <DropDownBox width={width}>
+        <DropDownHeader
+          isPlaceholder={headerText === ''}
+          isFocus={isOpen}
+          onClick={() => setIsOpen(prev => !prev)}
+        >
+          {headerText ? headerText : placeholder}
+          <Arrow />
+        </DropDownHeader>
 
-      {isOpen && (
-        <DropDownListBox ref={ref}>
-          {options.map((option, index) => (
-            <DropDownList key={index} onClick={handleClick}>
-              {option.value}
-            </DropDownList>
-          ))}
-        </DropDownListBox>
-      )}
-    </DropDownBox>
+        {isOpen && (
+          <DropDownListBox ref={ref}>
+            {options.map((option, index) => (
+              <DropDownList key={index} onClick={handleClick}>
+                {option.value}
+              </DropDownList>
+            ))}
+          </DropDownListBox>
+        )}
+      </DropDownBox>
+    </GenderContainer>
   );
 }
 
 export default CustomDropDown;
+
+const GenderContainer = styled.div`
+  display: flex;
+  align-items: center;
+  :first-of-type {
+    margin-right: 28px;
+  }
+`;
+
+const GenderItem = styled.span`
+  font-weight: 500;
+  font-size: 0.875rem;
+  margin-right: 10px;
+  cursor: default;
+`;
 
 const DropDownBox = styled.div<{ width: number }>`
   width: ${({ width }) => width + 'px'};

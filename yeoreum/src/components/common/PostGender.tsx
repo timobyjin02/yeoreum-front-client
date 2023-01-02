@@ -11,14 +11,18 @@ function PostGender() {
     <Container>
       <Subject>모집 성별</Subject>
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <GenderContainer>
-          <GenderItem>남성</GenderItem>
-          <CustomDropDown width={88} title="인원 수" options={option} />
-        </GenderContainer>
-        <GenderContainer>
-          <GenderItem>여성</GenderItem>
-          <CustomDropDown width={88} title="인원 수" options={option} />
-        </GenderContainer>
+        <CustomDropDown
+          width={88}
+          title="남성"
+          placeholder="인원 수"
+          options={option}
+        />
+        <CustomDropDown
+          width={88}
+          title="여성"
+          placeholder="인원 수"
+          options={option}
+        />
       </div>
     </Container>
   );
@@ -29,7 +33,7 @@ export default PostGender;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
+  margin: 10px 0 20px;
 `;
 
 const Subject = styled.h4`
