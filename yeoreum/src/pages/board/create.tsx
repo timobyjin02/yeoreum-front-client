@@ -1,4 +1,5 @@
 import React from 'react';
+import AddPartyMembers from '../../components/common/AddPartyMembers';
 import CreateButton from '../../components/common/CreateButton';
 import PostContainer from '../../components/common/PostContainer';
 import PostGender from '../../components/common/PostGender';
@@ -13,6 +14,7 @@ function PostCreate() {
       <PostInput title="제목" />
       <PostInput title="장소" />
       <PostGender />
+      <AddPartyMembers />
       <PostInput title="내용" textarea />
       <CreateButton />
     </PostContainer>
