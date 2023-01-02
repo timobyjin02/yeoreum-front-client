@@ -11,9 +11,6 @@ function AddPartyMembers() {
     { nickname: '메가커피대항마' },
     { nickname: '63빌딩맨손등반' },
     { nickname: '목꺾기장인' },
-    { nickname: '메가커피대항마' },
-    { nickname: '63빌딩맨손등반' },
-    { nickname: '목꺾기장인' },
   ];
 
   function nicknameSlice(string: string) {
@@ -104,4 +101,8 @@ const AddBtn = styled.button`
   background-color: #707070;
   color: white;
   align-self: flex-end;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;

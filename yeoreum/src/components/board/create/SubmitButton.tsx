@@ -33,6 +33,10 @@ const Button = styled.button`
   border: none;
   border-radius: 10px;
 
+  &:hover {
+    cursor: pointer;
+  }
+
   @media (max-width: 640px) {
     width: 50%;
   }
