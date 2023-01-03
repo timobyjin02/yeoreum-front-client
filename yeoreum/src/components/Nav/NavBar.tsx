@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import useScroll from '../../hooks/useScroll';
@@ -9,6 +9,8 @@ interface NavProps {
 }
 
 export function NavUsual({ userOpen, setUserOpen }: NavProps) {
+  const [authenticated, setAuthenticated] = useState(false);
+
   // const { y } = useScroll();
 
   return (
@@ -20,21 +22,31 @@ export function NavUsual({ userOpen, setUserOpen }: NavProps) {
             <NavMenu>
               <NavMenuItem>게시판</NavMenuItem>
               <NavMenuItem>친구</NavMenuItem>
-              <NavMenuItem>채팅</NavMenuItem>
+              <NavMenuItem>
+                채팅
+                <ChatAlarm>3</ChatAlarm>
+              </NavMenuItem>
             </NavMenu>
           </ArrangeContainer>
-
-          <ArrangeContainer>
-            <ImageAlarm
-              alt="alarm"
-              src="/vercel.svg"
-              width={40}
-              height={40}
-              priority
-            />
-            <ProfileImg onClick={() => setUserOpen(prev => !prev)} />
-            <Arrow toggle={userOpen} />
-          </ArrangeContainer>
+          {authenticated ? (
+            <ArrangeContainer>
+              <ImageAlarm
+                alt="alarm"
+                src="/vercel.svg"
+                width={40}
+                height={40}
+                priority
+              />
+              <ProfileWrapper onClick={() => setUserOpen(prev => !prev)}>
+                <ProfileImg />
+                <Arrow toggle={userOpen} />
+              </ProfileWrapper>
+            </ArrangeContainer>
+          ) : (
+            <LoginButton onClick={() => setAuthenticated(true)}>
+              로그인
+            </LoginButton>
+          )}
         </NavContainer>
       </Container>
       <Kernel />
@@ -43,6 +55,8 @@ export function NavUsual({ userOpen, setUserOpen }: NavProps) {
 }
 
 export function NavService({ userOpen, setUserOpen }: NavProps) {
+  const [authenticated, setAuthenticated] = useState(false);
+
   return (
     <>
       <Container show>
@@ -52,14 +66,22 @@ export function NavService({ userOpen, setUserOpen }: NavProps) {
             <ServiceTitle>고객센터</ServiceTitle>
           </ArrangeContainer>
 
-          <ArrangeContainer>
-            <NavMenu service>
-              <NavMenuItem>문의하기</NavMenuItem>
-              <NavMenuItem>문의내역</NavMenuItem>
-            </NavMenu>
-            <ProfileImg onClick={() => setUserOpen(prev => !prev)} />
-            <Arrow toggle={userOpen} />
-          </ArrangeContainer>
+          {authenticated ? (
+            <ArrangeContainer>
+              <NavMenu service>
+                <NavMenuItem>문의하기</NavMenuItem>
+                <NavMenuItem>문의내역</NavMenuItem>
+              </NavMenu>
+              <ProfileWrapper onClick={() => setUserOpen(prev => !prev)}>
+                <ProfileImg />
+                <Arrow toggle={userOpen} />
+              </ProfileWrapper>
+            </ArrangeContainer>
+          ) : (
+            <LoginButton onClick={() => setAuthenticated(true)}>
+              로그인
+            </LoginButton>
+          )}
         </NavContainer>
       </Container>
       <Kernel />
@@ -139,6 +161,7 @@ const NavMenu = styled.div<{ service?: boolean }>`
 `;
 
 const NavMenuItem = styled.div`
+  position: relative;
   height: 40px;
   align-items: center;
   padding: 0 24px;
@@ -153,30 +176,63 @@ const NavMenuItem = styled.div`
   }
 `;
 
-const ProfileImg = styled.div`
-  width: 33px;
-  height: 33px;
-  margin-right: 10px;
-  border-radius: 50%;
-  background-color: lightgray;
-  display: block;
+const ChatAlarm = styled.div`
+  position: absolute;
+  inset: 0 0 auto auto;
+  width: 18px;
+  height: 18px;
+  font-size: 12px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 9px;
+  background-color: red;
+  color: white;
+`;
+
+const ProfileWrapper = styled.div`
+  display: flex;
+  align-items: center;
+
   &:hover {
     cursor: pointer;
   }
+
   @media (max-width: 640px) {
     display: none;
   }
 `;
 
+const ProfileImg = styled.div`
+  width: 33px;
+  height: 33px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background-color: lightgray;
+  display: block;
+`;
+
 const Arrow = styled.div<{ toggle: boolean }>`
-  width: 4px;
-  height: 4px;
-  margin: ${({ toggle }) => (toggle ? '3px 0 0' : '0 0 3px')};
+  width: 5px;
+  height: 5px;
+  margin: ${({ toggle }) => (toggle ? '1px 0 0' : '0 0 1px')};
   border-right: 2px solid #000;
   border-bottom: 2px solid #000;
   transform: ${({ toggle }) => (toggle ? 'rotate(-135deg)' : 'rotate(45deg)')};
   transition: 0.1s all;
-  @media (max-width: 640px) {
-    display: none;
-  }
+`;
+
+const LoginButton = styled.button`
+  width: 86px;
+  height: 40px;
+  border-radius: 8px;
+  background-color: #ddd;
+  color: #555;
+  font-weight: 500;
+  font-size: 14px;
+  border: 1px solid #bbb;
+
+  cursor: pointer;
 `;
