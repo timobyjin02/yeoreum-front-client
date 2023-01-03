@@ -76,11 +76,11 @@ const ModalWrapper = styled.div`
   position: fixed;
   display: flex;
   top: 48px;
-  right: 21px;
+  right: 12px;
   width: 252px;
   height: 210px;
   @media (min-width: 975px) {
-    right: calc((100% - 964px) / 2);
+    right: calc((100% - 972px) / 2);
   }
 `;
 
@@ -96,6 +96,7 @@ const ModalBubble = styled.div`
   border-left: 1px solid #888;
   border-top-left-radius: 4px;
   z-index: 10;
+  box-shadow: -1px -1px 1px rgba(0, 0, 0, 25%); ;
 `;
 
 const UserModalBox = styled.div`
@@ -105,11 +106,11 @@ const UserModalBox = styled.div`
   flex-direction: column;
   justify-content: space-between;
   position: absolute;
-  top: 15px;
+  top: 14px;
   width: var(--width);
   height: 210px;
   background-color: white;
   border: 1px solid #888;
   border-radius: 4px;
-  box-shadow: -2px 0 4px rgba(0, 0, 0, 25%), 2px 2px 4px rgba(0, 0, 0, 25%);
+  box-shadow: -1px 0 2px rgba(0, 0, 0, 25%), 1px 1px 2px rgba(0, 0, 0, 25%);
 `;
