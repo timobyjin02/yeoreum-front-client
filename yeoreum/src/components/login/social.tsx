@@ -20,6 +20,12 @@ const ImageWrap = styled.div`
   & > img {
     margin-right: 0.7em;
   }
+  @media (max-width: 769px) {
+    & > img {
+      width: 2em;
+      height: 2em;
+    }
+  }
 `;
 
 export default Social;

@@ -42,9 +42,12 @@ const Input = styled.input`
   :focus {
     background: #fff;
   }
+  @media (max-width: 679px) {
+    height: 3rem;
+  }
 `;
 const ForgotPw = styled.p`
-  font-size: 0.7em;
+  font-size: 0.6em;
   align-self: flex-end;
   letter-spacing: -0.5px;
   color: ${({ theme }) => theme.palette.loginBtn};
@@ -57,4 +60,8 @@ const Submit = styled.button`
   border-radius: 4px;
   background: ${({ theme }) => theme.palette.loginBtn};
   color: #fff;
+  font-size: 0.875em;
+  @media (max-width: 679px) {
+    height: 3rem;
+  }
 `;

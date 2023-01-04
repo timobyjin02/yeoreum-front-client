@@ -11,10 +11,24 @@ const LoginContainer = ({ children }: Props) => (
 
 const Container = styled.div`
   display: flex;
-  width: 680px;
+  background: #fff;
+  max-width: 680px;
   min-height: calc(90vh - 180px);
   margin: 60px auto;
   color: #555555;
+  @media (max-width: 679px) {
+    margin: 0;
+    & > div:first-child {
+      display: none;
+    }
+
+    & > div:last-child {
+      margin: 0;
+      width: 100vw;
+      min-height: 90vh;
+      font-size: 1.4em;
+    }
+  }
 `;
 
 export default LoginContainer;
