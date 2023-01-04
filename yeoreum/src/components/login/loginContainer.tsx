@@ -15,7 +15,6 @@ const Container = styled.div`
   min-height: calc(90vh - 180px);
   margin: 60px auto;
   color: #555555;
-  overflow: hidden;
 `;
 
 export default LoginContainer;

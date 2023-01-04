@@ -14,18 +14,12 @@ const Social = () => (
 const Container = styled.div`
   display: flex;
   align-items: flex-end;
-  height: 15%;
+  height: 22%;
 `;
 const ImageWrap = styled.div`
   & > img {
-    margin: 4px;
+    margin-right: 0.7em;
   }
-`;
-const Line = styled.p`
-  margin-bottom: 1em;
-  color: #dbdbdb;
-  font-size: 0.7em;
-  font-weight: 100;
 `;
 
 export default Social;

@@ -23,7 +23,6 @@ export default loginForm;
 const Form = styled.form`
   display: flex;
   width: 65%;
-  height: 40%;
   flex-direction: column;
   & > a {
     align-self: flex-end;
@@ -54,7 +53,7 @@ const Submit = styled.button`
   display: inline-block;
   width: 100%;
   min-height: 2.6em;
-  margin-top: 2em;
+  margin: 2em 0;
   border-radius: 4px;
   background: #1d7cd3;
   color: #fff;
