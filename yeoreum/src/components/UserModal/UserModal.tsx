@@ -24,40 +24,6 @@ export default function UserModal({ onClose }: { onClose: () => void }) {
   );
 }
 
-const NicknameDiv = styled.div`
-  display: flex;
-  margin-bottom: 15px;
-`;
-
-const Nickname = styled.h4`
-  margin: 0;
-`;
-
-const Items = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
-const Item = styled.div`
-  width: var(--width);
-  padding: 14px 20px;
-  &:hover {
-    cursor: pointer;
-  }
-`;
-
-const Logout = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  font-size: 14px;
-  &:hover {
-    cursor: pointer;
-  }
-`;
-
 const UserModalWrapper = styled.div`
   z-index: 10000;
   width: 100%;
@@ -113,4 +79,38 @@ const UserModalBox = styled.div`
   border: 1px solid #888;
   border-radius: 4px;
   box-shadow: -1px 0 2px rgba(0, 0, 0, 25%), 1px 1px 2px rgba(0, 0, 0, 25%);
+`;
+
+const NicknameDiv = styled.div`
+  display: flex;
+  margin-bottom: 15px;
+`;
+
+const Nickname = styled.h4`
+  margin: 0;
+`;
+
+const Items = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Item = styled.div`
+  width: var(--width);
+  padding: 14px 20px;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+const Logout = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: 14px;
+  &:hover {
+    cursor: pointer;
+  }
 `;
