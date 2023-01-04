@@ -6,9 +6,10 @@ import useScroll from '../../hooks/useScroll';
 interface NavProps {
   userOpen: boolean;
   setUserOpen: (state: boolean | ((prev: boolean) => boolean)) => void;
+  setHamburger: (state: boolean | ((prev: boolean) => boolean)) => void;
 }
 
-export function NavUsual({ userOpen, setUserOpen }: NavProps) {
+export function NavUsual({ userOpen, setUserOpen, setHamburger }: NavProps) {
   const [authenticated, setAuthenticated] = useState(false);
 
   // const { y } = useScroll();
@@ -47,6 +48,7 @@ export function NavUsual({ userOpen, setUserOpen }: NavProps) {
               로그인
             </LoginButton>
           )}
+          <HamburgerButton onClick={() => setHamburger(true)} />
         </NavContainer>
       </Container>
       <Kernel />
@@ -54,7 +56,7 @@ export function NavUsual({ userOpen, setUserOpen }: NavProps) {
   );
 }
 
-export function NavService({ userOpen, setUserOpen }: NavProps) {
+export function NavService({ userOpen, setUserOpen, setHamburger }: NavProps) {
   const [authenticated, setAuthenticated] = useState(false);
 
   return (
@@ -82,6 +84,7 @@ export function NavService({ userOpen, setUserOpen }: NavProps) {
               로그인
             </LoginButton>
           )}
+          <HamburgerButton onClick={() => setHamburger(true)} />
         </NavContainer>
       </Container>
       <Kernel />
@@ -225,6 +228,7 @@ const Arrow = styled.div<{ toggle: boolean }>`
 `;
 
 const LoginButton = styled.button`
+  margin-right: 6px;
   width: 86px;
   height: 40px;
   border-radius: 8px;
@@ -235,4 +239,21 @@ const LoginButton = styled.button`
   border: 1px solid #bbb;
 
   cursor: pointer;
+
+  @media (max-width: 640px) {
+    display: none;
+  }
+`;
+
+const HamburgerButton = styled.button`
+  width: 40px;
+  height: 40px;
+  background-color: gray;
+  display: none;
+
+  cursor: pointer;
+
+  @media (max-width: 640px) {
+    display: block;
+  }
 `;
