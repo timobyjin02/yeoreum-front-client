@@ -47,7 +47,7 @@ const ForgotPw = styled.p`
   font-size: 0.7em;
   align-self: flex-end;
   letter-spacing: -0.5px;
-  color: #1d7cd3;
+  color: ${({ theme }) => theme.palette.loginBtn};
 `;
 const Submit = styled.button`
   display: inline-block;
@@ -55,6 +55,6 @@ const Submit = styled.button`
   min-height: 2.6em;
   margin: 2em 0;
   border-radius: 4px;
-  background: #1d7cd3;
+  background: ${({ theme }) => theme.palette.loginBtn};
   color: #fff;
 `;
