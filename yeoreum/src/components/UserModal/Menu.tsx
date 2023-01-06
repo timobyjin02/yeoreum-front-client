@@ -17,8 +17,6 @@ function Menu({ title, options }: MenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement | null>(null);
 
-  useOutsideClick(ref, () => setIsOpen(false));
-
   return (
     <MenuContainer ref={ref}>
       <MenuHeader onClick={() => setIsOpen(prev => !prev)}>
