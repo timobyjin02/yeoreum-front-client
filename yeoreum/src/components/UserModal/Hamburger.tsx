@@ -1,6 +1,6 @@
 import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import useLockScroll from '../../hooks/useLockScroll';
 import useOutsideClick from '../../hooks/useOutsideClick';
 import Menu from './Menu';
@@ -10,16 +10,17 @@ interface HamburgerProps {
 }
 
 function Hamburger({ onClose }: HamburgerProps) {
+  const [authenticated, setAuthenticated] = useState(true);
   const ref = useRef<HTMLDivElement | null>(null);
   useOutsideClick(ref, onClose);
 
   const navOption = [{ value: '게시판' }, { value: '친구' }, { value: '채팅' }];
-  const serviceOption = [
+  const noticeOption = [
     { value: '공지사항' },
     { value: '이벤트' },
-    { value: '문의하기' },
-    { value: '문의내역' },
+    { value: '업데이트내역' },
   ];
+  const serviceOption = [{ value: '문의하기' }, { value: '문의내역' }];
 
   useLockScroll();
 
@@ -27,18 +28,25 @@ function Hamburger({ onClose }: HamburgerProps) {
     <HamburgerBackground>
       <HamburgerModal ref={ref}>
         <UserInfo>
-          <UserInfoHeader>
-            <ProfileWrapper>
-              <ProfileImg />
-              <Nickname>donkeykong 님</Nickname>
-            </ProfileWrapper>
-            <AlarmIcon />
-          </UserInfoHeader>
-          <UserInfoFooter>
-            <MyPageBtn>마이페이지</MyPageBtn>
-          </UserInfoFooter>
+          {authenticated ? (
+            <>
+              <UserInfoHeader>
+                <ProfileWrapper>
+                  <ProfileImg />
+                  <Nickname>donkeykong 님</Nickname>
+                </ProfileWrapper>
+                <AlarmIcon />
+              </UserInfoHeader>
+              <UserInfoFooter>
+                <MyPageBtn>마이페이지</MyPageBtn>
+              </UserInfoFooter>
+            </>
+          ) : (
+            <>로그인 해라</>
+          )}
         </UserInfo>
         <Menu title="메뉴" options={navOption} />
+        <Menu title="공지사항" options={noticeOption} />
         <Menu title="고객센터" options={serviceOption} />
       </HamburgerModal>
     </HamburgerBackground>
