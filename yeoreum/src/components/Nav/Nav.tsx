@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import ModalPortal from '../ModalPortal/ModalPortal';
-import UserModal from '../UserModal/UserModal';
+import ModalPortal from '../modalPortal/ModalPortal';
+import UserModal from '../userModal/UserModal';
 import { NavService, NavUsual } from './NavBar';
-import Hamburger from '../UserModal/Hamburger';
+import Hamburger from '../userModal/Hamburger';
 import useResize from '../../hooks/useResize';
 
 function Nav() {
