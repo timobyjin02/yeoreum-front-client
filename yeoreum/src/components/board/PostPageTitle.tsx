@@ -11,4 +11,5 @@ const Title = styled.div`
   padding-bottom: 20px;
   font-size: 32px;
   font-weight: 600;
+  cursor: default;
 `;
