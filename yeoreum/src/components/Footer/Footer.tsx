@@ -1,53 +1,60 @@
 import styled from '@emotion/styled';
+import { useRouter } from 'next/router';
 import React from 'react';
 
 function Footer() {
+  const { pathname } = useRouter();
+  const isInChatPage = pathname.slice(0, 9) === '/chatting';
   return (
-    <FooterBackground>
-      <FooterContainer>
-        <FooterMenu>
-          <Menu>
-            <MenuTitle>바로가기</MenuTitle>
-            <MenuItem>게시판</MenuItem>
-            <MenuItem>친구</MenuItem>
-            <MenuItem>채팅</MenuItem>
-          </Menu>
-          <Menu>
-            <MenuTitle>고객센터</MenuTitle>
-            <MenuItem>문의하기</MenuItem>
-            <MenuItem>신고하기</MenuItem>
-            <MenuItem>자주 묻는 질문</MenuItem>
-          </Menu>
-          <Menu>
-            <MenuTitle>공지사항</MenuTitle>
-            <MenuItem>공지사항</MenuItem>
-            <MenuItem>이벤트</MenuItem>
-            <MenuItem>업데이트 내역</MenuItem>
-          </Menu>
-          <Menu>
-            <MenuTitle>여름이었다</MenuTitle>
-            <MenuItem>서비스 소개</MenuItem>
-            <MenuItem>사용설명서</MenuItem>
-          </Menu>
-        </FooterMenu>
-        <FooterBottom>
-          <FooterInfo>
-            <YeoreumLogo>로고</YeoreumLogo>
-            <Terms>
-              <PolicyAndTerms>개인정보처리방침</PolicyAndTerms>
-              <PolicyAndTerms>이용약관</PolicyAndTerms>
-            </Terms>
-            <Rights>Copyright ⓒ 모던애자일 Rights Reserved.</Rights>
-          </FooterInfo>
-          <FooterIcons>
-            <FooterIcon />
-            <FooterIcon />
-            <FooterIcon />
-            <FooterIcon />
-          </FooterIcons>
-        </FooterBottom>
-      </FooterContainer>
-    </FooterBackground>
+    <>
+      {isInChatPage ? null : (
+        <FooterBackground>
+          <FooterContainer>
+            <FooterMenu>
+              <Menu>
+                <MenuTitle>바로가기</MenuTitle>
+                <MenuItem>게시판</MenuItem>
+                <MenuItem>친구</MenuItem>
+                <MenuItem>채팅</MenuItem>
+              </Menu>
+              <Menu>
+                <MenuTitle>고객센터</MenuTitle>
+                <MenuItem>문의하기</MenuItem>
+                <MenuItem>신고하기</MenuItem>
+                <MenuItem>자주 묻는 질문</MenuItem>
+              </Menu>
+              <Menu>
+                <MenuTitle>공지사항</MenuTitle>
+                <MenuItem>공지사항</MenuItem>
+                <MenuItem>이벤트</MenuItem>
+                <MenuItem>업데이트 내역</MenuItem>
+              </Menu>
+              <Menu>
+                <MenuTitle>여름이었다</MenuTitle>
+                <MenuItem>서비스 소개</MenuItem>
+                <MenuItem>사용설명서</MenuItem>
+              </Menu>
+            </FooterMenu>
+            <FooterBottom>
+              <FooterInfo>
+                <YeoreumLogo>로고</YeoreumLogo>
+                <Terms>
+                  <PolicyAndTerms>개인정보처리방침</PolicyAndTerms>
+                  <PolicyAndTerms>이용약관</PolicyAndTerms>
+                </Terms>
+                <Rights>Copyright ⓒ 모던애자일 Rights Reserved.</Rights>
+              </FooterInfo>
+              <FooterIcons>
+                <FooterIcon />
+                <FooterIcon />
+                <FooterIcon />
+                <FooterIcon />
+              </FooterIcons>
+            </FooterBottom>
+          </FooterContainer>
+        </FooterBackground>
+      )}
+    </>
   );
 }
 
