@@ -19,13 +19,13 @@ function PostDetail() {
           197에 3대 500 넘음 이건 진짜 말도 안되는 기회임 ㅋㅋ
         </PostTitle>
         <PostInfo>
-          <div style={{ display: 'flex' }}>
+          <FlexRowContainer>
             <PosterProfile />
             <NicknameDate>
               <Nickname>클라이밍장인</Nickname>
               <PostedAt>2022.10.8</PostedAt>
             </NicknameDate>
-          </div>
+          </FlexRowContainer>
           <MoreBtn onClick={() => setIsOpen(true)} />
           {isOpen && (
             <ReportModal ref={ref}>
@@ -57,7 +57,7 @@ function PostDetail() {
           <Conditions>
             <EachCondition>
               <ConditionTitle>모집인원</ConditionTitle>
-              <div style={{ display: 'flex' }}>
+              <FlexRowContainer>
                 <GenderCondition>
                   <임시Icon />
                   <임시Text>1명</임시Text>
@@ -66,7 +66,7 @@ function PostDetail() {
                   <임시Icon />
                   <임시Text>1명</임시Text>
                 </GenderCondition>
-              </div>
+              </FlexRowContainer>
             </EachCondition>
             <EachCondition>
               <ConditionTitle>시간</ConditionTitle>
@@ -122,6 +122,10 @@ function PostDetail() {
 
 export default PostDetail;
 
+const FlexRowContainer = styled.div`
+  display: flex;
+`;
+
 const Header = styled.header`
   width: 100%;
   display: flex;
@@ -139,6 +143,7 @@ const PostPageShortcut = styled.span`
 const PostTitle = styled.h3`
   font-size: 1.25rem;
   margin-bottom: 30px;
+  letter-spacing: -0.2px;
 `;
 
 const PostInfo = styled.div`
@@ -197,6 +202,9 @@ const ReportBtn = styled.button`
   width: 135px;
   height: 40px;
   background-color: inherit;
+
+  cursor: pointer;
+
   &:hover {
     background-color: #e1e1e1;
   }
@@ -229,8 +237,8 @@ const Subject = styled.div`
 
 const Conditions = styled.div`
   display: flex;
-  @media (max-width: 600px) {
-    justify-content: space-between;
+  @media (max-width: 640px) {
+    flex-direction: column;
   }
 `;
 
@@ -238,8 +246,8 @@ const EachCondition = styled.div`
   display: flex;
   flex-direction: column;
   margin-right: 50px;
-  @media (max-width: 600px) {
-    margin-right: 0;
+  @media (max-width: 640px) {
+    margin-bottom: 22px;
   }
 `;
 
@@ -253,7 +261,7 @@ const GenderCondition = styled.div`
   display: flex;
   align-items: center;
   &:first-of-type {
-    margin-right: 20px;
+    margin-right: 10px;
   }
 `;
 
@@ -326,6 +334,9 @@ const PostButton = styled.button`
   font-weight: 600;
   color: white;
   background-color: #ff565f;
+
+  cursor: pointer;
+
   @media (max-width: 640px) {
     width: 50%;
   }
