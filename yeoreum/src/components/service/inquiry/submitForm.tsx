@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import File from './fileInput';
+import File from './FileInput';
 
 const SubmitForm = () => {
   return (

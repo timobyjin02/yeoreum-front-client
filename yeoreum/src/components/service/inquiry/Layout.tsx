@@ -1,10 +1,11 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-interface wrapperProps {
+interface Children {
   children: React.ReactNode;
 }
-const Wrapper = ({ children }: wrapperProps) => {
+
+const Layout = ({ children }: Children) => {
   return (
     <Container>
       <Title>문의하기</Title>
@@ -23,8 +24,9 @@ const Container = styled.div`
 `;
 
 const Title = styled.h2`
+  margin: 1em 0;
   font-weight: 550;
   font-size: 1.8em;
 `;
 
-export default Wrapper;
+export default Layout;

@@ -1,12 +1,12 @@
-import Wrapper from '../../../components/service/inquiry/wrapper';
-import SubmitForm from '../../../components/service/inquiry/submitForm';
+import Layout from '../../../components/service/inquiry/Layout';
+import SubmitForm from '../../../components/service/inquiry/SubmitForm';
 
 export default function Inquiry() {
   return (
     <>
-      <Wrapper>
+      <Layout>
         <SubmitForm></SubmitForm>
-      </Wrapper>
+      </Layout>
     </>
   );
 }
