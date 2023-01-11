@@ -24,6 +24,63 @@ export default function UserModal({ onClose }: { onClose: () => void }) {
   );
 }
 
+const UserModalWrapper = styled.div`
+  z-index: 10000;
+  width: 100%;
+  height: 100%;
+
+  position: fixed;
+  inset: 0;
+
+  display: flex;
+  flex-direction: row-reverse;
+
+  background-color: rgba(0, 0, 0, 0%);
+`;
+
+const ModalWrapper = styled.div`
+  position: fixed;
+  display: flex;
+  top: 48px;
+  right: 12px;
+  width: 252px;
+  height: 210px;
+  @media (min-width: 975px) {
+    right: calc((100% - 972px) / 2);
+  }
+`;
+
+const ModalBubble = styled.div`
+  position: absolute;
+  left: 216px;
+  top: 5px;
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  transform: rotate(45deg);
+  border-top: 1px solid #888;
+  border-left: 1px solid #888;
+  border-top-left-radius: 4px;
+  z-index: 10;
+  box-shadow: -1px -1px 1px rgba(0, 0, 0, 25%); ;
+`;
+
+const UserModalBox = styled.div`
+  --width: 250px;
+  padding: 20px 20px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: absolute;
+  top: 14px;
+  width: var(--width);
+  height: 210px;
+  background-color: white;
+  border: 1px solid #888;
+  border-radius: 4px;
+  box-shadow: -1px 0 2px rgba(0, 0, 0, 25%), 1px 1px 2px rgba(0, 0, 0, 25%);
+`;
+
 const NicknameDiv = styled.div`
   display: flex;
   margin-bottom: 15px;
@@ -56,60 +113,4 @@ const Logout = styled.div`
   &:hover {
     cursor: pointer;
   }
-`;
-
-const UserModalWrapper = styled.div`
-  z-index: 10000;
-  width: 100%;
-  height: 100%;
-
-  position: fixed;
-  inset: 0;
-
-  display: flex;
-  flex-direction: row-reverse;
-
-  background-color: rgba(0, 0, 0, 0%);
-`;
-
-const ModalWrapper = styled.div`
-  position: fixed;
-  display: flex;
-  top: 48px;
-  right: 21px;
-  width: 252px;
-  height: 210px;
-  @media (min-width: 975px) {
-    right: calc((100% - 964px) / 2);
-  }
-`;
-
-const ModalBubble = styled.div`
-  position: absolute;
-  left: 216px;
-  top: 5px;
-  width: 20px;
-  height: 20px;
-  background-color: white;
-  transform: rotate(45deg);
-  border-top: 1px solid #888;
-  border-left: 1px solid #888;
-  border-top-left-radius: 4px;
-  z-index: 10;
-`;
-
-const UserModalBox = styled.div`
-  --width: 250px;
-  padding: 20px 20px 12px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  position: absolute;
-  top: 15px;
-  width: var(--width);
-  height: 210px;
-  background-color: white;
-  border: 1px solid #888;
-  border-radius: 4px;
-  box-shadow: -2px 0 4px rgba(0, 0, 0, 25%), 2px 2px 4px rgba(0, 0, 0, 25%);
 `;
