@@ -1,8 +1,13 @@
 import styled from '@emotion/styled';
 import React, { useState, useRef } from 'react';
 import useOutsideClick from '../../../hooks/useOutsideClick';
+import { PostType } from '../../../types/post';
 
-function PostDetailHeader(postData: any) {
+interface HeaderProps {
+  postData: PostType;
+}
+
+function PostDetailHeader({ postData }: HeaderProps) {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef(null);
 
@@ -11,15 +16,12 @@ function PostDetailHeader(postData: any) {
   return (
     <Header>
       <PostPageShortcut>{'≪ 여름게시판'}</PostPageShortcut>
-      <PostTitle>
-        어플 이벤트로 민뜨가는데 과팅할 분 4명 구합니다. 근육맨 두명 있음 키
-        197에 3대 500 넘음 이건 진짜 말도 안되는 기회임 ㅋㅋ
-      </PostTitle>
+      <PostTitle>{postData.title}</PostTitle>
       <PostInfo>
         <FlexRowContainer>
           <PosterProfile />
           <NicknameDate>
-            <Nickname>클라이밍장인</Nickname>
+            <Nickname>{postData.nickname}</Nickname>
             <PostedAt>2022.10.8</PostedAt>
           </NicknameDate>
         </FlexRowContainer>
