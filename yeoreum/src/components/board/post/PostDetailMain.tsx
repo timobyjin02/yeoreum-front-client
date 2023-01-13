@@ -4,9 +4,10 @@ import { PostType } from '../../../types/post';
 
 interface MainProps {
   postData: PostType;
+  application?: boolean;
 }
 
-function PostDetailMain({ postData }: MainProps) {
+function PostDetailMain({ postData, application }: MainProps) {
   return (
     <Main>
       <ContentWrapper>
@@ -63,7 +64,7 @@ function PostDetailMain({ postData }: MainProps) {
           })}
         </Members>
       </YeoreumInfo>
-      <PostButton>신청하기</PostButton>
+      <PostButton>{application ? '신청수락' : '신청하기'}</PostButton>
     </Main>
   );
 }
