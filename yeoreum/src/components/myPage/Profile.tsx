@@ -44,7 +44,7 @@ const Top = styled.div`
   display: flex;
 `;
 
-const ProfileImg = styled.div`
+export const ProfileImg = styled.div`
   width: 70px;
   height: 70px;
   margin-right: 25px;
