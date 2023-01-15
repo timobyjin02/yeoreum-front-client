@@ -1,5 +1,5 @@
 const palette = {
-  loginBtn: '#1d7cd3',
+  serviceBtn: '#1d7cd3',
   fontGrey: '#555',
   fontBlack: '#181818',
   grey: '#dbdbdb',

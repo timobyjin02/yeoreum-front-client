@@ -16,9 +16,10 @@ const Layout = ({ children }: Children) => {
 
 const Container = styled.div`
   display: flex;
-  width: 680px;
+  max-width: 680px;
   height: 100%;
   flex-direction: column;
+  padding: 1em;
   margin: 0 auto;
   color: #555555;
 `;

@@ -13,7 +13,7 @@ const Container = styled.div`
   font-size: 0.7em;
   & > a {
     margin-bottom: 0.9em;
-    color: ${({ theme }) => theme.palette.loginBtn};
+    color: ${({ theme }) => theme.palette.serviceBtn};
     font-size: 1.1em;
   }
 `;

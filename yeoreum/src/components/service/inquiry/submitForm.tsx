@@ -50,8 +50,9 @@ const Form = styled.form`
 `;
 const FormHedaer = styled.div`
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  height: 2em;
+  min-height: 40px;
 `;
 const TextInputBox = styled.div`
   & > input,
@@ -94,7 +95,7 @@ const Submit = styled.input`
   height: 46px;
   margin: 4em;
   border-radius: 5px;
-  background-color: #1d7cd3;
+  background-color: ${({ theme }) => theme.palette.serviceBtn};
   color: #ffffff;
   cursor: pointer;
 `;
