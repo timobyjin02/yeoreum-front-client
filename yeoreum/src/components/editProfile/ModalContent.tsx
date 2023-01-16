@@ -10,14 +10,14 @@ interface Props {
 function ModalContent({ fileImg, setFileImg, onClose }: Props) {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const onUploadImageButtonClick = useCallback(() => {
+  const handleUploadImageClick = useCallback(() => {
     if (!inputRef.current) {
       return;
     }
     inputRef.current.click();
   }, []);
 
-  const onUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
 
     setFileImg(URL.createObjectURL(e.target.files[0]));
@@ -40,12 +40,12 @@ function ModalContent({ fileImg, setFileImg, onClose }: Props) {
     <UploadWrapper>
       <ProfileImgChange>프로필 사진 바꾸기</ProfileImgChange>
       <PhotoUpload>
-        <ProfileImgEditBtn onClick={onUploadImageButtonClick}>
+        <ProfileImgEditBtn onClick={handleUploadImageClick}>
           사진 업로드
           <ImgEditInput
             type="file"
             ref={inputRef}
-            onChange={onUploadImage}
+            onChange={handleUploadImage}
             accept={'image/*'}
           />
         </ProfileImgEditBtn>
