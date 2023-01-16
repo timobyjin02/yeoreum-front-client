@@ -35,29 +35,51 @@ const InfoTitle = styled.div`
 const InfoInput = styled.input`
   width: 340px;
   height: 30px;
-  margin-bottom: 15px;
-  padding-left: 5px;
-  /* input:focus {
-    outline: 2px solid #d50000;
-  } */
-  border-bottom: 1px solid #d9d9d9;
+  padding: 0 12px;
+  margin-bottom: 13px;
+  font-size: 1rem;
+  background-color: #f3f4f5;
+  border: none;
+  border-radius: 10px;
+  outline: none;
   &:focus {
-    outline: none;
+    outline: 2px solid #ff515a;
+  }
+  &::placeholder {
+    color: #8e8e8e;
   }
 `;
 
 const InfoDescription = styled.textarea`
+  display: flex;
   width: 340px;
-  height: 100px;
+  min-height: 100px;
   margin-bottom: 50px;
-  border-bottom: 1px solid #d9d9d9;
+  padding: 12px;
+  font-size: 1rem;
+  background-color: #f3f4f5;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+  resize: none;
+  line-height: 1.45;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  &:focus {
+    outline: 2px solid #ff515a;
+  }
+  &::placeholder {
+    color: #8e8e8e;
+  }
 `;
 
 const Btn = styled.button`
-  width: 60px;
-  height: 30px;
+  width: 70px;
+  height: 40px;
   float: right;
   border-radius: 10px;
   color: white;
   background: rgba(255, 43, 55, 0.8);
+
+  cursor: pointer;
 `;
