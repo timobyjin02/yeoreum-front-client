@@ -18,7 +18,6 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  /* background-color: antiquewhite; */
   @media (max-width: 640px) {
     width: auto;
   }
