@@ -4,6 +4,8 @@ import EditInfo from './EditInfo';
 import Modal from './Modal';
 import ModalPortal from '../modalPortal/ModalPortal';
 import ModalContent from './ModalContent';
+import PostContainer from '../board/PostContainer';
+import PostPageTitle from '../board/PostPageTitle';
 
 function EditProfile() {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,40 +16,49 @@ function EditProfile() {
   };
 
   return (
-    <ProfileContainer>
-      <ProfileImgWrapper>
-        <ProfileImg src={fileImg} />
-        <ProfileImgEditBtn onClick={onClick}>프로필 변경</ProfileImgEditBtn>
-        {isOpen && (
-          <ModalPortal>
-            <Modal
-              onClose={() => {
-                setIsOpen(false);
-              }}
-            >
-              <ModalContent
+    <PostContainer>
+      <Title>계정설정</Title>
+      <ProfileContainer>
+        <ProfileImgWrapper>
+          <ProfileImg src={fileImg} />
+          <ProfileImgEditBtn onClick={onClick}>프로필 변경</ProfileImgEditBtn>
+          {isOpen && (
+            <ModalPortal>
+              <Modal
                 onClose={() => {
                   setIsOpen(false);
                 }}
-                fileImg={fileImg}
-                setFileImg={setFileImg}
-              />
-            </Modal>
-          </ModalPortal>
-        )}
-      </ProfileImgWrapper>
-      <EditInfo />
-    </ProfileContainer>
+              >
+                <ModalContent
+                  onClose={() => {
+                    setIsOpen(false);
+                  }}
+                  fileImg={fileImg}
+                  setFileImg={setFileImg}
+                />
+              </Modal>
+            </ModalPortal>
+          )}
+        </ProfileImgWrapper>
+        <EditInfo />
+      </ProfileContainer>
+    </PostContainer>
   );
 }
 
 export default EditProfile;
 
+const Title = styled.div`
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  font-size: 32px;
+  font-weight: 600;
+  cursor: default;
+`;
+
 const ProfileContainer = styled.div`
   width: 100%;
-  height: 400px;
   display: flex;
-  justify-content: center;
   @media (max-width: 640px) {
     flex-direction: column;
     align-items: center;

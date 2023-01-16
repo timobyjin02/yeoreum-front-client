@@ -51,32 +51,9 @@ const ModalWrap = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-`;
-
-const CloseButton = styled.div`
-  float: right;
-  width: 40px;
-  height: 40px;
-  margin: 20px;
-  cursor: pointer;
-  i {
-    color: #5d5d5d;
-    font-size: 30px;
+  @media (max-width: 640px) {
+    width: 400px;
   }
 `;
 
 const Contents = styled.div``;
-
-const Button = styled.button`
-  font-size: 14px;
-  padding: 10px 20px;
-  border: none;
-  background-color: #ababab;
-  border-radius: 10px;
-  color: white;
-  font-weight: 200;
-  cursor: pointer;
-  &:hover {
-    background-color: #898989;
-  }
-`;
