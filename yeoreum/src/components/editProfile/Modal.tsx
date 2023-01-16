@@ -22,13 +22,7 @@ function Modal({ onClose, children }: Props) {
   return (
     <Overlay>
       <ModalWrap ref={modalRef}>
-        <CloseButton onClick={handleClose}>
-          <div>x</div>
-        </CloseButton>
-        <Contents>
-          {children}
-          <Button onClick={handleClose}>Close</Button>
-        </Contents>
+        <Contents>{children}</Contents>
       </ModalWrap>
     </Overlay>
   );
@@ -49,7 +43,7 @@ const Overlay = styled.div`
 `;
 
 const ModalWrap = styled.div`
-  width: 600px;
+  width: 500px;
   height: fit-content;
   border-radius: 15px;
   background-color: #fff;

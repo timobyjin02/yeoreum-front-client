@@ -25,7 +25,13 @@ function EditProfile() {
                 setIsOpen(false);
               }}
             >
-              <ModalContent setFileImg={setFileImg} />
+              <ModalContent
+                onClose={() => {
+                  setIsOpen(false);
+                }}
+                fileImg={fileImg}
+                setFileImg={setFileImg}
+              />
             </Modal>
           </ModalPortal>
         )}
