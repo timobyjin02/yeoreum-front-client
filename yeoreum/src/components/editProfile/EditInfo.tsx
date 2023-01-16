@@ -1,18 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 
 function EditInfo() {
+  const [inputValue, setInputValue] = useState({
+    nickname: '',
+    department: '',
+    email: '',
+    description: '',
+  });
+
+  // const { nickname, department, description } = inputValue;
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = e.target;
+    setInputValue({
+      ...inputValue,
+      [name]: value,
+    });
+  };
+
   return (
     <ProfileInfoWrapper>
       <ProfileInfoes>
         <InfoTitle>닉네임</InfoTitle>
-        <InfoInput />
+        <InfoInput name="nickname" onChange={onChange} />
         <InfoTitle>이메일</InfoTitle>
-        <InfoInput />
+        <InfoInput name="email" onChange={onChange} />
         <InfoTitle>학과</InfoTitle>
-        <InfoInput />
+        <InfoInput name="department" onChange={onChange} />
         <InfoTitle>소개</InfoTitle>
-        <InfoDescription></InfoDescription>
+        <InfoDescription
+          name="description"
+          // onChange={onChange}
+        ></InfoDescription>
       </ProfileInfoes>
       <Btn>수정</Btn>
     </ProfileInfoWrapper>
@@ -23,7 +43,7 @@ export default EditInfo;
 
 const ProfileInfoWrapper = styled.div``;
 
-const ProfileInfoes = styled.div``;
+const ProfileInfoes = styled.form``;
 
 const InfoTitle = styled.div`
   margin-bottom: 8px;
