@@ -1,11 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import EditInfo from './EditInfo';
-import Modal from './Modal';
+import Modal from '../common/Modal';
 import ModalPortal from '../modalPortal/ModalPortal';
 import ModalContent from './ModalContent';
 import PostContainer from '../board/PostContainer';
-import PostPageTitle from '../board/PostPageTitle';
 
 function EditProfile() {
   const [isOpen, setIsOpen] = useState(false);
