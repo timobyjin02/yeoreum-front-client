@@ -3,59 +3,32 @@ import styled from '@emotion/styled';
 import EditInfo from './EditInfo';
 import Modal from './Modal';
 import ModalPortal from '../modalPortal/ModalPortal';
+import ModalContent from './ModalContent';
 
 function EditProfile() {
   const [isOpen, setIsOpen] = useState(false);
   const [fileImg, setFileImg] = useState('');
-  const inputRef = useRef<HTMLInputElement | null>(null);
 
-  // const onUploadImageButtonClick = () => {
-  //   if (inputRef.current != null) {
-  //     inputRef.current.focus();
-  //   }
-  // };
   const onClick = () => {
     setIsOpen(true);
   };
-
-  // const onUploadImageButtonClick = useCallback(() => {
-  //   if (!inputRef.current) {
-  //     return;
-  //   }
-  //   inputRef.current.click();
-  // }, []);
-
-  // const onUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   if (!e.target.files) return;
-
-  //   setFileImg(URL.createObjectURL(e.target.files[0]));
-
-  //   console.log(e.target.files[0].name);
-  // };
 
   return (
     <ProfileContainer>
       <ProfileImgWrapper>
         <ProfileImg src={fileImg} />
-        <button onClick={onClick}>모달</button>
+        <ProfileImgEditBtn onClick={onClick}>프로필 변경</ProfileImgEditBtn>
         {isOpen && (
           <ModalPortal>
             <Modal
               onClose={() => {
                 setIsOpen(false);
               }}
-            />
+            >
+              <ModalContent setFileImg={setFileImg} />
+            </Modal>
           </ModalPortal>
         )}
-        {/* <ProfileImgEditBtn onClick={onUploadImageButtonClick}>
-          프로필 변경
-          <ImgEditInput
-            type="file"
-            ref={inputRef}
-            onChange={onUploadImage}
-            accept={'image/*'}
-          />
-        </ProfileImgEditBtn> */}
       </ProfileImgWrapper>
       <EditInfo />
     </ProfileContainer>
@@ -99,8 +72,4 @@ const ProfileImgEditBtn = styled.div`
   background: rgba(255, 43, 55, 0.8);
 
   cursor: pointer;
-`;
-
-const ImgEditInput = styled.input`
-  display: none;
 `;

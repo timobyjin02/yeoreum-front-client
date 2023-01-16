@@ -3,7 +3,12 @@ import styled from '@emotion/styled';
 import useOutsideClick from '../../hooks/useOutsideClick';
 import useLockScroll from '../../hooks/useLockScroll';
 
-function Modal({ onClose }: { onClose: () => void }) {
+interface Props {
+  onClose: () => void;
+  children: React.ReactNode;
+}
+
+function Modal({ onClose, children }: Props) {
   const modalRef = useRef(null);
 
   const handleClose = () => {
@@ -21,6 +26,7 @@ function Modal({ onClose }: { onClose: () => void }) {
           <div>x</div>
         </CloseButton>
         <Contents>
+          {children}
           <Button onClick={handleClose}>Close</Button>
         </Contents>
       </ModalWrap>
@@ -66,6 +72,7 @@ const CloseButton = styled.div`
 `;
 
 const Contents = styled.div``;
+
 const Button = styled.button`
   font-size: 14px;
   padding: 10px 20px;
