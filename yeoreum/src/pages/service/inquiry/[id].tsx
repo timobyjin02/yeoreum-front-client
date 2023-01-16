@@ -1,11 +1,11 @@
 import Layout from '../../../components/service/inquiry/Layout';
-import InquiryForm from '../../../components/service/inquiry/InquiryForm';
+import Form from '../../../components/service/inquiry/InquiryValueForm';
 
 export default function Inquiry() {
   return (
     <>
       <Layout>
-        <InquiryForm></InquiryForm>
+        <Form></Form>
       </Layout>
     </>
   );

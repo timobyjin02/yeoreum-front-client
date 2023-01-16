@@ -1,8 +1,15 @@
 import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
 
-const ReportInput = () => {
+interface Props {
+  name: string;
+}
+
+const ReportInput = ({ name }: Props) => {
   const [reportedName, setReportedName] = useState('');
+  useEffect(() => {
+    if (name) setReportedName(name);
+  }, [name]);
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     // 닉네임 유효 요청
     setReportedName(e.target.value);
