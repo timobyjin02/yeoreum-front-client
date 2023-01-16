@@ -26,21 +26,20 @@ const ProfileInfoWrapper = styled.div``;
 const ProfileInfoes = styled.div``;
 
 const InfoTitle = styled.div`
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   font-size: 16px;
   font-weight: 600;
-  color: #b7bcc4;
 `;
 
 const InfoInput = styled.input`
   width: 340px;
-  height: 30px;
+  height: 34px;
   padding: 0 12px;
-  margin-bottom: 13px;
+  margin-bottom: 18px;
   font-size: 1rem;
   background-color: #f3f4f5;
   border: none;
-  border-radius: 10px;
+  border-radius: 5px;
   outline: none;
   &:focus {
     outline: 2px solid #ff515a;
