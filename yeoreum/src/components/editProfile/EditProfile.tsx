@@ -48,6 +48,10 @@ const ProfileContainer = styled.div`
   height: 400px;
   display: flex;
   justify-content: center;
+  @media (max-width: 640px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const ProfileImgWrapper = styled.div`
@@ -55,6 +59,9 @@ const ProfileImgWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  @media (max-width: 640px) {
+    margin: 0;
+  }
 `;
 
 const ProfileImg = styled.img`
@@ -62,7 +69,6 @@ const ProfileImg = styled.img`
   height: 70px;
   border-radius: 50px;
   object-fit: cover;
-
   background-color: #aeaeae;
 `;
 
@@ -78,4 +84,8 @@ const ProfileImgEditBtn = styled.div`
   background: rgba(255, 43, 55, 0.8);
 
   cursor: pointer;
+
+  @media (max-width: 640px) {
+    margin-bottom: 20px;
+  }
 `;
