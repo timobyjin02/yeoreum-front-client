@@ -1,15 +1,28 @@
 import styled from '@emotion/styled';
-import File from './fileInput';
+import React from 'react';
+import File from './FileInput';
+import ReportInput from './ReportInput';
+import { useState } from 'react';
 
 const SubmitForm = () => {
+  const [isReport, setIsReport] = useState(false);
+  const ClickInquiry = (e: React.MouseEvent) => setIsReport(false);
+  const ClickReport = (e: React.MouseEvent) => setIsReport(true);
   return (
     <Form>
-      <RadioInputBox>
+      <FormHedaer>
         <Label htmlFor="inquiry">문의</Label>
-        <Radio type="radio" name="service" id="inquiry" checked />
+        <Radio
+          type="radio"
+          name="service"
+          id="inquiry"
+          onClick={ClickInquiry}
+          defaultChecked
+        />
         <Label htmlFor="report">신고</Label>
-        <Radio type="radio" name="service" id="report" />
-      </RadioInputBox>
+        <Radio type="radio" name="service" id="report" onClick={ClickReport} />
+        {isReport && <ReportInput />}
+      </FormHedaer>
       <TextInputBox>
         <Label htmlFor="title">제목</Label>
         <Title
@@ -35,7 +48,12 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
 `;
-const RadioInputBox = styled.div``;
+const FormHedaer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  min-height: 40px;
+`;
 const TextInputBox = styled.div`
   & > input,
   textarea {
@@ -44,11 +62,14 @@ const TextInputBox = styled.div`
     border-radius: 5px;
     padding: 1em;
   }
+  & > label {
+    margin: 20px 0 4px 0;
+  }
 `;
 
-export const Label = styled.label`
+const Label = styled.label`
   display: inline-block;
-  margin: 20px 0 4px 0;
+  margin-right: 0.25em;
 `;
 const Radio = styled.input`
   margin-right: 3em;
@@ -74,7 +95,7 @@ const Submit = styled.input`
   height: 46px;
   margin: 4em;
   border-radius: 5px;
-  background-color: #1d7cd3;
+  background-color: ${({ theme }) => theme.palette.serviceBtn};
   color: #ffffff;
   cursor: pointer;
 `;
