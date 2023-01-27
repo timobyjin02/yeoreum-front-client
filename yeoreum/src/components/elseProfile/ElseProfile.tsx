@@ -42,7 +42,7 @@ const ProfileWrap = styled.div`
   display: grid;
   grid-template-columns: 100px 1.5fr;
   grid-template-rows: 100px 1.5fr;
-  width: 100%;
+  width: 600px;
   height: 300px;
   padding: 0 15px;
 `;
