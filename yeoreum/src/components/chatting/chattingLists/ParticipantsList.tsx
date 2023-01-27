@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
+import Modal from '../../common/Modal';
+import ModalPortal from '../../modalPortal/ModalPortal';
+import ElseProfile from '../../elseProfile/ElseProfile';
 
 function ParticipantsList() {
+  const [isOpen, setIsOpen] = useState(false);
+
   const 임시list = [
     {
       userNo: 1,
@@ -26,17 +31,35 @@ function ParticipantsList() {
     },
   ];
 
+  const openProfile = () => {
+    console.log('dd');
+    setIsOpen(true);
+  };
+
   return (
     <>
       {임시list.map(item => {
         return (
-          <ListBox>
-            <Box key={item.userNo}>
-              <ProfileImg>{item.createrData.profileImage}</ProfileImg>
-              <Nickname>{item.createrData.nickname}</Nickname>
-            </Box>
-            <Link></Link>
-          </ListBox>
+          <div>
+            <ListBox onClick={openProfile}>
+              <Box key={item.userNo}>
+                <ProfileImg>{item.createrData.profileImage}</ProfileImg>
+                <Nickname>{item.createrData.nickname}</Nickname>
+              </Box>
+              <Link></Link>
+            </ListBox>
+            {isOpen && (
+              <ModalPortal>
+                <Modal
+                  onClose={() => {
+                    setIsOpen(false);
+                  }}
+                >
+                  <ElseProfile />
+                </Modal>
+              </ModalPortal>
+            )}
+          </div>
         );
       })}
     </>
@@ -49,6 +72,7 @@ const ListBox = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 16px 10px;
+  background-color: antiquewhite;
 `;
 
 const Box = styled.div`
