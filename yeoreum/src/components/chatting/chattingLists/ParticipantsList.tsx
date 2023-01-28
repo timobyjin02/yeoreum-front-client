@@ -5,7 +5,7 @@ import ModalPortal from '../../modalPortal/ModalPortal';
 import ElseProfile from '../../elseProfile/ElseProfile';
 
 function ParticipantsList() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const 임시list = [
     {
@@ -32,8 +32,7 @@ function ParticipantsList() {
   ];
 
   const openProfile = () => {
-    console.log('dd');
-    setIsOpen(true);
+    setOpen(true);
   };
 
   return (
@@ -42,23 +41,23 @@ function ParticipantsList() {
         return (
           <div>
             <ListBox onClick={openProfile}>
+              {open && (
+                <ModalPortal>
+                  <Modal
+                    onClose={() => {
+                      setOpen(false);
+                    }}
+                  >
+                    <ElseProfile />
+                  </Modal>
+                </ModalPortal>
+              )}
               <Box key={item.userNo}>
                 <ProfileImg>{item.createrData.profileImage}</ProfileImg>
                 <Nickname>{item.createrData.nickname}</Nickname>
               </Box>
               <Link></Link>
             </ListBox>
-            {isOpen && (
-              <ModalPortal>
-                <Modal
-                  onClose={() => {
-                    setIsOpen(false);
-                  }}
-                >
-                  <ElseProfile />
-                </Modal>
-              </ModalPortal>
-            )}
           </div>
         );
       })}
