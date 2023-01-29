@@ -1,8 +1,19 @@
 import styled from '@emotion/styled';
-import React from 'react';
+import React, { useRef, useState } from 'react';
+import useOutsideClick from '../../hooks/useOutsideClick';
+import Modal from '../common/Modal';
+import ModalPortal from '../modalPortal/ModalPortal';
 import dummyData from '../myPage/dummyData';
 
-function ElseProfile() {
+interface Props {
+  setIsOpen: (state: boolean | ((prev: boolean) => boolean)) => void;
+}
+
+function ElseProfile({ setIsOpen }: Props) {
+  const duelModalOpen = () => {
+    setIsOpen(true);
+  };
+
   return (
     <ProfileWrap>
       <ProfileImg>
@@ -12,7 +23,7 @@ function ElseProfile() {
         <Nickname>미친저글링</Nickname>
         <Wrap>
           <AddFriend>친구신청</AddFriend>
-          <KebabMenu>
+          <KebabMenu onClick={duelModalOpen}>
             <Icon />
             <Icon />
             <Icon />
@@ -154,5 +165,32 @@ export const Ballon = styled.div`
     position: absolute;
     top: 30px;
     left: 20px;
+  }
+`;
+
+//
+const Overlay = styled.div`
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 10;
+  z-index: 9999;
+`;
+
+const ModalWrap = styled.div`
+  position: absolute;
+  padding: 10px 15px;
+  top: 43%;
+  left: 66%;
+  border-radius: 5px;
+  border: 1px solid #d0d0d0;
+  background-color: #fff;
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.25);
+  transform: translate(-50%, -50%);
+  @media (max-width: 640px) {
+    width: 400px;
   }
 `;
