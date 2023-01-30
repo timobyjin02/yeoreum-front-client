@@ -1,21 +1,15 @@
 import styled from '@emotion/styled';
 import React, { useRef, useState } from 'react';
 import useOutsideClick from '../../hooks/useOutsideClick';
-import Modal from '../common/Modal';
 import ModalPortal from '../modalPortal/ModalPortal';
 import dummyData from '../myPage/dummyData';
+import DuelModal from './DuelModal';
 
-interface Props {
-  setIsOpen: (state: boolean | ((prev: boolean) => boolean)) => void;
-}
-
-function ElseProfile({ setIsOpen }: Props) {
-  const duelModalOpen = () => {
-    setIsOpen(true);
-  };
+function ElseProfile() {
+  const modalRef = useRef(null);
 
   return (
-    <ProfileWrap>
+    <ProfileWrap ref={modalRef}>
       <ProfileImg>
         <Img />
       </ProfileImg>
@@ -23,11 +17,7 @@ function ElseProfile({ setIsOpen }: Props) {
         <Nickname>미친저글링</Nickname>
         <Wrap>
           <AddFriend>친구신청</AddFriend>
-          <KebabMenu onClick={duelModalOpen}>
-            <Icon />
-            <Icon />
-            <Icon />
-          </KebabMenu>
+          <DuelModal />
         </Wrap>
       </ProfileEvent>
       <div></div>
@@ -99,20 +89,6 @@ const AddFriend = styled.button`
   cursor: pointer;
 `;
 
-const KebabMenu = styled.div`
-  margin-left: 10px;
-`;
-
-const Icon = styled.div`
-  width: 4px;
-  height: 4px;
-  margin: 2px;
-  border-radius: 50%;
-  background-color: black;
-
-  cursor: pointer;
-`;
-
 const ProfileInfo = styled.div``;
 
 const Description = styled.div`
@@ -169,6 +145,7 @@ export const Ballon = styled.div`
 `;
 
 //
+
 const Overlay = styled.div`
   position: fixed;
   width: 100%;
@@ -193,4 +170,20 @@ const ModalWrap = styled.div`
   @media (max-width: 640px) {
     width: 400px;
   }
+`;
+
+const Contents = styled.div``;
+
+const KebabMenu = styled.div`
+  margin-left: 10px;
+`;
+
+const Icon = styled.div`
+  width: 4px;
+  height: 4px;
+  margin: 2px;
+  border-radius: 50%;
+  background-color: black;
+
+  cursor: pointer;
 `;
