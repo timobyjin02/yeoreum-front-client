@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import useScroll from '../../hooks/useScroll';
+import Alarm from '../alarm/Alarm';
 
 interface NavProps {
   userOpen: boolean;
@@ -31,13 +32,15 @@ export function NavUsual({ userOpen, setUserOpen, setHamburger }: NavProps) {
           </ArrangeContainer>
           {authenticated ? (
             <ArrangeContainer>
-              <ImageAlarm
+              {/* <ImageAlarm
                 alt="alarm"
                 src="/vercel.svg"
                 width={40}
                 height={40}
                 priority
-              />
+                onClick={() => setAlarmOpen(true)}
+              /> */}
+              <Alarm />
               <ProfileWrapper onClick={() => setUserOpen(prev => !prev)}>
                 <ProfileImg />
                 <Arrow toggle={userOpen} />
@@ -102,12 +105,12 @@ const ArrangeContainer = styled.div`
   align-items: center;
 `;
 
-const ImageAlarm = styled(Image)`
-  margin-right: 20px;
-  @media (max-width: 640px) {
-    display: none;
-  }
-`;
+// const ImageAlarm = styled(Image)`
+//   margin-right: 20px;
+//   @media (max-width: 640px) {
+//     display: none;
+//   }
+// `;
 
 const Container = styled.nav<{ show: boolean }>`
   color: #181818;
