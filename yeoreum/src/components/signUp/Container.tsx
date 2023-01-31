@@ -1,0 +1,18 @@
+import styled from '@emotion/styled';
+import { ReactNode } from 'react';
+
+interface Props {
+  children: ReactNode;
+}
+const Container = ({ children }: Props) => <Wrapper>{children}</Wrapper>;
+
+const Wrapper = styled.div`
+  display: flex;
+  max-width: 680px;
+  min-height: fit-content;
+  /* min-height: calc(100vh - 60px); */
+  flex-direction: column;
+  margin: 0 auto 4em;
+`;
+
+export default Container;
