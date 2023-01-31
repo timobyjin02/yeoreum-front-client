@@ -5,32 +5,43 @@ interface AlertProps {
   success?: boolean;
 }
 
+interface Password {
+  validity: boolean | undefined;
+  message: string;
+}
+
 const Form = () => {
-  const [sendmail, setSendmail] = useState(0);
-  const [password, setPassword] = useState('');
+  const [mailStatus, setMailStatus] = useState(0);
   const [user, setUser] = useState({
     email: '',
     emailCode: '',
     password: '',
     passwordConfirm: '',
   });
-  const [messages, setMessages] = useState({
-    email: '',
-    emailCode: '',
-    password: '',
+
+  const [emailInfo, setEmailInfo] = useState({
+    validity: true,
+    message: '',
   });
-  const [validity, setValidity] = useState({
-    email: true,
-    emailCode: false,
-    password: false,
-    passwordConfirm: false,
+  const [emailCodeInfo, setEmailCodeInfo] = useState({
+    validity: false,
+    message: '',
+  });
+  const [passwordInfo, setPasswordInfo] = useState<Password>({
+    validity: undefined,
+    message: '',
+  });
+  const [passwordConfirmInfo, setPasswordConfirmInfo] = useState<Password>({
+    validity: undefined,
+    message: '',
   });
 
   const onChangeEmail = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
+      const current = e.target.value;
       setUser(pre => ({
         ...pre,
-        email: e.target.value,
+        email: current,
       }));
     },
     [],
@@ -38,18 +49,17 @@ const Form = () => {
 
   const onClickEmail = useCallback(
     (e: React.MouseEvent) => {
-      let regex = new RegExp(
-        "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])",
-      );
+      const regex =
+        /([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])/;
 
       if (regex.test(user.email)) {
-        setValidity(pre => ({ ...pre, email: true }));
-        setSendmail(1);
+        setMailStatus(1);
+        setEmailInfo(pre => ({ ...pre, validity: true }));
       } else {
-        setValidity(pre => ({ ...pre, email: false }));
-        setMessages(pre => ({
+        setEmailInfo(pre => ({
           ...pre,
-          email: '이메일 형식에 맞지 않습니다.',
+          validity: false,
+          message: '이메일 형식에 맞지 않습니다.',
         }));
       }
     },
@@ -59,15 +69,93 @@ const Form = () => {
   const onClickEmailCode = useCallback(() => {
     const 임시코드 = '111111';
     if (user.emailCode === 임시코드) {
-      setValidity(pre => ({ ...pre, emailCode: true }));
-      setMessages(pre => ({ ...pre, emailCode: '인증되었습니다.' }));
-      setSendmail(2);
+      setEmailCodeInfo(pre => ({
+        ...pre,
+        validity: true,
+        message: '인증되었습니다.',
+      }));
+      setMailStatus(2);
     } else {
-      setMessages(pre => ({ ...pre, emailCode: '일치하지 않습니다.' }));
+      setEmailCodeInfo(pre => ({
+        ...pre,
+        validity: false,
+        message: '일치하지 않습니다.',
+      }));
     }
   }, [user.emailCode]);
 
-  console.log(user);
+  const onChangePassword = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const regexp = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{6,14}$/;
+      const current = e.target.value;
+      setUser(pre => ({ ...pre, password: current }));
+      if (regexp.test(current)) {
+        setPasswordInfo(pre => ({
+          ...pre,
+          validity: true,
+          message: '안전한 비밀번호입니다.',
+        }));
+      } else {
+        setPasswordInfo(pre => ({
+          ...pre,
+          validity: false,
+          message: '특수문자, 영어, 숫자를 합친 6자 이상 14자 이하 ',
+        }));
+      }
+    },
+    [user.password],
+  );
+
+  const onChangePasswordConfirm = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const current = e.target.value;
+      if (passwordInfo.validity !== true) {
+        setPasswordConfirmInfo(pre => ({
+          ...pre,
+          validity: false,
+          message: '비밀번호를 먼저 입력해주세요.',
+        }));
+        return;
+      }
+      setUser(pre => ({ ...pre, passwordConfirm: current }));
+      if (user.password !== current) {
+        setPasswordConfirmInfo(pre => ({
+          ...pre,
+          validity: false,
+          message: '일치하지 않습니다.',
+        }));
+      } else {
+        setPasswordConfirmInfo(pre => ({
+          ...pre,
+          validity: true,
+          message: '일치합니다.',
+        }));
+      }
+    },
+    [passwordInfo.validity, user.password, user.passwordConfirm],
+  );
+  const onFocusPassword = useCallback(
+    (e: React.FocusEvent<HTMLInputElement>) => {
+      if (e.target.value.length !== 0) return;
+      setPasswordInfo(pre => ({
+        ...pre,
+        validity: undefined,
+        message: '특수문자, 영어, 숫자를 합친 6자 이상 14자 이하',
+      }));
+    },
+    [],
+  );
+  const onFocusPasswordConfirm = useCallback(
+    (e: React.FocusEvent<HTMLInputElement>) => {
+      if (e.target.value.length !== 0) return;
+      setPasswordConfirmInfo(pre => ({
+        ...pre,
+        validity: undefined,
+        message: '한 번 더 입력해주세요.',
+      }));
+    },
+    [],
+  );
   return (
     <Container onSubmit={e => e.preventDefault()}>
       <Wrapper>
@@ -77,23 +165,22 @@ const Form = () => {
             type="email"
             placeholder="이메일을 입력해주세요"
             onChange={onChangeEmail}
-            onError={() => null}
           />
         </Label>
-        {sendmail === 0 ? (
+        {mailStatus === 0 ? (
           <Button onClick={onClickEmail}>인증하기</Button>
         ) : (
           <Button disabled={true}>전송됨</Button>
         )}
       </Wrapper>
-      {!validity.email && (
-        <AlertP success={validity.emailCode}>{messages.email}</AlertP>
+      {!emailInfo.validity && (
+        <AlertP success={emailInfo.validity}>{emailInfo.message}</AlertP>
       )}
-      {sendmail !== 0 ? (
+      {mailStatus !== 0 ? (
         <Wrapper>
           <Label>
             <P>00:00</P>
-            {sendmail === 1 ? (
+            {mailStatus === 1 ? (
               <Input
                 type="text"
                 maxLength={6}
@@ -111,35 +198,48 @@ const Form = () => {
               />
             )}
           </Label>
-          {sendmail === 1 ? (
+          {mailStatus === 1 ? (
             <Button onClick={onClickEmailCode}>인증하기</Button>
           ) : null}
         </Wrapper>
       ) : null}
-      {messages.emailCode.length > 0 && (
-        <AlertP success={validity.emailCode}>{messages.emailCode}</AlertP>
+      {emailCodeInfo.message.length > 0 && (
+        <AlertP success={emailCodeInfo.validity}>
+          {emailCodeInfo.message}
+        </AlertP>
       )}
       <Wrapper>
         <Label>
           <P>비밀번호</P>
           <Input
+            onChange={onChangePassword}
+            onFocus={onFocusPassword}
             type="password"
-            maxLength={16}
-            placeholder="4자 이상 16자 이하"
+            maxLength={14}
+            placeholder="비밀번호를 입력해주세요"
           />
         </Label>
       </Wrapper>
+      {passwordInfo.message.length > 0 && (
+        <AlertP success={passwordInfo.validity}>{passwordInfo.message}</AlertP>
+      )}
       <Wrapper>
         <Label>
           <P>비밀번호 확인</P>
           <Input
+            onChange={onChangePasswordConfirm}
+            onFocus={onFocusPasswordConfirm}
             type="password"
-            maxLength={16}
-            placeholder="4자 이상 16자 이하"
+            maxLength={14}
+            placeholder="비밀번호를 한 번 더 입력해주세요"
           />
         </Label>
       </Wrapper>
-      {/* <AlertP>4자 이상 16자 이하</AlertP> */}
+      {passwordConfirmInfo.message.length > 0 && (
+        <AlertP success={passwordConfirmInfo.validity}>
+          {passwordConfirmInfo.message}
+        </AlertP>
+      )}
       <Submit>다음</Submit>
     </Container>
   );
@@ -151,8 +251,6 @@ const Container = styled.form`
   width: 100%;
   margin: 0.2em auto;
   padding: 1em 1.3em;
-  /* border: solid ${({ theme }) => theme.palette.line.grey}; */
-  /* border-width: 1px; */
 `;
 
 const Wrapper = styled.div`
@@ -170,7 +268,11 @@ const AlertP = styled.p<AlertProps>`
   padding-bottom: 1em;
   font-size: 0.8em;
   color: ${props =>
-    props.success === true ? props.theme.palette.main : '#f50505'};
+    props.success === undefined
+      ? props.theme.palette.font.body
+      : props.success === true
+      ? props.theme.palette.main
+      : '#f50505'};
 `;
 const Input = styled.input`
   width: 73%;
@@ -180,6 +282,9 @@ const Input = styled.input`
   border-radius: 4px;
   color: ${({ theme }) => theme.palette.font.headline};
   font-size: 1rem;
+  ::placeholder {
+    font-weight: 300;
+  }
   :focus {
     outline: none;
     box-shadow: 0 0 1px;
@@ -213,12 +318,12 @@ const Button = styled.button`
     color: ${({ theme }) => theme.palette.font.white};
     cursor: default;
   }
-  /* :active {
+  :active {
     ${props =>
-    !props.disabled &&
-    `color: ${props.theme.palette.font.white};
+      !props.disabled &&
+      `color: ${props.theme.palette.font.white};
       background-color: ${props.theme.palette.light};`}
-  } */
+  }
 `;
 
 const Submit = styled.button`
