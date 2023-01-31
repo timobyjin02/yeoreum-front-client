@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import React from 'react';
+import sliceString from '../../../utils/sliceString';
 
 interface Member {
   nickname: string;
@@ -13,11 +14,6 @@ function AddPartyMembers() {
     { nickname: '목꺾기장인' },
   ];
 
-  function nicknameSlice(string: string) {
-    if (string.length <= 6) return string;
-    else return string.slice(0, 6) + '...';
-  }
-
   return (
     <Container>
       <Subject>함께할 친구</Subject>
@@ -28,7 +24,7 @@ function AddPartyMembers() {
               <ProfileImg />
               <XBtn />
             </ProfileBox>
-            <Nickname>{nicknameSlice(member.nickname)}</Nickname>
+            <Nickname>{sliceString(member.nickname, 6)}</Nickname>
           </List>
         ))}
       </AddedList>
