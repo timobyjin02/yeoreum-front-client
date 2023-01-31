@@ -1,6 +1,6 @@
 import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import useLockScroll from '../../hooks/useLockScroll';
 import useOutsideClick from '../../hooks/useOutsideClick';
 import Menu from './Menu';
