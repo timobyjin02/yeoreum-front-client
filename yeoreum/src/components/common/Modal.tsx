@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import styled from '@emotion/styled';
 import useOutsideClick from '../../hooks/useOutsideClick';
 import useLockScroll from '../../hooks/useLockScroll';
+import ModalPortal from '../modalPortal/ModalPortal';
 
 interface Props {
   onClose: () => void;
@@ -17,14 +18,16 @@ function Modal({ onClose, children }: Props) {
 
   useOutsideClick(modalRef, handleClose);
 
-  useLockScroll();
+  // useLockScroll();
 
   return (
-    <Overlay>
-      <ModalWrap ref={modalRef}>
-        <Contents>{children}</Contents>
-      </ModalWrap>
-    </Overlay>
+    <ModalPortal>
+      <Overlay>
+        <ModalWrap ref={modalRef}>
+          <Contents>{children}</Contents>
+        </ModalWrap>
+      </Overlay>
+    </ModalPortal>
   );
 }
 
@@ -43,7 +46,7 @@ const Overlay = styled.div`
 `;
 
 const ModalWrap = styled.div`
-  width: 500px;
+  width: fit-content;
   height: fit-content;
   border-radius: 15px;
   background-color: #fff;

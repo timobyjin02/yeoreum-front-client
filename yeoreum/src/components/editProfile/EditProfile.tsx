@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import EditInfo from './EditInfo';
 import Modal from '../common/Modal';
-import ModalPortal from '../modalPortal/ModalPortal';
 import ModalContent from './ModalContent';
 import PostContainer from '../board/PostContainer';
 
@@ -22,21 +21,19 @@ function EditProfile() {
           <ProfileImg src={fileImg} />
           <ProfileImgEditBtn onClick={onClick}>프로필 변경</ProfileImgEditBtn>
           {isOpen && (
-            <ModalPortal>
-              <Modal
+            <Modal
+              onClose={() => {
+                setIsOpen(false);
+              }}
+            >
+              <ModalContent
                 onClose={() => {
                   setIsOpen(false);
                 }}
-              >
-                <ModalContent
-                  onClose={() => {
-                    setIsOpen(false);
-                  }}
-                  fileImg={fileImg}
-                  setFileImg={setFileImg}
-                />
-              </Modal>
-            </ModalPortal>
+                fileImg={fileImg}
+                setFileImg={setFileImg}
+              />
+            </Modal>
           )}
         </ProfileImgWrapper>
         <EditInfo />
