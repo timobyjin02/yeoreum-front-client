@@ -1,190 +1,13 @@
-import styled from '@emotion/styled';
 import React from 'react';
+import styled from '@emotion/styled';
 import { AlarmType } from '../../types/alarm';
 import sliceString from '../../utils/sliceString';
-
-const alarmArray = [
-  {
-    noticeNo: 6,
-    type: 6,
-    senderUserNo: 20,
-    senderNickname: 'aaa',
-    senderProfileImage: 'abc',
-    isRead: 0,
-    createdDate: '2023-01-16T04:19:47.137Z',
-  },
-  {
-    noticeNo: 5,
-    type: 5,
-    senderUserNo: 20,
-    senderNickname: 'aaa',
-    senderProfileImage: 'abc',
-    isRead: 0,
-    createdDate: '2023-01-16T04:19:47.137Z',
-    boardNo: 1,
-  },
-  {
-    noticeNo: 4,
-    type: 4,
-    senderUserNo: 20,
-    senderNickname: 'aaa',
-    senderProfileImage: 'abc',
-    isRead: 0,
-    createdDate: '2023-01-16T04:19:47.137Z',
-    friendNo: 2,
-  },
-  {
-    noticeNo: 3,
-    type: 3,
-    senderUserNo: 20,
-    senderNickname: 'aaa',
-    senderProfileImage: 'abc',
-    isRead: 0,
-    createdDate: '2023-01-16T04:19:47.137Z',
-    friendNo: 1,
-  },
-  {
-    noticeNo: 2,
-    type: 2,
-    senderUserNo: 20,
-    senderNickname: 'aaa',
-    senderProfileImage: 'abc',
-    isRead: 1,
-    createdDate: '2023-01-16T04:19:47.137Z',
-    chatRoomNo: 1,
-  },
-  {
-    noticeNo: 1,
-    type: 1,
-    senderUserNo: 20,
-    senderNickname: 'aaa',
-    senderProfileImage: 'abc',
-    isRead: 0,
-    createdDate: '2023-01-16T04:19:47.133Z',
-    chatRoomNo: 1,
-  },
-  {
-    noticeNo: 5,
-    type: 5,
-    senderUserNo: 20,
-    senderNickname: 'aaa',
-    senderProfileImage: 'abc',
-    isRead: 0,
-    createdDate: '2023-01-16T04:19:47.133Z',
-    boardNo: 1,
-  },
-  {
-    noticeNo: 3,
-    type: 3,
-    senderUserNo: 20,
-    senderNickname: 'aaa',
-    senderProfileImage: 'abc',
-    isRead: 1,
-    createdDate: '2023-01-16T04:19:47.133Z',
-    chatRoomNo: 1,
-  },
-  {
-    noticeNo: 6,
-    type: 6,
-    senderUserNo: 20,
-    senderNickname: 'aaa',
-    senderProfileImage: 'abc',
-    isRead: 0,
-    createdDate: '2023-01-16T04:19:47.137Z',
-  },
-  {
-    noticeNo: 5,
-    type: 5,
-    senderUserNo: 20,
-    senderNickname: 'aaa',
-    senderProfileImage: 'abc',
-    isRead: 0,
-    createdDate: '2023-01-16T04:19:47.137Z',
-    boardNo: 1,
-  },
-  {
-    noticeNo: 4,
-    type: 4,
-    senderUserNo: 20,
-    senderNickname: 'aaa',
-    senderProfileImage: 'abc',
-    isRead: 0,
-    createdDate: '2023-01-16T04:19:47.137Z',
-    friendNo: 2,
-  },
-  {
-    noticeNo: 3,
-    type: 3,
-    senderUserNo: 20,
-    senderNickname: 'aaa',
-    senderProfileImage: 'abc',
-    isRead: 0,
-    createdDate: '2023-01-16T04:19:47.137Z',
-    friendNo: 1,
-  },
-  {
-    noticeNo: 2,
-    type: 2,
-    senderUserNo: 20,
-    senderNickname: 'aaa',
-    senderProfileImage: 'abc',
-    isRead: 1,
-    createdDate: '2023-01-16T04:19:47.137Z',
-    chatRoomNo: 1,
-  },
-  {
-    noticeNo: 1,
-    type: 1,
-    senderUserNo: 20,
-    senderNickname: 'aaa',
-    senderProfileImage: 'abc',
-    isRead: 0,
-    createdDate: '2023-01-16T04:19:47.133Z',
-    chatRoomNo: 1,
-  },
-  {
-    noticeNo: 5,
-    type: 5,
-    senderUserNo: 20,
-    senderNickname: 'aaa',
-    senderProfileImage: 'abc',
-    isRead: 0,
-    createdDate: '2023-01-16T04:19:47.133Z',
-    boardNo: 1,
-  },
-  {
-    noticeNo: 3,
-    type: 3,
-    senderUserNo: 20,
-    senderNickname: 'aaa',
-    senderProfileImage: 'abc',
-    isRead: 1,
-    createdDate: '2023-01-16T04:19:47.133Z',
-    chatRoomNo: 1,
-  },
-];
-
-function NotificationLists() {
-  return (
-    <ListContainer>
-      {alarmArray.map((alarm, idx) => (
-        <NotificationList key={idx} alarmInfo={alarm} />
-      ))}
-    </ListContainer>
-  );
-}
-
-export default NotificationLists;
-
-const ListContainer = styled.ul`
-  margin-top: 10px;
-`;
 
 interface AlarmListProps {
   alarmInfo: AlarmType;
 }
 
-function NotificationList({ alarmInfo }: AlarmListProps) {
+function Notification({ alarmInfo }: AlarmListProps) {
   if (alarmInfo.type < 1 || alarmInfo.type > 6) return null;
   switch (alarmInfo.type) {
     case 1:
@@ -262,13 +85,15 @@ function NotificationList({ alarmInfo }: AlarmListProps) {
           <ProfileImage />
           <NotificationText
             isRead={Boolean(alarmInfo.isRead)}
-          >{`사진 부적절`}</NotificationText>
+          >{`사진 부적절 반려`}</NotificationText>
         </List>
       );
     default:
       return null;
   }
 }
+
+export default Notification;
 
 const List = styled.li`
   display: flex;
