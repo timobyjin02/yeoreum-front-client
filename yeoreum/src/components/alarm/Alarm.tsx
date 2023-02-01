@@ -138,7 +138,7 @@ const AlarmContainer = styled.div`
   right: 0;
   display: flex;
 
-  width: 350px;
+  width: 380px;
   height: 100%;
 `;
 
@@ -154,19 +154,21 @@ const AlarmModalBox = styled.div`
   max-height: 428px;
   background-color: white;
   border-radius: 4px;
-  box-shadow: -1px -1px 2px rgba(0, 0, 0, 25%), 1px 1px 2px rgba(0, 0, 0, 25%);
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 25%);
   overflow-y: auto;
   ::-webkit-scrollbar {
-    width: 4px;
+    width: 5px;
   }
   ::-webkit-scrollbar-thumb {
+    border-radius: 2.5px;
+    background-color: rgba(0, 0, 0, 25%);
+    border: 1px solid transparent;
+    background-clip: padding-box;
+  }
+  /* ::-webkit-scrollbar-track {
     border-radius: 2px;
     background-color: rgba(0, 0, 0, 25%);
-  }
-  ::-webkit-scrollbar-track {
-    border-radius: 2px;
-    background-color: rgba(0, 0, 0, 25%);
-  }
+  } */
 `;
 
 const AlarmLists = styled.ul`

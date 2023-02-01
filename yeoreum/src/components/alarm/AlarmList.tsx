@@ -101,20 +101,32 @@ const ProfileImage = styled.div`
   border-radius: 50%;
   background-color: lightgray;
   margin-right: 12px;
+  flex-shrink: 0;
 `;
 
 const AlarmText = styled.span`
   font-size: 13px;
   flex-grow: 1;
-  max-width: 194px;
 `;
 
 const Btn = styled.button`
   color: white;
   border-radius: 3px;
   background-color: #00b900;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
-  padding: 6px 12px;
+  /* padding: 6px 12px; */
+  padding: 0 14px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-left: 12px;
+
+  flex-shrink: 0;
+
+  cursor: pointer;
+  &:hover {
+    background-color: #009400;
+  }
 `;
