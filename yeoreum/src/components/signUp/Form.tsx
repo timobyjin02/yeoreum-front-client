@@ -51,7 +51,6 @@ const Form = () => {
     (e: React.MouseEvent) => {
       const regex =
         /([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])/;
-
       if (regex.test(user.email)) {
         setMailStatus(1);
         setEmailInfo(pre => ({ ...pre, validity: true }));
@@ -231,7 +230,7 @@ const Form = () => {
             onFocus={onFocusPasswordConfirm}
             type="password"
             maxLength={14}
-            placeholder="비밀번호를 한 번 더 입력해주세요"
+            placeholder="비밀번호를 입력해주세요"
           />
         </Label>
       </Wrapper>
@@ -261,7 +260,7 @@ const Wrapper = styled.div`
 `;
 
 const P = styled.p`
-  width: 25.5%;
+  width: 24.5%;
 `;
 const AlertP = styled.p<AlertProps>`
   margin-left: 21%;
@@ -275,7 +274,7 @@ const AlertP = styled.p<AlertProps>`
       : '#f50505'};
 `;
 const Input = styled.input`
-  width: 73%;
+  width: 74%;
   height: 72%;
   padding: 0.75em;
   border: solid 1px ${({ theme }) => theme.palette.line.grey};
@@ -283,6 +282,7 @@ const Input = styled.input`
   color: ${({ theme }) => theme.palette.font.headline};
   font-size: 1rem;
   ::placeholder {
+    font-size: 0.875em;
     font-weight: 300;
   }
   :focus {
@@ -305,7 +305,7 @@ const Label = styled.label`
 const Button = styled.button`
   width: 20%;
   height: 72%;
-  border: solid 1px ${({ theme }) => theme.palette.serviceBtn};
+  border: solid 1px ${({ theme }) => theme.palette.main};
   border-radius: 4px;
   background-color: white;
   color: ${({ theme }) => theme.palette.serviceBtn};
@@ -327,12 +327,13 @@ const Button = styled.button`
 `;
 
 const Submit = styled.button`
-  width: 30%;
+  width: 59.2%;
   height: 48px;
   align-self: center;
   border-radius: 4px;
   margin-top: 1em;
-  background-color: ${({ theme }) => theme.palette.serviceBtn};
+  margin-right: 1.2%;
+  background-color: ${({ theme }) => theme.palette.main};
   color: white;
   cursor: pointer;
 `;
