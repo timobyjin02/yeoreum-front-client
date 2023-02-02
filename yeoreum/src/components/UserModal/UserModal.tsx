@@ -1,68 +1,85 @@
-import React, { useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from '@emotion/styled';
 import useOutsideClick from '../../hooks/useOutsideClick';
+import useResize from '../../hooks/useResize';
+import Link from 'next/link';
 
-export default function UserModal({ onClose }: { onClose: () => void }) {
+export default function UserModal() {
+  const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement | null>(null);
-  useOutsideClick(ref, onClose);
+
+  useOutsideClick(ref, () => setIsOpen(false));
+  useResize('below', 640, () => setIsOpen(false));
+
   return (
-    <UserModalWrapper>
-      <ModalWrapper ref={ref}>
-        <ModalBubble />
-        <UserModalBox>
-          <NicknameDiv>
-            <Nickname>donkey 님</Nickname>
-          </NicknameDiv>
-          <Items>
-            <Item>마이페이지</Item>
-            <Item>이용약관</Item>
-          </Items>
-          <Logout>아이콘 로그아웃</Logout>
-        </UserModalBox>
-      </ModalWrapper>
-    </UserModalWrapper>
+    <Wrapper ref={ref}>
+      <ProfileWrapper onClick={() => setIsOpen(prev => !prev)}>
+        <ProfileImg />
+        <Arrow toggle={isOpen} />
+      </ProfileWrapper>
+      {isOpen && (
+        <ModalContainer>
+          <UserModalBox>
+            <NicknameDiv>
+              <Nickname>donkey 님</Nickname>
+            </NicknameDiv>
+            <Items>
+              <Link href="/mypage">
+                <Item onClick={() => setIsOpen(false)}>마이페이지</Item>
+              </Link>
+              <Item>이용약관</Item>
+            </Items>
+            <Logout>아이콘 로그아웃</Logout>
+          </UserModalBox>
+        </ModalContainer>
+      )}
+    </Wrapper>
   );
 }
 
-const UserModalWrapper = styled.div`
-  z-index: 10000;
-  width: 100%;
-  height: 100%;
-
-  position: fixed;
-  inset: 0;
-
-  display: flex;
-  flex-direction: row-reverse;
-
-  background-color: rgba(0, 0, 0, 0%);
+const Wrapper = styled.div`
+  position: relative;
 `;
 
-const ModalWrapper = styled.div`
-  position: fixed;
+const ProfileWrapper = styled.div`
   display: flex;
-  top: 48px;
-  right: 12px;
-  width: 252px;
-  height: 210px;
-  @media (min-width: 975px) {
-    right: calc((100% - 972px) / 2);
+  align-items: center;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  @media (max-width: 640px) {
+    display: none;
   }
 `;
 
-const ModalBubble = styled.div`
+const ProfileImg = styled.div`
+  width: 33px;
+  height: 33px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background-color: lightgray;
+  display: block;
+`;
+
+const Arrow = styled.div<{ toggle: boolean }>`
+  width: 5px;
+  height: 5px;
+  margin: ${({ toggle }) => (toggle ? '1px 0 0' : '0 0 1px')};
+  border-right: 2px solid #000;
+  border-bottom: 2px solid #000;
+  transform: ${({ toggle }) => (toggle ? 'rotate(-135deg)' : 'rotate(45deg)')};
+  transition: 0.1s all;
+`;
+
+const ModalContainer = styled.div`
   position: absolute;
-  left: 216px;
-  top: 5px;
-  width: 20px;
-  height: 20px;
-  background-color: white;
-  transform: rotate(45deg);
-  border-top: 1px solid #888;
-  border-left: 1px solid #888;
-  border-top-left-radius: 4px;
-  z-index: 10;
-  box-shadow: -1px -1px 1px rgba(0, 0, 0, 25%); ;
+  display: flex;
+  top: 40px;
+  right: 0;
+  width: 252px;
+  height: 210px;
 `;
 
 const UserModalBox = styled.div`
@@ -72,13 +89,12 @@ const UserModalBox = styled.div`
   flex-direction: column;
   justify-content: space-between;
   position: absolute;
-  top: 14px;
+  top: 2px;
   width: var(--width);
   height: 210px;
   background-color: white;
-  border: 1px solid #888;
   border-radius: 4px;
-  box-shadow: -1px 0 2px rgba(0, 0, 0, 25%), 1px 1px 2px rgba(0, 0, 0, 25%);
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 25%);
 `;
 
 const NicknameDiv = styled.div`

@@ -1,7 +1,6 @@
 import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 import React, { useRef, useState } from 'react';
-import useOutsideClick from '../../hooks/useOutsideClick';
 
 interface MenuProps {
   title: string;

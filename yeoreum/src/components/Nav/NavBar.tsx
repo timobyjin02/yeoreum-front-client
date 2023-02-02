@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import useScroll from '../../hooks/useScroll';
+import Alarm from '../alarm/Alarm';
+import UserModal from '../userModal/UserModal';
+import Link from 'next/link';
 
 interface NavProps {
-  userOpen: boolean;
-  setUserOpen: (state: boolean | ((prev: boolean) => boolean)) => void;
   setHamburger: (state: boolean | ((prev: boolean) => boolean)) => void;
 }
 
-export function NavUsual({ userOpen, setUserOpen, setHamburger }: NavProps) {
+export function NavUsual({ setHamburger }: NavProps) {
   const [authenticated, setAuthenticated] = useState(false);
 
   // const { y } = useScroll();
@@ -19,7 +20,9 @@ export function NavUsual({ userOpen, setUserOpen, setHamburger }: NavProps) {
       <Container show>
         <NavContainer>
           <ArrangeContainer>
-            <YeoreumLogo>로고</YeoreumLogo>
+            <Link href="/">
+              <YeoreumLogo>로고</YeoreumLogo>
+            </Link>
             <NavMenu>
               <NavMenuItem>게시판</NavMenuItem>
               <NavMenuItem>친구</NavMenuItem>
@@ -31,17 +34,16 @@ export function NavUsual({ userOpen, setUserOpen, setHamburger }: NavProps) {
           </ArrangeContainer>
           {authenticated ? (
             <ArrangeContainer>
-              <ImageAlarm
+              {/* <ImageAlarm
                 alt="alarm"
                 src="/vercel.svg"
                 width={40}
                 height={40}
                 priority
-              />
-              <ProfileWrapper onClick={() => setUserOpen(prev => !prev)}>
-                <ProfileImg />
-                <Arrow toggle={userOpen} />
-              </ProfileWrapper>
+                onClick={() => setAlarmOpen(true)}
+              /> */}
+              <Alarm />
+              <UserModal />
             </ArrangeContainer>
           ) : (
             <LoginButton onClick={() => setAuthenticated(true)}>
@@ -56,7 +58,7 @@ export function NavUsual({ userOpen, setUserOpen, setHamburger }: NavProps) {
   );
 }
 
-export function NavService({ userOpen, setUserOpen, setHamburger }: NavProps) {
+export function NavService({ setHamburger }: NavProps) {
   const [authenticated, setAuthenticated] = useState(false);
 
   return (
@@ -74,10 +76,7 @@ export function NavService({ userOpen, setUserOpen, setHamburger }: NavProps) {
                 <NavMenuItem>문의하기</NavMenuItem>
                 <NavMenuItem>문의내역</NavMenuItem>
               </NavMenu>
-              <ProfileWrapper onClick={() => setUserOpen(prev => !prev)}>
-                <ProfileImg />
-                <Arrow toggle={userOpen} />
-              </ProfileWrapper>
+              <UserModal />
             </ArrangeContainer>
           ) : (
             <LoginButton onClick={() => setAuthenticated(true)}>
@@ -102,12 +101,12 @@ const ArrangeContainer = styled.div`
   align-items: center;
 `;
 
-const ImageAlarm = styled(Image)`
-  margin-right: 20px;
-  @media (max-width: 640px) {
-    display: none;
-  }
-`;
+// const ImageAlarm = styled(Image)`
+//   margin-right: 20px;
+//   @media (max-width: 640px) {
+//     display: none;
+//   }
+// `;
 
 const Container = styled.nav<{ show: boolean }>`
   color: #181818;

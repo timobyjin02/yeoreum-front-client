@@ -1,6 +1,7 @@
 import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
-import React, { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
+import React, { useRef, useState } from 'react';
 import useLockScroll from '../../hooks/useLockScroll';
 import useOutsideClick from '../../hooks/useOutsideClick';
 import Menu from './Menu';
@@ -35,7 +36,9 @@ function Hamburger({ onClose }: HamburgerProps) {
                   <ProfileImg />
                   <Nickname>donkeykong 님</Nickname>
                 </ProfileWrapper>
-                <AlarmIcon />
+                <Link href="/notifications">
+                  <AlarmIcon onClick={onClose} />
+                </Link>
               </UserInfoHeader>
               <UserInfoFooter>
                 <MyPageBtn>마이페이지</MyPageBtn>
