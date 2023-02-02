@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import PostPageTitle from '../../board/PostPageTitle';
 import Modal from '../../common/Modal';
-// import ApplicationFriendModal from '../applicationModal/ApplicationFriendModal';
+import ApplicationFriendModal from '../applicationModal/ApplicationFriendModal';
 
 function FriendTop() {
   const [isOpen3, setIsOpen3] = useState(false);
@@ -17,7 +17,7 @@ function FriendTop() {
       <AddIcon onClick={AddFriend} />
       {isOpen3 && (
         <Modal onClose={() => setIsOpen3(false)}>
-          {/* <ApplicationFriendModal /> */}
+          <ApplicationFriendModal />
         </Modal>
       )}
     </Container>
