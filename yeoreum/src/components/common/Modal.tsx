@@ -18,7 +18,7 @@ function Modal({ onClose, children }: Props) {
 
   useOutsideClick(modalRef, handleClose);
 
-  // useLockScroll();
+  useLockScroll();
 
   return (
     <ModalPortal>
