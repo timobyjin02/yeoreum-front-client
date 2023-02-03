@@ -5,7 +5,7 @@ interface Props {
   children: ReactNode;
 }
 
-const Body = ({ children }: Props) => (
+const SignUpBody = ({ children }: Props) => (
   <Wrapper>
     <P>{/* <span>* </span>필수입력 */}</P>
     {children}
@@ -28,4 +28,4 @@ const P = styled.p`
   }
 `;
 
-export default Body;
+export default SignUpBody;

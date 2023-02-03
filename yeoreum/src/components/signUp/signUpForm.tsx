@@ -10,7 +10,7 @@ interface Password {
   message: string;
 }
 
-const Form = () => {
+const SignUpForm = () => {
   const [mailStatus, setMailStatus] = useState(0);
   const [user, setUser] = useState({
     email: '',
@@ -337,4 +337,4 @@ const Submit = styled.button`
   color: white;
   cursor: pointer;
 `;
-export default Form;
+export default SignUpForm;

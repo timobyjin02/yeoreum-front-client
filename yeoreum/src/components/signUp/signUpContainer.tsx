@@ -4,7 +4,7 @@ import { ReactNode } from 'react';
 interface Props {
   children: ReactNode;
 }
-const Container = ({ children }: Props) => <Wrapper>{children}</Wrapper>;
+const SignUpContainer = ({ children }: Props) => <Wrapper>{children}</Wrapper>;
 
 const Wrapper = styled.div`
   display: flex;
@@ -15,4 +15,4 @@ const Wrapper = styled.div`
   margin: 0 auto 4em;
 `;
 
-export default Container;
+export default SignUpContainer;

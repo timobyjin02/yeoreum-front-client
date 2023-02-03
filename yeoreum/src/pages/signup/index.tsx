@@ -1,15 +1,15 @@
-import Container from '../../components/signUp/Container';
-import Body from '../../components/signUp/Body';
-import Header from '../../components/signUp/Header';
-import Form from '../../components/signUp/Form';
+import SignUpContainer from '../../components/signUp/signUpContainer';
+import SignUpBody from '../../components/signUp/signUpBody';
+import SignUpHeader from '../../components/signUp/signUpHeader';
+import SignUpForm from '../../components/signUp/signUpForm';
 
 const signUp = () => (
-  <Container>
-    <Header />
-    <Body>
-      <Form />
-    </Body>
-  </Container>
+  <SignUpContainer>
+    <SignUpHeader />
+    <SignUpBody>
+      <SignUpForm />
+    </SignUpBody>
+  </SignUpContainer>
 );
 
 export default signUp;
