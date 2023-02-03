@@ -1,11 +1,7 @@
-import { ReactNode } from 'react';
 import styled from '@emotion/styled';
+import { OnlyChildren } from '../../types/common';
 
-interface Props {
-  children: ReactNode;
-}
-
-const SignUpBody = ({ children }: Props) => (
+const SignUpBody = ({ children }: OnlyChildren) => (
   <Wrapper>
     <P>{/* <span>* </span>필수입력 */}</P>
     {children}

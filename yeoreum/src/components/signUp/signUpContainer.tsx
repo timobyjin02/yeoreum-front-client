@@ -1,10 +1,9 @@
 import styled from '@emotion/styled';
-import { ReactNode } from 'react';
+import { OnlyChildren } from '../../types/common';
 
-interface Props {
-  children: ReactNode;
-}
-const SignUpContainer = ({ children }: Props) => <Wrapper>{children}</Wrapper>;
+const SignUpContainer = ({ children }: OnlyChildren) => (
+  <Wrapper>{children}</Wrapper>
+);
 
 const Wrapper = styled.div`
   display: flex;
