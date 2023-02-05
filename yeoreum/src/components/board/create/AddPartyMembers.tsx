@@ -1,18 +1,26 @@
 import styled from '@emotion/styled';
-import React from 'react';
+import React, { useState } from 'react';
 import sliceString from '../../../utils/sliceString';
+import Modal from '../../common/Modal';
+import AddFriendModal from '../../friend/addModal/AddFriendModal';
 
 interface Member {
   nickname: string;
 }
 
 function AddPartyMembers() {
+  const [isOpen4, setIsOpen4] = useState(false);
+
   const memberList: Member[] = [
     { nickname: '목꺾기장인' },
     { nickname: '메가커피대항마' },
     { nickname: '63빌딩맨손등반' },
     { nickname: '목꺾기장인' },
   ];
+
+  const addHandler = () => {
+    setIsOpen4(true);
+  };
 
   return (
     <Container>
@@ -28,7 +36,12 @@ function AddPartyMembers() {
           </List>
         ))}
       </AddedList>
-      <AddBtn>추가</AddBtn>
+      <AddBtn onClick={addHandler}>추가</AddBtn>
+      {isOpen4 && (
+        <Modal onClose={() => setIsOpen4(false)}>
+          <AddFriendModal />
+        </Modal>
+      )}
     </Container>
   );
 }
@@ -64,7 +77,6 @@ const ProfileBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* background-color: red; */
   padding: 10px;
 `;
 

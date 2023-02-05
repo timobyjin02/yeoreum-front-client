@@ -18,12 +18,13 @@ function Modal({ onClose, children }: Props) {
 
   useOutsideClick(modalRef, handleClose);
 
-  // useLockScroll();
+  useLockScroll();
 
   return (
     <ModalPortal>
       <Overlay>
         <ModalWrap ref={modalRef}>
+          <span onClick={onClose}>x</span>
           <Contents>{children}</Contents>
         </ModalWrap>
       </Overlay>
@@ -55,7 +56,10 @@ const ModalWrap = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   @media (max-width: 640px) {
-    width: 400px;
+    /* width: 400px; */
+    width: 100%;
+    height: 100%;
+    border-radius: 0px;
   }
 `;
 
