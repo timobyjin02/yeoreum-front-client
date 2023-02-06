@@ -17,7 +17,7 @@ function FriendTop() {
       <AddIcon onClick={AddFriend} />
       {isOpen3 && (
         <Modal onClose={() => setIsOpen3(false)}>
-          <ApplicationFriendModal />
+          <ApplicationFriendModal setIsOpen3={setIsOpen3} />
         </Modal>
       )}
     </Container>

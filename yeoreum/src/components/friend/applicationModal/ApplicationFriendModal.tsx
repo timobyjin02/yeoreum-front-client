@@ -3,7 +3,11 @@ import styled from '@emotion/styled';
 import AllUserList from './AllUserList';
 import AllUserSearch from './AllUserSearch';
 
-function ApplicationFriendModal() {
+interface PropsType {
+  setIsOpen3: (state: boolean | ((prev: boolean) => boolean)) => void;
+}
+
+function ApplicationFriendModal({ setIsOpen3 }: PropsType) {
   const users = [
     {
       userNo: 1,
@@ -20,7 +24,7 @@ function ApplicationFriendModal() {
   return (
     <Container>
       <ResponsiveHeader>
-        <BackButton>이전</BackButton>
+        <BackButton onClick={() => setIsOpen3(false)}>이전</BackButton>
         <Title>친구신청</Title>
       </ResponsiveHeader>
       <SearchWrapper>
@@ -60,6 +64,7 @@ const BackButton = styled.button`
   position: absolute;
   border: none;
   background: inherit;
+  cursor: pointer;
 `;
 
 const Title = styled.h3`

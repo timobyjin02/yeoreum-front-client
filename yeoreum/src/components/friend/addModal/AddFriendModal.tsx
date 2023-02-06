@@ -48,7 +48,13 @@ function AddFriendModal({ setIsOpen4 }: PropsType) {
       )} */}
       <ResponsiveHeader>
         <Title>친구추가</Title>
-        <SaveButton>확인</SaveButton>
+        <SaveButton
+          onClick={() => {
+            setIsOpen4(false);
+          }}
+        >
+          확인
+        </SaveButton>
       </ResponsiveHeader>
       <SearchWrapper>
         <MyFriendSearch />
@@ -99,6 +105,7 @@ const SaveButton = styled.button`
   border-radius: 8px;
   color: #fff;
   background-color: #4d49fe;
+  cursor: pointer;
 `;
 
 const Title = styled.h3`
