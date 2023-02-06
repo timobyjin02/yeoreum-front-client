@@ -6,19 +6,19 @@ function Profile() {
   const router = useRouter();
 
   return (
-    <Wrapper>
-      <Top>
+    <Container>
+      <UserProfile>
         <ProfileImg />
-        <Wrap>
+        <InfoWrapper>
           <Nickname>홍유진</Nickname>
           <Description>
-            {/* 안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
             안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-            안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요 */}
+            안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
+            안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
           </Description>
-        </Wrap>
-      </Top>
-      <Button
+        </InfoWrapper>
+      </UserProfile>
+      <EditButton
         onClick={() => {
           router.push({
             pathname: '/editProfile',
@@ -26,21 +26,21 @@ function Profile() {
         }}
       >
         계정설정
-      </Button>
-    </Wrapper>
+      </EditButton>
+    </Container>
   );
 }
 
 export default Profile;
 
-const Wrapper = styled.div`
+const Container = styled.div`
   height: 252px;
   padding: 16px 29px;
   border-radius: 10px;
-  background-color: #f9fafb;
+  background-color: ${({ theme }) => theme.palette.background.light};
 `;
 
-const Top = styled.div`
+const UserProfile = styled.div`
   display: flex;
 `;
 
@@ -52,17 +52,20 @@ export const ProfileImg = styled.div`
   background-color: #aeaeae;
 `;
 
-const Wrap = styled.div`
+const InfoWrapper = styled.div`
   position: relative;
   width: 450px;
 `;
 
 const Nickname = styled.div`
+  color: ${({ theme }) => theme.palette.font.headline};
   font-size: 18px;
+  font-weight: 600;
   &::after {
     content: '님';
     margin-left: 3px;
-    font-size: 14px;
+    font-size: 16px;
+    font-weight: 400;
   }
 `;
 
@@ -70,16 +73,16 @@ const Description = styled.div`
   min-height: 130px;
   margin-top: 15px;
   font-size: 14px;
+  color: ${({ theme }) => theme.palette.font.subHeadline};
 `;
 
-const Button = styled.button`
+const EditButton = styled.button`
   float: right;
   width: 100px;
-  height: 40px;
-  margin-top: 15px;
-  background: rgba(255, 43, 55, 0.8);
-  border-radius: 13px;
-  color: white;
+  height: 48px;
+  border-radius: 8px;
+  background: ${({ theme }) => theme.palette.main};
+  color: ${({ theme }) => theme.palette.font.white};
 
   cursor: pointer;
 `;
