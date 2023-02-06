@@ -35,11 +35,15 @@ export default ApplicationFriendModal;
 
 const Container = styled.div`
   padding: 20px 10px;
+  @media (max-width: 640px) {
+    width: 100%;
+  }
 `;
 
 const SearchWrapper = styled.div`
   padding: 0 10px;
 `;
+
 const ListWrapper = styled.div`
   height: 330px;
   overflow: auto;
