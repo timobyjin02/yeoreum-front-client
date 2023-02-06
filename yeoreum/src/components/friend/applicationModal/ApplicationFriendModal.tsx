@@ -56,7 +56,4 @@ const ListWrapper = styled.div`
     background: #217af4;
     border-radius: 10px;
   }
-  /* ::-webkit-scrollbar-track {
-    background: rgba(33, 122, 244, 0.1);
-  } */
 `;
