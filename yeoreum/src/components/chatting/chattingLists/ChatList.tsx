@@ -35,7 +35,6 @@ function ChatList() {
               <ProfileImg>{item.createrData.profileImage}</ProfileImg>
               <Nickname>{item.createrData.nickname}</Nickname>
             </Box>
-            <Link></Link>
           </ListBox>
         );
       })}
@@ -57,8 +56,8 @@ const Box = styled.div`
 `;
 
 const ProfileImg = styled.div`
-  width: 18px;
-  height: 18px;
+  width: 24px;
+  height: 24px;
   margin-right: 10px;
   background-color: #f3f4f5;
 `;
@@ -69,10 +68,5 @@ const Nickname = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-`;
-
-const Link = styled.div`
-  width: 18px;
-  height: 18px;
-  background-color: #4a5a69;
+  color: ${({ theme }) => theme.palette.font.headline};
 `;

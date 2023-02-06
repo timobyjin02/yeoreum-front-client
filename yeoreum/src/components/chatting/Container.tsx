@@ -16,5 +16,5 @@ const Wrapper = styled.div`
   height: calc(100vh - 60px);
   margin: auto;
   display: flex;
-  border: 1px solid #d9d9d9;
+  border: 1px solid ${({ theme }) => theme.palette.line.grey};
 `;
