@@ -1,8 +1,11 @@
 import styled from '@emotion/styled';
+import { useRouter } from 'next/router';
 import React from 'react';
 import Card from './Card';
 
 function Previews() {
+  const router = useRouter();
+
   return (
     <Container>
       <InteractiveHeading>당신의 여름을 찾아보세요~!</InteractiveHeading>
@@ -13,7 +16,7 @@ function Previews() {
           <br />
           남은 인생 같이 먹방길 걸을 분
         </SubHeading>
-        <MoreBtn>더보기</MoreBtn>
+        <MoreBtn onClick={() => router.push('/board')}>더보기</MoreBtn>
       </Description>
       <Cards>
         <Card />
@@ -21,6 +24,7 @@ function Previews() {
         <Card />
         <Card />
         <Card />
+        <ReactiveBtn onClick={() => router.push('/board')}>더보기</ReactiveBtn>
       </Cards>
     </Container>
   );
@@ -48,6 +52,7 @@ const Container = styled.div`
 
 const Cards = styled.div`
   width: 100%;
+  overflow-x: auto;
 
   display: flex;
   flex-flow: column-reverse wrap-reverse;
@@ -56,9 +61,13 @@ const Cards = styled.div`
 
   @media (max-width: 975px) {
     width: 100%;
-
-    flex-flow: row wrap;
+    margin: 20px 0;
     padding: 0 14px;
+
+    flex-flow: row nowrap;
+    ::-webkit-scrollbar {
+      width: 0;
+    }
   }
 `;
 
@@ -116,8 +125,26 @@ const MoreBtn = styled.button`
   cursor: pointer;
 
   @media (max-width: 975px) {
+    display: none;
+  }
+`;
+
+const ReactiveBtn = styled.button`
+  display: none;
+  @media (max-width: 975px) {
+    display: block;
+    margin: 0 20px;
+
     align-self: center;
-    margin-top: 10px;
-    width: 50%;
+    flex-shrink: 0;
+    font-size: 0.875rem;
+    width: 122px;
+    height: 40px;
+    border-radius: 100px;
+    background-color: inherit;
+    color: #333;
+    border: 1px solid #333;
+
+    cursor: pointer;
   }
 `;
