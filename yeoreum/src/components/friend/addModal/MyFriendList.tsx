@@ -17,8 +17,10 @@ function MyFriendList({ item, setAddedProfile }: ItemProps) {
 
   return (
     <ListContainer key={item.userNo}>
-      <ProfileImg>{item.profileImage}</ProfileImg>
-      <Nickname>{item.nickname}</Nickname>
+      <UserInfo>
+        <ProfileImg>{item.profileImage}</ProfileImg>
+        <Nickname>{item.nickname}</Nickname>
+      </UserInfo>
       <ApplicationButton disabled={isDisabled} onClick={addedButtonHandler}>
         추가
       </ApplicationButton>
@@ -35,6 +37,11 @@ const ListContainer = styled.div`
   height: 60px;
   padding: 0 15px 0 30px;
   margin-right: 5px;
+`;
+
+const UserInfo = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 const ProfileImg = styled.div`

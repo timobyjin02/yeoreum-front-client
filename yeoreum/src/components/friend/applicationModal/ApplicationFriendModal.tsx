@@ -19,6 +19,10 @@ function ApplicationFriendModal() {
 
   return (
     <Container>
+      <ResponsiveHeader>
+        <BackButton>이전</BackButton>
+        <Title>친구신청</Title>
+      </ResponsiveHeader>
       <SearchWrapper>
         <AllUserSearch />
       </SearchWrapper>
@@ -37,6 +41,34 @@ const Container = styled.div`
   @media (max-width: 640px) {
     width: 100%;
   }
+`;
+
+const ResponsiveHeader = styled.header`
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-left: 30px;
+  height: 44px;
+  border-bottom: 1px solid #c8c8c8;
+
+  @media (min-width: 641px) {
+    display: none;
+  }
+`;
+
+const BackButton = styled.button`
+  position: absolute;
+  border: none;
+  background: inherit;
+`;
+
+const Title = styled.h3`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
 `;
 
 const SearchWrapper = styled.div`

@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import React, { useState } from 'react';
+import useLockScroll from '../../../hooks/useLockScroll';
 import MyFriendList from './MyFriendList';
 import MyFriendSearch from './MyFriendSearch';
 
@@ -45,6 +46,10 @@ function AddFriendModal({ setIsOpen4 }: PropsType) {
           })}
         </Added>
       )} */}
+      <ResponsiveHeader>
+        <Title>친구추가</Title>
+        <SaveButton>확인</SaveButton>
+      </ResponsiveHeader>
       <SearchWrapper>
         <MyFriendSearch />
       </SearchWrapper>
@@ -70,6 +75,39 @@ const Container = styled.div`
   @media (max-width: 640px) {
     width: 100%;
   }
+`;
+
+const ResponsiveHeader = styled.header`
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 44px;
+  border-bottom: 1px solid #c8c8c8;
+
+  @media (min-width: 641px) {
+    display: none;
+  }
+`;
+
+const SaveButton = styled.button`
+  position: absolute;
+  right: 0;
+  margin-right: 20px;
+  width: 58px;
+  height: 30px;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  background-color: #4d49fe;
+`;
+
+const Title = styled.h3`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
 `;
 
 const SearchWrapper = styled.div`
@@ -128,7 +166,7 @@ const ListWrapper = styled.div`
     background-clip: padding-box;
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 641px) {
     height: 650px;
   }
 `;
@@ -142,4 +180,8 @@ const CheckButton = styled.button`
   color: #fff;
   background-color: #4d49fe;
   cursor: pointer;
+
+  @media (max-width: 640px) {
+    display: none;
+  }
 `;

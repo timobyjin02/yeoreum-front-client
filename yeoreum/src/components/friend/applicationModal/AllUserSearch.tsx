@@ -39,7 +39,7 @@ const InputBox = styled.div`
   align-self: center;
   border-radius: 8px;
   background-color: #f1f2f3;
-  @media (max-width: 600px) {
+  @media (max-width: 640px) {
     width: 100%;
     max-width: 560px;
   }

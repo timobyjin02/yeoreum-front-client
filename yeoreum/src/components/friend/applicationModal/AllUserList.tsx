@@ -11,8 +11,10 @@ function AllUserList({ item }: ItemProps) {
 
   return (
     <AllUsersList key={item.userNo}>
-      <ProfileImg>{item.profileImage}</ProfileImg>
-      <Nickname>{item.nickname}</Nickname>
+      <UserInfo>
+        <ProfileImg>{item.profileImage}</ProfileImg>
+        <Nickname>{item.nickname}</Nickname>
+      </UserInfo>
       <ApplicationButton
         disabled={isDisabled}
         onClick={() => setIsDisabled(true)}
@@ -32,6 +34,11 @@ const AllUsersList = styled.div`
   height: 60px;
   padding: 0 15px 0 30px;
   margin-right: 5px;
+`;
+
+const UserInfo = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 const ProfileImg = styled.div`
