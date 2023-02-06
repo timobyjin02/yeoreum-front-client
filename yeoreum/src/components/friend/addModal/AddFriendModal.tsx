@@ -28,66 +28,6 @@ function AddFriendModal({ setIsOpen4 }: PropsType) {
       nickname: '제주조랑말제주조랑말제주조랑말',
       profileImage: '',
     },
-    {
-      userNo: 2,
-      nickname: '제주조랑말제주조랑말제주조랑말',
-      profileImage: '',
-    },
-    {
-      userNo: 2,
-      nickname: '제주조랑말제주조랑말제주조랑말',
-      profileImage: '',
-    },
-    {
-      userNo: 2,
-      nickname: '제주조랑말제주조랑말제주조랑말',
-      profileImage: '',
-    },
-    {
-      userNo: 2,
-      nickname: '제주조랑말제주조랑말제주조랑말',
-      profileImage: '',
-    },
-    {
-      userNo: 2,
-      nickname: '제주조랑말제주조랑말제주조랑말',
-      profileImage: '',
-    },
-    {
-      userNo: 2,
-      nickname: '제주조랑말제주조랑말제주조랑말',
-      profileImage: '',
-    },
-    {
-      userNo: 2,
-      nickname: '제주조랑말제주조랑말제주조랑말',
-      profileImage: '',
-    },
-    {
-      userNo: 2,
-      nickname: '제주조랑말제주조랑말제주조랑말',
-      profileImage: '',
-    },
-    {
-      userNo: 2,
-      nickname: '제주조랑말제주조랑말제주조랑말',
-      profileImage: '',
-    },
-    {
-      userNo: 2,
-      nickname: '제주조랑말제주조랑말제주조랑말',
-      profileImage: '',
-    },
-    {
-      userNo: 2,
-      nickname: '제주조랑말제주조랑말제주조랑말',
-      profileImage: '',
-    },
-    {
-      userNo: 2,
-      nickname: '제주조랑말제주조랑말제주조랑말',
-      profileImage: '',
-    },
   ];
 
   return (
@@ -127,8 +67,6 @@ function AddFriendModal({ setIsOpen4 }: PropsType) {
 export default AddFriendModal;
 
 const Container = styled.div`
-  /* padding: 10px; */
-  /* padding: 20px 10px; */
   @media (max-width: 640px) {
     width: 100%;
   }
@@ -136,9 +74,9 @@ const Container = styled.div`
 
 const CheckButton = styled.button`
   float: right;
-  width: 50px;
-  height: 31px;
-  margin: 20px 25px 10px 0;
+  width: 58px;
+  height: 30px;
+  margin: 20px 23px 10px 0;
   border-radius: 8px;
   color: #fff;
   background-color: #4d49fe;
@@ -199,5 +137,8 @@ const ListWrapper = styled.div`
     border-radius: 10px;
     border: 1px solid transparent;
     background-clip: padding-box;
+  }
+  @media (max-width: 640px) {
+    height: 650px;
   }
 `;
