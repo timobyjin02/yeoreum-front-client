@@ -32,7 +32,7 @@ export default UserSearch;
 const InputBox = styled.div`
   width: 560px;
   height: 40px;
-  background-color: #f1f2f3;
+  background-color: ${({ theme }) => theme.palette.background.light};
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -53,7 +53,7 @@ const SearchIcon = styled.img<{ hover?: boolean }>`
 
 const Input = styled.input`
   margin: 0 10px;
-  background-color: #f1f2f3;
+  background-color: ${({ theme }) => theme.palette.background.light};
   font-size: 0.875rem;
   border: none;
   width: 100%;
@@ -61,7 +61,7 @@ const Input = styled.input`
   color: #333;
   outline: none;
   ::placeholder {
-    color: #999;
+    color: ${({ theme }) => theme.palette.font.disable};
     font-size: 0.875rem;
   }
 `;
