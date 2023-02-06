@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
-import React, { useRef, useState } from 'react';
-import useOutsideClick from '../../hooks/useOutsideClick';
-import ModalPortal from '../modalPortal/ModalPortal';
+import React, { useRef } from 'react';
 import dummyData from '../myPage/dummyData';
 import DuelModal from './DuelModal';
 
@@ -68,6 +66,7 @@ const ProfileEvent = styled.div`
 
 const Nickname = styled.div`
   font-weight: 600;
+  color: ${({ theme }) => theme.palette.font.headline};
   &::after {
     content: '님';
     font-weight: 400;
@@ -80,11 +79,11 @@ const Wrap = styled.div`
 `;
 
 const AddFriend = styled.button`
-  width: 75px;
-  height: 35px;
-  border-radius: 10px;
+  width: 84px;
+  height: 40px;
+  border-radius: 8px;
   color: white;
-  background-color: #e86b66;
+  background-color: ${({ theme }) => theme.palette.main};
 
   cursor: pointer;
 `;
@@ -96,6 +95,7 @@ const Description = styled.div`
   font-size: 14px;
   letter-spacing: 0.6px;
   line-height: 23px;
+  color: ${({ theme }) => theme.palette.font.headline};
 `;
 
 export const Graph = styled.div`
@@ -106,16 +106,14 @@ export const Graph = styled.div`
   align-items: center;
   margin-top: 25px;
   padding: 5px;
-  background-color: #fdf3f4;
-  /* box-shadow: 5px 5px 6px rgba(63, 63, 143, 0.25), -5px -5px 6px #ffffff; */
   border-radius: 50px;
+  background-color: ${({ theme }) => theme.palette.background.grey};
 `;
 
 export const ColorGraph = styled.div`
   position: relative;
   height: 10px;
-  background: #e14f4c;
-  /* box-shadow: 5px 5px 6px rgba(63, 63, 143, 0.25), -5px -5px 6px #ffffff; */
+  background: ${({ theme }) => theme.palette.main};
   border-radius: 50px;
 `;
 
@@ -129,12 +127,11 @@ export const Ballon = styled.div`
   align-items: center;
   justify-content: center;
   margin-left: 74px;
-  background: #f8d6d8;
-  color: #46110e;
-  /* box-shadow: 5px 5px 6px rgba(63, 63, 143, 0.25), -5px -5px 6px #ffffff; */
+  color: ${({ theme }) => theme.palette.dark};
+  background: ${({ theme }) => theme.palette.light};
   border-radius: 13px;
   &:after {
-    border-top: 7px solid #f8d6d8;
+    border-top: 7px solid ${({ theme }) => theme.palette.light};
     border-left: 7px solid transparent;
     border-right: 7px solid transparent;
     content: '';
@@ -142,48 +139,4 @@ export const Ballon = styled.div`
     top: 30px;
     left: 20px;
   }
-`;
-
-//
-
-const Overlay = styled.div`
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 10;
-  z-index: 9999;
-`;
-
-const ModalWrap = styled.div`
-  position: absolute;
-  padding: 10px 15px;
-  top: 43%;
-  left: 66%;
-  border-radius: 5px;
-  border: 1px solid #d0d0d0;
-  background-color: #fff;
-  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.25);
-  transform: translate(-50%, -50%);
-  @media (max-width: 640px) {
-    width: 400px;
-  }
-`;
-
-const Contents = styled.div``;
-
-const KebabMenu = styled.div`
-  margin-left: 10px;
-`;
-
-const Icon = styled.div`
-  width: 4px;
-  height: 4px;
-  margin: 2px;
-  border-radius: 50%;
-  background-color: black;
-
-  cursor: pointer;
 `;
