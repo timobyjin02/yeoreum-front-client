@@ -53,7 +53,7 @@ const ResponsiveHeader = styled.header`
   align-items: center;
   padding-left: 30px;
   height: 44px;
-  border-bottom: 1px solid #c8c8c8;
+  border-bottom: 1px solid ${({ theme }) => theme.palette.line.grey};
 
   @media (min-width: 641px) {
     display: none;

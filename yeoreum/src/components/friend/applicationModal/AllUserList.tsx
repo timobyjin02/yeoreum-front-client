@@ -52,6 +52,7 @@ const Nickname = styled.div`
   width: 250px;
   margin-left: 10px;
   font-size: 14px;
+  color: ${({ theme }) => theme.palette.font.headline};
 `;
 
 const ApplicationButton = styled.button<{ disabled: boolean }>`
@@ -59,12 +60,12 @@ const ApplicationButton = styled.button<{ disabled: boolean }>`
   height: 30px;
   border-radius: 8px;
   color: white;
-  background-color: #626ece;
+  background-color: ${({ theme }) => theme.palette.main};
   cursor: pointer;
   ${({ disabled }) =>
     disabled
       ? `&:disabled {
-    background: #b8c7e7;
+    background: #dbdbff;
     cursor: default;
   }`
       : ''};
