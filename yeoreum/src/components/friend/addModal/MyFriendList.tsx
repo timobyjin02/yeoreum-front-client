@@ -4,30 +4,33 @@ import { FriendListType } from '../../../types/friend';
 
 interface ItemProps {
   item: FriendListType;
+  setAddedProfile: (state: boolean | ((prev: boolean) => boolean)) => void;
 }
 
-function AllUserList({ item }: ItemProps) {
+function MyFriendList({ item, setAddedProfile }: ItemProps) {
   const [isDisabled, setIsDisabled] = useState(false);
 
+  const addedButtonHandler = () => {
+    setIsDisabled(true);
+    setAddedProfile(true);
+  };
+
   return (
-    <AllUsersList key={item.userNo}>
+    <ListContainer key={item.userNo}>
       <UserInfo>
         <ProfileImg>{item.profileImage}</ProfileImg>
         <Nickname>{item.nickname}</Nickname>
       </UserInfo>
-      <ApplicationButton
-        disabled={isDisabled}
-        onClick={() => setIsDisabled(true)}
-      >
-        신청
+      <ApplicationButton disabled={isDisabled} onClick={addedButtonHandler}>
+        추가
       </ApplicationButton>
-    </AllUsersList>
+    </ListContainer>
   );
 }
 
-export default AllUserList;
+export default MyFriendList;
 
-const AllUsersList = styled.div`
+const ListContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -59,12 +62,12 @@ const ApplicationButton = styled.button<{ disabled: boolean }>`
   height: 30px;
   border-radius: 8px;
   color: white;
-  background-color: #626ece;
+  background-color: #4d49fe;
   cursor: pointer;
   ${({ disabled }) =>
     disabled
       ? `&:disabled {
-    background: #b8c7e7;
+    background: #DBDBFF;
     cursor: default;
   }`
       : ''};

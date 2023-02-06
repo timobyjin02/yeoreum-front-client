@@ -1,16 +1,13 @@
 import styled from '@emotion/styled';
 import React from 'react';
+import sliceString from '../../utils/sliceString';
 
 function Card() {
   const title = `도서관에서 같이 공부하실 남자 둘 구해요 IQ 200이상만 도서관에서 같이
           공부하실 남자 둘 구해요`;
-  function titleSlice(string: string) {
-    if (string.length <= 80) return string;
-    else return string.slice(0, 80) + '...';
-  }
   return (
     <CardContainer>
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <CardWrapper>
         <Header>
           <Status>모집중</Status>
           <Like />
@@ -31,8 +28,8 @@ function Card() {
             <Nickname>클라이밍장인</Nickname>
           </ColumnWrapper>
         </Section>
-        <Title>{titleSlice(title)}</Title>
-      </div>
+        <Title>{sliceString(title, 80)}</Title>
+      </CardWrapper>
       <Conditions>
         <Condition>
           <임시Icon />
@@ -61,9 +58,13 @@ const CardContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  @media (max-width: 975px) {
-    width: 100%;
-  }
+
+  flex-shrink: 0;
+`;
+
+const CardWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const Header = styled.div`
@@ -125,6 +126,7 @@ const 임시Icon = styled.div`
   height: 15px;
   background-color: lightgray;
   margin-right: 2px;
+  flex-shrink: 0;
 `;
 
 const 임시Text = styled.span`
@@ -146,10 +148,6 @@ const Conditions = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  @media (max-width: 975px) {
-    flex-direction: column;
-    align-items: flex-start;
-  }
 `;
 
 const Condition = styled.div`
@@ -157,9 +155,4 @@ const Condition = styled.div`
   align-items: center;
 
   width: 50%;
-
-  @media (max-width: 975px) {
-    width: 100%;
-    margin: 3px auto;
-  }
 `;

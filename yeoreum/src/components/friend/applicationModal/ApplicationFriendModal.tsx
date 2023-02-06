@@ -3,7 +3,11 @@ import styled from '@emotion/styled';
 import AllUserList from './AllUserList';
 import AllUserSearch from './AllUserSearch';
 
-function ApplicationFriendModal() {
+interface PropsType {
+  setIsOpen3: (state: boolean | ((prev: boolean) => boolean)) => void;
+}
+
+function ApplicationFriendModal({ setIsOpen3 }: PropsType) {
   const users = [
     {
       userNo: 1,
@@ -19,6 +23,10 @@ function ApplicationFriendModal() {
 
   return (
     <Container>
+      <ResponsiveHeader>
+        <BackButton onClick={() => setIsOpen3(false)}>이전</BackButton>
+        <Title>친구신청</Title>
+      </ResponsiveHeader>
       <SearchWrapper>
         <AllUserSearch />
       </SearchWrapper>
@@ -34,25 +42,60 @@ function ApplicationFriendModal() {
 export default ApplicationFriendModal;
 
 const Container = styled.div`
-  padding: 20px 10px;
+  @media (max-width: 640px) {
+    width: 100%;
+  }
+`;
+
+const ResponsiveHeader = styled.header`
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-left: 30px;
+  height: 44px;
+  border-bottom: 1px solid #c8c8c8;
+
+  @media (min-width: 641px) {
+    display: none;
+  }
+`;
+
+const BackButton = styled.button`
+  position: absolute;
+  border: none;
+  background: inherit;
+  cursor: pointer;
+`;
+
+const Title = styled.h3`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
 `;
 
 const SearchWrapper = styled.div`
-  padding: 0 10px;
+  padding: 30px 15px 0 30px;
 `;
+
 const ListWrapper = styled.div`
   height: 330px;
   overflow: auto;
-  padding: 10px;
+
   ::-webkit-scrollbar {
     width: 4px;
   }
   ::-webkit-scrollbar-thumb {
     height: 30%;
-    background: #217af4;
+    background: rgba(0, 0, 0, 25%);
     border-radius: 10px;
+    border: 1px solid transparent;
+    background-clip: padding-box;
   }
-  /* ::-webkit-scrollbar-track {
-    background: rgba(33, 122, 244, 0.1);
-  } */
+
+  @media (max-width: 640px) {
+    height: 650px;
+  }
 `;
