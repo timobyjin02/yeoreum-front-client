@@ -41,6 +41,9 @@ const ProfileWrap = styled.div`
   display: grid;
   grid-template-columns: 100px 1.5fr;
   grid-template-rows: 100px 1.5fr;
+  grid-template-areas:
+    'profileImg profileEvent'
+    'empty profileInfo';
   width: 600px;
   height: 300px;
   padding: 0 15px;
@@ -49,6 +52,7 @@ const ProfileWrap = styled.div`
 const ProfileImg = styled.div`
   display: flex;
   align-items: center;
+  grid-area: profileImg;
 `;
 
 const Img = styled.div`
@@ -62,6 +66,7 @@ const ProfileEvent = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  grid-area: profileEvent;
 `;
 
 const Nickname = styled.div`
@@ -87,7 +92,9 @@ const AddFriend = styled.button`
   cursor: pointer;
 `;
 
-const ProfileInfo = styled.div``;
+const ProfileInfo = styled.div`
+  grid-area: profileInfo;
+`;
 
 const Description = styled.div`
   margin-bottom: 85px;
