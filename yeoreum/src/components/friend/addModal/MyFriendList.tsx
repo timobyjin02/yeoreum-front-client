@@ -33,7 +33,6 @@ const ListContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   height: 60px;
-  /* padding: 25px 0; */
   padding: 0 15px 0 30px;
   margin-right: 5px;
 `;
