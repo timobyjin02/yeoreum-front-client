@@ -24,7 +24,6 @@ function Modal({ onClose, children }: Props) {
     <ModalPortal>
       <Overlay>
         <ModalWrap ref={modalRef}>
-          <span onClick={onClose}>x</span>
           <Contents>{children}</Contents>
         </ModalWrap>
       </Overlay>
