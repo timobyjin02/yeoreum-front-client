@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import React, { useState } from 'react';
 
-function AllUserSearch() {
+function MyFriendSearch() {
   const [searchTerm, setSearchTerm] = useState('');
 
   return (
@@ -27,7 +27,7 @@ function AllUserSearch() {
   );
 }
 
-export default AllUserSearch;
+export default MyFriendSearch;
 
 const InputBox = styled.div`
   width: 360px;

@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
 import React, { useState } from 'react';
+import MyFriendList from './MyFriendList';
+import MyFriendSearch from './MyFriendSearch';
 
 interface FriendType {
   id: number;
@@ -7,67 +9,94 @@ interface FriendType {
   nickname: string;
 }
 
-function AddFriendModal() {
-  const [checkedList, setCheckedList] = useState<FriendType[]>([]);
-  const [isChecked, setIsChecked] = useState(false);
-  const [upProfile, setUpProfile] = useState(false);
+interface PropsType {
+  setIsOpen4: (state: boolean | ((prev: boolean) => boolean)) => void;
+}
 
-  const 임시lists = [
+function AddFriendModal({ setIsOpen4 }: PropsType) {
+  const [addedList, setAddedList] = useState<FriendType[]>([]);
+  const [addedProfile, setAddedProfile] = useState(false);
+
+  const users = [
     {
-      id: 1,
-      img: '',
-      nickname: '제주조랑말1',
+      userNo: 1,
+      nickname: '제주조랑말',
+      profileImage: '',
     },
     {
-      id: 2,
-      img: '',
-      nickname: '제주조랑말2',
+      userNo: 2,
+      nickname: '제주조랑말제주조랑말제주조랑말',
+      profileImage: '',
+    },
+    {
+      userNo: 2,
+      nickname: '제주조랑말제주조랑말제주조랑말',
+      profileImage: '',
+    },
+    {
+      userNo: 2,
+      nickname: '제주조랑말제주조랑말제주조랑말',
+      profileImage: '',
+    },
+    {
+      userNo: 2,
+      nickname: '제주조랑말제주조랑말제주조랑말',
+      profileImage: '',
+    },
+    {
+      userNo: 2,
+      nickname: '제주조랑말제주조랑말제주조랑말',
+      profileImage: '',
+    },
+    {
+      userNo: 2,
+      nickname: '제주조랑말제주조랑말제주조랑말',
+      profileImage: '',
+    },
+    {
+      userNo: 2,
+      nickname: '제주조랑말제주조랑말제주조랑말',
+      profileImage: '',
+    },
+    {
+      userNo: 2,
+      nickname: '제주조랑말제주조랑말제주조랑말',
+      profileImage: '',
+    },
+    {
+      userNo: 2,
+      nickname: '제주조랑말제주조랑말제주조랑말',
+      profileImage: '',
+    },
+    {
+      userNo: 2,
+      nickname: '제주조랑말제주조랑말제주조랑말',
+      profileImage: '',
+    },
+    {
+      userNo: 2,
+      nickname: '제주조랑말제주조랑말제주조랑말',
+      profileImage: '',
+    },
+    {
+      userNo: 2,
+      nickname: '제주조랑말제주조랑말제주조랑말',
+      profileImage: '',
+    },
+    {
+      userNo: 2,
+      nickname: '제주조랑말제주조랑말제주조랑말',
+      profileImage: '',
     },
   ];
 
-  const 임시: any = [];
-
-  const showProfile = (value: FriendType) => {
-    임시.push(value);
-    setUpProfile(true);
-  };
-
-  const checkedItemHandler = (value: FriendType, isChecked: boolean) => {
-    if (isChecked) {
-      setCheckedList(prev => [...prev, value]);
-
-      return;
-    }
-
-    if (!isChecked && checkedList.includes(value)) {
-      setCheckedList(checkedList.filter(item => item !== value));
-
-      return;
-    }
-
-    return;
-  };
-
-  const checkHandler = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    value: FriendType,
-  ) => {
-    setIsChecked(!isChecked);
-    checkedItemHandler(value, e.target.checked);
-    showProfile(value);
-  };
-
   return (
     <Container>
-      <ArrowIcons>
-        <Before />
-        <Next />
-      </ArrowIcons>
-      {upProfile && (
+      {/* {addedProfile && (
         <Added>
-          {checkedList.map((item: any) => {
+          {addedList.map((item: any) => {
             return (
-              <Items key={item.id}>
+              <Items key={item.userNo}>
                 <Delete>x</Delete>
                 <Item />
                 <div>{item.nickname}</div>
@@ -75,19 +104,22 @@ function AddFriendModal() {
             );
           })}
         </Added>
-      )}
-      <div style={{ padding: '0 10px' }}>{/* <AddModalSearch /> */}</div>
-      <Div>
-        {임시lists.map(item => {
-          return (
-            <AllUsersList key={item.id}>
-              <ProfileImg>{item.img}</ProfileImg>
-              <Nickname>{item.nickname}</Nickname>
-              <Checkbox type="checkbox" onChange={e => checkHandler(e, item)} />
-            </AllUsersList>
-          );
+      )} */}
+      <SearchWrapper>
+        <MyFriendSearch />
+      </SearchWrapper>
+      <ListWrapper>
+        {users.map(item => {
+          return <MyFriendList setAddedProfile={setAddedProfile} item={item} />;
         })}
-      </Div>
+      </ListWrapper>
+      <CheckButton
+        onClick={() => {
+          setIsOpen4(false);
+        }}
+      >
+        확인
+      </CheckButton>
     </Container>
   );
 }
@@ -95,18 +127,26 @@ function AddFriendModal() {
 export default AddFriendModal;
 
 const Container = styled.div`
-  width: 360px;
-  padding: 10px;
+  /* padding: 10px; */
+  /* padding: 20px 10px; */
   @media (max-width: 640px) {
     width: 100%;
   }
 `;
 
-const ArrowIcons = styled.div`
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 15px;
+const CheckButton = styled.button`
+  float: right;
+  width: 50px;
+  height: 31px;
+  margin: 20px 25px 10px 0;
+  border-radius: 8px;
+  color: #fff;
+  background-color: #4d49fe;
+  cursor: pointer;
+`;
+
+const SearchWrapper = styled.div`
+  padding: 30px 15px 0 30px;
 `;
 
 const Added = styled.div`
@@ -146,55 +186,18 @@ const Item = styled.div`
   background-color: #3d4954;
 `;
 
-const Before = styled.div`
-  width: 20px;
-  height: 10px;
-  background-color: aliceblue;
-`;
-
-const Next = styled.div`
-  width: 20px;
-  height: 10px;
-  background-color: aliceblue;
-`;
-
-const Div = styled.div`
+const ListWrapper = styled.div`
   height: 330px;
   overflow: auto;
-  padding: 10px;
 
   ::-webkit-scrollbar {
     width: 4px;
   }
   ::-webkit-scrollbar-thumb {
     height: 30%;
-    background: #217af4;
+    background: rgba(0, 0, 0, 25%);
     border-radius: 10px;
+    border: 1px solid transparent;
+    background-clip: padding-box;
   }
-  ::-webkit-scrollbar-track {
-    background: rgba(33, 122, 244, 0.1);
-  }
 `;
-
-const AllUsersList = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 56px;
-  padding: 16px 0;
-  margin-right: 5px;
-`;
-
-const ProfileImg = styled.div`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: antiquewhite;
-`;
-
-const Nickname = styled.div`
-  width: 250px;
-  font-size: 14px;
-`;
-
-const Checkbox = styled.input``;
