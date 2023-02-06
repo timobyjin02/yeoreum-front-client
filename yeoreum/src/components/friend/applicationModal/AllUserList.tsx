@@ -29,8 +29,8 @@ const AllUsersList = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 56px;
-  padding: 16px 0;
+  height: 60px;
+  padding: 0 15px 0 30px;
   margin-right: 5px;
 `;
 

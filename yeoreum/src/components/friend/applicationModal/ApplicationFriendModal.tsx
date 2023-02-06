@@ -34,26 +34,31 @@ function ApplicationFriendModal() {
 export default ApplicationFriendModal;
 
 const Container = styled.div`
-  padding: 20px 10px;
   @media (max-width: 640px) {
     width: 100%;
   }
 `;
 
 const SearchWrapper = styled.div`
-  padding: 0 10px;
+  padding: 30px 15px 0 30px;
 `;
 
 const ListWrapper = styled.div`
   height: 330px;
   overflow: auto;
-  padding: 10px;
+
   ::-webkit-scrollbar {
     width: 4px;
   }
   ::-webkit-scrollbar-thumb {
     height: 30%;
-    background: #217af4;
+    background: rgba(0, 0, 0, 25%);
     border-radius: 10px;
+    border: 1px solid transparent;
+    background-clip: padding-box;
+  }
+
+  @media (max-width: 640px) {
+    height: 650px;
   }
 `;

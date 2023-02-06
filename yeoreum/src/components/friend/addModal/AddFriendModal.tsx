@@ -72,17 +72,6 @@ const Container = styled.div`
   }
 `;
 
-const CheckButton = styled.button`
-  float: right;
-  width: 58px;
-  height: 30px;
-  margin: 20px 23px 10px 0;
-  border-radius: 8px;
-  color: #fff;
-  background-color: #4d49fe;
-  cursor: pointer;
-`;
-
 const SearchWrapper = styled.div`
   padding: 30px 15px 0 30px;
 `;
@@ -138,7 +127,19 @@ const ListWrapper = styled.div`
     border: 1px solid transparent;
     background-clip: padding-box;
   }
+
   @media (max-width: 640px) {
     height: 650px;
   }
+`;
+
+const CheckButton = styled.button`
+  float: right;
+  width: 58px;
+  height: 30px;
+  margin: 20px 23px 10px 0;
+  border-radius: 8px;
+  color: #fff;
+  background-color: #4d49fe;
+  cursor: pointer;
 `;
