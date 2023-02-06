@@ -39,14 +39,17 @@ export default ElseProfile;
 
 const ProfileWrap = styled.div`
   display: grid;
-  grid-template-columns: 100px 1.5fr;
-  grid-template-rows: 100px 1.5fr;
+  grid-template-columns: 100px auto;
+  grid-template-rows: 100px auto;
   grid-template-areas:
     'profileImg profileEvent'
     'empty profileInfo';
   width: 600px;
   height: 300px;
   padding: 0 15px;
+  @media (max-width: 640px) {
+    width: auto;
+  }
 `;
 
 const ProfileImg = styled.div`
@@ -67,6 +70,9 @@ const ProfileEvent = styled.div`
   align-items: center;
   justify-content: space-between;
   grid-area: profileEvent;
+  @media (max-width: 640px) {
+    grid-area: profileEvent;
+  }
 `;
 
 const Nickname = styled.div`
@@ -74,6 +80,10 @@ const Nickname = styled.div`
   &::after {
     content: '님';
     font-weight: 400;
+  }
+  @media (max-width: 640px) {
+    grid-area: empty;
+    /* margin-bottom: 30px; */
   }
 `;
 
