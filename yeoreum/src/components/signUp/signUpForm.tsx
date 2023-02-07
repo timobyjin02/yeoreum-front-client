@@ -1,13 +1,22 @@
-import styled from '@emotion/styled';
-import React, { useCallback, useState } from 'react';
-import { Validity, AlertProps } from '../../types/signUp';
+import { ChangeEvent, FocusEvent, useCallback, useState } from 'react';
+import { Validity } from '../../types/signUp';
 import useInput from '../../hooks/useForm';
 import {
   SIGN_UP_INITIAL,
   SIGN_UP_MESSAGE_BY_TYPE,
   SIGN_UP_REGEX_BY_TYPE,
 } from '../../constants/signUpConst';
-import Link from 'next/link';
+import {
+  Container,
+  Wrapper,
+  P,
+  AlertP,
+  Input,
+  Label,
+  Button,
+  SubmitLink,
+  Submit,
+} from './signUpFormStyle';
 
 const Form = () => {
   const MESSAGE_BY_TYPE = SIGN_UP_MESSAGE_BY_TYPE;
@@ -41,7 +50,7 @@ const Form = () => {
     };
   };
 
-  const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     onChangeValue(name, value);
   };
@@ -63,18 +72,15 @@ const Form = () => {
     isValid && setEmailVerificationStatus(2);
   }, [user.emailCode.value]);
 
-  const onChangePassword = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const { name, value } = e.target;
-      const { isValid, message } = onValidate(name, value);
-      onChangeValue(name, value);
-      onChangeValidity(name, isValid, message);
-    },
-    [],
-  );
+  const onChangePassword = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    const { isValid, message } = onValidate(name, value);
+    onChangeValue(name, value);
+    onChangeValidity(name, isValid, message);
+  }, []);
 
   const onChangePasswordConfirm = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+    (e: ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
       const {
         isValid: isValidPrePopulatedPassword,
@@ -100,19 +106,17 @@ const Form = () => {
     },
     [user.password.validity, user.password.value, user.passwordConfirm.value],
   );
-  const onFocusPassword = useCallback(
-    (e: React.FocusEvent<HTMLInputElement>) => {
-      const { name, value } = e.target;
-      if (value.length !== 0) return;
 
-      const message = '특수문자, 영어, 숫자를 합친 6자 이상 14자 이하';
-      onChangeValidity(name, undefined, message);
-    },
-    [],
-  );
+  const onFocusPassword = useCallback((e: FocusEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    if (value.length !== 0) return;
+
+    const message = '특수문자, 영어, 숫자를 합친 6자 이상 14자 이하';
+    onChangeValidity(name, undefined, message);
+  }, []);
 
   const onFocusPasswordConfirm = useCallback(
-    (e: React.FocusEvent<HTMLInputElement>) => {
+    (e: FocusEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
       if (value.length !== 0) return;
 
@@ -213,114 +217,11 @@ const Form = () => {
           {user.passwordConfirm.message}
         </AlertP>
       )}
-      <SubmitLink as="/signup/profile" href="/profile/1">
+      <SubmitLink href="/signup/profile/1">
         <Submit>다음</Submit>
       </SubmitLink>
     </Container>
   );
 };
 
-const Container = styled.form`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin: 0.2em auto;
-  padding: 1em 1.3em;
-`;
-
-const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  height: 4em;
-`;
-
-const P = styled.p`
-  width: 24.5%;
-`;
-
-const AlertP = styled.p<AlertProps>`
-  margin-left: 21%;
-  padding-bottom: 1em;
-  font-size: 0.8em;
-  color: ${props =>
-    props.success === undefined
-      ? props.theme.palette.font.body
-      : props.success === true
-      ? props.theme.palette.main
-      : '#f50505'};
-`;
-
-const Input = styled.input`
-  width: 74%;
-  height: 72%;
-  padding: 0.75em;
-  border: solid 1px ${({ theme }) => theme.palette.line.grey};
-  border-radius: 4px;
-  color: ${({ theme }) => theme.palette.font.headline};
-  font-size: 1rem;
-  ::placeholder {
-    font-size: 0.875em;
-    font-weight: 300;
-  }
-  :focus {
-    outline: none;
-    box-shadow: 0 0 1px;
-    border-color: ${({ theme }) => theme.palette.main};
-  }
-`;
-
-const Label = styled.label`
-  display: flex;
-  align-items: center;
-  width: 80%;
-  height: 100%;
-  font-size: 0.9em;
-  font-weight: 500;
-  color: ${({ theme }) => theme.palette.font.headline};
-`;
-
-const Button = styled.button`
-  width: 20%;
-  height: 72%;
-  border: solid 1px ${({ theme }) => theme.palette.main};
-  border-radius: 4px;
-  background-color: white;
-  color: ${({ theme }) => theme.palette.main};
-  font-size: 0.875em;
-  font-weight: 500;
-  cursor: pointer;
-  :disabled {
-    border: solid 1px ${({ theme }) => theme.palette.line.grey};
-    background-color: ${({ theme }) => theme.palette.background.grey};
-    color: ${({ theme }) => theme.palette.font.white};
-    cursor: default;
-  }
-  :active {
-    ${props =>
-      !props.disabled &&
-      `color: ${props.theme.palette.main};
-      background-color: ${props.theme.palette.disable};`}
-  }
-`;
-
-const SubmitLink = styled(Link)`
-  display: flex;
-  justify-content: center;
-`;
-const Submit = styled.button`
-  width: 59.2%;
-  height: 48px;
-  /* align-self: center; */
-  border-radius: 4px;
-  margin-top: 1em;
-  margin-right: 1.4%;
-  background-color: ${({ theme }) => theme.palette.main};
-  color: white;
-  cursor: pointer;
-  :active {
-    ${props =>
-      !props.disabled && `background-color: ${props.theme.palette.dark};`}
-  }
-`;
 export default Form;
