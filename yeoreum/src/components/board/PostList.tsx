@@ -1,97 +1,71 @@
 import styled from '@emotion/styled';
-import React, { useCallback } from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { BoardType } from '../../types/post';
+import {
+  PostStatusType,
+  ProgressColor,
+  statusMaker,
+} from '../../utils/postStatus';
+import { getToken } from '../../utils/user';
 
 function PostList() {
-  const statusMaker = useCallback((status: number) => {
-    if (status === 0) return '모집 중';
-    if (status === 1) return '여름 진행 중';
-    if (status === 2) return '여름 마감';
-    if (status === 3) return '여름 신청';
-  }, []);
+  const token = getToken();
+  const [posts, setPosts] = useState<BoardType[]>([
+    // 요청에 추가로 더해질 더미 데이터
+    {
+      createdDate: '2022.02.11',
+      description: '...',
+      hostNickname: '무친저글링',
+      hostUserNo: 3,
+      isDone: 0,
+      isImpromptu: 0,
+      location: '노원 김밥 맛집',
+      meetingTime: '12월 28일',
+      no: 2,
+      recruitMale: 1,
+      recruitFemale: 2,
+      title: '도서관에서 같이 공부하실 남자 둘 구해요 IQ 200이상',
+    },
+    {
+      createdDate: '2022.02.11',
+      description: '...',
+      hostNickname: '무친저글링',
+      hostUserNo: 3,
+      isDone: 1,
+      isImpromptu: 0,
+      location: '노원 김밥 맛집',
+      meetingTime: '12월 28일',
+      no: 2,
+      recruitMale: 1,
+      recruitFemale: 2,
+      title: '도서관에서 같이 공부하실 남자 둘 구해요 IQ 200이상',
+    },
+  ]);
 
-  const 임시postData = [
-    {
-      postNo: 0,
-      progress: 1,
-      createdAt: '1672018499336',
-      title: '도서관에서 같이 공부하실 남자 둘 구해요 IQ 200이상',
-      male: 1,
-      female: 2,
-      meetDate: '12월 28일',
-      meetPlace: '노원 김밥 맛집',
-      createrData: {
-        profileImage: '',
-        nickname: '무친저글링',
-      },
-    },
-    {
-      postNo: 1,
-      progress: 0,
-      createdAt: '1672018519182',
-      title: '이벤트 참여하러 민뜨 가실분 3대 1200kg 헬창 있음',
-      male: 2,
-      female: 0,
-      meetDate: '12월 30일',
-      meetPlace: '성전',
-      createrData: {
-        profileImage: '',
-        nickname: '제주조랑말',
-      },
-    },
-    {
-      postNo: 2,
-      progress: 2,
-      createdAt: '1672018499336',
-      title: '도서관에서 같이 공부하실 남자 둘 구해요 IQ 200이상',
-      male: 0,
-      female: 3,
-      meetDate: '12월 25일',
-      meetPlace: '족발야시장',
-      createrData: {
-        profileImage: '',
-        nickname: '까치발덩크',
-      },
-    },
-    {
-      postNo: 3,
-      progress: 1,
-      createdAt: '1672018499336',
-      title: '도서관에서 같이 공부하실 남자 둘 구해요 IQ 200이상',
-      male: 0,
-      female: 3,
-      meetDate: '12월 25일',
-      meetPlace: '치킨 클럽',
-      createrData: {
-        profileImage: '',
-        nickname: '한라산맨손등반',
-      },
-    },
-    {
-      postNo: 4,
-      progress: 3,
-      createdAt: '1672018499336',
-      title: '도서관에서 같이 공부하실 남자 둘 구해요 IQ 200이상',
-      male: 0,
-      female: 3,
-      meetDate: '12월 25일',
-      meetPlace: '민들레뜨락',
-      createrData: {
-        profileImage: '',
-        nickname: '클라이밍장인',
-      },
-    },
-  ];
+  useEffect(() => {
+    (async () => {
+      const { data } = await axios.get(
+        `${process.env.NEXT_PUBLIC_URL}/boards`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      setPosts([...posts, ...data.response.boards]);
+    })();
+  }, []);
 
   return (
     <Post>
-      {임시postData.map(p => {
+      {posts.map(p => {
         return (
-          <List key={p.postNo}>
+          <List key={p.no}>
             <PostHeader>
-              <Progress status={p.progress}>{statusMaker(p.progress)}</Progress>
-              <CreatedAt>
-                {new Intl.DateTimeFormat('ko-KR').format(+p.createdAt)}
-              </CreatedAt>
+              <Progress status={p.isDone}>{statusMaker(p.isDone)}</Progress>
+              <CreatedAt>{p.createdDate}</CreatedAt>
             </PostHeader>
             <PostTitle>{p.title}</PostTitle>
             <PostBottom>
@@ -99,25 +73,25 @@ function PostList() {
                 <Condition>
                   <GenderCondition>
                     <임시Icon />
-                    <임시Text>{p.male}명</임시Text>
+                    <임시Text>{p.recruitMale}명</임시Text>
                   </GenderCondition>
                   <GenderCondition>
                     <임시Icon />
-                    <임시Text>{p.female}명</임시Text>
+                    <임시Text>{p.recruitFemale}명</임시Text>
                   </GenderCondition>
                 </Condition>
                 <Condition>
                   <임시Icon />
-                  <임시Text>{p.meetDate}</임시Text>
+                  <임시Text>{p.meetingTime}</임시Text>
                 </Condition>
                 <Condition>
                   <임시Icon />
-                  <임시Text>{p.meetPlace}</임시Text>
+                  <임시Text>{p.location}</임시Text>
                 </Condition>
               </Conditions>
               <CreaterInfo>
                 <CreaterImage />
-                <CreaterNickname>{p.createrData.nickname}</CreaterNickname>
+                <CreaterNickname>{p.hostNickname}</CreaterNickname>
               </CreaterInfo>
             </PostBottom>
           </List>
@@ -151,19 +125,7 @@ const PostHeader = styled.div`
   margin-bottom: 10px;
 `;
 
-type CurrentStatus = {
-  status: number;
-};
-
-function ProgressColor({ status }: CurrentStatus) {
-  if (!(typeof status === 'number') || status < 0 || status > 3) return;
-  if (status === 0) return '#648fff';
-  if (status === 1) return '#FF2B37';
-  if (status === 2) return '#525252';
-  if (status === 3) return '#4c9866';
-}
-
-const Progress = styled.p<CurrentStatus>`
+const Progress = styled.p<{ status: PostStatusType }>`
   margin: 0;
   font-size: 0.875rem;
   font-weight: 600;
