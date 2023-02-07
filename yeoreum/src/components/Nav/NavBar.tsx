@@ -1,17 +1,31 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import useScroll from '../../hooks/useScroll';
 import Alarm from '../alarm/Alarm';
 import UserModal from '../userModal/UserModal';
 import Link from 'next/link';
+import axios from 'axios';
+import { login } from '../../utils/user';
 
 interface NavProps {
+  token: string;
+  authenticated: boolean;
+  setAuthenticated: (state: boolean | ((prev: boolean) => boolean)) => void;
   setHamburger: (state: boolean | ((prev: boolean) => boolean)) => void;
 }
 
-export function NavUsual({ setHamburger }: NavProps) {
-  const [authenticated, setAuthenticated] = useState(false);
+export function NavUsual({
+  token,
+  authenticated,
+  setAuthenticated,
+  setHamburger,
+}: NavProps) {
+  useEffect(() => {
+    if (token) {
+      setAuthenticated(true);
+    }
+  }, []);
 
   // const { y } = useScroll();
 
@@ -46,7 +60,11 @@ export function NavUsual({ setHamburger }: NavProps) {
               <UserModal />
             </ArrangeContainer>
           ) : (
-            <LoginButton onClick={() => setAuthenticated(true)}>
+            <LoginButton
+              onClick={() => {
+                login();
+              }}
+            >
               로그인
             </LoginButton>
           )}
@@ -58,9 +76,12 @@ export function NavUsual({ setHamburger }: NavProps) {
   );
 }
 
-export function NavService({ setHamburger }: NavProps) {
-  const [authenticated, setAuthenticated] = useState(false);
-
+export function NavService({
+  token,
+  authenticated,
+  setAuthenticated,
+  setHamburger,
+}: NavProps) {
   return (
     <>
       <Container show>
