@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import sliceString from '../../../utils/sliceString';
 import Modal from '../../common/Modal';
+import ElseProfile from '../../elseProfile/ElseProfile';
 import AddFriendModal from '../../friend/addModal/AddFriendModal';
 
 interface Member {
@@ -39,7 +40,8 @@ function AddPartyMembers() {
       <AddBtn onClick={addHandler}>추가</AddBtn>
       {isOpen4 && (
         <Modal onClose={() => setIsOpen4(false)}>
-          <AddFriendModal setIsOpen4={setIsOpen4} />
+          <ElseProfile />
+          {/* <AddFriendModal setIsOpen4={setIsOpen4} /> */}
         </Modal>
       )}
     </Container>

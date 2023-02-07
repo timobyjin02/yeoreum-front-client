@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
-import React, { useRef, useState } from 'react';
-import useOutsideClick from '../../hooks/useOutsideClick';
-import ModalPortal from '../modalPortal/ModalPortal';
+import React, { useRef } from 'react';
 import dummyData from '../myPage/dummyData';
 import DuelModal from './DuelModal';
 
@@ -41,16 +39,23 @@ export default ElseProfile;
 
 const ProfileWrap = styled.div`
   display: grid;
-  grid-template-columns: 100px 1.5fr;
-  grid-template-rows: 100px 1.5fr;
+  grid-template-columns: 100px auto;
+  grid-template-rows: 100px auto;
+  grid-template-areas:
+    'profileImg profileEvent'
+    'empty profileInfo';
   width: 600px;
   height: 300px;
   padding: 0 15px;
+  @media (max-width: 640px) {
+    width: auto;
+  }
 `;
 
 const ProfileImg = styled.div`
   display: flex;
   align-items: center;
+  grid-area: profileImg;
 `;
 
 const Img = styled.div`
@@ -64,6 +69,10 @@ const ProfileEvent = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  grid-area: profileEvent;
+  @media (max-width: 640px) {
+    grid-area: profileEvent;
+  }
 `;
 
 const Nickname = styled.div`
@@ -71,6 +80,10 @@ const Nickname = styled.div`
   &::after {
     content: '님';
     font-weight: 400;
+  }
+  @media (max-width: 640px) {
+    grid-area: empty;
+    /* margin-bottom: 30px; */
   }
 `;
 
@@ -89,7 +102,9 @@ const AddFriend = styled.button`
   cursor: pointer;
 `;
 
-const ProfileInfo = styled.div``;
+const ProfileInfo = styled.div`
+  grid-area: profileInfo;
+`;
 
 const Description = styled.div`
   margin-bottom: 85px;
@@ -142,48 +157,4 @@ export const Ballon = styled.div`
     top: 30px;
     left: 20px;
   }
-`;
-
-//
-
-const Overlay = styled.div`
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 10;
-  z-index: 9999;
-`;
-
-const ModalWrap = styled.div`
-  position: absolute;
-  padding: 10px 15px;
-  top: 43%;
-  left: 66%;
-  border-radius: 5px;
-  border: 1px solid #d0d0d0;
-  background-color: #fff;
-  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.25);
-  transform: translate(-50%, -50%);
-  @media (max-width: 640px) {
-    width: 400px;
-  }
-`;
-
-const Contents = styled.div``;
-
-const KebabMenu = styled.div`
-  margin-left: 10px;
-`;
-
-const Icon = styled.div`
-  width: 4px;
-  height: 4px;
-  margin: 2px;
-  border-radius: 50%;
-  background-color: black;
-
-  cursor: pointer;
 `;
