@@ -4,10 +4,10 @@ import AllUserList from './AllUserList';
 import AllUserSearch from './AllUserSearch';
 
 interface PropsType {
-  setIsOpen3: (state: boolean | ((prev: boolean) => boolean)) => void;
+  onClose: () => void;
 }
 
-function ApplicationFriendModal({ setIsOpen3 }: PropsType) {
+function ApplicationFriendModal({ onClose }: PropsType) {
   const users = [
     {
       userNo: 1,
@@ -24,15 +24,15 @@ function ApplicationFriendModal({ setIsOpen3 }: PropsType) {
   return (
     <Container>
       <ResponsiveHeader>
-        <BackButton onClick={() => setIsOpen3(false)}>이전</BackButton>
+        <BackButton onClick={() => onClose()}>이전</BackButton>
         <Title>친구신청</Title>
       </ResponsiveHeader>
       <SearchWrapper>
         <AllUserSearch />
       </SearchWrapper>
       <ListWrapper>
-        {users.map(item => {
-          return <AllUserList item={item} />;
+        {users.map((item, index) => {
+          return <AllUserList key={index} item={item} />;
         })}
       </ListWrapper>
     </Container>
