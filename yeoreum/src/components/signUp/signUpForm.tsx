@@ -1,157 +1,127 @@
 import styled from '@emotion/styled';
 import React, { useCallback, useState } from 'react';
+import { Validity, AlertProps } from '../../types/signUp';
+import useInput from '../../hooks/useForm';
+import {
+  SIGN_UP_INITIAL,
+  SIGN_UP_MESSAGE_BY_TYPE,
+  SIGN_UP_REGEX_BY_TYPE,
+} from '../../constants/signUpConst';
+import Link from 'next/link';
 
-interface AlertProps {
-  success?: boolean;
-}
+const Form = () => {
+  const MESSAGE_BY_TYPE = SIGN_UP_MESSAGE_BY_TYPE;
+  const REGEX_BY_TYPE = SIGN_UP_REGEX_BY_TYPE;
+  const [emailVerificationStatus, setEmailVerificationStatus] = useState(0);
+  const [user, setUser, onChangeValue, onChangeValidity] =
+    useInput(SIGN_UP_INITIAL);
 
-interface Password {
-  validity: boolean | undefined;
-  message: string;
-}
-
-const SignUpForm = () => {
-  const [mailStatus, setMailStatus] = useState(0);
-  const [user, setUser] = useState({
-    email: '',
-    emailCode: '',
-    password: '',
-    passwordConfirm: '',
-  });
-
-  const [emailInfo, setEmailInfo] = useState({
-    validity: true,
-    message: '',
-  });
-  const [emailCodeInfo, setEmailCodeInfo] = useState({
-    validity: false,
-    message: '',
-  });
-  const [passwordInfo, setPasswordInfo] = useState<Password>({
-    validity: undefined,
-    message: '',
-  });
-  const [passwordConfirmInfo, setPasswordConfirmInfo] = useState<Password>({
-    validity: undefined,
-    message: '',
-  });
-
-  const onChangeEmail = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const current = e.target.value;
-      setUser(pre => ({
-        ...pre,
-        email: current,
-      }));
-    },
-    [],
-  );
-
-  const onClickEmail = useCallback(
-    (e: React.MouseEvent) => {
-      const regex =
-        /([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])/;
-      if (regex.test(user.email)) {
-        setMailStatus(1);
-        setEmailInfo(pre => ({ ...pre, validity: true }));
-      } else {
-        setEmailInfo(pre => ({
-          ...pre,
-          validity: false,
-          message: '이메일 형식에 맞지 않습니다.',
-        }));
+  const onValidate = (
+    type: string,
+    curValue: string | Validity,
+    targetValue?: string | boolean,
+  ) => {
+    const comparedValueTypes = [
+      'emailCode',
+      'prePopulatedPassword',
+      'passwordConfirm',
+    ];
+    const isValid = (() => {
+      if (comparedValueTypes.includes(type)) {
+        return curValue === targetValue;
       }
-    },
-    [user.email],
-  );
+      return (REGEX_BY_TYPE as any)[type].test(curValue);
+    })();
+
+    return {
+      isValid,
+      message: isValid
+        ? (MESSAGE_BY_TYPE as any)[type].success
+        : (MESSAGE_BY_TYPE as any)[type].error,
+    };
+  };
+
+  const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    onChangeValue(name, value);
+  };
+
+  const onClickEmail = useCallback(() => {
+    const { isValid, message } = onValidate('email', user.email.value);
+    onChangeValidity('email', isValid, message);
+    isValid && setEmailVerificationStatus(1);
+  }, [user.email.value]);
 
   const onClickEmailCode = useCallback(() => {
-    const 임시코드 = '111111';
-    if (user.emailCode === 임시코드) {
-      setEmailCodeInfo(pre => ({
-        ...pre,
-        validity: true,
-        message: '인증되었습니다.',
-      }));
-      setMailStatus(2);
-    } else {
-      setEmailCodeInfo(pre => ({
-        ...pre,
-        validity: false,
-        message: '일치하지 않습니다.',
-      }));
-    }
-  }, [user.emailCode]);
+    const TEMP_CODE = '111111';
+    const { isValid, message } = onValidate(
+      'emailCode',
+      user.emailCode.value,
+      TEMP_CODE,
+    );
+    onChangeValidity('emailCode', isValid, message);
+    isValid && setEmailVerificationStatus(2);
+  }, [user.emailCode.value]);
 
   const onChangePassword = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      const regexp = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{6,14}$/;
-      const current = e.target.value;
-      setUser(pre => ({ ...pre, password: current }));
-      if (regexp.test(current)) {
-        setPasswordInfo(pre => ({
-          ...pre,
-          validity: true,
-          message: '안전한 비밀번호입니다.',
-        }));
-      } else {
-        setPasswordInfo(pre => ({
-          ...pre,
-          validity: false,
-          message: '특수문자, 영어, 숫자를 합친 6자 이상 14자 이하 ',
-        }));
-      }
+      const { name, value } = e.target;
+      const { isValid, message } = onValidate(name, value);
+      onChangeValue(name, value);
+      onChangeValidity(name, isValid, message);
     },
-    [user.password],
+    [],
   );
 
   const onChangePasswordConfirm = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      const current = e.target.value;
-      if (passwordInfo.validity !== true) {
-        setPasswordConfirmInfo(pre => ({
-          ...pre,
-          validity: false,
-          message: '비밀번호를 먼저 입력해주세요.',
-        }));
+      const { name, value } = e.target;
+      const {
+        isValid: isValidPrePopulatedPassword,
+        message: prePopulatedPasswordMessage,
+      } = onValidate('prePopulatedPassword', user.password.validity, true);
+      if (!isValidPrePopulatedPassword) {
+        onChangeValidity(
+          name,
+          isValidPrePopulatedPassword,
+          prePopulatedPasswordMessage,
+        );
         return;
       }
-      setUser(pre => ({ ...pre, passwordConfirm: current }));
-      if (user.password !== current) {
-        setPasswordConfirmInfo(pre => ({
-          ...pre,
-          validity: false,
-          message: '일치하지 않습니다.',
-        }));
-      } else {
-        setPasswordConfirmInfo(pre => ({
-          ...pre,
-          validity: true,
-          message: '일치합니다.',
-        }));
-      }
+
+      onChangeValue(name, value);
+
+      const {
+        isValid: isValidPasswordConfirm,
+        message: passwordConfirmMessage,
+      } = onValidate(name, value, user.password.value);
+
+      onChangeValidity(name, isValidPasswordConfirm, passwordConfirmMessage);
     },
-    [passwordInfo.validity, user.password, user.passwordConfirm],
+    [user.password.validity, user.password.value, user.passwordConfirm.value],
   );
   const onFocusPassword = useCallback(
     (e: React.FocusEvent<HTMLInputElement>) => {
-      if (e.target.value.length !== 0) return;
-      setPasswordInfo(pre => ({
-        ...pre,
-        validity: undefined,
-        message: '특수문자, 영어, 숫자를 합친 6자 이상 14자 이하',
-      }));
+      const { name, value } = e.target;
+      if (value.length !== 0) return;
+
+      const message = '특수문자, 영어, 숫자를 합친 6자 이상 14자 이하';
+      onChangeValidity(name, undefined, message);
     },
     [],
   );
+
   const onFocusPasswordConfirm = useCallback(
     (e: React.FocusEvent<HTMLInputElement>) => {
-      if (e.target.value.length !== 0) return;
-      setPasswordConfirmInfo(pre => ({
-        ...pre,
-        validity: undefined,
-        message: '한 번 더 입력해주세요.',
-      }));
+      const { name, value } = e.target;
+      if (value.length !== 0) return;
+
+      const { message } = onValidate(
+        'prePopulatedPassword',
+        user.password.validity,
+        true,
+      );
+      onChangeValidity(name, undefined, message);
     },
     [],
   );
@@ -161,31 +131,31 @@ const SignUpForm = () => {
         <Label>
           <P>이메일</P>
           <Input
+            name="email"
             type="email"
             placeholder="이메일을 입력해주세요"
             onChange={onChangeEmail}
           />
         </Label>
-        {mailStatus === 0 ? (
+        {emailVerificationStatus === 0 ? (
           <Button onClick={onClickEmail}>인증하기</Button>
         ) : (
           <Button disabled={true}>전송됨</Button>
         )}
       </Wrapper>
-      {!emailInfo.validity && (
-        <AlertP success={emailInfo.validity}>{emailInfo.message}</AlertP>
+      {!user.email.validity && (
+        <AlertP success={user.email.validity}>{user.email.message}</AlertP>
       )}
-      {mailStatus !== 0 ? (
+      {emailVerificationStatus !== 0 ? (
         <Wrapper>
           <Label>
             <P>00:00</P>
-            {mailStatus === 1 ? (
+            {emailVerificationStatus === 1 ? (
               <Input
+                name="emailCode"
                 type="text"
                 maxLength={6}
-                onChange={e =>
-                  setUser(pre => ({ ...pre, emailCode: e.target.value }))
-                }
+                onChange={onChangeEmail}
                 placeholder="인증코드"
               />
             ) : (
@@ -197,49 +167,55 @@ const SignUpForm = () => {
               />
             )}
           </Label>
-          {mailStatus === 1 ? (
+          {emailVerificationStatus === 1 ? (
             <Button onClick={onClickEmailCode}>인증하기</Button>
           ) : null}
         </Wrapper>
       ) : null}
-      {emailCodeInfo.message.length > 0 && (
-        <AlertP success={emailCodeInfo.validity}>
-          {emailCodeInfo.message}
+      {user.emailCode.message.length > 0 && (
+        <AlertP success={user.emailCode.validity}>
+          {user.emailCode.message}
         </AlertP>
       )}
       <Wrapper>
         <Label>
           <P>비밀번호</P>
           <Input
-            onChange={onChangePassword}
-            onFocus={onFocusPassword}
+            name="password"
             type="password"
             maxLength={14}
             placeholder="비밀번호를 입력해주세요"
+            onChange={onChangePassword}
+            onFocus={onFocusPassword}
           />
         </Label>
       </Wrapper>
-      {passwordInfo.message.length > 0 && (
-        <AlertP success={passwordInfo.validity}>{passwordInfo.message}</AlertP>
+      {user.password.message.length > 0 && (
+        <AlertP success={user.password.validity}>
+          {user.password.message}
+        </AlertP>
       )}
       <Wrapper>
         <Label>
           <P>비밀번호 확인</P>
           <Input
-            onChange={onChangePasswordConfirm}
-            onFocus={onFocusPasswordConfirm}
+            name="passwordConfirm"
             type="password"
             maxLength={14}
             placeholder="비밀번호를 입력해주세요"
+            onChange={onChangePasswordConfirm}
+            onFocus={onFocusPasswordConfirm}
           />
         </Label>
       </Wrapper>
-      {passwordConfirmInfo.message.length > 0 && (
-        <AlertP success={passwordConfirmInfo.validity}>
-          {passwordConfirmInfo.message}
+      {user.passwordConfirm.message.length > 0 && (
+        <AlertP success={user.passwordConfirm.validity}>
+          {user.passwordConfirm.message}
         </AlertP>
       )}
-      <Submit>다음</Submit>
+      <SubmitLink as="/signup/profile" href="/profile/1">
+        <Submit>다음</Submit>
+      </SubmitLink>
     </Container>
   );
 };
@@ -262,6 +238,7 @@ const Wrapper = styled.div`
 const P = styled.p`
   width: 24.5%;
 `;
+
 const AlertP = styled.p<AlertProps>`
   margin-left: 21%;
   padding-bottom: 1em;
@@ -273,6 +250,7 @@ const AlertP = styled.p<AlertProps>`
       ? props.theme.palette.main
       : '#f50505'};
 `;
+
 const Input = styled.input`
   width: 74%;
   height: 72%;
@@ -308,7 +286,7 @@ const Button = styled.button`
   border: solid 1px ${({ theme }) => theme.palette.main};
   border-radius: 4px;
   background-color: white;
-  color: ${({ theme }) => theme.palette.serviceBtn};
+  color: ${({ theme }) => theme.palette.main};
   font-size: 0.875em;
   font-weight: 500;
   cursor: pointer;
@@ -321,20 +299,28 @@ const Button = styled.button`
   :active {
     ${props =>
       !props.disabled &&
-      `color: ${props.theme.palette.font.white};
-      background-color: ${props.theme.palette.light};`}
+      `color: ${props.theme.palette.main};
+      background-color: ${props.theme.palette.disable};`}
   }
 `;
 
+const SubmitLink = styled(Link)`
+  display: flex;
+  justify-content: center;
+`;
 const Submit = styled.button`
   width: 59.2%;
   height: 48px;
-  align-self: center;
+  /* align-self: center; */
   border-radius: 4px;
   margin-top: 1em;
-  margin-right: 1.2%;
+  margin-right: 1.4%;
   background-color: ${({ theme }) => theme.palette.main};
   color: white;
   cursor: pointer;
+  :active {
+    ${props =>
+      !props.disabled && `background-color: ${props.theme.palette.dark};`}
+  }
 `;
-export default SignUpForm;
+export default Form;

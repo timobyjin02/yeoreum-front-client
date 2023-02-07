@@ -3,7 +3,7 @@ import SignUpBody from '../../components/signUp/signUpBody';
 import SignUpHeader from '../../components/signUp/signUpHeader';
 import SignUpForm from '../../components/signUp/signUpForm';
 
-const signUp = () => (
+const SignUp = () => (
   <SignUpContainer>
     <SignUpHeader />
     <SignUpBody>
@@ -12,4 +12,4 @@ const signUp = () => (
   </SignUpContainer>
 );
 
-export default signUp;
+export default SignUp;
