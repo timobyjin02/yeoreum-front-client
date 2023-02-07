@@ -105,3 +105,16 @@ export const Submit = styled.button`
       !props.disabled && `background-color: ${props.theme.palette.dark};`}
   }
 `;
+
+export const GenderWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  width: 80%;
+  height: 100%;
+  font-size: 0.9em;
+  font-weight: 500;
+`;
+
+export const GenderLabel = styled.label``;
+
+export const GenderInput = styled.input``;
