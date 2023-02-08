@@ -7,6 +7,7 @@ import UserModal from '../userModal/UserModal';
 import Link from 'next/link';
 import axios from 'axios';
 import { login } from '../../utils/user';
+import { useRouter } from 'next/router';
 
 interface NavProps {
   token: string;
@@ -82,6 +83,8 @@ export function NavService({
   setAuthenticated,
   setHamburger,
 }: NavProps) {
+  const router = useRouter();
+
   return (
     <>
       <Container show>
@@ -100,7 +103,7 @@ export function NavService({
               <UserModal />
             </ArrangeContainer>
           ) : (
-            <LoginButton onClick={() => setAuthenticated(true)}>
+            <LoginButton onClick={() => router.push('/login')}>
               로그인
             </LoginButton>
           )}
