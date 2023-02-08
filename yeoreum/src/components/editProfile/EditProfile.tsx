@@ -49,12 +49,15 @@ const Title = styled.div`
   padding-bottom: 20px;
   font-size: 32px;
   font-weight: 600;
+  color: ${({ theme }) => theme.palette.font.headline};
+
   cursor: default;
 `;
 
 const ProfileContainer = styled.div`
   width: 100%;
   display: flex;
+
   @media (max-width: 640px) {
     flex-direction: column;
     align-items: center;
@@ -66,6 +69,7 @@ const ProfileImgWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
   @media (max-width: 640px) {
     margin: 0;
   }
@@ -80,15 +84,15 @@ const ProfileImg = styled.img`
 `;
 
 const ProfileImgEditBtn = styled.div`
-  width: 100px;
-  height: 45px;
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100px;
+  height: 48px;
   margin-top: 18px;
-  border-radius: 10px;
-  color: white;
-  background: rgba(255, 43, 55, 0.8);
+  border-radius: 8px;
+  background: ${({ theme }) => theme.palette.main};
+  color: ${({ theme }) => theme.palette.font.white};
 
   cursor: pointer;
 

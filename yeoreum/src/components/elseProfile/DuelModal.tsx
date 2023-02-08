@@ -45,9 +45,6 @@ const ModalWrap = styled.div`
   background-color: #fff;
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.25);
   transform: translate(-50%, -50%);
-  @media (max-width: 640px) {
-    width: 400px;
-  }
 `;
 
 const Contents = styled.div`

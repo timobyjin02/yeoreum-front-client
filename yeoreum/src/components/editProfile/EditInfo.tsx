@@ -9,8 +9,6 @@ function EditInfo() {
     description: '',
   });
 
-  // const { nickname, department, description } = inputValue;
-
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
     setInputValue({
@@ -29,12 +27,9 @@ function EditInfo() {
         <InfoTitle>학과</InfoTitle>
         <InfoInput name="department" onChange={onChange} />
         <InfoTitle>소개</InfoTitle>
-        <InfoDescription
-          name="description"
-          // onChange={onChange}
-        ></InfoDescription>
+        <InfoDescription name="description"></InfoDescription>
       </ProfileInfoes>
-      <Btn>수정</Btn>
+      <EditButton>수정</EditButton>
     </ProfileInfoWrapper>
   );
 }
@@ -49,6 +44,7 @@ const InfoTitle = styled.div`
   margin-bottom: 8px;
   font-size: 16px;
   font-weight: 600;
+  color: ${({ theme }) => theme.palette.font.headline};
 `;
 
 const InfoInput = styled.input`
@@ -57,12 +53,13 @@ const InfoInput = styled.input`
   padding: 0 12px;
   margin-bottom: 18px;
   font-size: 1rem;
-  background-color: #f3f4f5;
+  background-color: ${({ theme }) => theme.palette.background.light};
   border: none;
   border-radius: 5px;
   outline: none;
+
   &:focus {
-    outline: 2px solid #ff515a;
+    outline: 2px solid ${({ theme }) => theme.palette.dark};
   }
   &::placeholder {
     color: #8e8e8e;
@@ -76,7 +73,7 @@ const InfoDescription = styled.textarea`
   margin-bottom: 50px;
   padding: 12px;
   font-size: 1rem;
-  background-color: #f3f4f5;
+  background-color: ${({ theme }) => theme.palette.background.light};
   border: none;
   border-radius: 10px;
   outline: none;
@@ -85,20 +82,20 @@ const InfoDescription = styled.textarea`
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   &:focus {
-    outline: 2px solid #ff515a;
+    outline: 2px solid ${({ theme }) => theme.palette.dark};
   }
   &::placeholder {
     color: #8e8e8e;
   }
 `;
 
-const Btn = styled.button`
-  width: 70px;
-  height: 40px;
+const EditButton = styled.button`
   float: right;
-  border-radius: 10px;
-  color: white;
-  background: rgba(255, 43, 55, 0.8);
+  width: 70px;
+  height: 44px;
+  border-radius: 8px;
+  color: ${({ theme }) => theme.palette.font.white};
+  background: ${({ theme }) => theme.palette.main};
 
   cursor: pointer;
 `;

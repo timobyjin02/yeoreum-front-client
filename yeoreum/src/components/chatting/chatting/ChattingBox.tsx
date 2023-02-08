@@ -26,14 +26,14 @@ const Container = styled.div`
   height: 100%;
   @media (max-width: 640px) {
     width: 100%;
-    background-color: antiquewhite;
   }
 `;
 
-const Header = styled.div`
+const Header = styled.span`
   display: flex;
   align-items: center;
   width: 100%;
   height: 60px;
   padding-left: 10px;
+  color: ${({ theme }) => theme.palette.font.headline};
 `;

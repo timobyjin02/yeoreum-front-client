@@ -50,7 +50,7 @@ export default ChattingListBox;
 const Container = styled.div`
   width: 35%;
   height: 100%;
-  border-left: 1px solid #d9d9d9;
+  border-left: 1px solid ${({ theme }) => theme.palette.line.grey};
   @media (max-width: 640px) {
     display: none;
   }
@@ -69,18 +69,20 @@ const SelectButton = styled.button`
   margin: 0;
   border: none;
   font-size: 16px;
+  color: ${({ theme }) => theme.palette.font.headline};
   background-color: inherit;
   cursor: pointer;
 
   &.active {
     font-weight: 600;
-    border-bottom: 2px solid #ff0000;
+    border-bottom: 2px solid ${({ theme }) => theme.palette.main};
   }
 `;
 
 const ListsBox = styled.div`
   height: calc(100% - 60px);
   overflow: auto;
+
   ::-webkit-scrollbar {
     width: 0px;
   }

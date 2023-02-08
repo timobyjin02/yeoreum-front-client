@@ -35,17 +35,15 @@ const Containers = styled.div`
   width: 100%;
   padding: 10px 20px;
   height: calc(100vh - 182px);
-  background-color: #ececec;
+  background-color: ${({ theme }) => theme.palette.background.light};
   overflow-y: auto;
+
   ::-webkit-scrollbar {
     width: 4px;
   }
   ::-webkit-scrollbar-thumb {
     border-radius: 4px;
     background-color: rgba(0, 0, 0, 0.25);
-  }
-  ::-webkit-scrollbar-track {
-    background-color: rgba(0, 0, 0, 0.1);
   }
 `;
 
@@ -58,7 +56,8 @@ const MessageBox = styled.div`
 
   .message {
     align-self: flex-end;
-    background: #e3a9a9;
+    color: ${({ theme }) => theme.palette.font.headline};
+    background: ${({ theme }) => theme.palette.disable};
     filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.25));
   }
   /* } */
@@ -70,6 +69,6 @@ const Message = styled.span`
   padding: 10px 12px;
   font-size: 0.875rem;
   border-radius: 0.5rem;
-  background: #fff;
+  background: ${({ theme }) => theme.palette.background.white};
   filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.25));
 `;

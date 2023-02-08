@@ -28,7 +28,6 @@ function Lists() {
               setViewList(tab.id);
             }}
             className={viewList === tab.id ? 'active' : ''}
-            // className={viewList != tab.id ? 'noActive' : ''}
           >
             {tab.title}
           </Title>
@@ -59,17 +58,15 @@ const TitleTab = styled.div`
 const Title = styled.button`
   margin-right: 15px;
   font-size: 18px;
-  font-weight: 600;
   border: none;
+  color: ${({ theme }) => theme.palette.font.headline};
   background-color: inherit;
   cursor: pointer;
 
   &.active {
     font-weight: 600;
-    border-bottom: 2px solid #ff0000;
+    border-bottom: 2px solid ${({ theme }) => theme.palette.main};
   }
 `;
 
-const ViewList = styled.div`
-  /* min-height: 200px; */
-`;
+const ViewList = styled.div``;

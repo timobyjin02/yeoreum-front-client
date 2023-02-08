@@ -55,14 +55,15 @@ const Nickname = styled.div`
   width: 250px;
   margin-left: 10px;
   font-size: 14px;
+  color: ${({ theme }) => theme.palette.font.headline};
 `;
 
 const ApplicationButton = styled.button<{ disabled: boolean }>`
   width: 58px;
   height: 30px;
   border-radius: 8px;
-  color: white;
-  background-color: #4d49fe;
+  color: ${({ theme }) => theme.palette.font.white};
+  background-color: ${({ theme }) => theme.palette.main};
   cursor: pointer;
   ${({ disabled }) =>
     disabled
