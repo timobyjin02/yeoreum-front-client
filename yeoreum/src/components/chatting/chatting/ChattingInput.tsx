@@ -65,13 +65,13 @@ const MessageForm = styled.form`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-top: 1px solid #d9d9d9;
+  border-top: 1px solid ${({ theme }) => theme.palette.line.grey};
 `;
 
 const FileBox = styled.div`
   margin-right: 10px;
   padding: 0 20px;
-  border-right: 1px solid #d9d9d9;
+  border-right: 1px solid ${({ theme }) => theme.palette.line.grey};
 `;
 
 const Img = styled.img`
@@ -95,7 +95,7 @@ const SendButtonBox = styled.div`
   padding: 0 15px;
   display: flex;
   justify-content: center;
-  background-color: #f3f4f5;
+  background-color: ${({ theme }) => theme.palette.background.light};
 `;
 
 const SendButton = styled.button`

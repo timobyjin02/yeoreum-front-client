@@ -65,14 +65,16 @@ export default ModalContent;
 const UploadWrapper = styled.div``;
 
 const ProfileImgChange = styled.div`
+  width: 450px;
   height: 75px;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px 150px;
-  border-bottom: 0.5px solid #e5e5e5;
   font-size: 16px;
   font-weight: 600;
+  color: ${({ theme }) => theme.palette.font.headline};
+  border-bottom: 0.5px solid ${({ theme }) => theme.palette.grey};
 `;
 
 const PhotoUpload = styled.div`

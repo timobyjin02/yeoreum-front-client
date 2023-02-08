@@ -88,7 +88,7 @@ const ResponsiveHeader = styled.header`
   display: flex;
   align-items: center;
   height: 44px;
-  border-bottom: 1px solid #c8c8c8;
+  border-bottom: 1px solid ${({ theme }) => theme.palette.line.grey};
 
   @media (min-width: 641px) {
     display: none;
@@ -103,8 +103,8 @@ const SaveButton = styled.button`
   height: 30px;
   border: none;
   border-radius: 8px;
-  color: #fff;
-  background-color: #4d49fe;
+  color: ${({ theme }) => theme.palette.font.white};
+  background-color: ${({ theme }) => theme.palette.main};
   cursor: pointer;
 `;
 
@@ -115,6 +115,7 @@ const Title = styled.h3`
   align-items: center;
   justify-content: center;
   padding: 0;
+  color: ${({ theme }) => theme.palette.font.headline};
 `;
 
 const SearchWrapper = styled.div`
@@ -184,8 +185,9 @@ const CheckButton = styled.button`
   height: 30px;
   margin: 20px 23px 10px 0;
   border-radius: 8px;
-  color: #fff;
-  background-color: #4d49fe;
+  color: ${({ theme }) => theme.palette.font.white};
+  background-color: ${({ theme }) => theme.palette.main};
+
   cursor: pointer;
 
   @media (max-width: 640px) {

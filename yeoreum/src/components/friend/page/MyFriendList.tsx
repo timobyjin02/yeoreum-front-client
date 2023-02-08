@@ -34,7 +34,7 @@ function FriendPage() {
         return (
           <List key={friend.friendUserNo}>
             <ProfileImg />
-            <Info onClick={openProfileHandler}>
+            <InfoWrapper onClick={openProfileHandler}>
               {isOpen4 && (
                 <Modal onClose={() => setIsOpen4(false)}>
                   <ElseProfile />
@@ -44,7 +44,7 @@ function FriendPage() {
               <Description>
                 {/* {descriptionSlice(item.friendDescription)} */}
               </Description>
-            </Info>
+            </InfoWrapper>
           </List>
         );
       })}
@@ -70,7 +70,7 @@ const ProfileImg = styled.div`
   background-color: antiquewhite;
 `;
 
-const Info = styled.div`
+const InfoWrapper = styled.div`
   width: calc(100% - 65px);
   height: 100%;
 `;
@@ -78,10 +78,12 @@ const Info = styled.div`
 const Nickname = styled.div`
   margin-bottom: 10px;
   font-weight: 600;
+  color: ${({ theme }) => theme.palette.font.headline};
 `;
 
 const Description = styled.div`
   font-size: 14px;
   letter-spacing: 0.6px;
   line-height: 20px;
+  color: ${({ theme }) => theme.palette.font.headline};
 `;

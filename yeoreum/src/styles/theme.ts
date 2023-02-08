@@ -6,10 +6,10 @@ const palette = {
   grey: '#dbdbdb',
   lightGrey: '#f5f6f7',
 
-  main: '#4CAF50',
-  dark: '#357A38',
-  light: '#80C883',
-  disable: '#B8E0B9',
+  main: '#4D49FE',
+  dark: '#3E3BCB',
+  light: '#DBDBFF',
+  disable: '#DBDBFF',
   sub: '#4E342E',
   font: {
     headline: '#191919',
