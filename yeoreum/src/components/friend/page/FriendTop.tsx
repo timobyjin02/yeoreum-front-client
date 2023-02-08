@@ -1,23 +1,26 @@
 import styled from '@emotion/styled';
-import React, { useState } from 'react';
+import React from 'react';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+import { notShowModal, showModal } from '../../../store/modules/modal';
 import PostPageTitle from '../../board/PostPageTitle';
 import Modal from '../../common/Modal';
 import ApplicationFriendModal from '../applicationModal/ApplicationFriendModal';
 
 function FriendTop() {
-  const [isOpen3, setIsOpen3] = useState(false);
+  const dispatch = useAppDispatch();
+  const modal = useAppSelector(state => state.modal.show);
 
   const AddFriend = () => {
-    setIsOpen3(true);
+    dispatch(showModal());
   };
 
   return (
     <Container>
       <PostPageTitle title="친구" />
       <AddIcon onClick={AddFriend} />
-      {isOpen3 && (
-        <Modal onClose={() => setIsOpen3(false)}>
-          <ApplicationFriendModal setIsOpen3={setIsOpen3} />
+      {modal === 'YES' && (
+        <Modal onClose={() => dispatch(notShowModal())}>
+          <ApplicationFriendModal onClose={() => dispatch(notShowModal())} />
         </Modal>
       )}
     </Container>
