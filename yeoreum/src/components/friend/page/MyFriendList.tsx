@@ -1,20 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import ElseProfile from '../../elseProfile/ElseProfile';
 import Modal from '../../common/Modal';
+import { fetchFriends, FriendsResponseType } from '../../../api/friendPage';
 
 function FriendPage() {
   const [isOpen4, setIsOpen4] = useState(false);
+  const [friendList, setFriendList] = useState<FriendsResponseType>({
+    friends: [],
+  });
 
-  const friendList = [
-    {
-      friendUserNo: 1,
-      friendNickname: '무친저글링',
-      friendImage: '',
-      friendDescription:
-        '안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요',
-    },
-  ];
+  useEffect(() => {
+    (async () => {
+      const friend = await fetchFriends();
+
+      console.log(friend);
+      setFriendList(friend);
+    })();
+  }, []);
 
   const descriptionSlice = (string: string) => {
     if (string.length <= 65) return string;
@@ -27,9 +30,9 @@ function FriendPage() {
 
   return (
     <div>
-      {friendList.map((item, idx) => {
+      {friendList.friends.map(friend => {
         return (
-          <List key={idx}>
+          <List key={friend.friendUserNo}>
             <ProfileImg />
             <Info onClick={openProfileHandler}>
               {isOpen4 && (
@@ -37,9 +40,9 @@ function FriendPage() {
                   <ElseProfile />
                 </Modal>
               )}
-              <Nickname>{item.friendNickname}</Nickname>
+              <Nickname>{friend.friendNickname}</Nickname>
               <Description>
-                {descriptionSlice(item.friendDescription)}
+                {/* {descriptionSlice(item.friendDescription)} */}
               </Description>
             </Info>
           </List>
