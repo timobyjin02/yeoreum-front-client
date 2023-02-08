@@ -22,7 +22,7 @@ function PostList() {
       isImpromptu: 0,
       location: '노원 김밥 맛집',
       meetingTime: '12월 28일',
-      no: 2,
+      no: 21212,
       recruitMale: 1,
       recruitFemale: 2,
       title: '도서관에서 같이 공부하실 남자 둘 구해요 IQ 200이상',
@@ -36,7 +36,7 @@ function PostList() {
       isImpromptu: 0,
       location: '노원 김밥 맛집',
       meetingTime: '12월 28일',
-      no: 2,
+      no: 221312,
       recruitMale: 1,
       recruitFemale: 2,
       title: '도서관에서 같이 공부하실 남자 둘 구해요 IQ 200이상',
@@ -57,6 +57,8 @@ function PostList() {
       setPosts([...posts, ...data.response.boards]);
     })();
   }, []);
+
+  console.log(posts);
 
   return (
     <Post>

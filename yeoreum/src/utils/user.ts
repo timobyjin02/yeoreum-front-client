@@ -20,6 +20,7 @@ export const login = async () => {
 
     localStorage.setItem('token', token);
     alert('로그인 완료');
+    window.location.reload();
   } catch (error) {
     alert('에러 발생');
   }
