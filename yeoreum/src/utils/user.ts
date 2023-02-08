@@ -1,5 +1,15 @@
 import axios from 'axios';
 
+export const logout = () => {
+  if (typeof window !== 'undefined') {
+    localStorage.removeItem('token');
+
+    alert('로그아웃되었다.');
+    window.location.reload();
+  }
+  return undefined;
+};
+
 export const getToken = () => {
   if (typeof window !== 'undefined') return localStorage.getItem('token');
   return undefined;

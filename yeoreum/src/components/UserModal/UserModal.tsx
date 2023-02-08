@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import useOutsideClick from '../../hooks/useOutsideClick';
 import useResize from '../../hooks/useResize';
 import Link from 'next/link';
+import { logout } from '../../utils/user';
 
 export default function UserModal() {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,7 +30,13 @@ export default function UserModal() {
               </Link>
               <Item>이용약관</Item>
             </Items>
-            <Logout>아이콘 로그아웃</Logout>
+            <Logout
+              onClick={() => {
+                logout();
+              }}
+            >
+              아이콘 로그아웃
+            </Logout>
           </UserModalBox>
         </ModalContainer>
       )}
