@@ -12,3 +12,18 @@ export interface PostType {
   hostUserNums: number[];
   hostNicknames: string[];
 }
+
+export interface BoardType {
+  createdDate: string;
+  description: string;
+  hostNickname: string;
+  hostUserNo: number;
+  isDone: 0 | 1;
+  isImpromptu: 0 | 1;
+  location: string;
+  meetingTime: string;
+  no: number;
+  recruitMale: number;
+  recruitFemale: number;
+  title: string;
+}
