@@ -7,6 +7,7 @@ export interface FriendsResponseType {
     friendUserNo: number;
     friendNickname: string;
     // description: string;
+    friendDescription: string;
     friendProfileImage: string;
   }[];
 }

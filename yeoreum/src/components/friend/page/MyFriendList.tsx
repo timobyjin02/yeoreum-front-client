@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import ElseProfile from '../../elseProfile/ElseProfile';
 import Modal from '../../common/Modal';
 import { fetchFriends, FriendsResponseType } from '../../../api/friendPage';
+import sliceString from '../../../utils/sliceString';
 
 function FriendPage() {
   const [isOpen4, setIsOpen4] = useState(false);
@@ -19,11 +20,6 @@ function FriendPage() {
     })();
   }, []);
 
-  const descriptionSlice = (string: string) => {
-    if (string.length <= 65) return string;
-    else return string.slice(0, 65) + '...';
-  };
-
   const openProfileHandler = () => {
     setIsOpen4(true);
   };
@@ -33,7 +29,7 @@ function FriendPage() {
       {friendList.friends.map(friend => {
         return (
           <List key={friend.friendUserNo}>
-            <ProfileImg />
+            <ProfileImg src={friend.friendProfileImage} />
             <InfoWrapper onClick={openProfileHandler}>
               {isOpen4 && (
                 <Modal onClose={() => setIsOpen4(false)}>
@@ -42,7 +38,7 @@ function FriendPage() {
               )}
               <Nickname>{friend.friendNickname}</Nickname>
               <Description>
-                {/* {descriptionSlice(item.friendDescription)} */}
+                {sliceString(friend.friendDescription, 65)}
               </Description>
             </InfoWrapper>
           </List>
@@ -62,7 +58,7 @@ const List = styled.div`
   cursor: pointer;
 `;
 
-const ProfileImg = styled.div`
+const ProfileImg = styled.img`
   width: 63px;
   height: 63px;
   margin-right: 15px;
