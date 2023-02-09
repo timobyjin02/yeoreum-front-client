@@ -8,6 +8,16 @@ import useLockScroll from '../../hooks/useLockScroll';
 import useOutsideClick from '../../hooks/useOutsideClick';
 import Menu from './Menu';
 
+const navMenu = [
+  { title: '게시판', src: '/clipboard.svg', pageUrl: 'board' },
+  { title: '친구', src: '/users.svg', pageUrl: 'friend' },
+  { title: '채팅', src: '/message.svg', pageUrl: 'chatting' },
+];
+const noticeMenu = [
+  { title: '공지사항', src: '/volumelow.svg', pageUrl: '/' },
+  { title: '이벤트', src: '/star.svg', pageUrl: '/' },
+];
+
 interface HamburgerProps {
   onClose: () => void;
 }
@@ -17,16 +27,6 @@ function Hamburger({ onClose }: HamburgerProps) {
   const [authenticated, setAuthenticated] = useState(true);
   const ref = useRef<HTMLDivElement | null>(null);
   useOutsideClick(ref, onClose);
-
-  const navMenu = [
-    { title: '게시판', src: '/clipboard.svg', pageUrl: 'board' },
-    { title: '친구', src: '/users.svg', pageUrl: 'friend' },
-    { title: '채팅', src: '/message.svg', pageUrl: 'chatting' },
-  ];
-  const noticeMenu = [
-    { title: '공지사항', src: '/clipboard.svg', pageUrl: '/' },
-    { title: '이벤트', src: '/star.svg', pageUrl: '/' },
-  ];
 
   useLockScroll();
 

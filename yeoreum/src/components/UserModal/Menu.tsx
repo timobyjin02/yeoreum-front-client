@@ -68,27 +68,12 @@ const MenuItem = styled.div`
   }
 `;
 
-const MenuHeader = styled.div`
-  height: 52px;
-  border-bottom: 1px solid #777;
-  padding: 0 20px 0 30px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
 const MenuIcon = styled(Image)`
-  margin-right: 4px;
+  margin-right: 6px;
 `;
 
 const MenuTitle = styled.h4`
   font-size: 16px;
-`;
-
-const MenuArrow = styled.div`
-  width: 20px;
-  height: 20px;
-  background-color: lightgray;
 `;
 
 const openFold = keyframes`
@@ -98,20 +83,4 @@ from {
 to {
   right: 0;
 }
-`;
-
-const MenuListBox = styled.ul`
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  animation: ${openFold} 0.2s 1;
-`;
-
-const MenuList = styled.li`
-  font-size: 14px;
-  height: 52px;
-  border-bottom: 1px solid #bbb;
-  padding: 0 30px;
-  display: flex;
-  align-items: center;
 `;
