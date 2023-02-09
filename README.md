@@ -15,4 +15,4 @@
 **docs** : 문서 수정 (ex) readme, git ignore) </br>
 **file** : 파일 수정, 삭제하거나 옮기는 작업만인 경우 </br>
 **dir** : 폴더 생성 삭제 수정 </br>
-cicd test
+cicd test.
