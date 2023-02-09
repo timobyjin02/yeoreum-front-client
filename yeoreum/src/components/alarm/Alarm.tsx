@@ -4,6 +4,10 @@ import React, { useRef, useState } from 'react';
 import useOutsideClick from '../../hooks/useOutsideClick';
 import useResize from '../../hooks/useResize';
 import AlarmList from './AlarmList';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import axios from 'axios';
+import { getToken } from '../../utils/user';
+import { AlarmType } from '../../types/alarm';
 
 const alarmArray = [
   {
@@ -87,12 +91,18 @@ const alarmArray = [
   },
 ];
 
-function Alarm() {
+function Alarm({ isThere }: { isThere?: boolean }) {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement | null>(null);
 
+  const queryClient = useQueryClient();
+  const noticesData: any = queryClient.getQueryData(['notices']);
+  const noticesArray = noticesData?.data.response.notices;
+
   useOutsideClick(ref, () => setIsOpen(false));
   useResize('below', 640, () => setIsOpen(false));
+
+  console.log(noticesArray);
 
   return (
     <Wrapper ref={ref}>
@@ -104,11 +114,12 @@ function Alarm() {
         priority
         onClick={() => setIsOpen(prev => !prev)}
       />
+      {isThere && <AlarmDot />}
       {isOpen && (
         <AlarmContainer>
           <AlarmModalBox>
             <AlarmLists>
-              {alarmArray.map((alarm, idx: any) => (
+              {noticesArray.map((alarm: AlarmType, idx: any) => (
                 <AlarmList key={idx} alarmInfo={alarm} />
               ))}
             </AlarmLists>
@@ -142,6 +153,16 @@ const Wrapper = styled.div`
 
 const ImageAlarm = styled(Image)`
   cursor: pointer;
+`;
+
+const AlarmDot = styled.div`
+  width: 4px;
+  height: 4px;
+  top: 8px;
+  right: 8px;
+  border-radius: 50%;
+  position: absolute;
+  background-color: red;
 `;
 
 const AlarmContainer = styled.div`

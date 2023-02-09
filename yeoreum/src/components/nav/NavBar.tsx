@@ -20,6 +20,7 @@ export interface User {
 }
 
 interface NavProps {
+  isThere?: boolean;
   userData?: Pick<User, 'profileImage' | 'nickname'>;
   token?: string;
   authenticated?: boolean;
@@ -28,6 +29,7 @@ interface NavProps {
 }
 
 export function NavUsual({
+  isThere,
   userData,
   token,
   authenticated,
@@ -80,7 +82,7 @@ export function NavUsual({
           </ArrangeContainer>
           {authenticated ? (
             <ArrangeContainer>
-              <Alarm />
+              <Alarm isThere={isThere} />
               <UserModal userData={userData} />
             </ArrangeContainer>
           ) : (

@@ -6,6 +6,7 @@ import Hamburger from '../userModal/Hamburger';
 import useResize from '../../hooks/useResize';
 import { getToken } from '../../utils/user';
 import axios from 'axios';
+import { useQuery } from '@tanstack/react-query';
 
 function Nav() {
   const { pathname } = useRouter();
@@ -24,6 +25,22 @@ function Nav() {
     profileImage: '',
     grade: 0,
   });
+
+  const {
+    data,
+  }: {
+    [key: string]: any;
+  } = useQuery(['notices'], () => {
+    return axios.get('/api/notices', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  });
+
+  const isThere = Boolean(data?.data.response.notices.length);
+
+  console.log(isThere);
 
   useEffect(() => {
     if (token) {
@@ -50,6 +67,7 @@ function Nav() {
         <NavService authenticated={authenticated} setHamburger={setHamburger} />
       ) : (
         <NavUsual
+          isThere={isThere}
           userData={userData}
           token={token}
           authenticated={authenticated}
