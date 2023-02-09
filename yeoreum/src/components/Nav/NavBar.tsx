@@ -1,34 +1,44 @@
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import Image from 'next/image';
-import useScroll from '../../hooks/useScroll';
 import Alarm from '../alarm/Alarm';
 import UserModal from '../userModal/UserModal';
 import Link from 'next/link';
-import axios from 'axios';
 import { login } from '../../utils/user';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
+
+// 임시 유저 타입
+export interface User {
+  userNo: number;
+  email: string;
+  nickname: string;
+  major: string;
+  gender: false;
+  description: string;
+  profileImage: string;
+  grade: number;
+}
 
 interface NavProps {
-  token: string;
-  authenticated: boolean;
-  setAuthenticated: (state: boolean | ((prev: boolean) => boolean)) => void;
-  setHamburger: (state: boolean | ((prev: boolean) => boolean)) => void;
+  userData?: Pick<User, 'profileImage' | 'nickname'>;
+  token?: string;
+  authenticated?: boolean;
+  setAuthenticated?: (state: boolean | ((prev: boolean) => boolean)) => void;
+  setHamburger?: (state: boolean | ((prev: boolean) => boolean)) => void;
 }
 
 export function NavUsual({
+  userData,
   token,
   authenticated,
   setAuthenticated,
   setHamburger,
 }: NavProps) {
   useEffect(() => {
-    if (token) {
+    if (token && setAuthenticated) {
       setAuthenticated(true);
     }
   }, []);
-
-  // const { y } = useScroll();
 
   return (
     <>
@@ -36,29 +46,42 @@ export function NavUsual({
         <NavContainer>
           <ArrangeContainer>
             <Link href="/">
-              <YeoreumLogo>로고</YeoreumLogo>
+              <YeoreumLogo alt="logo" src="/logo.png" />
             </Link>
             <NavMenu>
-              <NavMenuItem>게시판</NavMenuItem>
-              <NavMenuItem>친구</NavMenuItem>
-              <NavMenuItem>
-                채팅
-                <ChatAlarm>3</ChatAlarm>
+              <NavMenuItem href="/board">
+                <Image
+                  width={22}
+                  height={22}
+                  alt="board"
+                  src="/icons/clipboard.svg"
+                />
+                <MenuText>게시판</MenuText>
+              </NavMenuItem>
+              <NavMenuItem href="/friend">
+                <Image
+                  width={22}
+                  height={22}
+                  alt="friends"
+                  src="/icons/users.svg"
+                />
+                <MenuText>친구</MenuText>
+              </NavMenuItem>
+              <NavMenuItem href="/chatting">
+                <Image
+                  width={22}
+                  height={22}
+                  alt="chat"
+                  src="/icons/message.svg"
+                />
+                <MenuText>채팅</MenuText>
               </NavMenuItem>
             </NavMenu>
           </ArrangeContainer>
           {authenticated ? (
             <ArrangeContainer>
-              {/* <ImageAlarm
-                alt="alarm"
-                src="/vercel.svg"
-                width={40}
-                height={40}
-                priority
-                onClick={() => setAlarmOpen(true)}
-              /> */}
               <Alarm />
-              <UserModal />
+              <UserModal userData={userData} />
             </ArrangeContainer>
           ) : (
             <LoginButton
@@ -69,7 +92,7 @@ export function NavUsual({
               로그인
             </LoginButton>
           )}
-          <HamburgerButton onClick={() => setHamburger(true)}>
+          <HamburgerButton onClick={() => setHamburger?.(true)}>
             <Image
               alt="hamburger"
               src="/icons/hamburger.svg"
@@ -84,12 +107,11 @@ export function NavUsual({
   );
 }
 
-export function NavService({
-  token,
-  authenticated,
-  setAuthenticated,
-  setHamburger,
-}: NavProps) {
+const MenuText = styled.span`
+  margin-left: 4px;
+`;
+
+export function NavService({ authenticated, setHamburger }: NavProps) {
   const router = useRouter();
 
   return (
@@ -97,15 +119,15 @@ export function NavService({
       <Container show>
         <NavContainer>
           <ArrangeContainer>
-            <YeoreumLogo service>로고</YeoreumLogo>
+            <YeoreumLogo alt="logo" src="/logo.png" service />
             <ServiceTitle>고객센터</ServiceTitle>
           </ArrangeContainer>
 
           {authenticated ? (
             <ArrangeContainer>
               <NavMenu service>
-                <NavMenuItem>문의하기</NavMenuItem>
-                <NavMenuItem>문의내역</NavMenuItem>
+                <NavMenuItem href="/">문의하기</NavMenuItem>
+                <NavMenuItem href="/">문의내역</NavMenuItem>
               </NavMenu>
               <UserModal />
             </ArrangeContainer>
@@ -114,7 +136,7 @@ export function NavService({
               로그인
             </LoginButton>
           )}
-          <HamburgerButton onClick={() => setHamburger(true)} />
+          <HamburgerButton onClick={() => setHamburger?.(true)} />
         </NavContainer>
       </Container>
       <Kernel />
@@ -131,13 +153,6 @@ const ArrangeContainer = styled.div`
   display: flex;
   align-items: center;
 `;
-
-// const ImageAlarm = styled(Image)`
-//   margin-right: 20px;
-//   @media (max-width: 640px) {
-//     display: none;
-//   }
-// `;
 
 const Container = styled.nav<{ show: boolean }>`
   color: #181818;
@@ -162,11 +177,13 @@ const NavContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   @media (max-width: 975px) {
-    min-width: 95vw;
+    min-width: calc(100% - 20px);
   }
 `;
 
-const YeoreumLogo = styled.div<{ service?: boolean }>`
+const YeoreumLogo = styled.img<{ service?: boolean }>`
+  margin-top: 6px;
+  height: 32px;
   margin-bottom: 1px;
   color: lightgray;
   margin-right: ${({ service }) => (service ? '30px' : '50px')};
@@ -193,18 +210,18 @@ const NavMenu = styled.div<{ service?: boolean }>`
   }
 `;
 
-const NavMenuItem = styled.div`
+const NavMenuItem = styled(Link)`
   position: relative;
   height: 40px;
   align-items: center;
-  padding: 0 24px;
+  padding: 0 20px;
   font-size: 0.875rem;
   font-weight: 550;
   display: flex;
   min-width: 48px;
   &:hover {
     border-radius: 8px;
-    background-color: rgba(0, 0, 0, 4%);
+    background-color: rgba(0, 0, 0, 5%);
     cursor: pointer;
   }
 `;
@@ -223,38 +240,6 @@ const ChatAlarm = styled.div`
   border-radius: 9px;
   background-color: red;
   color: white;
-`;
-
-const ProfileWrapper = styled.div`
-  display: flex;
-  align-items: center;
-
-  &:hover {
-    cursor: pointer;
-  }
-
-  @media (max-width: 640px) {
-    display: none;
-  }
-`;
-
-const ProfileImg = styled.div`
-  width: 33px;
-  height: 33px;
-  margin-right: 6px;
-  border-radius: 50%;
-  background-color: lightgray;
-  display: block;
-`;
-
-const Arrow = styled.div<{ toggle: boolean }>`
-  width: 5px;
-  height: 5px;
-  margin: ${({ toggle }) => (toggle ? '1px 0 0' : '0 0 1px')};
-  border-right: 2px solid #000;
-  border-bottom: 2px solid #000;
-  transform: ${({ toggle }) => (toggle ? 'rotate(-135deg)' : 'rotate(45deg)')};
-  transition: 0.1s all;
 `;
 
 const LoginButton = styled.button`
