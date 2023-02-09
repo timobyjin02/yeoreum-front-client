@@ -1,56 +1,92 @@
 import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
+import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React, { useRef, useState } from 'react';
 import useLockScroll from '../../hooks/useLockScroll';
 import useOutsideClick from '../../hooks/useOutsideClick';
 import Menu from './Menu';
+
+const navMenu = [
+  { title: '게시판', src: '/clipboard.svg', pageUrl: 'board' },
+  { title: '친구', src: '/users.svg', pageUrl: 'friend' },
+  { title: '채팅', src: '/message.svg', pageUrl: 'chatting' },
+];
+const noticeMenu = [
+  { title: '공지사항', src: '/volumelow.svg', pageUrl: '/' },
+  { title: '이벤트', src: '/star.svg', pageUrl: '/' },
+];
 
 interface HamburgerProps {
   onClose: () => void;
 }
 
 function Hamburger({ onClose }: HamburgerProps) {
+  const router = useRouter();
   const [authenticated, setAuthenticated] = useState(true);
   const ref = useRef<HTMLDivElement | null>(null);
   useOutsideClick(ref, onClose);
-
-  const navOption = [{ value: '게시판' }, { value: '친구' }, { value: '채팅' }];
-  const noticeOption = [
-    { value: '공지사항' },
-    { value: '이벤트' },
-    { value: '업데이트내역' },
-  ];
-  const serviceOption = [{ value: '문의하기' }, { value: '문의내역' }];
 
   useLockScroll();
 
   return (
     <HamburgerBackground>
       <HamburgerModal ref={ref}>
+        <CloseDiv>
+          <CloseButton onClick={onClose}>
+            <Image
+              alt="close-button"
+              src="/icons/close.svg"
+              width={32}
+              height={32}
+            />
+          </CloseButton>
+        </CloseDiv>
         <UserInfo>
           {authenticated ? (
-            <>
-              <UserInfoHeader>
-                <ProfileWrapper>
-                  <ProfileImg />
-                  <Nickname>donkeykong 님</Nickname>
-                </ProfileWrapper>
-                <Link href="/notifications">
-                  <AlarmIcon onClick={onClose} />
-                </Link>
-              </UserInfoHeader>
-              <UserInfoFooter>
-                <MyPageBtn>마이페이지</MyPageBtn>
-              </UserInfoFooter>
-            </>
+            <UserInfoHeader>
+              <ProfileWrapper>
+                <ProfileImg />
+                <ProfileMiddle>
+                  <Nickname>안녕하세요안녕하</Nickname>
+                  <MyPageButton
+                    onClick={() => {
+                      router.push('/mypage');
+                      onClose();
+                    }}
+                  >
+                    마이페이지
+                  </MyPageButton>
+                </ProfileMiddle>
+              </ProfileWrapper>
+              <Link href="/notifications">
+                <AlarmIcon onClick={onClose}>
+                  <Image
+                    alt="alarm"
+                    src="/icons/notification.svg"
+                    width={24}
+                    height={24}
+                  />
+                </AlarmIcon>
+              </Link>
+            </UserInfoHeader>
           ) : (
-            <>로그인 해라</>
+            <LoginHeader>
+              <LoginText>로그인 해주세요.</LoginText>
+              <LoginButton
+                onClick={() => {
+                  router.push('/login');
+                  onClose();
+                }}
+              >
+                로그인
+              </LoginButton>
+            </LoginHeader>
           )}
         </UserInfo>
-        <Menu title="메뉴" options={navOption} />
-        <Menu title="공지사항" options={noticeOption} />
-        <Menu title="고객센터" options={serviceOption} />
+        <Menu onClose={onClose} alt="menu" options={navMenu} />
+        <Menu onClose={onClose} alt="notice-menu" options={noticeMenu} />
       </HamburgerModal>
     </HamburgerBackground>
   );
@@ -84,7 +120,7 @@ to {
 
 const HamburgerModal = styled.div`
   position: fixed;
-  width: 280px;
+  width: 300px;
   height: 100%;
 
   display: flex;
@@ -99,17 +135,43 @@ const HamburgerModal = styled.div`
   animation: ${slideIn} 0.35s 1;
 `;
 
+const CloseDiv = styled.div`
+  width: 100%;
+  height: 60px;
+  position: relative;
+  padding: auto 10px;
+`;
+
+const CloseButton = styled.button`
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 14px;
+  left: 14px;
+
+  cursor: pointer;
+  &:hover {
+    border-radius: 6px;
+    background-color: rgba(0, 0, 0, 5%);
+  }
+`;
+
 const UserInfo = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
-  min-height: 140px;
-  /* background-color: gray; */
-  border-bottom: 2px solid #777;
+  height: 100px;
+  padding: 0 20px;
+`;
 
-  padding: 24px;
-  padding-right: 20px;
+const UserInfoHeader = styled.div`
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 12px;
 `;
 
 const ProfileWrapper = styled.div`
@@ -118,41 +180,74 @@ const ProfileWrapper = styled.div`
 `;
 
 const ProfileImg = styled.div`
-  width: 33px;
-  height: 33px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   background-color: lightgray;
-  margin-right: 5px;
+  margin-right: 12px;
+  flex-shrink: 0;
+`;
+
+const ProfileMiddle = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const Nickname = styled.span`
-  padding: 5px;
+  color: ${({ theme }) => theme.palette.fontBlack};
+  font-size: 15px;
+  padding: 5px 0;
+  ::after {
+    content: ' 님';
+    font-size: 14px;
+    color: ${({ theme }) => theme.palette.fontGrey};
+  }
 `;
 
-const AlarmIcon = styled.div`
-  width: 22px;
-  height: 22px;
-  background-color: lightgray;
-`;
-
-const UserInfoHeader = styled.div`
+const MyPageButton = styled.button`
+  width: fit-content;
   display: flex;
+  justify-content: flex-start;
+  padding: 6px 10px;
+  font-size: 12px;
+  background-color: transparent;
+  border: 1px solid ${({ theme }) => theme.palette.main};
+  border-radius: 6px;
+  color: ${({ theme }) => theme.palette.main};
 
+  cursor: pointer;
+`;
+
+const AlarmIcon = styled.button`
+  width: 34px;
+  height: 34px;
+  display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding-top: 4px;
+  justify-content: center;
+  background-color: transparent;
+  cursor: pointer;
+  &:hover {
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 5%);
+  }
 `;
 
-const UserInfoFooter = styled.div`
+const LoginHeader = styled.div`
   display: flex;
-  padding-left: 38px;
+  flex-direction: column;
 `;
 
-const MyPageBtn = styled.button`
-  width: 100px;
-  height: 30px;
-  border-radius: 10px;
-  background-color: #ff8389;
-  align-self: center;
-  color: white;
+const LoginText = styled.p`
+  margin: 10px 0 6px;
+`;
+
+const LoginButton = styled.button`
+  width: 100%;
+  height: 40px;
+  font-size: 14px;
+  color: ${({ theme }) => theme.palette.font.white};
+  background-color: ${({ theme }) => theme.palette.main};
+  border-radius: 8px;
+
+  cursor: pointer;
 `;

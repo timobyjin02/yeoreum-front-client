@@ -26,18 +26,20 @@ function Nav() {
   });
 
   useEffect(() => {
-    (async () => {
-      const {
-        data: {
-          response: { userProfile: data },
-        },
-      } = await axios.get(`/api/users/profile`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setUserData(data);
-    })();
+    if (token) {
+      (async () => {
+        const {
+          data: {
+            response: { userProfile: data },
+          },
+        } = await axios.get(`/api/users/profile`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setUserData(data);
+      })();
+    }
   }, []);
 
   useResize('above', 640, () => setHamburger(false));

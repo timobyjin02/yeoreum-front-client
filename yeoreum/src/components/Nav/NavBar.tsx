@@ -92,7 +92,14 @@ export function NavUsual({
               로그인
             </LoginButton>
           )}
-          <HamburgerButton onClick={() => setHamburger?.(true)} />
+          <HamburgerButton onClick={() => setHamburger?.(true)}>
+            <Image
+              alt="hamburger"
+              src="/icons/hamburger.svg"
+              width={36}
+              height={36}
+            />
+          </HamburgerButton>
         </NavContainer>
       </Container>
       <Kernel />
@@ -219,34 +226,21 @@ const NavMenuItem = styled(Link)`
   }
 `;
 
-const ChatAlarm = styled.div`
-  position: absolute;
-  inset: 0 0 auto auto;
-  width: 18px;
-  height: 18px;
-  font-size: 12px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  border-radius: 9px;
-  background-color: red;
-  color: white;
-`;
-
 const LoginButton = styled.button`
   margin-right: 6px;
   width: 86px;
   height: 40px;
   border-radius: 8px;
-  background-color: #ddd;
-  color: #555;
+  color: ${({ theme }) => theme.palette.font.white};
+  background-color: ${({ theme }) => theme.palette.main};
   font-weight: 500;
   font-size: 14px;
-  border: 1px solid #bbb;
 
   cursor: pointer;
+
+  &:active {
+    background-color: ${({ theme }) => theme.palette.dark};
+  }
 
   @media (max-width: 640px) {
     display: none;
@@ -256,12 +250,19 @@ const LoginButton = styled.button`
 const HamburgerButton = styled.button`
   width: 40px;
   height: 40px;
-  background-color: gray;
-  display: none;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   cursor: pointer;
 
-  @media (max-width: 640px) {
-    display: block;
+  &:hover {
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 5%);
+  }
+
+  @media (min-width: 641px) {
+    display: none;
   }
 `;
