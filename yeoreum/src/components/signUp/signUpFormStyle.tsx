@@ -106,15 +106,77 @@ export const Submit = styled.button`
   }
 `;
 
+export const GenderSelect = styled.select`
+  width: 74%;
+  height: 72%;
+  padding: 0.475em;
+  border: solid 1px ${({ theme }) => theme.palette.line.grey};
+  border-radius: 4px;
+  color: ${({ theme }) => theme.palette.font.headline};
+  font-size: 1rem;
+  :focus {
+    outline: none;
+    box-shadow: 0 0 1px;
+    border-color: ${({ theme }) => theme.palette.main};
+  }
+`;
+
+export const DescriptionWrapper = styled.div`
+  height: 8em;
+  & p {
+    height: 82%;
+    margin-top: 2%;
+  }
+`;
+export const DescriptionInput = styled.textarea`
+  width: 74%;
+  height: 82%;
+  padding: 0.75em;
+  border: solid 1px ${({ theme }) => theme.palette.line.grey};
+  border-radius: 4px;
+  color: ${({ theme }) => theme.palette.font.headline};
+  font-size: 1rem;
+  resize: none;
+  ::placeholder {
+    font-size: 0.875em;
+    font-weight: 300;
+  }
+  :focus {
+    outline: none;
+    box-shadow: 0 0 1px;
+    border-color: ${({ theme }) => theme.palette.main};
+  }
+`;
+
 export const GenderWrapper = styled.div`
   display: flex;
   align-items: center;
   width: 80%;
-  height: 100%;
+  height: 4em;
   font-size: 0.9em;
   font-weight: 500;
 `;
 
-export const GenderLabel = styled.label``;
+export const GenderLabel = styled.label`
+  color: ${({ theme }) => theme.palette.font.subHeadline};
+  & span {
+    margin-right: 4em;
+  }
+`;
 
-export const GenderInput = styled.input``;
+export const GenderInput = styled.input`
+  margin-right: 0.5em;
+`;
+
+export const ProfileInput = styled.input`
+  display: none;
+`;
+
+export const ProfileImageWrapper = styled.div`
+  cursor: pointer;
+  & > span {
+    padding-left: 1em;
+    color: ${({ theme }) => theme.palette.main};
+    cursor: pointer;
+  }
+`;

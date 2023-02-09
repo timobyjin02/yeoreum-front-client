@@ -1,6 +1,6 @@
 import { ChangeEvent, FocusEvent, useCallback, useState } from 'react';
 import { Validity } from '../../types/signUp';
-import useInput from '../../hooks/useForm';
+import useForm from '../../hooks/useForm';
 import {
   SIGN_UP_INITIAL,
   SIGN_UP_MESSAGE_BY_TYPE,
@@ -23,18 +23,14 @@ const Form = () => {
   const REGEX_BY_TYPE = SIGN_UP_REGEX_BY_TYPE;
   const [emailVerificationStatus, setEmailVerificationStatus] = useState(0);
   const [user, setUser, onChangeValue, onChangeValidity] =
-    useInput(SIGN_UP_INITIAL);
+    useForm(SIGN_UP_INITIAL);
 
   const onValidate = (
     type: string,
     curValue: string | Validity,
     targetValue?: string | boolean,
   ) => {
-    const comparedValueTypes = [
-      'emailCode',
-      'prePopulatedPassword',
-      'passwordConfirm',
-    ];
+    const comparedValueTypes = ['emailCode', 'prePopulatedPassword'];
     const isValid = (() => {
       if (comparedValueTypes.includes(type)) {
         return curValue === targetValue;
