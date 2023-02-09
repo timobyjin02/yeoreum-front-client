@@ -44,7 +44,7 @@ function AlarmList({ alarmInfo }: AlarmListProps) {
         <ProfileImage />
         <AlarmText>
           {sliceString(
-            `${alarmInfo.senderNickname}에게 온 친구 요청이 있습니다. 친구 요청이 있습니다. 친구 요청이 있습니다.`,
+            `${alarmInfo.senderNickname}에게 온 친구 요청이 있습니다.`,
             36,
           )}
         </AlarmText>
@@ -56,7 +56,7 @@ function AlarmList({ alarmInfo }: AlarmListProps) {
         <ProfileImage />
         <AlarmText>
           {sliceString(
-            `${alarmInfo.senderNickname}님이 친구요청을 수락했습니당.`,
+            `${alarmInfo.senderNickname}님이 친구 요청을 수락했습니다.`,
             36,
           )}
         </AlarmText>
@@ -67,7 +67,7 @@ function AlarmList({ alarmInfo }: AlarmListProps) {
         <ProfileImage />
         <AlarmText>
           {sliceString(
-            `${alarmInfo.boardNo}번 게시물의 여름 신청서가 도착했습니당.`,
+            `${alarmInfo.boardNo}번 게시물의 여름 신청서가 도착했습니다.`,
             36,
           )}
         </AlarmText>
@@ -76,7 +76,42 @@ function AlarmList({ alarmInfo }: AlarmListProps) {
     6: (
       <List>
         <ProfileImage />
-        <AlarmText>{`사진 부적절`}</AlarmText>
+        <AlarmText>가입 조건 부적절로 회원가입이 반려됨</AlarmText>
+      </List>
+    ),
+    7: (
+      <List>
+        <ProfileImage />
+        <AlarmText>type 7 게시글 파티 초대 알림</AlarmText>
+        <Btn>수락</Btn>
+      </List>
+    ),
+    8: (
+      <List>
+        <ProfileImage />
+        <AlarmText>
+          type 8 게시글 파티 초대 누가 거절해서 게시글 삭제됨
+        </AlarmText>
+      </List>
+    ),
+    9: (
+      <List>
+        <ProfileImage />
+        <AlarmText>type 9 게시글 파티 초대 모두 수락해서 정상 등록</AlarmText>
+      </List>
+    ),
+    10: (
+      <List>
+        <ProfileImage />
+        <AlarmText>type 10 여름 신청서 파티 초대 알림</AlarmText>
+        <Btn>수락</Btn>
+      </List>
+    ),
+    11: (
+      <List>
+        <ProfileImage />
+        <AlarmText>type 11 평점 남기기 알림</AlarmText>
+        <Btn>평가</Btn>
       </List>
     ),
   };
@@ -111,11 +146,11 @@ const AlarmText = styled.span`
 
 const Btn = styled.button`
   color: white;
-  border-radius: 3px;
-  background-color: #00b900;
+  border-radius: 4px;
+  background-color: ${({ theme }) => theme.palette.main};
   font-size: 12px;
   font-weight: 500;
-  /* padding: 6px 12px; */
+
   padding: 0 14px;
   height: 24px;
   display: flex;
@@ -127,6 +162,6 @@ const Btn = styled.button`
 
   cursor: pointer;
   &:hover {
-    background-color: #009400;
+    background-color: ${({ theme }) => theme.palette.main};
   }
 `;
