@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+
 import { AlarmType } from '../../types/alarm';
 import sliceString from '../../utils/sliceString';
 
@@ -6,82 +7,81 @@ interface AlarmListProps {
   alarmInfo: AlarmType;
 }
 
+interface AlarmObject {
+  [key: number]: JSX.Element;
+}
+
 function AlarmList({ alarmInfo }: AlarmListProps) {
-  if (alarmInfo.type < 1 || alarmInfo.type > 6) return null;
-  switch (alarmInfo.type) {
-    case 1:
-      return (
-        <List>
-          <ProfileImage />
-          <AlarmText>
-            {sliceString(
-              `${alarmInfo.senderNickname}에게 온 여름 초대가 있습니다.`,
-              36,
-            )}
-          </AlarmText>
-          <Btn>수락</Btn>
-        </List>
-      );
-    case 2:
-      return (
-        <List>
-          <ProfileImage />
-          <AlarmText>
-            {sliceString(
-              `${alarmInfo.senderNickname}에게 온 여름 초대가 있습니다.`,
-              36,
-            )}
-          </AlarmText>
-          <Btn>수락</Btn>
-        </List>
-      );
-    case 3:
-      return (
-        <List>
-          <ProfileImage />
-          <AlarmText>
-            {sliceString(
-              `${alarmInfo.senderNickname}에게 온 친구 요청이 있습니다. 친구 요청이 있습니다. 친구 요청이 있습니다.`,
-              36,
-            )}
-          </AlarmText>
-          <Btn>수락</Btn>
-        </List>
-      );
-    case 4:
-      return (
-        <List>
-          <ProfileImage />
-          <AlarmText>
-            {sliceString(
-              `${alarmInfo.senderNickname}님이 친구요청을 수락했습니당.`,
-              36,
-            )}
-          </AlarmText>
-        </List>
-      );
-    case 5:
-      return (
-        <List>
-          <ProfileImage />
-          <AlarmText>
-            {sliceString(
-              `${alarmInfo.boardNo}번 게시물의 여름 신청서가 도착했습니당.`,
-              36,
-            )}
-          </AlarmText>
-        </List>
-      );
-    case 6:
-      return (
-        <List>
-          <ProfileImage />
-          <AlarmText>{`사진 부적절`}</AlarmText>
-        </List>
-      );
-    default:
-      return null;
-  }
+  if (alarmInfo.type < 1 || alarmInfo.type > 11) return null;
+
+  const alarmObject: AlarmObject = {
+    1: (
+      <List>
+        <ProfileImage />
+        <AlarmText>
+          {sliceString(
+            `${alarmInfo.senderNickname}에게 온 여름 초대가 있습니다.`,
+            36,
+          )}
+        </AlarmText>
+        <Btn>수락</Btn>
+      </List>
+    ),
+    2: (
+      <List>
+        <ProfileImage />
+        <AlarmText>
+          {sliceString(
+            `${alarmInfo.senderNickname}에게 온 여름 초대가 있습니다.`,
+            36,
+          )}
+        </AlarmText>
+        <Btn>수락</Btn>
+      </List>
+    ),
+    3: (
+      <List>
+        <ProfileImage />
+        <AlarmText>
+          {sliceString(
+            `${alarmInfo.senderNickname}에게 온 친구 요청이 있습니다. 친구 요청이 있습니다. 친구 요청이 있습니다.`,
+            36,
+          )}
+        </AlarmText>
+        <Btn>수락</Btn>
+      </List>
+    ),
+    4: (
+      <List>
+        <ProfileImage />
+        <AlarmText>
+          {sliceString(
+            `${alarmInfo.senderNickname}님이 친구요청을 수락했습니당.`,
+            36,
+          )}
+        </AlarmText>
+      </List>
+    ),
+    5: (
+      <List>
+        <ProfileImage />
+        <AlarmText>
+          {sliceString(
+            `${alarmInfo.boardNo}번 게시물의 여름 신청서가 도착했습니당.`,
+            36,
+          )}
+        </AlarmText>
+      </List>
+    ),
+    6: (
+      <List>
+        <ProfileImage />
+        <AlarmText>{`사진 부적절`}</AlarmText>
+      </List>
+    ),
+  };
+
+  return alarmObject[alarmInfo.type];
 }
 
 export default AlarmList;
