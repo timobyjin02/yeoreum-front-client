@@ -98,9 +98,9 @@ function Alarm() {
     <Wrapper ref={ref}>
       <ImageAlarm
         alt="alarm"
-        src="/vercel.svg"
-        width={40}
-        height={40}
+        src="/icons/notification.svg"
+        width={24}
+        height={24}
         priority
         onClick={() => setIsOpen(prev => !prev)}
       />
@@ -122,11 +122,22 @@ function Alarm() {
 export default Alarm;
 
 const Wrapper = styled.div`
+  width: 40px;
+  height: 40px;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+  &:hover {
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 5%);
+  }
 `;
 
 const ImageAlarm = styled(Image)`
-  margin-right: 20px;
+  cursor: pointer;
+
   @media (max-width: 640px) {
     display: none;
   }

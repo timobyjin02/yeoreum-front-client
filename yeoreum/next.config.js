@@ -2,6 +2,9 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
+  images: {
+    domains: ['4term-main-project.s3.ap-northeast-2.amazonaws.com'],
+  },
   async rewrites() {
     return [
       {
