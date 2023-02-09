@@ -69,7 +69,14 @@ export function NavUsual({
               로그인
             </LoginButton>
           )}
-          <HamburgerButton onClick={() => setHamburger(true)} />
+          <HamburgerButton onClick={() => setHamburger(true)}>
+            <Image
+              alt="hamburger"
+              src="/icons/hamburger.svg"
+              width={36}
+              height={36}
+            />
+          </HamburgerButton>
         </NavContainer>
       </Container>
       <Kernel />
@@ -271,12 +278,14 @@ const LoginButton = styled.button`
 const HamburgerButton = styled.button`
   width: 40px;
   height: 40px;
-  background-color: gray;
-  display: none;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   cursor: pointer;
 
-  @media (max-width: 640px) {
-    display: block;
+  @media (min-width: 641px) {
+    display: none;
   }
 `;
