@@ -43,7 +43,7 @@ jobs:
               uses: docker/login-action@v1
               with:
                   registry: ghcr.io
-                  username: klaus9267
+                  username: label-go
                   password: ${{ secrets.yeoreum }}
             - name: Docker run
               run: |
