@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import React from 'react';
-import File from './FileInput';
+import File from './fileInput';
 import ReportInput from './ReportInput';
 import { useState } from 'react';
 

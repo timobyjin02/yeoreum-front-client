@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-const Header = () => (
+const SignUpHeader = () => (
   <Wrapper>
     <Head>회원가입</Head>
   </Wrapper>
@@ -20,4 +20,4 @@ const Head = styled.h2`
   font-weight: 600;
 `;
 
-export default Header;
+export default SignUpHeader;
