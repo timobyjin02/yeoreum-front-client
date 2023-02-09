@@ -270,6 +270,11 @@ const HamburgerButton = styled.button`
 
   cursor: pointer;
 
+  &:hover {
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 5%);
+  }
+
   @media (min-width: 641px) {
     display: none;
   }

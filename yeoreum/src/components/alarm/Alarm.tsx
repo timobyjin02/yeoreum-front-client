@@ -129,18 +129,19 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: center;
   margin-right: 10px;
+
   &:hover {
     border-radius: 50%;
     background-color: rgba(0, 0, 0, 5%);
+  }
+
+  @media (max-width: 640px) {
+    display: none;
   }
 `;
 
 const ImageAlarm = styled(Image)`
   cursor: pointer;
-
-  @media (max-width: 640px) {
-    display: none;
-  }
 `;
 
 const AlarmContainer = styled.div`
@@ -176,10 +177,6 @@ const AlarmModalBox = styled.div`
     border: 1px solid transparent;
     background-clip: padding-box;
   }
-  /* ::-webkit-scrollbar-track {
-    border-radius: 2px;
-    background-color: rgba(0, 0, 0, 25%);
-  } */
 `;
 
 const AlarmLists = styled.ul`
