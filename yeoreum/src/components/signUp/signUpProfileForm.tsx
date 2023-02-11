@@ -1,4 +1,5 @@
 import { FocusEvent, ChangeEvent } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import {
   Container,
@@ -7,6 +8,7 @@ import {
   AlertP,
   Input,
   Label,
+  Button,
   SubmitLink,
   Submit,
   GenderWrapper,
@@ -23,21 +25,24 @@ import {
   SIGN_UP_PROFILE_REGEX_BY_TYPE,
 } from '../../constants/signUpConst';
 import useForm from '../../hooks/useForm';
+import validateNickname from '../../apis/validateNickname';
+import { ConstType, RegexType } from '../../types/signUp';
 
 const SignUpProfileForm = () => {
-  const MESSAGE_BY_TYPE = SIGN_UP_PROFILE_MESSAGE_BY_TYPE;
-  const REGEX_BY_TYPE = SIGN_UP_PROFILE_REGEX_BY_TYPE;
+  const MESSAGE_BY_TYPE: ConstType = SIGN_UP_PROFILE_MESSAGE_BY_TYPE;
+  const REGEX_BY_TYPE: RegexType = SIGN_UP_PROFILE_REGEX_BY_TYPE;
   const [user, setUser, onChangeValue, onChangeValidity] = useForm(
     SIGN_UP_PROFILE_INITIAL,
   );
+  const [validNicknameMessage, setValidNicknameMessage] = useState('');
 
   const onValidate = (name: string, value: string) => {
-    const isValid = (REGEX_BY_TYPE as any)[name].test(value);
+    const isValid = REGEX_BY_TYPE[name].test(value);
     return {
       isValid,
       message: isValid
-        ? (MESSAGE_BY_TYPE as any)[name].success
-        : (MESSAGE_BY_TYPE as any)[name].error,
+        ? MESSAGE_BY_TYPE[name].success
+        : MESSAGE_BY_TYPE[name].error,
     };
   };
 
@@ -56,6 +61,11 @@ const SignUpProfileForm = () => {
     onChangeValidity(name, isValid, message);
   };
 
+  const onClickNickname = () => {
+    const isValid = validateNickname(user.nickname.value);
+    console.log(isValid);
+  };
+
   const onChangeMajor = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     onValidate(name, value);
@@ -69,7 +79,7 @@ const SignUpProfileForm = () => {
   };
   console.log(user);
   return (
-    <Container>
+    <Container onSubmit={e => e.preventDefault()}>
       <Wrapper>
         <Label>
           <P>프로필</P>
@@ -122,6 +132,7 @@ const SignUpProfileForm = () => {
             onChange={onChangeNickname}
           ></Input>
         </Label>
+        <Button onClick={onClickNickname}>중복확인</Button>
       </Wrapper>
       {user.nickname.message.length > 0 && (
         <AlertP success={user.nickname.validity}>
@@ -134,7 +145,7 @@ const SignUpProfileForm = () => {
           <Input
             name="major"
             type="text"
-            maxLength={16}
+            maxLength={30}
             placeholder="학과를 입력해주세요"
             onChange={onChangeMajor}
           ></Input>
