@@ -10,12 +10,12 @@ const RotateAnimation = keyframes`
   }
 `;
 
-export default function Progress() {
+export default function LoadingSpinner() {
   return (
     <Wrapper
       style={{
-        width: 16,
-        height: 16,
+        width: 20,
+        height: 20,
       }}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
@@ -39,16 +39,16 @@ export default function Progress() {
 }
 
 const Wrapper = styled.svg`
-  color: black;
+  color: #4d49fe;
   animation-name: ${RotateAnimation};
   animation-duration: 1s;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
 
   .circle {
-    opacity: 0.25;
+    opacity: 0.35;
   }
   .tooth {
-    opacity: 0.75;
+    opacity: 0.85;
   }
 `;

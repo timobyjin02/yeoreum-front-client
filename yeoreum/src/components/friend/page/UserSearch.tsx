@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import React from 'react';
-import Progress from '../../../pages/friend/Progress';
+import LoadingSpinner from '../../common/LoadingSpinner';
 
 interface Type {
   loading: boolean;
@@ -16,9 +16,9 @@ function UserSearch({ searchTerm, setSearchTerm, loading }: Type) {
   return (
     <InputBox>
       {loading && (
-        <ProgressWrapper>
-          <Progress />
-        </ProgressWrapper>
+        <LoadingSpinnerWrapper>
+          <LoadingSpinner />
+        </LoadingSpinnerWrapper>
       )}
       <SearchIcon src="/icons/searchnormal.svg" />
       <Input
@@ -77,15 +77,13 @@ const Input = styled.input`
   }
 `;
 
-//
-
-const ProgressWrapper = styled.div`
+const LoadingSpinnerWrapper = styled.div`
   position: absolute;
   /* top: 0;
   right: 0;
   width: 28px;
-  height: 28px;
-  display: flex;
+  height: 28px; */
+  /* display: flex;
   align-items: center;
   justify-content: center; */
 `;
