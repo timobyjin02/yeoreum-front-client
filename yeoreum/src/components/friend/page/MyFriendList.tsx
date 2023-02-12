@@ -4,6 +4,7 @@ import ElseProfile from '../../elseProfile/ElseProfile';
 import Modal from '../../common/Modal';
 import sliceString from '../../../utils/sliceString';
 import { FriendResponseType } from '../../../types/friend';
+import ProfileImage from '../../common/ProfileImage';
 
 interface Type {
   friendList: FriendResponseType;
@@ -22,7 +23,9 @@ function FriendPage({ friendList }: Type) {
       {friendList.map((friend, index) => {
         return (
           <List key={index}>
-            <ProfileImg src={friend.friendProfileImage} />
+            <ImageWrapper>
+              <ProfileImage src={friend.friendProfileImage} size={70} />
+            </ImageWrapper>
             <InfoWrapper onClick={openProfileHandler}>
               {isOpen4 && (
                 <Modal onClose={() => setIsOpen4(false)}>
@@ -55,12 +58,8 @@ const List = styled.div`
   cursor: pointer;
 `;
 
-const ProfileImg = styled.img`
-  width: 63px;
-  height: 63px;
+const ImageWrapper = styled.div`
   margin-right: 15px;
-  border-radius: 50%;
-  background-color: antiquewhite;
 `;
 
 const InfoWrapper = styled.div`
