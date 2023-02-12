@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
-import {
-  fetchUserProfile,
-  UserProfileResponseType,
-} from '../../api/myPage/myPage';
+import { fetchUserProfile, UserProfileResponseType } from '../../api/myPage';
 
 function Profile() {
   const [userProfileInfo, setUserProfileInfo] =

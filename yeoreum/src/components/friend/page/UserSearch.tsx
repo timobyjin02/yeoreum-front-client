@@ -1,8 +1,16 @@
 import styled from '@emotion/styled';
-import React, { useState } from 'react';
+import React from 'react';
 
-function UserSearch() {
-  const [searchTerm, setSearchTerm] = useState('');
+interface Type {
+  searchTerm: string;
+  setSearchTerm: (state: string | ((prev: string) => string)) => void;
+}
+
+function UserSearch({ searchTerm, setSearchTerm }: Type) {
+  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+    console.log(e.target.value);
+  };
 
   return (
     <InputBox>
@@ -13,7 +21,7 @@ function UserSearch() {
       <Input
         placeholder="검색어를 입력하세요."
         value={searchTerm}
-        onChange={({ target: { value } }) => setSearchTerm(value)}
+        onChange={changeHandler}
       />
       {searchTerm && (
         <SearchIcon

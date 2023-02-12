@@ -1,24 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import styled from '@emotion/styled';
 import ElseProfile from '../../elseProfile/ElseProfile';
 import Modal from '../../common/Modal';
-import { fetchFriends, FriendsResponseType } from '../../../api/friendPage';
+import { FriendsSearchResponseType } from '../../../api/friendPage';
 import sliceString from '../../../utils/sliceString';
 
-function FriendPage() {
+interface Type {
+  friendList: FriendsSearchResponseType;
+  searchTerm: string;
+}
+
+function FriendPage({ friendList, searchTerm }: Type) {
   const [isOpen4, setIsOpen4] = useState(false);
-  const [friendList, setFriendList] = useState<FriendsResponseType>({
-    friends: [],
-  });
-
-  useEffect(() => {
-    (async () => {
-      const friend = await fetchFriends();
-
-      console.log(friend);
-      setFriendList(friend);
-    })();
-  }, []);
 
   const openProfileHandler = () => {
     setIsOpen4(true);
@@ -26,14 +19,18 @@ function FriendPage() {
 
   return (
     <div>
-      {friendList.friends.map(friend => {
+      {friendList.map((friend, index) => {
         return (
-          <List key={friend.friendUserNo}>
+          <List key={index}>
             <ProfileImg src={friend.friendProfileImage} />
             <InfoWrapper onClick={openProfileHandler}>
               {isOpen4 && (
                 <Modal onClose={() => setIsOpen4(false)}>
-                  <ElseProfile />
+                  <ElseProfile
+                    img={friend.friendProfileImage}
+                    name={friend.friendNickname}
+                    description={friend.friendDescription}
+                  />
                 </Modal>
               )}
               <Nickname>{friend.friendNickname}</Nickname>
