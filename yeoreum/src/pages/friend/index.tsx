@@ -3,30 +3,30 @@ import PostContainer from '../../components/board/PostContainer';
 import FriendTop from '../../components/friend/page/FriendTop';
 import UserSearch from '../../components/friend/page/UserSearch';
 import MyFriendList from '../../components/friend/page/MyFriendList';
-import { fetchFriends, FriendsResponseType } from '../../api/friendPage';
+import { fetchSearchFriends, FriendResponseType } from '../../api/friendPage';
 
 function index() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [friendList, setFriendList] = useState<FriendsResponseType>({
-    friends: [],
-  });
+  const [friendList, setFriendList] = useState<FriendResponseType>([]);
 
   useEffect(() => {
     (async () => {
-      const friend = await fetchFriends();
-      console.log(friend);
+      const friend = await fetchSearchFriends(searchTerm);
       setFriendList(friend);
+
+      if (!searchTerm) {
+        setFriendList(friend.friends);
+      }
+      if (searchTerm) {
+        setFriendList(friend.searchResult);
+      }
     })();
-  }, []);
+  }, [searchTerm]);
 
   return (
     <PostContainer>
       <FriendTop />
-      <UserSearch
-        setFriendList={setFriendList}
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-      />
+      <UserSearch searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       <MyFriendList friendList={friendList} searchTerm={searchTerm} />
     </PostContainer>
   );

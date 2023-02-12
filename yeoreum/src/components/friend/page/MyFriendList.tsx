@@ -1,19 +1,16 @@
-import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import ElseProfile from '../../elseProfile/ElseProfile';
 import Modal from '../../common/Modal';
-import {
-  FriendsResponseType,
-  FriendsSearchResponseType,
-} from '../../../api/friendPage';
+import { FriendResponseType } from '../../../api/friendPage';
 import sliceString from '../../../utils/sliceString';
 
 interface Type {
-  friendList: FriendsResponseType;
+  friendList: FriendResponseType;
   searchTerm: string;
 }
 
-function FriendPage({ friendList, searchTerm }: Type) {
+function FriendPage({ friendList }: Type) {
   const [isOpen4, setIsOpen4] = useState(false);
 
   const openProfileHandler = () => {
@@ -22,8 +19,7 @@ function FriendPage({ friendList, searchTerm }: Type) {
 
   return (
     <div>
-      {/* dd */}
-      {friendList.friends.map((friend, index) => {
+      {friendList.map((friend, index) => {
         return (
           <List key={index}>
             <ProfileImg src={friend.friendProfileImage} />
