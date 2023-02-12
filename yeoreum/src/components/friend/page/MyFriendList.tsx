@@ -2,11 +2,14 @@ import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import styled from '@emotion/styled';
 import ElseProfile from '../../elseProfile/ElseProfile';
 import Modal from '../../common/Modal';
-import { FriendsSearchResponseType } from '../../../api/friendPage';
+import {
+  FriendsResponseType,
+  FriendsSearchResponseType,
+} from '../../../api/friendPage';
 import sliceString from '../../../utils/sliceString';
 
 interface Type {
-  friendList: FriendsSearchResponseType;
+  friendList: FriendsResponseType;
   searchTerm: string;
 }
 
@@ -19,7 +22,8 @@ function FriendPage({ friendList, searchTerm }: Type) {
 
   return (
     <div>
-      {friendList.map((friend, index) => {
+      {/* dd */}
+      {friendList.friends.map((friend, index) => {
         return (
           <List key={index}>
             <ProfileImg src={friend.friendProfileImage} />

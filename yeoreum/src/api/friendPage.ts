@@ -34,8 +34,10 @@ export type FriendsSearchResponseType = {
 // }
 
 export const fetchSearchFriends = async (value: string) => {
-  console.log('검색어', value);
+  // console.log('검색어', value);
 
   const { data } = await remote.get(`/api/friends/${value}`, config);
   return data.response;
+
+  console.log(data.response);
 };
