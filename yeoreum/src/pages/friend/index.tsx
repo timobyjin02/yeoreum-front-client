@@ -1,14 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PostContainer from '../../components/board/PostContainer';
 import FriendTop from '../../components/friend/page/FriendTop';
 import UserSearch from '../../components/friend/page/UserSearch';
 import MyFriendList from '../../components/friend/page/MyFriendList';
-import {
-  fetchFriends,
-  fetchSearchFriends,
-  FriendsResponseType,
-} from '../../api/friendPage';
-import axios from 'axios';
+import { fetchFriends, FriendsResponseType } from '../../api/friendPage';
 
 function index() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -27,7 +22,11 @@ function index() {
   return (
     <PostContainer>
       <FriendTop />
-      <UserSearch searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+      <UserSearch
+        setFriendList={setFriendList}
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+      />
       <MyFriendList friendList={friendList} searchTerm={searchTerm} />
     </PostContainer>
   );

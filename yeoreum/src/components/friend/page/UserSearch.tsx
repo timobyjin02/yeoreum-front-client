@@ -1,13 +1,36 @@
 import styled from '@emotion/styled';
-import React from 'react';
+import axios from 'axios';
+import React, { Dispatch, SetStateAction, useCallback, useEffect } from 'react';
+import { FriendsResponseType } from '../../../api/friendPage';
 
 interface Type {
+  setFriendList: Dispatch<SetStateAction<FriendsResponseType>>;
   searchTerm: string;
   setSearchTerm: (state: string | ((prev: string) => string)) => void;
 }
 
-function UserSearch({ searchTerm, setSearchTerm }: Type) {
+function UserSearch({ setFriendList, searchTerm, setSearchTerm }: Type) {
+  const request = useCallback(async function (value: string) {
+    if (!value) return;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN}`,
+      },
+    };
+
+    axios
+      .get(`/api/friends/${value}`, config)
+      .then(response => {
+        console.log(response);
+        setFriendList(response.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, []);
+
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    request(e.target.value);
     setSearchTerm(e.target.value);
     console.log(e.target.value);
   };
