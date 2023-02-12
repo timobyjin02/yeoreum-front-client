@@ -2,17 +2,6 @@ import axios from 'axios';
 
 const remote = axios.create();
 
-export interface UserProfileResponseType {
-  userNo: number;
-  email: string;
-  nickname: string;
-  major: string;
-  gender: number;
-  description: string;
-  profileImage: string;
-  grade: string;
-}
-
 export const fetchUserProfile = async () => {
   const config = {
     headers: {

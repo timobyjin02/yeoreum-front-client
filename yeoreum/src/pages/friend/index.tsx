@@ -3,7 +3,8 @@ import PostContainer from '../../components/board/PostContainer';
 import FriendTop from '../../components/friend/page/FriendTop';
 import UserSearch from '../../components/friend/page/UserSearch';
 import MyFriendList from '../../components/friend/page/MyFriendList';
-import { fetchSearchFriends, FriendResponseType } from '../../api/friendPage';
+import { fetchSearchFriends } from '../../api/friendPage';
+import { FriendResponseType } from '../../types/friend';
 
 function index() {
   const [searchTerm, setSearchTerm] = useState('');

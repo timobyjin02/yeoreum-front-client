@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import ElseProfile from '../../elseProfile/ElseProfile';
 import Modal from '../../common/Modal';
-import { FriendResponseType } from '../../../api/friendPage';
 import sliceString from '../../../utils/sliceString';
+import { FriendResponseType } from '../../../types/friend';
 
 interface Type {
   friendList: FriendResponseType;

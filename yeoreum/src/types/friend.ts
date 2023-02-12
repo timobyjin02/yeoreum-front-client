@@ -3,3 +3,10 @@ export interface FriendListType {
   nickname: string;
   profileImage: string;
 }
+
+export type FriendResponseType = {
+  friendUserNo: number;
+  friendNickname: string;
+  friendDescription: string;
+  friendProfileImage: string;
+}[];
