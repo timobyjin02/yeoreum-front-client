@@ -9,9 +9,11 @@ import { FriendResponseType } from '../../types/friend';
 function index() {
   const [searchTerm, setSearchTerm] = useState('');
   const [friendList, setFriendList] = useState<FriendResponseType>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     (async () => {
+      setLoading(true);
       const friend = await fetchSearchFriends(searchTerm);
       setFriendList(friend);
 
@@ -27,8 +29,12 @@ function index() {
   return (
     <PostContainer>
       <FriendTop />
-      <UserSearch searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-      <MyFriendList friendList={friendList} searchTerm={searchTerm} />
+      <UserSearch
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        loading={loading}
+      />
+      <MyFriendList friendList={friendList} />
     </PostContainer>
   );
 }

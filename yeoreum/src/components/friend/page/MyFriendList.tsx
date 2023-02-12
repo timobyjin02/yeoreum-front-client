@@ -8,7 +8,6 @@ import ProfileImage from '../../common/ProfileImage';
 
 interface Type {
   friendList: FriendResponseType;
-  searchTerm: string;
 }
 
 function FriendPage({ friendList }: Type) {
@@ -20,30 +19,34 @@ function FriendPage({ friendList }: Type) {
 
   return (
     <div>
-      {friendList.map((friend, index) => {
-        return (
-          <List key={index}>
-            <ImageWrapper>
-              <ProfileImage src={friend.friendProfileImage} size={70} />
-            </ImageWrapper>
-            <InfoWrapper onClick={openProfileHandler}>
-              {isOpen4 && (
-                <Modal onClose={() => setIsOpen4(false)}>
-                  <ElseProfile
-                    img={friend.friendProfileImage}
-                    name={friend.friendNickname}
-                    description={friend.friendDescription}
-                  />
-                </Modal>
-              )}
-              <Nickname>{friend.friendNickname}</Nickname>
-              <Description>
-                {sliceString(friend.friendDescription, 65)}
-              </Description>
-            </InfoWrapper>
-          </List>
-        );
-      })}
+      {friendList.length > 0 ? (
+        friendList.map((friend, index) => {
+          return (
+            <List key={index}>
+              <ImageWrapper>
+                <ProfileImage src={friend.friendProfileImage} size={70} />
+              </ImageWrapper>
+              <InfoWrapper onClick={openProfileHandler}>
+                {isOpen4 && (
+                  <Modal onClose={() => setIsOpen4(false)}>
+                    <ElseProfile
+                      img={friend.friendProfileImage}
+                      name={friend.friendNickname}
+                      description={friend.friendDescription}
+                    />
+                  </Modal>
+                )}
+                <Nickname>{friend.friendNickname}</Nickname>
+                <Description>
+                  {sliceString(friend.friendDescription, 65)}
+                </Description>
+              </InfoWrapper>
+            </List>
+          );
+        })
+      ) : (
+        <List>검색 결과가 없습니다</List>
+      )}
     </div>
   );
 }

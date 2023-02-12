@@ -20,7 +20,7 @@ function ProfileImage({ src, size }: ImageProp) {
       <Image
         ref={imageRef}
         onError={handleImageError}
-        alt="search image"
+        alt="default image"
         src={'img/profile.png'}
       ></Image>
     </ImageWrapper>
