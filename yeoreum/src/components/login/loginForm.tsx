@@ -1,22 +1,26 @@
 import styled from '@emotion/styled';
+import axios from 'axios';
 import Link from 'next/link';
 
-const loginForm = () => (
-  <>
-    <Form>
-      <Label>
-        <Input type="email" placeholder="email" />
-      </Label>
-      <Label>
-        <Input type="password" placeholder="password" />
-      </Label>
-      <Link href="">
-        <ForgotPw>Forgot Password</ForgotPw>
-      </Link>
-      <Submit>Login</Submit>
-    </Form>
-  </>
-);
+const loginForm = () => {
+  // axios.get('/api/auth/kakao/login');
+  return (
+    <>
+      <Form>
+        <Label>
+          <Input type="email" placeholder="email" />
+        </Label>
+        <Label>
+          <Input type="password" placeholder="password" />
+        </Label>
+        <Link href="">
+          <ForgotPw>Forgot Password</ForgotPw>
+        </Link>
+        <Submit>Login</Submit>
+      </Form>
+    </>
+  );
+};
 
 export default loginForm;
 

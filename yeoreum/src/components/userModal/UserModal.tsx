@@ -4,8 +4,14 @@ import useOutsideClick from '../../hooks/useOutsideClick';
 import useResize from '../../hooks/useResize';
 import Link from 'next/link';
 import { logout } from '../../utils/user';
+import { User } from '../nav/NavBar';
+import Image from 'next/image';
 
-export default function UserModal() {
+interface UserModalProps {
+  userData?: Pick<User, 'profileImage' | 'nickname'>;
+}
+
+export default function UserModal({ userData }: UserModalProps) {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement | null>(null);
 
@@ -15,14 +21,29 @@ export default function UserModal() {
   return (
     <Wrapper ref={ref}>
       <ProfileWrapper onClick={() => setIsOpen(prev => !prev)}>
-        <ProfileImg />
+        {userData?.profileImage ? (
+          <ProfileImg
+            width={300}
+            height={300}
+            alt="userProfile"
+            // src={userData?.profileImage}
+            src="/anonymous.png"
+          />
+        ) : (
+          <ProfileImg
+            width={240}
+            height={240}
+            alt="default"
+            src="/anonymous.png"
+          />
+        )}
         <Arrow toggle={isOpen} />
       </ProfileWrapper>
       {isOpen && (
         <ModalContainer>
           <UserModalBox>
             <NicknameDiv>
-              <Nickname>donkey 님</Nickname>
+              <Nickname>{userData?.nickname} 님</Nickname>
             </NicknameDiv>
             <Items>
               <Link href="/mypage">
@@ -35,7 +56,13 @@ export default function UserModal() {
                 logout();
               }}
             >
-              아이콘 로그아웃
+              <Image
+                width={18}
+                height={18}
+                alt="logout"
+                src="/icons/logout.svg"
+              />
+              <LogoutText>로그아웃</LogoutText>
             </Logout>
           </UserModalBox>
         </ModalContainer>
@@ -61,11 +88,12 @@ const ProfileWrapper = styled.div`
   }
 `;
 
-const ProfileImg = styled.div`
-  width: 33px;
-  height: 33px;
+const ProfileImg = styled(Image)`
+  width: 34px;
+  height: 34px;
   margin-right: 6px;
   border-radius: 50%;
+  border: 1px solid #cacaca;
   background-color: lightgray;
   display: block;
 `;
@@ -132,8 +160,13 @@ const Logout = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  font-size: 14px;
+  font-size: 13px;
   &:hover {
     cursor: pointer;
   }
+`;
+
+const LogoutText = styled.span`
+  color: ${({ theme }) => theme.palette.font.body};
+  margin-left: 2px;
 `;
