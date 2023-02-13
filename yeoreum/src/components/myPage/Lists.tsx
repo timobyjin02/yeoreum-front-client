@@ -1,22 +1,35 @@
 import styled from '@emotion/styled';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { fetchUserBoards } from '../../api/myPage';
+import { BoardType } from '../../types/post';
 import PostList from '../board/PostList';
+import MyPosts from './MyPosts';
 
 function Lists() {
   const [viewList, setViewList] = useState(0);
+  const [boards, setBoards] = useState<BoardType[]>([]);
 
   const tabs = [
     {
       id: 0,
       title: '내가 쓴 글',
-      content: <PostList />,
+      content: <MyPosts boards={boards} />,
     },
     {
       id: 1,
       title: '좋아요',
-      content: '',
+      content: <PostList />,
     },
   ];
+
+  useEffect(() => {
+    (async () => {
+      const userBoards = await fetchUserBoards(1);
+
+      console.log(userBoards);
+      setBoards(userBoards);
+    })();
+  }, []);
 
   return (
     <Container>
