@@ -66,7 +66,7 @@ function AlarmList() {
     <AlarmContainer>
       <AlarmModalBox>
         <AlarmLists>
-          {noticesData?.map((alarm: AlarmType, idx: any) => (
+          {noticesData?.map((alarm: AlarmType, idx: number) => (
             <AlarmListItem key={idx} alarmData={alarm} />
           ))}
         </AlarmLists>

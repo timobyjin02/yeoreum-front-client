@@ -9,6 +9,7 @@ interface AlarmListItemProps {
 
 interface AlarmDataObject {
   [key: string]: {
+    isRead?: number;
     imageUrl?: string;
     text: string;
     btn?: string;
@@ -16,20 +17,21 @@ interface AlarmDataObject {
   };
 }
 
-const alarmDataByType = (alarmData: AlarmType) => {
-  const { senderNickname, type, boardNo, senderProfileImage } = alarmData;
+export const alarmDataByType = (alarmData: AlarmType) => {
+  const { senderNickname, type, boardNo, senderProfileImage, isRead } =
+    alarmData;
 
   const AlarmDataObject: AlarmDataObject = {
     1: {
-      text: sliceString(`${senderNickname}에게 온 여름 초대가 있습니다.`, 36),
+      text: `${senderNickname}에게 온 여름 초대가 있습니다.`,
       btn: '수락',
     },
     2: {
-      text: sliceString(`${senderNickname}에게 온 여름 초대가 있습니다.`, 36),
+      text: `${senderNickname}에게 온 여름 초대가 있습니다.`,
       btn: '수락',
     },
     3: {
-      text: sliceString(`${senderNickname}에게 온 친구 요청이 있습니다.`, 36),
+      text: `${senderNickname}에게 온 친구 요청이 있습니다.`,
       btn: '수락',
       // clickHandler: () => {
       //   // 친구 수락
@@ -37,14 +39,11 @@ const alarmDataByType = (alarmData: AlarmType) => {
       // },
     },
     4: {
-      text: sliceString(`${senderNickname}에게 친구 요청을 수락했습니다.`, 36),
+      text: `${senderNickname}에게 친구 요청을 수락했습니다.`,
       btn: '수락',
     },
     5: {
-      text: sliceString(
-        `${boardNo}번 게시물의 여름 신청서가 도착했습니다.`,
-        36,
-      ),
+      text: `${boardNo}번 게시물의 여름 신청서가 도착했습니다.`,
     },
     6: {
       text: '가입 조건 부적절로 회원가입이 반려됨',
@@ -68,6 +67,7 @@ const alarmDataByType = (alarmData: AlarmType) => {
 
   //
   AlarmDataObject[type].imageUrl = senderProfileImage;
+  AlarmDataObject[type].isRead = isRead;
 
   return AlarmDataObject[type];
 };
@@ -80,7 +80,7 @@ function AlarmListItem({ alarmData }: AlarmListItemProps) {
   return (
     <List>
       <ProfileImage src={data.imageUrl ? data.imageUrl : '/anonymous.png'} />
-      <AlarmText>{data.text}</AlarmText>
+      <AlarmText>{sliceString(data.text, 36)}</AlarmText>
       {data.btn && <Btn>{data.btn}</Btn>}
     </List>
   );

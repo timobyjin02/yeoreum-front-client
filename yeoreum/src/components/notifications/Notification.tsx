@@ -1,96 +1,27 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { AlarmType } from '../../types/alarm';
-import sliceString from '../../utils/sliceString';
+import { alarmDataByType } from '../alarm/AlarmListItem';
 
-interface AlarmListProps {
+interface AlarmListItemProps {
   alarmInfo: AlarmType;
 }
 
-function Notification({ alarmInfo }: AlarmListProps) {
-  if (alarmInfo.type < 1 || alarmInfo.type > 6) return null;
-  switch (alarmInfo.type) {
-    case 1:
-      return (
-        <List>
-          <Light isRead={Boolean(alarmInfo.isRead)} />
-          <ProfileImage />
-          <NotificationText isRead={Boolean(alarmInfo.isRead)}>
-            {sliceString(
-              `${alarmInfo.senderNickname}에게 온 여름 초대가 있습니다.`,
-              55,
-            )}
-          </NotificationText>
-          <Btn>수락</Btn>
-        </List>
-      );
-    case 2:
-      return (
-        <List>
-          <Light isRead={Boolean(alarmInfo.isRead)} />
-          <ProfileImage />
-          <NotificationText isRead={Boolean(alarmInfo.isRead)}>
-            {sliceString(
-              `${alarmInfo.senderNickname}에게 온 여름 초대가 있습니다.`,
-              36,
-            )}
-          </NotificationText>
-          <Btn>수락</Btn>
-        </List>
-      );
-    case 3:
-      return (
-        <List>
-          <Light isRead={Boolean(alarmInfo.isRead)} />
-          <ProfileImage />
-          <NotificationText isRead={Boolean(alarmInfo.isRead)}>
-            {sliceString(
-              `${alarmInfo.senderNickname}에게 온 친구 요청이 있습니다. 친구 요청이 있습니다. 친구 요청이 있습니다.`,
-              36,
-            )}
-          </NotificationText>
-          <Btn>수락</Btn>
-        </List>
-      );
-    case 4:
-      return (
-        <List>
-          <Light isRead={Boolean(alarmInfo.isRead)} />
-          <ProfileImage />
-          <NotificationText isRead={Boolean(alarmInfo.isRead)}>
-            {sliceString(
-              `${alarmInfo.senderNickname}님이 친구요청을 수락했습니당.`,
-              36,
-            )}
-          </NotificationText>
-        </List>
-      );
-    case 5:
-      return (
-        <List>
-          <Light isRead={Boolean(alarmInfo.isRead)} />
-          <ProfileImage />
-          <NotificationText isRead={Boolean(alarmInfo.isRead)}>
-            {sliceString(
-              `${alarmInfo.boardNo}번 게시물의 여름 신청서가 도착했습니당.`,
-              36,
-            )}
-          </NotificationText>
-        </List>
-      );
-    case 6:
-      return (
-        <List>
-          <Light isRead={Boolean(alarmInfo.isRead)} />
-          <ProfileImage />
-          <NotificationText
-            isRead={Boolean(alarmInfo.isRead)}
-          >{`사진 부적절 반려`}</NotificationText>
-        </List>
-      );
-    default:
-      return null;
-  }
+function Notification({ alarmInfo }: AlarmListItemProps) {
+  if (alarmInfo.type < 1 || alarmInfo.type > 11) return null;
+
+  const data = alarmDataByType(alarmInfo);
+
+  return (
+    <List>
+      <Light isRead={Boolean(data.isRead)} />
+      <ProfileImage src={data.imageUrl ? data.imageUrl : '/anonymous.png'} />
+      <NotificationText isRead={Boolean(data.isRead)}>
+        {data.text}
+      </NotificationText>
+      {data.btn && <Btn isRead={Boolean(data.isRead)}>{data.btn}</Btn>}
+    </List>
+  );
 }
 
 export default Notification;
@@ -111,7 +42,7 @@ const Light = styled.div<{ isRead: boolean }>`
   background-color: ${({ isRead }) => (isRead ? 'lightgray' : 'red')};
 `;
 
-const ProfileImage = styled.div`
+const ProfileImage = styled.img`
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -127,10 +58,11 @@ const NotificationText = styled.span<{ isRead: boolean }>`
   color: ${({ isRead }) => (isRead ? 'lightgray' : 'inherit')};
 `;
 
-const Btn = styled.button`
+const Btn = styled.button<{ isRead: boolean }>`
   color: white;
   border-radius: 3px;
-  background-color: #00b900;
+  background-color: ${({ theme, isRead }) =>
+    isRead ? theme.palette.disable : theme.palette.main};
   font-size: 12px;
   font-weight: 500;
   /* padding: 6px 12px; */
@@ -144,7 +76,9 @@ const Btn = styled.button`
   flex-shrink: 0;
 
   cursor: pointer;
+
   &:hover {
-    background-color: #009400;
+    background-color: ${({ theme, isRead }) =>
+      isRead ? theme.palette.disable : theme.palette.main};
   }
 `;
