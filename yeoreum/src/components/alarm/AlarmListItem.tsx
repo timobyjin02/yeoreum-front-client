@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import { AlarmType } from '../../types/alarm';
 import sliceString from '../../utils/sliceString';
-import axios from 'axios';
 
 interface AlarmListItemProps {
   alarmData: AlarmType;

@@ -18,16 +18,3 @@ const requestGetUserData = async (token: string) => {
 };
 
 export { requestGetNotices, requestGetUserData };
-
-// (async () => {
-//   const {
-//     data: {
-//       response: { userProfile: data },
-//     },
-//   } = await axios.get(`/api/users/profile`, {
-//     headers: {
-//       Authorization: `Bearer ${token}`,
-//     },
-//   });
-//   setUserData(data);
-// })();
