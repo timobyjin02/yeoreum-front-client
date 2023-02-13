@@ -1,21 +1,40 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
+import { fetchUserProfile } from '../../api/myPage';
+import { UserProfileResponseType } from '../../types/user';
 
 function Profile() {
+  const [userProfileInfo, setUserProfileInfo] =
+    useState<UserProfileResponseType>({
+      userNo: 0,
+      email: '',
+      nickname: '',
+      major: '',
+      gender: 0,
+      description: '',
+      profileImage: '',
+      grade: '',
+    });
+
   const router = useRouter();
+
+  useEffect(() => {
+    (async () => {
+      const userProfile = await fetchUserProfile();
+
+      // console.log(userProfile);
+      setUserProfileInfo(userProfile);
+    })();
+  }, []);
 
   return (
     <Container>
       <UserProfile>
         <ProfileImg />
         <InfoWrapper>
-          <Nickname>홍유진</Nickname>
-          <Description>
-            안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-            안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-            안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-          </Description>
+          <Nickname>{userProfileInfo.nickname}</Nickname>
+          <Description>{userProfileInfo.description}</Description>
         </InfoWrapper>
       </UserProfile>
       <EditButton

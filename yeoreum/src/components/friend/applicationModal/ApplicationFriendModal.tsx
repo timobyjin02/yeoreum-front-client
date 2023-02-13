@@ -24,7 +24,7 @@ function ApplicationFriendModal({ onClose }: PropsType) {
   return (
     <Container>
       <ResponsiveHeader>
-        <BackButton onClick={() => onClose()}>이전</BackButton>
+        <BackButton src="/icons/arrowleft.svg" onClick={() => onClose()} />
         <Title>친구신청</Title>
       </ResponsiveHeader>
       <SearchWrapper>
@@ -60,7 +60,7 @@ const ResponsiveHeader = styled.header`
   }
 `;
 
-const BackButton = styled.button`
+const BackButton = styled.img`
   position: absolute;
   border: none;
   background: inherit;

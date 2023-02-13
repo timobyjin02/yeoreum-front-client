@@ -1,15 +1,40 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PostContainer from '../../components/board/PostContainer';
 import FriendTop from '../../components/friend/page/FriendTop';
 import UserSearch from '../../components/friend/page/UserSearch';
 import MyFriendList from '../../components/friend/page/MyFriendList';
+import { fetchSearchFriends } from '../../api/friendPage';
+import { FriendResponseType } from '../../types/friend';
 
 function index() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [friendList, setFriendList] = useState<FriendResponseType>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      setLoading(true);
+      const friend = await fetchSearchFriends(searchTerm);
+      setFriendList(friend);
+
+      if (!searchTerm) {
+        setFriendList(friend.friends);
+      }
+      if (searchTerm) {
+        setFriendList(friend.searchResult);
+      }
+    })();
+  }, [searchTerm]);
+
   return (
     <PostContainer>
       <FriendTop />
-      <UserSearch />
-      <MyFriendList />
+      <UserSearch
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        loading={loading}
+      />
+      <MyFriendList friendList={friendList} />
     </PostContainer>
   );
 }
