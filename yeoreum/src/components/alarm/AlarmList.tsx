@@ -1,167 +1,119 @@
 import styled from '@emotion/styled';
-
+import React from 'react';
+import AlarmListItem from './AlarmListItem';
 import { AlarmType } from '../../types/alarm';
-import sliceString from '../../utils/sliceString';
+import { getToken } from '../../utils/user';
+import { useNoticesQuery } from '../../hooks/queries/notices';
 
-interface AlarmListProps {
-  alarmInfo: AlarmType;
-}
+function AlarmList() {
+  const token = getToken() as string;
+  const { data } = useNoticesQuery(token);
+  const noticesData = data?.data.response.notices;
 
-interface AlarmObject {
-  [key: number]: JSX.Element;
-}
+  // const alarmArray = [
+  //   {
+  //     noticeNo: 6,
+  //     type: 6,
+  //     senderUserNo: 20,
+  //     senderNickname: 'aaa',
+  //     senderProfileImage: '',
+  //     isRead: 0,
+  //     createdDate: '2023-01-16T04:19:47.137Z',
+  //   },
+  //   {
+  //     noticeNo: 5,
+  //     type: 5,
+  //     senderUserNo: 20,
+  //     senderNickname: 'aaa',
+  //     senderProfileImage: '',
+  //     isRead: 0,
+  //     createdDate: '2023-01-16T04:19:47.137Z',
+  //     boardNo: 1,
+  //   },
+  //   {
+  //     noticeNo: 4,
+  //     type: 4,
+  //     senderUserNo: 20,
+  //     senderNickname: 'aaa',
+  //     senderProfileImage: '',
+  //     isRead: 0,
+  //     createdDate: '2023-01-16T04:19:47.137Z',
+  //     friendNo: 2,
+  //   },
+  //   {
+  //     noticeNo: 3,
+  //     type: 3,
+  //     senderUserNo: 20,
+  //     senderNickname: 'aaa',
+  //     senderProfileImage: '',
+  //     isRead: 0,
+  //     createdDate: '2023-01-16T04:19:47.137Z',
+  //     friendNo: 1,
+  //   },
+  //   {
+  //     noticeNo: 2,
+  //     type: 2,
+  //     senderUserNo: 20,
+  //     senderNickname: 'aaa',
+  //     senderProfileImage: '',
+  //     isRead: 0,
+  //     createdDate: '2023-01-16T04:19:47.137Z',
+  //     chatRoomNo: 1,
+  //   },
+  // ];
 
-function AlarmList({ alarmInfo }: AlarmListProps) {
-  if (alarmInfo.type < 1 || alarmInfo.type > 11) return null;
-
-  const alarmObject: AlarmObject = {
-    1: (
-      <List>
-        <ProfileImage />
-        <AlarmText>
-          {sliceString(
-            `${alarmInfo.senderNickname}에게 온 여름 초대가 있습니다.`,
-            36,
-          )}
-        </AlarmText>
-        <Btn>수락</Btn>
-      </List>
-    ),
-    2: (
-      <List>
-        <ProfileImage />
-        <AlarmText>
-          {sliceString(
-            `${alarmInfo.senderNickname}에게 온 여름 초대가 있습니다.`,
-            36,
-          )}
-        </AlarmText>
-        <Btn>수락</Btn>
-      </List>
-    ),
-    3: (
-      <List>
-        <ProfileImage />
-        <AlarmText>
-          {sliceString(
-            `${alarmInfo.senderNickname}에게 온 친구 요청이 있습니다.`,
-            36,
-          )}
-        </AlarmText>
-        <Btn>수락</Btn>
-      </List>
-    ),
-    4: (
-      <List>
-        <ProfileImage />
-        <AlarmText>
-          {sliceString(
-            `${alarmInfo.senderNickname}님이 친구 요청을 수락했습니다.`,
-            36,
-          )}
-        </AlarmText>
-      </List>
-    ),
-    5: (
-      <List>
-        <ProfileImage />
-        <AlarmText>
-          {sliceString(
-            `${alarmInfo.boardNo}번 게시물의 여름 신청서가 도착했습니다.`,
-            36,
-          )}
-        </AlarmText>
-      </List>
-    ),
-    6: (
-      <List>
-        <ProfileImage />
-        <AlarmText>가입 조건 부적절로 회원가입이 반려됨</AlarmText>
-      </List>
-    ),
-    7: (
-      <List>
-        <ProfileImage />
-        <AlarmText>type 7 게시글 파티 초대 알림</AlarmText>
-        <Btn>수락</Btn>
-      </List>
-    ),
-    8: (
-      <List>
-        <ProfileImage />
-        <AlarmText>
-          type 8 게시글 파티 초대 누가 거절해서 게시글 삭제됨
-        </AlarmText>
-      </List>
-    ),
-    9: (
-      <List>
-        <ProfileImage />
-        <AlarmText>type 9 게시글 파티 초대 모두 수락해서 정상 등록</AlarmText>
-      </List>
-    ),
-    10: (
-      <List>
-        <ProfileImage />
-        <AlarmText>type 10 여름 신청서 파티 초대 알림</AlarmText>
-        <Btn>수락</Btn>
-      </List>
-    ),
-    11: (
-      <List>
-        <ProfileImage />
-        <AlarmText>type 11 평점 남기기 알림</AlarmText>
-        <Btn>평가</Btn>
-      </List>
-    ),
-  };
-
-  return alarmObject[alarmInfo.type];
+  return (
+    <AlarmContainer>
+      <AlarmModalBox>
+        <AlarmLists>
+          {noticesData?.map((alarm: AlarmType, idx: any) => (
+            <AlarmListItem key={idx} alarmData={alarm} />
+          ))}
+        </AlarmLists>
+      </AlarmModalBox>
+    </AlarmContainer>
+  );
 }
 
 export default AlarmList;
 
-const List = styled.li`
-  font-size: 14px;
+const AlarmContainer = styled.div`
+  position: absolute;
+  top: 40px;
+  right: 0;
+  display: flex;
+
+  width: 380px;
+  height: 100%;
+`;
+
+const AlarmModalBox = styled.div`
+  padding: 4px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: absolute;
+  top: 8px;
   width: 100%;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  padding: 8px 18px;
-`;
-
-const ProfileImage = styled.div`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: lightgray;
-  margin-right: 12px;
-  flex-shrink: 0;
-`;
-
-const AlarmText = styled.span`
-  font-size: 13px;
-  flex-grow: 1;
-`;
-
-const Btn = styled.button`
-  color: white;
+  min-height: 128px;
+  max-height: 428px;
+  background-color: white;
   border-radius: 4px;
-  background-color: ${({ theme }) => theme.palette.main};
-  font-size: 12px;
-  font-weight: 500;
-
-  padding: 0 14px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: 12px;
-
-  flex-shrink: 0;
-
-  cursor: pointer;
-  &:hover {
-    background-color: ${({ theme }) => theme.palette.main};
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 25%);
+  overflow-y: auto;
+  ::-webkit-scrollbar {
+    width: 5px;
   }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 2.5px;
+    background-color: rgba(0, 0, 0, 25%);
+    border: 1px solid transparent;
+    background-clip: padding-box;
+  }
+`;
+
+const AlarmLists = styled.ul`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 `;
