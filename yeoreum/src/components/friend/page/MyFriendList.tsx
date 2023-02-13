@@ -2,24 +2,16 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import ElseProfile from '../../elseProfile/ElseProfile';
 import Modal from '../../common/Modal';
+import sliceString from '../../../utils/sliceString';
+import { FriendResponseType } from '../../../types/friend';
+import ProfileImage from '../../common/ProfileImage';
 
-function FriendPage() {
+interface Type {
+  friendList: FriendResponseType;
+}
+
+function FriendPage({ friendList }: Type) {
   const [isOpen4, setIsOpen4] = useState(false);
-
-  const friendList = [
-    {
-      friendUserNo: 1,
-      friendNickname: '무친저글링',
-      friendImage: '',
-      friendDescription:
-        '안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요',
-    },
-  ];
-
-  const descriptionSlice = (string: string) => {
-    if (string.length <= 65) return string;
-    else return string.slice(0, 65) + '...';
-  };
 
   const openProfileHandler = () => {
     setIsOpen4(true);
@@ -27,24 +19,34 @@ function FriendPage() {
 
   return (
     <div>
-      {friendList.map((item, idx) => {
-        return (
-          <List key={idx}>
-            <ProfileImg />
-            <InfoWrapper onClick={openProfileHandler}>
-              {isOpen4 && (
-                <Modal onClose={() => setIsOpen4(false)}>
-                  <ElseProfile />
-                </Modal>
-              )}
-              <Nickname>{item.friendNickname}</Nickname>
-              <Description>
-                {descriptionSlice(item.friendDescription)}
-              </Description>
-            </InfoWrapper>
-          </List>
-        );
-      })}
+      {friendList.length > 0 ? (
+        friendList.map((friend, index) => {
+          return (
+            <List key={index}>
+              <ImageWrapper>
+                <ProfileImage src={friend.friendProfileImage} size={70} />
+              </ImageWrapper>
+              <InfoWrapper onClick={openProfileHandler}>
+                {isOpen4 && (
+                  <Modal onClose={() => setIsOpen4(false)}>
+                    <ElseProfile
+                      img={friend.friendProfileImage}
+                      name={friend.friendNickname}
+                      description={friend.friendDescription}
+                    />
+                  </Modal>
+                )}
+                <Nickname>{friend.friendNickname}</Nickname>
+                <Description>
+                  {sliceString(friend.friendDescription, 65)}
+                </Description>
+              </InfoWrapper>
+            </List>
+          );
+        })
+      ) : (
+        <List>검색 결과가 없습니다</List>
+      )}
     </div>
   );
 }
@@ -59,12 +61,8 @@ const List = styled.div`
   cursor: pointer;
 `;
 
-const ProfileImg = styled.div`
-  width: 63px;
-  height: 63px;
+const ImageWrapper = styled.div`
   margin-right: 15px;
-  border-radius: 50%;
-  background-color: antiquewhite;
 `;
 
 const InfoWrapper = styled.div`

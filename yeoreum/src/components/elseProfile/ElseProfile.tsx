@@ -3,7 +3,13 @@ import React, { useRef } from 'react';
 import dummyData from '../myPage/dummyData';
 import DuelModal from './DuelModal';
 
-function ElseProfile() {
+interface Type {
+  img: string;
+  name: string;
+  description: string;
+}
+
+function ElseProfile({ img, name, description }: Type) {
   const modalRef = useRef(null);
 
   return (
@@ -12,7 +18,7 @@ function ElseProfile() {
         <Img />
       </ProfileImg>
       <ProfileEvent>
-        <Nickname>미친저글링</Nickname>
+        <Nickname>{name}</Nickname>
         <Wrap>
           <AddFriend>친구신청</AddFriend>
           <DuelModal />
@@ -20,11 +26,7 @@ function ElseProfile() {
       </ProfileEvent>
       <div></div>
       <ProfileInfo>
-        <Description>
-          주짓수 그린벨트 태권도3단 유도2단 주부9단 합기도2단 새벽기도 5시 반
-          3대 중량 700kg 미친 존잘에 키도 큰 사람 그게 나야 나란 남자 감자
-          고구마깡 새우깡 수수깡 바리깡
-        </Description>
+        <Description>{description}</Description>
         <Graph>
           <ColorGraph>
             <Ballon>{dummyData.rating}</Ballon>

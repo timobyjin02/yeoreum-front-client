@@ -17,7 +17,7 @@ function FriendTop() {
   return (
     <Container>
       <PostPageTitle title="친구" />
-      <AddIcon onClick={AddFriend} />
+      <AddIcon src="/icons/useradd.svg" onClick={AddFriend} />
       {modal === 'YES' && (
         <Modal onClose={() => dispatch(notShowModal())}>
           <ApplicationFriendModal onClose={() => dispatch(notShowModal())} />
@@ -35,11 +35,8 @@ const Container = styled.div`
   justify-content: space-between;
 `;
 
-const AddIcon = styled.div`
+const AddIcon = styled.img`
   width: 30px;
   height: 30px;
-  margin-bottom: 20px;
-  margin-left: 10px;
-  background-color: antiquewhite;
   cursor: pointer;
 `;

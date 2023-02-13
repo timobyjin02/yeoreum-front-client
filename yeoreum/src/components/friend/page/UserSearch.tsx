@@ -1,19 +1,30 @@
 import styled from '@emotion/styled';
-import React, { useState } from 'react';
+import React from 'react';
+import LoadingSpinner from '../../common/LoadingSpinner';
 
-function UserSearch() {
-  const [searchTerm, setSearchTerm] = useState('');
+interface Type {
+  loading: boolean;
+  searchTerm: string;
+  setSearchTerm: (state: string | ((prev: string) => string)) => void;
+}
+
+function UserSearch({ searchTerm, setSearchTerm, loading }: Type) {
+  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
 
   return (
     <InputBox>
-      <SearchIcon
-        src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMSAxKSIgc3Ryb2tlPSIjQzVDNUM1IiBzdHJva2Utd2lkdGg9IjEuNSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48Y2lyY2xlIGN4PSI2LjYxMSIgY3k9IjYuNjExIiByPSI1Ljg2MSIvPjxwYXRoIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZD0iTTE1LjI1IDE1LjI1bC00LjI0My00LjI0MyIvPjwvZz48L3N2Zz4=
-"
-      />
+      {loading && (
+        <LoadingSpinnerWrapper>
+          <LoadingSpinner />
+        </LoadingSpinnerWrapper>
+      )}
+      <SearchIcon src="/icons/searchnormal.svg" />
       <Input
         placeholder="검색어를 입력하세요."
         value={searchTerm}
-        onChange={({ target: { value } }) => setSearchTerm(value)}
+        onChange={changeHandler}
       />
       {searchTerm && (
         <SearchIcon
@@ -64,4 +75,15 @@ const Input = styled.input`
     color: ${({ theme }) => theme.palette.font.disable};
     font-size: 0.875rem;
   }
+`;
+
+const LoadingSpinnerWrapper = styled.div`
+  position: absolute;
+  /* top: 0;
+  right: 0;
+  width: 28px;
+  height: 28px; */
+  /* display: flex;
+  align-items: center;
+  justify-content: center; */
 `;
