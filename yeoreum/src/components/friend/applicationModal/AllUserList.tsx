@@ -1,14 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { FriendListType } from '../../../types/friend';
 import ProfileImage from '../../common/ProfileImage';
+import { UsersResponseType } from '../../../types/user';
+import { RequestPostFriendApplication } from '../../../api/friends';
 
 interface ItemProps {
-  item: FriendListType;
+  item: UsersResponseType;
 }
 
 function AllUserList({ item }: ItemProps) {
   const [isDisabled, setIsDisabled] = useState(false);
+
+  const applicationHandler = () => {
+    RequestPostFriendApplication(item.userNo);
+    setIsDisabled(true);
+  };
 
   return (
     <AllUsersList key={item.userNo}>
@@ -16,10 +23,7 @@ function AllUserList({ item }: ItemProps) {
         <ProfileImage src={item.profileImage} size={40} />
         <Nickname>{item.nickname}</Nickname>
       </UserInfo>
-      <ApplicationButton
-        disabled={isDisabled}
-        onClick={() => setIsDisabled(true)}
-      >
+      <ApplicationButton disabled={isDisabled} onClick={applicationHandler}>
         신청
       </ApplicationButton>
     </AllUsersList>
