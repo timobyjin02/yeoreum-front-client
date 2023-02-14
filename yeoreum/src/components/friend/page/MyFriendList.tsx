@@ -45,7 +45,7 @@ function FriendPage({ friendList }: FriendListProps) {
           );
         })
       ) : (
-        <List>검색 결과가 없습니다</List>
+        <ListItem>검색 결과가 없습니다</ListItem>
       )}
     </div>
   );
@@ -81,4 +81,11 @@ const Description = styled.div`
   letter-spacing: 0.6px;
   line-height: 20px;
   color: ${({ theme }) => theme.palette.font.headline};
+`;
+
+const ListItem = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 8px 30px;
+  color: ${({ theme }) => theme.palette.font.subHeadline};
 `;

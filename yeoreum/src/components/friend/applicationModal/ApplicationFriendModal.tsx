@@ -17,19 +17,18 @@ function ApplicationFriendModal({ onClose }: PropsType) {
     if (!searchTerm) return;
 
     (async () => {
-      const data = await RequestGetUsers(searchTerm);
+      const users = await RequestGetUsers(searchTerm);
 
-      console.log(data);
-      setLists(data);
+      setLists(users);
     })();
   }, [searchTerm]);
 
   const TextBySearchTerm = ({ searchTerm }: { searchTerm: string }) => {
     if (searchTerm.length === 0) {
-      return <div>검색어를 입력하세요</div>;
+      return <ListItem>검색어를 입력하세요</ListItem>;
     }
     if (searchTerm.length > 0) {
-      return <div>검색 결과가 없습니다</div>;
+      return <ListItem>검색 결과가 없습니다</ListItem>;
     }
     return null;
   };
@@ -57,6 +56,15 @@ function ApplicationFriendModal({ onClose }: PropsType) {
 }
 
 export default ApplicationFriendModal;
+
+const ListItem = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 8px 30px;
+  font-size: 14px;
+  color: ${({ theme }) => theme.palette.font.subHeadline};
+  cursor: pointer;
+`;
 
 const Container = styled.div`
   @media (max-width: 640px) {

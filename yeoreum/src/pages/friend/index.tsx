@@ -14,14 +14,14 @@ function index() {
   useEffect(() => {
     (async () => {
       setLoading(true);
-      const friend = await RequestGetSearchFriends(searchTerm);
-      setFriendList(friend);
+      const friends = await RequestGetSearchFriends(searchTerm);
+      setFriendList(friends);
 
       if (!searchTerm) {
-        setFriendList(friend.friends);
+        setFriendList(friends.friends);
       }
       if (searchTerm) {
-        setFriendList(friend.searchResult);
+        setFriendList(friends.searchResult);
       }
     })();
   }, [searchTerm]);
