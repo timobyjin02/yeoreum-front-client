@@ -6,7 +6,7 @@ import BoardTitle from '../../components/board/PostPageTitle';
 import PostContainer from '../../components/board/PostContainer';
 import { getToken } from '../../utils/user';
 import { usePostsInfiniteQuery } from '../../hooks/queries/posts';
-import { RequestGetAllPostsOption } from '../../api/posts';
+import { RequestGetAllPostsOption } from '../../apis/posts';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 
 function Board() {

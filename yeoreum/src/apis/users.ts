@@ -20,4 +20,10 @@ const requestGetUsers = async (value: string) => {
   return data.response.users;
 };
 
-export { requestGetUserProfile, requestGetUsers };
+const requestGetUserBoards = async (type: number) => {
+  const { data } = await remote.get(`/api/boards/my-page/${type}`, config);
+
+  return data.response.users;
+};
+
+export { requestGetUserProfile, requestGetUsers, requestGetUserBoards };

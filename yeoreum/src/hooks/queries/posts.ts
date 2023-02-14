@@ -1,5 +1,5 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import { RequestGetAllPostsOption, requestGetPosts } from '../../api/posts';
+import { RequestGetAllPostsOption, requestGetPosts } from '../../apis/posts';
 import { AxiosError } from 'axios';
 
 const usePostsInfiniteQuery = (

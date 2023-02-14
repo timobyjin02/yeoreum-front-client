@@ -40,8 +40,8 @@ function AddPartyMembers() {
       <AddBtn onClick={addHandler}>추가</AddBtn>
       {isOpen4 && (
         <Modal onClose={() => setIsOpen4(false)}>
-          <ElseProfile />
-          {/* <AddFriendModal setIsOpen4={setIsOpen4} /> */}
+          {/* <ElseProfile /> */}
+          <AddFriendModal setIsOpen4={setIsOpen4} />
         </Modal>
       )}
     </Container>
