@@ -27,3 +27,18 @@ export interface BoardType {
   recruitFemale: number;
   title: string;
 }
+
+export type MyBoardsResponseType = {
+  no: number;
+  hostUserNo: number;
+  hostNickname: string;
+  title: string;
+  description: string;
+  location: string;
+  isDone: number;
+  recruitMale: number;
+  recruitFemale: number;
+  isImpromptu: boolean;
+  meetingTime: string;
+  createdDate: string;
+}[];
