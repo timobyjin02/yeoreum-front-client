@@ -21,7 +21,7 @@ function ProfileImage({ src, size }: ImageProp) {
         ref={imageRef}
         onError={handleImageError}
         alt="default image"
-        src={'img/profile.png'}
+        src={src ? src : '/anonymous.png'}
       ></Image>
     </ImageWrapper>
   );
@@ -40,4 +40,5 @@ const Image = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 50%;
 `;
