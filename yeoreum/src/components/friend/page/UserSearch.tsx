@@ -2,13 +2,13 @@ import styled from '@emotion/styled';
 import React from 'react';
 import LoadingSpinner from '../../common/LoadingSpinner';
 
-interface Type {
+interface SearchProps {
   loading: boolean;
   searchTerm: string;
   setSearchTerm: (state: string | ((prev: string) => string)) => void;
 }
 
-function UserSearch({ searchTerm, setSearchTerm, loading }: Type) {
+function UserSearch({ searchTerm, setSearchTerm, loading }: SearchProps) {
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };

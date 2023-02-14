@@ -6,11 +6,11 @@ import sliceString from '../../../utils/sliceString';
 import { FriendResponseType } from '../../../types/friend';
 import ProfileImage from '../../common/ProfileImage';
 
-interface Type {
+interface FriendListProps {
   friendList: FriendResponseType;
 }
 
-function FriendPage({ friendList }: Type) {
+function FriendPage({ friendList }: FriendListProps) {
   const [isOpen4, setIsOpen4] = useState(false);
 
   const openProfileHandler = () => {
