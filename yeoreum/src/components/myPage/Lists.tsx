@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import React, { useEffect, useState } from 'react';
-import { fetchUserBoards } from '../../api/myPage';
 import { BoardType } from '../../types/post';
 import PostList from '../board/PostList';
+import { requestGetUserBoards } from '../../apis/users';
 
 function Lists() {
   const [actived, setActived] = useState(0);
@@ -23,7 +23,7 @@ function Lists() {
 
   useEffect(() => {
     (async () => {
-      const userBoards = await fetchUserBoards(1);
+      const userBoards = await requestGetUserBoards(1);
 
       setPosts(userBoards);
     })();
