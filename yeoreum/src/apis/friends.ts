@@ -10,12 +10,12 @@ export const config = {
 
 export const body = {};
 
-const RequestGetSearchFriends = async (value: string) => {
+const requestGetSearchFriends = async (value: string) => {
   const { data } = await remote.get(`/api/friends/${value}`, config);
   return data.response;
 };
 
-const RequestPostFriendApplication = async (receiverNo: number) => {
+const requestPostFriendApplication = async (receiverNo: number) => {
   const { data } = await remote.post(
     `/api/friends/requests/${receiverNo}`,
     { receiverNo },
@@ -24,4 +24,4 @@ const RequestPostFriendApplication = async (receiverNo: number) => {
   return data.response;
 };
 
-export { RequestGetSearchFriends, RequestPostFriendApplication };
+export { requestGetSearchFriends, requestPostFriendApplication };

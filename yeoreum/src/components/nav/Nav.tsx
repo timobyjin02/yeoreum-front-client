@@ -5,7 +5,7 @@ import { NavUsual } from './NavBar';
 import Hamburger from '../userModal/Hamburger';
 import useResize from '../../hooks/useResize';
 import { getToken } from '../../utils/user';
-import { requestGetUserData } from '../../api/notices';
+import { requestGetUserData } from '../../apis/notices';
 
 function Nav() {
   const { pathname } = useRouter();

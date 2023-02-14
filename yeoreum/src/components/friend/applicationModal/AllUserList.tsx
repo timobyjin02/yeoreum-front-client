@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { FriendListType } from '../../../types/friend';
 import ProfileImage from '../../common/ProfileImage';
 import { UsersResponseType } from '../../../types/user';
-import { RequestPostFriendApplication } from '../../../api/friends';
+import { requestPostFriendApplication } from '../../../apis/friends';
 
 interface ItemProps {
   item: UsersResponseType;
@@ -13,7 +13,7 @@ function AllUserList({ item }: ItemProps) {
   const [isDisabled, setIsDisabled] = useState(false);
 
   const applicationHandler = () => {
-    RequestPostFriendApplication(item.userNo);
+    requestPostFriendApplication(item.userNo);
     setIsDisabled(true);
   };
 

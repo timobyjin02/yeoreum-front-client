@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import AllUserList from './AllUserList';
 import AllUserSearch from './AllUserSearch';
-import { RequestGetUsers } from '../../../api/users';
+import { requestGetUsers } from '../../../apis/users';
 import { UsersResponseType } from '../../../types/user';
 
 interface PropsType {
@@ -19,7 +19,7 @@ function ApplicationFriendModal({ onClose }: PropsType) {
 
     (async () => {
       setLoading(true);
-      const users = await RequestGetUsers(searchTerm);
+      const users = await requestGetUsers(searchTerm);
 
       setLists(users);
     })();

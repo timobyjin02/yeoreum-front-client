@@ -8,16 +8,16 @@ const config = {
   },
 };
 
-const RequestGetUserProfile = async () => {
+const requestGetUserProfile = async () => {
   const { data } = await remote.get(`/api/users/profile`, config);
 
   return data.response.userProfile;
 };
 
-const RequestGetUsers = async (value: string) => {
+const requestGetUsers = async (value: string) => {
   const { data } = await remote.get(`/api/users/?nickname=${value}`, config);
 
   return data.response.users;
 };
 
-export { RequestGetUserProfile, RequestGetUsers };
+export { requestGetUserProfile, requestGetUsers };
