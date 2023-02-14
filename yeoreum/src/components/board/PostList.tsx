@@ -9,56 +9,60 @@ import {
 } from '../../utils/postStatus';
 import { getToken } from '../../utils/user';
 
-function PostList() {
+interface PostsProps {
+  posts: BoardType[];
+}
+
+function PostList({ posts }: PostsProps) {
   const token = getToken();
-  const [posts, setPosts] = useState<BoardType[]>([
-    // 요청에 추가로 더해질 더미 데이터
-    {
-      createdDate: '2022.02.11',
-      description: '...',
-      hostNickname: '무친저글링',
-      hostUserNo: 3,
-      isDone: 0,
-      isImpromptu: 0,
-      location: '노원 김밥 맛집',
-      meetingTime: '12월 28일',
-      no: 21212,
-      recruitMale: 1,
-      recruitFemale: 2,
-      title: '도서관에서 같이 공부하실 남자 둘 구해요 IQ 200이상',
-    },
-    {
-      createdDate: '2022.02.11',
-      description: '...',
-      hostNickname: '무친저글링',
-      hostUserNo: 3,
-      isDone: 1,
-      isImpromptu: 0,
-      location: '노원 김밥 맛집',
-      meetingTime: '12월 28일',
-      no: 221312,
-      recruitMale: 1,
-      recruitFemale: 2,
-      title: '도서관에서 같이 공부하실 남자 둘 구해요 IQ 200이상',
-    },
-  ]);
+  // const [posts, setPosts] = useState<BoardType[]>([
+  //   // 요청에 추가로 더해질 더미 데이터
+  //   {
+  //     createdDate: '2022.02.11',
+  //     description: '...',
+  //     hostNickname: '무친저글링',
+  //     hostUserNo: 3,
+  //     isDone: 0,
+  //     isImpromptu: 0,
+  //     location: '노원 김밥 맛집',
+  //     meetingTime: '12월 28일',
+  //     no: 21212,
+  //     recruitMale: 1,
+  //     recruitFemale: 2,
+  //     title: '도서관에서 같이 공부하실 남자 둘 구해요 IQ 200이상',
+  //   },
+  //   {
+  //     createdDate: '2022.02.11',
+  //     description: '...',
+  //     hostNickname: '무친저글링',
+  //     hostUserNo: 3,
+  //     isDone: 1,
+  //     isImpromptu: 0,
+  //     location: '노원 김밥 맛집',
+  //     meetingTime: '12월 28일',
+  //     no: 221312,
+  //     recruitMale: 1,
+  //     recruitFemale: 2,
+  //     title: '도서관에서 같이 공부하실 남자 둘 구해요 IQ 200이상',
+  //   },
+  // ]);
 
-  useEffect(() => {
-    (async () => {
-      const { data } = await axios.get(
-        `${process.env.NEXT_PUBLIC_URL}/boards`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+  // useEffect(() => {
+  //   (async () => {
+  //     const { data } = await axios.get(
+  //       `${process.env.NEXT_PUBLIC_URL}/boards`,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       },
+  //     );
 
-      setPosts([...posts, ...data.response.boards]);
-    })();
-  }, []);
+  //     setPosts([...posts, ...data.response.boards]);
+  //   })();
+  // }, []);
 
-  console.log(posts);
+  // console.log(posts);
 
   return (
     <Post>

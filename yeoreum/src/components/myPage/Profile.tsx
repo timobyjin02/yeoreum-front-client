@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import { requestGetUserProfile } from '../../apis/users';
 import { UserProfileResponseType } from '../../types/user';
+import ProfileImage from '../common/ProfileImage';
 
 function Profile() {
   const [userProfileInfo, setUserProfileInfo] =
@@ -31,8 +32,11 @@ function Profile() {
   return (
     <Container>
       <UserProfile>
-        <ProfileImg />
+        <ImageWrapper>
+          <ProfileImage src={userProfileInfo.profileImage} size={70} />
+        </ImageWrapper>
         <InfoWrapper>
+          <Major>{userProfileInfo.major}</Major>
           <Nickname>{userProfileInfo.nickname}</Nickname>
           <Description>{userProfileInfo.description}</Description>
         </InfoWrapper>
@@ -63,17 +67,18 @@ const UserProfile = styled.div`
   display: flex;
 `;
 
-export const ProfileImg = styled.div`
-  width: 70px;
-  height: 70px;
+export const ImageWrapper = styled.div`
   margin-right: 25px;
-  border-radius: 50px;
-  background-color: #aeaeae;
 `;
 
 const InfoWrapper = styled.div`
   position: relative;
   width: 450px;
+`;
+
+const Major = styled.span`
+  font-size: 14px;
+  margin-bottom: 10px;
 `;
 
 const Nickname = styled.div`
@@ -89,8 +94,8 @@ const Nickname = styled.div`
 `;
 
 const Description = styled.div`
-  min-height: 130px;
-  margin-top: 15px;
+  min-height: 120px;
+  margin-top: 10px;
   font-size: 14px;
   color: ${({ theme }) => theme.palette.font.subHeadline};
 `;
