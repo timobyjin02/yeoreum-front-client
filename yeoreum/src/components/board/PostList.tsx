@@ -11,10 +11,11 @@ import {
 } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useEffect, useRef } from 'react';
+import useIntersectionObserver from '../../hooks/useIntersectionObserver';
 
 interface PostListProps {
   posts?: BoardType[];
-  fetchNextPage: (
+  fetchNextPage?: (
     options?: FetchNextPageOptions | undefined,
   ) => Promise<InfiniteQueryObserverResult<any, AxiosError<unknown, any>>>;
 }
@@ -24,24 +25,8 @@ function PostList({ posts, fetchNextPage }: PostListProps) {
 
   useEffect(() => {
     if (!ref.current) return;
-    observeElement(ref.current, fetchNextPage);
+    useIntersectionObserver(ref.current, fetchNextPage);
   }, []);
-
-  const observeElement = (element: HTMLElement | null, handler: any) => {
-    if (!element) return;
-
-    const observer = new IntersectionObserver(
-      entries => {
-        if (entries[0].isIntersecting === true) {
-          handler();
-          observer.unobserve(element);
-        }
-      },
-      { threshold: 1 },
-    );
-
-    observer.observe(element);
-  };
 
   return (
     <Post>
