@@ -1,22 +1,23 @@
 import styled from '@emotion/styled';
 import React, { useRef } from 'react';
+import ProfileImage from '../common/ProfileImage';
 import dummyData from '../myPage/dummyData';
 import DuelModal from './DuelModal';
 
-interface Type {
+interface FriendProps {
   img: string;
   name: string;
   description: string;
 }
 
-function ElseProfile({ img, name, description }: Type) {
+function ElseProfile({ img, name, description }: FriendProps) {
   const modalRef = useRef(null);
 
   return (
     <ProfileWrap ref={modalRef}>
-      <ProfileImg>
-        <Img />
-      </ProfileImg>
+      <ImageWrapper>
+        <ProfileImage src={img} size={70} />
+      </ImageWrapper>
       <ProfileEvent>
         <Nickname>{name}</Nickname>
         <Wrap>
@@ -54,17 +55,10 @@ const ProfileWrap = styled.div`
   }
 `;
 
-const ProfileImg = styled.div`
+const ImageWrapper = styled.div`
   display: flex;
   align-items: center;
   grid-area: profileImg;
-`;
-
-const Img = styled.div`
-  width: 70px;
-  height: 70px;
-  border-radius: 50px;
-  background-color: antiquewhite;
 `;
 
 const ProfileEvent = styled.div`

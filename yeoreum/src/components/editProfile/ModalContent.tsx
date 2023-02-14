@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 
 interface Props {
   fileImg: string;
-  setFileImg: (state: string | ((prev: string) => string)) => void;
+  setFileImg: React.Dispatch<React.SetStateAction<string>>;
   onClose: () => void;
 }
 

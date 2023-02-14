@@ -3,7 +3,7 @@ import PostContainer from '../../components/board/PostContainer';
 import FriendTop from '../../components/friend/page/FriendTop';
 import UserSearch from '../../components/friend/page/UserSearch';
 import MyFriendList from '../../components/friend/page/MyFriendList';
-import { fetchSearchFriends } from '../../api/friendPage';
+import { requestGetSearchFriends } from '../../apis/friends';
 import { FriendResponseType } from '../../types/friend';
 
 function index() {
@@ -14,14 +14,14 @@ function index() {
   useEffect(() => {
     (async () => {
       setLoading(true);
-      const friend = await fetchSearchFriends(searchTerm);
-      setFriendList(friend);
+      const friends = await requestGetSearchFriends(searchTerm);
+      setFriendList(friends);
 
       if (!searchTerm) {
-        setFriendList(friend.friends);
+        setFriendList(friends.friends);
       }
       if (searchTerm) {
-        setFriendList(friend.searchResult);
+        setFriendList(friends.searchResult);
       }
     })();
   }, [searchTerm]);
