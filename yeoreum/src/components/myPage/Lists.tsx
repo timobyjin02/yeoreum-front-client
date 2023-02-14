@@ -3,22 +3,21 @@ import React, { useEffect, useState } from 'react';
 import { fetchUserBoards } from '../../api/myPage';
 import { BoardType } from '../../types/post';
 import PostList from '../board/PostList';
-import MyPosts from './MyPosts';
 
 function Lists() {
-  const [viewList, setViewList] = useState(0);
-  const [boards, setBoards] = useState<BoardType[]>([]);
+  const [actived, setActived] = useState(0);
+  const [posts, setPosts] = useState<BoardType[]>([]);
 
   const tabs = [
     {
       id: 0,
       title: '내가 쓴 글',
-      content: <MyPosts boards={boards} />,
+      content: <PostList posts={posts} />,
     },
     {
       id: 1,
       title: '좋아요',
-      content: <PostList />,
+      // content: <PostList />,
     },
   ];
 
@@ -26,8 +25,7 @@ function Lists() {
     (async () => {
       const userBoards = await fetchUserBoards(1);
 
-      console.log(userBoards);
-      setBoards(userBoards);
+      setPosts(userBoards);
     })();
   }, []);
 
@@ -38,9 +36,9 @@ function Lists() {
           <Title
             key={tab.id}
             onClick={() => {
-              setViewList(tab.id);
+              setActived(tab.id);
             }}
-            className={viewList === tab.id ? 'active' : ''}
+            className={actived === tab.id ? 'active' : ''}
           >
             {tab.title}
           </Title>
@@ -48,7 +46,7 @@ function Lists() {
       </TitleTab>
       <ViewList>
         {tabs
-          .filter(tab => viewList === tab.id)
+          .filter(tab => actived === tab.id)
           .map(tab => (
             <div>{tab.content}</div>
           ))}
