@@ -8,7 +8,7 @@ export const config = {
   },
 };
 
-export const fetchSearchFriends = async (value: string) => {
+export const RequestGetSearchFriends = async (value: string) => {
   const { data } = await remote.get(`/api/friends/${value}`, config);
   return data.response;
 };

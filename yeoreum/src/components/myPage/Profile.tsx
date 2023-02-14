@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
-import { fetchUserProfile } from '../../api/myPage';
+import { RequestGetUserProfile } from '../../api/users';
 import { UserProfileResponseType } from '../../types/user';
 
 function Profile() {
@@ -21,7 +21,7 @@ function Profile() {
 
   useEffect(() => {
     (async () => {
-      const userProfile = await fetchUserProfile();
+      const userProfile = await RequestGetUserProfile();
 
       // console.log(userProfile);
       setUserProfileInfo(userProfile);
