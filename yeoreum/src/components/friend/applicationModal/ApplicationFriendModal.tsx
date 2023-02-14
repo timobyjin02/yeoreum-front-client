@@ -12,19 +12,27 @@ interface PropsType {
 function ApplicationFriendModal({ onClose }: PropsType) {
   const [searchTerm, setSearchTerm] = useState('');
   const [lists, setLists] = useState<UsersResponseType[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!searchTerm) return;
 
     (async () => {
+      setLoading(true);
       const users = await RequestGetUsers(searchTerm);
 
       setLists(users);
     })();
   }, [searchTerm]);
 
-  const TextBySearchTerm = ({ searchTerm }: { searchTerm: string }) => {
-    if (searchTerm.length === 0) {
+  const TextBySearchTerm = ({
+    searchTerm,
+    loading,
+  }: {
+    searchTerm: string;
+    loading: boolean;
+  }) => {
+    if (loading || searchTerm.length === 0) {
       return <ListItem>검색어를 입력하세요</ListItem>;
     }
     if (searchTerm.length > 0) {
@@ -40,7 +48,11 @@ function ApplicationFriendModal({ onClose }: PropsType) {
         <Title>친구신청</Title>
       </ResponsiveHeader>
       <SearchWrapper>
-        <AllUserSearch searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+        <AllUserSearch
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          loading={loading}
+        />
       </SearchWrapper>
       <ListWrapper>
         {lists.length > 0 ? (
@@ -48,7 +60,7 @@ function ApplicationFriendModal({ onClose }: PropsType) {
             return <AllUserList key={index} item={item} />;
           })
         ) : (
-          <TextBySearchTerm searchTerm={searchTerm} />
+          <TextBySearchTerm searchTerm={searchTerm} loading={loading} />
         )}
       </ListWrapper>
     </Container>

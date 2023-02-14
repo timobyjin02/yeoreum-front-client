@@ -1,13 +1,20 @@
 import styled from '@emotion/styled';
+import LoadingSpinner from '../../common/LoadingSpinner';
 
 interface SearchProps {
   searchTerm: string;
   setSearchTerm: (state: string | ((prev: string) => string)) => void;
+  loading: boolean;
 }
 
-function AllUserSearch({ searchTerm, setSearchTerm }: SearchProps) {
+function AllUserSearch({ searchTerm, setSearchTerm, loading }: SearchProps) {
   return (
     <InputBox>
+      {loading && (
+        <LoadingSpinnerWrapper>
+          <LoadingSpinner />
+        </LoadingSpinnerWrapper>
+      )}
       <SearchIcon src="/icons/searchnormal.svg" />
       <Input
         placeholder="이름 검색"
@@ -63,4 +70,8 @@ const Input = styled.input`
     color: ${({ theme }) => theme.palette.font.disable};
     font-size: 0.875rem;
   }
+`;
+
+const LoadingSpinnerWrapper = styled.div`
+  position: absolute;
 `;

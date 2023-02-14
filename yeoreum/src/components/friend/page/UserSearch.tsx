@@ -79,11 +79,4 @@ const Input = styled.input`
 
 const LoadingSpinnerWrapper = styled.div`
   position: absolute;
-  /* top: 0;
-  right: 0;
-  width: 28px;
-  height: 28px; */
-  /* display: flex;
-  align-items: center;
-  justify-content: center; */
 `;
