@@ -1,99 +1,84 @@
 import styled from '@emotion/styled';
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
 import { BoardType } from '../../types/post';
 import {
   PostStatusType,
   ProgressColor,
   statusMaker,
 } from '../../utils/postStatus';
-import { getToken } from '../../utils/user';
+import {
+  FetchNextPageOptions,
+  InfiniteQueryObserverResult,
+} from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import { useEffect, useRef } from 'react';
 
-function PostList() {
-  const token = getToken();
-  const [posts, setPosts] = useState<BoardType[]>([
-    // 요청에 추가로 더해질 더미 데이터
-    {
-      createdDate: '2022.02.11',
-      description: '...',
-      hostNickname: '무친저글링',
-      hostUserNo: 3,
-      isDone: 0,
-      isImpromptu: 0,
-      location: '노원 김밥 맛집',
-      meetingTime: '12월 28일',
-      no: 21212,
-      recruitMale: 1,
-      recruitFemale: 2,
-      title: '도서관에서 같이 공부하실 남자 둘 구해요 IQ 200이상',
-    },
-    {
-      createdDate: '2022.02.11',
-      description: '...',
-      hostNickname: '무친저글링',
-      hostUserNo: 3,
-      isDone: 1,
-      isImpromptu: 0,
-      location: '노원 김밥 맛집',
-      meetingTime: '12월 28일',
-      no: 221312,
-      recruitMale: 1,
-      recruitFemale: 2,
-      title: '도서관에서 같이 공부하실 남자 둘 구해요 IQ 200이상',
-    },
-  ]);
+interface PostListProps {
+  posts?: BoardType[];
+  fetchNextPage: (
+    options?: FetchNextPageOptions | undefined,
+  ) => Promise<InfiniteQueryObserverResult<any, AxiosError<unknown, any>>>;
+}
+
+function PostList({ posts, fetchNextPage }: PostListProps) {
+  const ref = useRef(null);
 
   useEffect(() => {
-    (async () => {
-      const { data } = await axios.get(
-        `${process.env.NEXT_PUBLIC_URL}/boards`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-
-      setPosts([...posts, ...data.response.boards]);
-    })();
+    if (!ref.current) return;
+    observeElement(ref.current, fetchNextPage);
   }, []);
 
-  console.log(posts);
+  const observeElement = (element: HTMLElement | null, handler: any) => {
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      entries => {
+        if (entries[0].isIntersecting === true) {
+          handler();
+          observer.unobserve(element);
+        }
+      },
+      { threshold: 1 },
+    );
+
+    observer.observe(element);
+  };
 
   return (
     <Post>
-      {posts.map(p => {
+      {posts?.map((post, idx) => {
         return (
-          <List key={p.no}>
+          <List ref={posts.length - 1 === idx ? ref : null} key={post.no}>
             <PostHeader>
-              <Progress status={p.isDone}>{statusMaker(p.isDone)}</Progress>
-              <CreatedAt>{p.createdDate}</CreatedAt>
+              <Progress status={post.isDone}>
+                {statusMaker(post.isDone)}
+              </Progress>
+              <CreatedAt>{post.createdDate}</CreatedAt>
             </PostHeader>
-            <PostTitle>{p.title}</PostTitle>
+            <PostTitle>{post.title}</PostTitle>
             <PostBottom>
               <Conditions>
                 <Condition>
                   <GenderCondition>
                     <임시Icon />
-                    <임시Text>{p.recruitMale}명</임시Text>
+                    <임시Text>{post.recruitMale}명</임시Text>
                   </GenderCondition>
                   <GenderCondition>
                     <임시Icon />
-                    <임시Text>{p.recruitFemale}명</임시Text>
+                    <임시Text>{post.recruitFemale}명</임시Text>
                   </GenderCondition>
                 </Condition>
                 <Condition>
                   <임시Icon />
-                  <임시Text>{p.meetingTime}</임시Text>
+                  <임시Text>{post.meetingTime}</임시Text>
                 </Condition>
                 <Condition>
                   <임시Icon />
-                  <임시Text>{p.location}</임시Text>
+                  <임시Text>{post.location}</임시Text>
                 </Condition>
               </Conditions>
               <CreaterInfo>
                 <CreaterImage />
-                <CreaterNickname>{p.hostNickname}</CreaterNickname>
+                <CreaterNickname>{post.hostNickname}</CreaterNickname>
               </CreaterInfo>
             </PostBottom>
           </List>
