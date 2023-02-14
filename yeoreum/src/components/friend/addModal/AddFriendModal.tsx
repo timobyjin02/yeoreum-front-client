@@ -11,7 +11,7 @@ interface FriendType {
 }
 
 interface PropsType {
-  setIsOpen4: (state: boolean | ((prev: boolean) => boolean)) => void;
+  setIsOpen4: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function AddFriendModal({ setIsOpen4 }: PropsType) {

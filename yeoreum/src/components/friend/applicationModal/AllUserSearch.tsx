@@ -3,7 +3,7 @@ import LoadingSpinner from '../../common/LoadingSpinner';
 
 interface SearchProps {
   searchTerm: string;
-  setSearchTerm: (state: string | ((prev: string) => string)) => void;
+  setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
   loading: boolean;
 }
 
