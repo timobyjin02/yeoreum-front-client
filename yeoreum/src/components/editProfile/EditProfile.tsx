@@ -45,17 +45,20 @@ function EditProfile() {
 export default EditProfile;
 
 const Title = styled.div`
-  margin-bottom: 30px;
-  padding-bottom: 20px;
+  margin-bottom: 50px;
   font-size: 32px;
   font-weight: 600;
   color: ${({ theme }) => theme.palette.font.headline};
 
   cursor: default;
+  @media (max-width: 640px) {
+    display: none;
+  }
 `;
 
 const ProfileContainer = styled.div`
   width: 100%;
+  height: 100%;
   display: flex;
 
   @media (max-width: 640px) {

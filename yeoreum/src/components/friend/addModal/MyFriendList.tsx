@@ -4,7 +4,7 @@ import { FriendListType } from '../../../types/friend';
 
 interface ItemProps {
   item: FriendListType;
-  setAddedProfile: (state: boolean | ((prev: boolean) => boolean)) => void;
+  setAddedProfile: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function MyFriendList({ item, setAddedProfile }: ItemProps) {

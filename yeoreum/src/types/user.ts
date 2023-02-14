@@ -8,3 +8,9 @@ export interface UserProfileResponseType {
   profileImage: string;
   grade: string;
 }
+
+export interface UsersResponseType {
+  userNo: number;
+  nickname: string;
+  profileImage: string;
+}

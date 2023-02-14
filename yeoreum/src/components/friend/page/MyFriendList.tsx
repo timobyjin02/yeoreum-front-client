@@ -6,11 +6,11 @@ import sliceString from '../../../utils/sliceString';
 import { FriendResponseType } from '../../../types/friend';
 import ProfileImage from '../../common/ProfileImage';
 
-interface Type {
+interface FriendListProps {
   friendList: FriendResponseType;
 }
 
-function FriendPage({ friendList }: Type) {
+function FriendPage({ friendList }: FriendListProps) {
   const [isOpen4, setIsOpen4] = useState(false);
 
   const openProfileHandler = () => {
@@ -45,7 +45,7 @@ function FriendPage({ friendList }: Type) {
           );
         })
       ) : (
-        <List>검색 결과가 없습니다</List>
+        <ListItem>검색 결과가 없습니다</ListItem>
       )}
     </div>
   );
@@ -81,4 +81,11 @@ const Description = styled.div`
   letter-spacing: 0.6px;
   line-height: 20px;
   color: ${({ theme }) => theme.palette.font.headline};
+`;
+
+const ListItem = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 8px 30px;
+  color: ${({ theme }) => theme.palette.font.subHeadline};
 `;

@@ -2,13 +2,13 @@ import styled from '@emotion/styled';
 import React from 'react';
 import LoadingSpinner from '../../common/LoadingSpinner';
 
-interface Type {
+interface SearchProps {
   loading: boolean;
   searchTerm: string;
-  setSearchTerm: (state: string | ((prev: string) => string)) => void;
+  setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
 }
 
-function UserSearch({ searchTerm, setSearchTerm, loading }: Type) {
+function UserSearch({ searchTerm, setSearchTerm, loading }: SearchProps) {
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
@@ -79,11 +79,4 @@ const Input = styled.input`
 
 const LoadingSpinnerWrapper = styled.div`
   position: absolute;
-  /* top: 0;
-  right: 0;
-  width: 28px;
-  height: 28px; */
-  /* display: flex;
-  align-items: center;
-  justify-content: center; */
 `;
