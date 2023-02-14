@@ -4,7 +4,6 @@ import Alarm from '../alarm/Alarm';
 import UserModal from '../userModal/UserModal';
 import Link from 'next/link';
 import { login } from '../../utils/user';
-import { useRouter } from 'next/router';
 import Image from 'next/image';
 
 // 임시 유저 타입
@@ -13,74 +12,132 @@ export interface User {
   email: string;
   nickname: string;
   major: string;
-  gender: false;
+  gender: number;
   description: string;
   profileImage: string;
   grade: number;
 }
 
 interface NavProps {
+  isServicePage: boolean;
+  type?: string;
+  isThere?: boolean;
   userData?: Pick<User, 'profileImage' | 'nickname'>;
   token?: string;
-  authenticated?: boolean;
-  setAuthenticated?: (state: boolean | ((prev: boolean) => boolean)) => void;
-  setHamburger?: (state: boolean | ((prev: boolean) => boolean)) => void;
+  setHamburger?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export function NavUsual({
+  isServicePage,
   userData,
   token,
-  authenticated,
-  setAuthenticated,
   setHamburger,
 }: NavProps) {
+  const [authenticated, setAuthenticated] = useState(false);
+
   useEffect(() => {
     if (token && setAuthenticated) {
       setAuthenticated(true);
     }
   }, []);
 
+  const menuDataUsual = {
+    title: '',
+    menus: [
+      {
+        id: 'board',
+        href: '/board',
+        icon: '/icons/clipboard.svg',
+        text: '게시판',
+      },
+      {
+        id: 'friend',
+        href: '/friend',
+        icon: '/icons/users.svg',
+        text: '친구',
+      },
+      {
+        id: 'chatting',
+        href: '/chatting',
+        icon: '/icons/message.svg',
+        text: '채팅',
+      },
+    ],
+  };
+
+  const menuDataService = {
+    title: '고객센터',
+    menus: [
+      {
+        id: 'friend',
+        href: '/service/inquiry',
+        icon: '',
+        text: '문의하기',
+      },
+      {
+        id: 'board',
+        href: '/board',
+        icon: '',
+        text: '문의내역',
+      },
+    ],
+  };
+
+  const menuDataByPage = isServicePage ? menuDataService : menuDataUsual;
+
   return (
     <>
       <Container show>
         <NavContainer>
           <ArrangeContainer>
-            <Link href="/">
-              <YeoreumLogo alt="logo" src="/logo.png" />
-            </Link>
-            <NavMenu>
-              <NavMenuItem href="/board">
-                <Image
-                  width={22}
-                  height={22}
-                  alt="board"
-                  src="/icons/clipboard.svg"
-                />
-                <MenuText>게시판</MenuText>
-              </NavMenuItem>
-              <NavMenuItem href="/friend">
-                <Image
-                  width={22}
-                  height={22}
-                  alt="friends"
-                  src="/icons/users.svg"
-                />
-                <MenuText>친구</MenuText>
-              </NavMenuItem>
-              <NavMenuItem href="/chatting">
-                <Image
-                  width={22}
-                  height={22}
-                  alt="chat"
-                  src="/icons/message.svg"
-                />
-                <MenuText>채팅</MenuText>
-              </NavMenuItem>
-            </NavMenu>
+            <StyledLink href="/">
+              <YeoreumLogo service={isServicePage} alt="logo" src="/logo.png" />
+              {menuDataByPage.title && (
+                <ServiceTitle>{menuDataByPage.title}</ServiceTitle>
+              )}
+            </StyledLink>
+            {isServicePage ? (
+              <></>
+            ) : (
+              <NavMenu>
+                {menuDataByPage.menus.map(menu => (
+                  <NavMenuItem key={menu.id} href={menu.href}>
+                    {menu.icon && (
+                      <Image
+                        width={22}
+                        height={22}
+                        alt={menu.id}
+                        src={menu.icon}
+                      />
+                    )}
+                    <MenuText>{menu.text}</MenuText>
+                  </NavMenuItem>
+                ))}
+              </NavMenu>
+            )}
           </ArrangeContainer>
           {authenticated ? (
             <ArrangeContainer>
-              <Alarm />
+              {isServicePage ? (
+                <NavMenu service={isServicePage}>
+                  {menuDataByPage.menus.map(menu => (
+                    <NavMenuItem key={menu.id} href={menu.href}>
+                      {menu.icon && (
+                        <Image
+                          width={22}
+                          height={22}
+                          alt={menu.id}
+                          src={menu.icon}
+                        />
+                      )}
+                      <MenuText>{menu.text}</MenuText>
+                    </NavMenuItem>
+                  ))}
+                </NavMenu>
+              ) : (
+                <></>
+              )}
+              {isServicePage || <Alarm />}
               <UserModal userData={userData} />
             </ArrangeContainer>
           ) : (
@@ -111,38 +168,10 @@ const MenuText = styled.span`
   margin-left: 4px;
 `;
 
-export function NavService({ authenticated, setHamburger }: NavProps) {
-  const router = useRouter();
-
-  return (
-    <>
-      <Container show>
-        <NavContainer>
-          <ArrangeContainer>
-            <YeoreumLogo alt="logo" src="/logo.png" service />
-            <ServiceTitle>고객센터</ServiceTitle>
-          </ArrangeContainer>
-
-          {authenticated ? (
-            <ArrangeContainer>
-              <NavMenu service>
-                <NavMenuItem href="/">문의하기</NavMenuItem>
-                <NavMenuItem href="/">문의내역</NavMenuItem>
-              </NavMenu>
-              <UserModal />
-            </ArrangeContainer>
-          ) : (
-            <LoginButton onClick={() => router.push('/login')}>
-              로그인
-            </LoginButton>
-          )}
-          <HamburgerButton onClick={() => setHamburger?.(true)} />
-        </NavContainer>
-      </Container>
-      <Kernel />
-    </>
-  );
-}
+const StyledLink = styled(Link)`
+  display: flex;
+  align-items: center;
+`;
 
 const Kernel = styled.div`
   height: 60px;
@@ -186,7 +215,7 @@ const YeoreumLogo = styled.img<{ service?: boolean }>`
   height: 32px;
   margin-bottom: 1px;
   color: lightgray;
-  margin-right: ${({ service }) => (service ? '30px' : '50px')};
+  margin-right: ${({ service }) => (service ? '30px' : '44px')};
   font-size: 30px;
   font-weight: 600;
   &:hover {
@@ -203,7 +232,7 @@ const ServiceTitle = styled.div`
 const NavMenu = styled.div<{ service?: boolean }>`
   display: flex;
   align-items: center;
-  margin-right: ${({ service }) => (service ? '80px' : 'none')};
+  margin-right: ${({ service }) => (service ? '40px' : 'none')};
 
   @media (max-width: 640px) {
     display: none;
@@ -266,3 +295,36 @@ const HamburgerButton = styled.button`
     display: none;
   }
 `;
+
+// export function NavService({ authenticated, setHamburger }: NavProps) {
+//   const router = useRouter();
+
+//   return (
+//     <>
+//       <Container show>
+//         <NavContainer>
+//           <ArrangeContainer>
+//             <YeoreumLogo alt="logo" src="/logo.png" service />
+//             <ServiceTitle>고객센터</ServiceTitle>
+//           </ArrangeContainer>
+
+//           {authenticated ? (
+//             <ArrangeContainer>
+//               <NavMenu service>
+//                 <NavMenuItem href="/">문의하기</NavMenuItem>
+//                 <NavMenuItem href="/">문의내역</NavMenuItem>
+//               </NavMenu>
+//               <UserModal />
+//             </ArrangeContainer>
+//           ) : (
+//             <LoginButton onClick={() => router.push('/login')}>
+//               로그인
+//             </LoginButton>
+//           )}
+//           <HamburgerButton onClick={() => setHamburger?.(true)} />
+//         </NavContainer>
+//       </Container>
+//       <Kernel />
+//     </>
+//   );
+// }

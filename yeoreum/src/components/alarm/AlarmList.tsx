@@ -1,132 +1,119 @@
 import styled from '@emotion/styled';
+import React from 'react';
+import AlarmListItem from './AlarmListItem';
 import { AlarmType } from '../../types/alarm';
-import sliceString from '../../utils/sliceString';
+import { getToken } from '../../utils/user';
+import { useNoticesQuery } from '../../hooks/queries/notices';
 
-interface AlarmListProps {
-  alarmInfo: AlarmType;
-}
+function AlarmList() {
+  const token = getToken() as string;
+  const { data } = useNoticesQuery(token);
+  const noticesData = data?.data.response.notices;
 
-function AlarmList({ alarmInfo }: AlarmListProps) {
-  if (alarmInfo.type < 1 || alarmInfo.type > 6) return null;
-  switch (alarmInfo.type) {
-    case 1:
-      return (
-        <List>
-          <ProfileImage />
-          <AlarmText>
-            {sliceString(
-              `${alarmInfo.senderNickname}에게 온 여름 초대가 있습니다.`,
-              36,
-            )}
-          </AlarmText>
-          <Btn>수락</Btn>
-        </List>
-      );
-    case 2:
-      return (
-        <List>
-          <ProfileImage />
-          <AlarmText>
-            {sliceString(
-              `${alarmInfo.senderNickname}에게 온 여름 초대가 있습니다.`,
-              36,
-            )}
-          </AlarmText>
-          <Btn>수락</Btn>
-        </List>
-      );
-    case 3:
-      return (
-        <List>
-          <ProfileImage />
-          <AlarmText>
-            {sliceString(
-              `${alarmInfo.senderNickname}에게 온 친구 요청이 있습니다. 친구 요청이 있습니다. 친구 요청이 있습니다.`,
-              36,
-            )}
-          </AlarmText>
-          <Btn>수락</Btn>
-        </List>
-      );
-    case 4:
-      return (
-        <List>
-          <ProfileImage />
-          <AlarmText>
-            {sliceString(
-              `${alarmInfo.senderNickname}님이 친구요청을 수락했습니당.`,
-              36,
-            )}
-          </AlarmText>
-        </List>
-      );
-    case 5:
-      return (
-        <List>
-          <ProfileImage />
-          <AlarmText>
-            {sliceString(
-              `${alarmInfo.boardNo}번 게시물의 여름 신청서가 도착했습니당.`,
-              36,
-            )}
-          </AlarmText>
-        </List>
-      );
-    case 6:
-      return (
-        <List>
-          <ProfileImage />
-          <AlarmText>{`사진 부적절`}</AlarmText>
-        </List>
-      );
-    default:
-      return null;
-  }
+  // const alarmArray = [
+  //   {
+  //     noticeNo: 6,
+  //     type: 6,
+  //     senderUserNo: 20,
+  //     senderNickname: 'aaa',
+  //     senderProfileImage: '',
+  //     isRead: 0,
+  //     createdDate: '2023-01-16T04:19:47.137Z',
+  //   },
+  //   {
+  //     noticeNo: 5,
+  //     type: 5,
+  //     senderUserNo: 20,
+  //     senderNickname: 'aaa',
+  //     senderProfileImage: '',
+  //     isRead: 0,
+  //     createdDate: '2023-01-16T04:19:47.137Z',
+  //     boardNo: 1,
+  //   },
+  //   {
+  //     noticeNo: 4,
+  //     type: 4,
+  //     senderUserNo: 20,
+  //     senderNickname: 'aaa',
+  //     senderProfileImage: '',
+  //     isRead: 0,
+  //     createdDate: '2023-01-16T04:19:47.137Z',
+  //     friendNo: 2,
+  //   },
+  //   {
+  //     noticeNo: 3,
+  //     type: 3,
+  //     senderUserNo: 20,
+  //     senderNickname: 'aaa',
+  //     senderProfileImage: '',
+  //     isRead: 0,
+  //     createdDate: '2023-01-16T04:19:47.137Z',
+  //     friendNo: 1,
+  //   },
+  //   {
+  //     noticeNo: 2,
+  //     type: 2,
+  //     senderUserNo: 20,
+  //     senderNickname: 'aaa',
+  //     senderProfileImage: '',
+  //     isRead: 0,
+  //     createdDate: '2023-01-16T04:19:47.137Z',
+  //     chatRoomNo: 1,
+  //   },
+  // ];
+
+  return (
+    <AlarmContainer>
+      <AlarmModalBox>
+        <AlarmLists>
+          {noticesData?.map((alarm: AlarmType, idx: number) => (
+            <AlarmListItem key={idx} alarmData={alarm} />
+          ))}
+        </AlarmLists>
+      </AlarmModalBox>
+    </AlarmContainer>
+  );
 }
 
 export default AlarmList;
 
-const List = styled.li`
-  font-size: 14px;
+const AlarmContainer = styled.div`
+  position: absolute;
+  top: 40px;
+  right: 0;
+  display: flex;
+
+  width: 380px;
+  height: 100%;
+`;
+
+const AlarmModalBox = styled.div`
+  padding: 4px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: absolute;
+  top: 8px;
   width: 100%;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  padding: 8px 18px;
-`;
-
-const ProfileImage = styled.div`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: lightgray;
-  margin-right: 12px;
-  flex-shrink: 0;
-`;
-
-const AlarmText = styled.span`
-  font-size: 13px;
-  flex-grow: 1;
-`;
-
-const Btn = styled.button`
-  color: white;
-  border-radius: 3px;
-  background-color: #00b900;
-  font-size: 12px;
-  font-weight: 500;
-  /* padding: 6px 12px; */
-  padding: 0 14px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: 12px;
-
-  flex-shrink: 0;
-
-  cursor: pointer;
-  &:hover {
-    background-color: #009400;
+  min-height: 128px;
+  max-height: 428px;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 25%);
+  overflow-y: auto;
+  ::-webkit-scrollbar {
+    width: 5px;
   }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 2.5px;
+    background-color: rgba(0, 0, 0, 25%);
+    border: 1px solid transparent;
+    background-clip: padding-box;
+  }
+`;
+
+const AlarmLists = styled.ul`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 `;
