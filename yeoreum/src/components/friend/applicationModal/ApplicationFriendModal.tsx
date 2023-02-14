@@ -1,25 +1,38 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import AllUserList from './AllUserList';
 import AllUserSearch from './AllUserSearch';
+import { RequestGetUsers } from '../../../api/users';
+import { UsersResponseType } from '../../../types/user';
 
 interface PropsType {
   onClose: () => void;
 }
 
 function ApplicationFriendModal({ onClose }: PropsType) {
-  const users = [
-    {
-      userNo: 1,
-      nickname: '제주조랑말',
-      profileImage: '',
-    },
-    {
-      userNo: 2,
-      profileImage: '',
-      nickname: '제주조랑말제주조랑말제주조랑말',
-    },
-  ];
+  const [searchTerm, setSearchTerm] = useState('');
+  const [lists, setLists] = useState<UsersResponseType[]>([]);
+
+  useEffect(() => {
+    if (!searchTerm) return;
+
+    (async () => {
+      const data = await RequestGetUsers(searchTerm);
+
+      console.log(data);
+      setLists(data);
+    })();
+  }, [searchTerm]);
+
+  const TextBySearchTerm = ({ searchTerm }: { searchTerm: string }) => {
+    if (searchTerm.length === 0) {
+      return <div>검색어를 입력하세요</div>;
+    }
+    if (searchTerm.length > 0) {
+      return <div>검색 결과가 없습니다</div>;
+    }
+    return null;
+  };
 
   return (
     <Container>
@@ -28,12 +41,16 @@ function ApplicationFriendModal({ onClose }: PropsType) {
         <Title>친구신청</Title>
       </ResponsiveHeader>
       <SearchWrapper>
-        <AllUserSearch />
+        <AllUserSearch searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       </SearchWrapper>
       <ListWrapper>
-        {users.map((item, index) => {
-          return <AllUserList key={index} item={item} />;
-        })}
+        {lists.length > 0 ? (
+          lists.map((item, index) => {
+            return <AllUserList key={index} item={item} />;
+          })
+        ) : (
+          <TextBySearchTerm searchTerm={searchTerm} />
+        )}
       </ListWrapper>
     </Container>
   );
@@ -82,7 +99,7 @@ const SearchWrapper = styled.div`
 
 const ListWrapper = styled.div`
   height: 330px;
-  overflow: auto;
+  overflow-y: auto;
 
   ::-webkit-scrollbar {
     width: 4px;
@@ -92,6 +109,8 @@ const ListWrapper = styled.div`
     background: rgba(0, 0, 0, 25%);
     border-radius: 10px;
     border: 1px solid transparent;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
     background-clip: padding-box;
   }
 

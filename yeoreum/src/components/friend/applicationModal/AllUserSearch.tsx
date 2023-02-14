@@ -1,15 +1,14 @@
 import styled from '@emotion/styled';
-import React, { useState } from 'react';
 
-function AllUserSearch() {
-  const [searchTerm, setSearchTerm] = useState('');
+interface SearchProps {
+  searchTerm: string;
+  setSearchTerm: (state: string | ((prev: string) => string)) => void;
+}
 
+function AllUserSearch({ searchTerm, setSearchTerm }: SearchProps) {
   return (
     <InputBox>
-      <SearchIcon
-        src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMSAxKSIgc3Ryb2tlPSIjQzVDNUM1IiBzdHJva2Utd2lkdGg9IjEuNSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48Y2lyY2xlIGN4PSI2LjYxMSIgY3k9IjYuNjExIiByPSI1Ljg2MSIvPjxwYXRoIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZD0iTTE1LjI1IDE1LjI1bC00LjI0My00LjI0MyIvPjwvZz48L3N2Zz4=
-"
-      />
+      <SearchIcon src="/icons/searchnormal.svg" />
       <Input
         placeholder="이름 검색"
         value={searchTerm}

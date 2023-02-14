@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { FriendListType } from '../../../types/friend';
+import ProfileImage from '../../common/ProfileImage';
 
 interface ItemProps {
   item: FriendListType;
@@ -12,7 +13,7 @@ function AllUserList({ item }: ItemProps) {
   return (
     <AllUsersList key={item.userNo}>
       <UserInfo>
-        <ProfileImg>{item.profileImage}</ProfileImg>
+        <ProfileImage src={item.profileImage} size={40} />
         <Nickname>{item.nickname}</Nickname>
       </UserInfo>
       <ApplicationButton
@@ -39,13 +40,6 @@ const AllUsersList = styled.div`
 const UserInfo = styled.div`
   display: flex;
   align-items: center;
-`;
-
-const ProfileImg = styled.div`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: antiquewhite;
 `;
 
 const Nickname = styled.div`
