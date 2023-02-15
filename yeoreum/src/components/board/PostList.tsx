@@ -33,8 +33,8 @@ function PostList({ posts, fetchNextPage }: PostListProps) {
     <Post>
       {posts?.map((post, idx) => {
         return (
-          <Link href={`/board/post/${post.no}`}>
-            <List ref={posts.length - 1 === idx ? ref : null} key={post.no}>
+          <Link key={post.no} href={`/board/post/${post.no}`}>
+            <List ref={posts.length - 1 === idx ? ref : null}>
               <PostHeader>
                 <Progress status={post.isDone}>
                   {statusMaker(post.isDone)}
