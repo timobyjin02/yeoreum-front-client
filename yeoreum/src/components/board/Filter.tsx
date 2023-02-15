@@ -14,7 +14,7 @@ export interface FilterItem {
 
 interface FilterOption {
   text: string;
-  value: number | string | boolean | undefined;
+  value: number | boolean | undefined;
 }
 
 function Filter({ setOption }: PostFilterProps) {
