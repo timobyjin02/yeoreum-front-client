@@ -2,15 +2,19 @@ import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { RequestGetAllPostsOption, requestGetPosts } from '../../apis/posts';
 import { AxiosError } from 'axios';
 
+type PostsQueryKeyObject = RequestGetAllPostsOption;
+
 const usePostsInfiniteQuery = (
   option: RequestGetAllPostsOption,
   token: string,
 ) => {
-  return useInfiniteQuery<any, AxiosError, any, ['posts']>(
-    ['posts'],
-    ({ pageParam = 1 }) => {
-      return requestGetPosts(pageParam, option, token);
-    },
+  const fetchPostsData = ({ pageParam = 1 }) => {
+    return requestGetPosts(pageParam, option, token);
+  };
+
+  return useInfiniteQuery<any, AxiosError, any, ['posts', PostsQueryKeyObject]>(
+    ['posts', option],
+    fetchPostsData,
     {
       getNextPageParam: (lastPage, pages) => {
         const boardPagenationData = lastPage.data.response.boardPagenation;
