@@ -1,29 +1,32 @@
 import styled from '@emotion/styled';
 import React, { useRef, useState } from 'react';
 import useOutsideClick from '../../hooks/useOutsideClick';
+import { RequestGetAllPostsOption } from '../../apis/posts';
+import { FilterItem } from './Filter';
 
 interface CustomSelectProps {
   width: number;
-  title: string;
-  options: OptionObject[];
+  filter: FilterItem;
+  setOption: React.Dispatch<React.SetStateAction<RequestGetAllPostsOption>>;
 }
 
-interface OptionObject {
-  value?: string;
-}
-
-function CustomSelect({ width, title, options }: CustomSelectProps) {
-  const [headerText, setHeaderText] = useState(title);
+function CustomSelect({ width, filter, setOption }: CustomSelectProps) {
+  const [headerText, setHeaderText] = useState(filter.title);
   const [isOpen, setIsOpen] = useState(false);
 
   const ref = useRef(null);
 
   useOutsideClick(ref, () => setIsOpen(false));
 
-  const handleClick = (event: React.MouseEvent) => {
+  const handleClick = (event: React.MouseEvent, option: any) => {
     setHeaderText((event.target as HTMLLIElement).innerText);
     setIsOpen(false);
+    setOption(prev => ({
+      ...prev,
+      [filter.id]: option,
+    }));
   };
+
   return (
     <SelectBox width={width}>
       <SelectHeader onClick={() => setIsOpen(prev => !prev)}>
@@ -31,9 +34,12 @@ function CustomSelect({ width, title, options }: CustomSelectProps) {
       </SelectHeader>
       {isOpen && (
         <SelectListBox ref={ref}>
-          {options.map((option, index) => (
-            <SelectList key={index} onClick={handleClick}>
-              {option.value}
+          {filter.options.map((option, index) => (
+            <SelectList
+              key={index}
+              onClick={event => handleClick(event, option.value)}
+            >
+              {option.text}
             </SelectList>
           ))}
         </SelectListBox>

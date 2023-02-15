@@ -1,23 +1,61 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import CustomSelect from './CustomSelect';
+import { RequestGetAllPostsOption } from '../../apis/posts';
 
-function Filter() {
-  const options1 = [{ value: '전체' }, { value: '남성' }, { value: '여성' }];
-  const options2 = [
-    { value: '모집 중' },
-    { value: '여름 진행 중' },
-    { value: '여름 마감' },
-  ];
-  const options3 = [];
+interface PostFilterProps {
+  setOption: React.Dispatch<React.SetStateAction<RequestGetAllPostsOption>>;
+}
+export interface FilterItem {
+  id: string;
+  title: string;
+  options: FilterOption[];
+}
+
+interface FilterOption {
+  text: string;
+  value: number | string | boolean | undefined;
+}
+
+function Filter({ setOption }: PostFilterProps) {
+  const genderFilter: FilterItem = {
+    id: 'gender',
+    title: '모집 성별',
+    options: [
+      { text: '전체', value: undefined },
+      { text: '남성', value: 1 },
+      { text: '여성', value: 0 },
+    ],
+  };
+  const statusFilter: FilterItem = {
+    id: 'isDone',
+    title: '모집 현황',
+    options: [
+      { text: '전체', value: undefined },
+      { text: '모집 중', value: false },
+      { text: '여름 마감', value: true },
+    ],
+  };
+  const peopleFilter: FilterItem = {
+    id: 'people',
+    title: '모집 인원',
+    options: [{ text: '전체', value: undefined }],
+  };
+
   for (let i = 1; i <= 8; i++) {
-    options3.push({ value: `${i}명` });
+    peopleFilter.options.push({ text: `${i}명`, value: i });
   }
+
   return (
     <Filtering>
-      <CustomSelect width={60} title={'성별'} options={options1} />
-      <CustomSelect width={90} title={'모집 현황'} options={options2} />
-      <CustomSelect width={90} title={'모집 인원'} options={options3} />
+      {[genderFilter, statusFilter, peopleFilter].map(filter => (
+        <CustomSelect
+          key={filter.id}
+          width={90}
+          filter={filter}
+          setOption={setOption}
+        />
+      ))}
     </Filtering>
   );
 }
