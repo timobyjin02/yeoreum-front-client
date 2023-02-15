@@ -13,15 +13,13 @@ function Board() {
   const token = getToken() as string;
   const [option, setOption] = useState<RequestGetAllPostsOption>({});
 
-  const { data, fetchNextPage, isFetching, isLoading } = usePostsInfiniteQuery(
-    option,
-    token,
-  );
+  const { data, fetchNextPage, isFetching, isLoading, isError } =
+    usePostsInfiniteQuery(option, token);
 
   return (
     <PostContainer>
       <BoardTitle title="게시판" />
-      <Filter />
+      <Filter setOption={setOption} />
       <SearchBox />
       {data?.pages.map((group, idx) => {
         return (
@@ -34,7 +32,10 @@ function Board() {
           </Fragment>
         );
       })}
-      {(isLoading || isFetching) && (
+      {isError && (
+        <h4 style={{ textAlign: 'center' }}>조건에 맞는 게시글이 없습니다.</h4>
+      )}
+      {(isLoading || isFetching) && !isError && (
         // 임시 로딩 스피너
         <div
           style={{
