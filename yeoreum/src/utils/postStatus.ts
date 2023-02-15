@@ -1,3 +1,5 @@
+import theme from '../styles/theme';
+
 export type PostStatusType = number;
 
 export const statusMaker = (status: number) => {
@@ -6,7 +8,7 @@ export const statusMaker = (status: number) => {
 };
 
 export function ProgressColor({ status }: { status: PostStatusType }) {
-  if (!(typeof status === 'number') || status < 0 || status > 3) return;
-  if (status === 0) return '#648fff';
-  if (status === 1) return '#525252';
+  if (!(typeof status === 'number') || status < 0 || status > 1) return;
+  if (status === 0) return theme.palette.main;
+  if (status === 1) return theme.palette.fontGrey;
 }

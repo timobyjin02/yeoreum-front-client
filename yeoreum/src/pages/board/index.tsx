@@ -24,7 +24,6 @@ function Board() {
       <Filter />
       <SearchBox />
       {data?.pages.map((group, idx) => {
-        console.log(group?.data.response.boardPagenation.boards);
         return (
           <Fragment key={idx}>
             <PostList
@@ -36,6 +35,7 @@ function Board() {
         );
       })}
       {(isLoading || isFetching) && (
+        // 임시 로딩 스피너
         <div
           style={{
             display: 'flex',
