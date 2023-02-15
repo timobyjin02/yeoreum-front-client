@@ -9,13 +9,15 @@ const usePostsInfiniteQuery = (
   return useInfiniteQuery<any, AxiosError, any, ['posts']>(
     ['posts'],
     ({ pageParam = 1 }) => {
-      //   console.log(pageParam);
       return requestGetPosts(pageParam, option, token);
     },
     {
       getNextPageParam: (lastPage, pages) => {
-        // 백에서 전체 페이지, 현재 페이지 인덱스 return 구현 시 추가 작업 요망
-        return pages.length + 1;
+        const boardPagenationData = lastPage.data.response.boardPagenation;
+        const { page, totalPage } = boardPagenationData;
+
+        if (page < totalPage) return pages.length + 1;
+        return undefined;
       },
     },
   );

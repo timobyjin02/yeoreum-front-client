@@ -23,15 +23,18 @@ function Board() {
       <BoardTitle title="게시판" />
       <Filter />
       <SearchBox />
-      {data?.pages.map((group, idx) => (
-        <Fragment key={idx}>
-          <PostList
-            key={idx}
-            posts={group?.data.response.boards}
-            fetchNextPage={fetchNextPage}
-          />
-        </Fragment>
-      ))}
+      {data?.pages.map((group, idx) => {
+        console.log(group?.data.response.boardPagenation.boards);
+        return (
+          <Fragment key={idx}>
+            <PostList
+              key={idx}
+              posts={group?.data.response.boardPagenation.boards}
+              fetchNextPage={fetchNextPage}
+            />
+          </Fragment>
+        );
+      })}
       {(isLoading || isFetching) && (
         <div
           style={{
