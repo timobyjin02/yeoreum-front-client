@@ -7,6 +7,7 @@ import theme from '../styles/theme';
 import Nav from '../components/nav/Nav';
 import Footer from '../components/footer/Footer';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useRemoveBoardPageData } from '../hooks/useBoardPageData';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -17,6 +18,8 @@ const queryClient = new QueryClient({
 });
 
 export default function App({ Component, pageProps }: AppProps) {
+  useRemoveBoardPageData();
+
   return (
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>

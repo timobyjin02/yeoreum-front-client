@@ -4,23 +4,28 @@ import CustomSelect from './CustomSelect';
 import { RequestGetAllPostsOption } from '../../apis/posts';
 
 interface PostFilterProps {
+  option: RequestGetAllPostsOption;
   setOption: React.Dispatch<React.SetStateAction<RequestGetAllPostsOption>>;
 }
 export interface FilterItem {
   id: string;
   title: string;
+  currentStatus: FilterValue;
   options: FilterOption[];
 }
 
 interface FilterOption {
   text: string;
-  value: number | boolean | undefined;
+  value: FilterValue;
 }
 
-function Filter({ setOption }: PostFilterProps) {
+export type FilterValue = number | boolean | undefined;
+
+function Filter({ option, setOption }: PostFilterProps) {
   const genderFilter: FilterItem = {
     id: 'gender',
     title: '모집 성별',
+    currentStatus: option?.gender,
     options: [
       { text: '전체', value: undefined },
       { text: '남성', value: 1 },
@@ -30,6 +35,7 @@ function Filter({ setOption }: PostFilterProps) {
   const statusFilter: FilterItem = {
     id: 'isDone',
     title: '모집 현황',
+    currentStatus: option?.isDone,
     options: [
       { text: '전체', value: undefined },
       { text: '모집 중', value: false },
@@ -39,6 +45,7 @@ function Filter({ setOption }: PostFilterProps) {
   const peopleFilter: FilterItem = {
     id: 'people',
     title: '모집 인원',
+    currentStatus: option?.people,
     options: [{ text: '전체', value: undefined }],
   };
 
@@ -53,6 +60,7 @@ function Filter({ setOption }: PostFilterProps) {
           key={filter.id}
           width={90}
           filter={filter}
+          option={option}
           setOption={setOption}
         />
       ))}
@@ -60,7 +68,7 @@ function Filter({ setOption }: PostFilterProps) {
   );
 }
 
-export default Filter;
+export default React.memo(Filter);
 
 const Filtering = styled.div`
   display: flex;

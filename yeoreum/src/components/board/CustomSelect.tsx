@@ -1,31 +1,51 @@
 import styled from '@emotion/styled';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import useOutsideClick from '../../hooks/useOutsideClick';
 import { RequestGetAllPostsOption } from '../../apis/posts';
-import { FilterItem } from './Filter';
+import { FilterItem, FilterValue } from './Filter';
+import { useSaveFilterData } from '../../hooks/useBoardPageData';
+import { useRouter } from 'next/router';
 
 interface CustomSelectProps {
   width: number;
   filter: FilterItem;
+  option: RequestGetAllPostsOption;
   setOption: React.Dispatch<React.SetStateAction<RequestGetAllPostsOption>>;
 }
 
-function CustomSelect({ width, filter, setOption }: CustomSelectProps) {
+function CustomSelect({ option, width, filter, setOption }: CustomSelectProps) {
   const [headerText, setHeaderText] = useState(filter.title);
   const [isOpen, setIsOpen] = useState(false);
-
   const ref = useRef(null);
+
+  const router = useRouter();
+
+  // select box의 필터 옵션과 현재 적용 중인 필터 옵션이 일치하는 text를 가져온다.
+  const selectedOptionText = filter.options.filter(
+    option => filter.currentStatus === option.value,
+  )[0].text;
 
   useOutsideClick(ref, () => setIsOpen(false));
 
-  const handleClick = (event: React.MouseEvent, option: any) => {
+  const handleClick = (event: React.MouseEvent, filterValue: FilterValue) => {
     setHeaderText((event.target as HTMLLIElement).innerText);
     setIsOpen(false);
     setOption(prev => ({
       ...prev,
-      [filter.id]: option,
+      [filter.id]: filterValue,
     }));
   };
+
+  const routeChangeEventHandler = () => useSaveFilterData(option);
+
+  useEffect(() => {
+    router.events.on('routeChangeStart', routeChangeEventHandler);
+    return () => router.events.off('routeChangeStart', routeChangeEventHandler);
+  }, [routeChangeEventHandler]);
+
+  useEffect(() => {
+    setHeaderText(selectedOptionText);
+  }, [selectedOptionText]);
 
   return (
     <SelectBox width={width}>
