@@ -1,4 +1,6 @@
 import styled from '@emotion/styled';
+import { css } from '@emotion/react';
+import theme from '../../styles/theme';
 import React, { useRef, useState, useEffect } from 'react';
 import useOutsideClick from '../../hooks/useOutsideClick';
 import { RequestGetAllPostsOption } from '../../apis/posts';
@@ -48,36 +50,73 @@ function CustomSelect({ option, width, filter, setOption }: CustomSelectProps) {
   }, [selectedOptionText]);
 
   return (
-    <SelectBox width={width}>
-      <SelectHeader onClick={() => setIsOpen(prev => !prev)}>
-        {headerText}
-      </SelectHeader>
-      {isOpen && (
-        <SelectListBox ref={ref}>
-          {filter.options.map((option, index) => (
-            <SelectList
-              key={index}
-              onClick={event => handleClick(event, option.value)}
-            >
-              {option.text}
-            </SelectList>
-          ))}
-        </SelectListBox>
-      )}
-    </SelectBox>
+    <SelectWrapper>
+      <SelectDescription>{filter.title}</SelectDescription>
+      <SelectBox width={width}>
+        <SelectHeader
+          selected={filter.currentStatus !== undefined}
+          onClick={() => setIsOpen(prev => !prev)}
+        >
+          {headerText}
+        </SelectHeader>
+        {isOpen && (
+          <SelectListBox ref={ref}>
+            {filter.options.map((option, index) => (
+              <SelectList
+                key={index}
+                onClick={event => handleClick(event, option.value)}
+              >
+                {option.text}
+              </SelectList>
+            ))}
+          </SelectListBox>
+        )}
+      </SelectBox>
+    </SelectWrapper>
   );
 }
 
 export default CustomSelect;
 
+const SelectWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 8px;
+`;
+
+const SelectDescription = styled.h5`
+  color: ${({ theme }) => theme.palette.fontBlack};
+  font-size: 14px;
+  margin-bottom: 4px;
+`;
+
 const SelectBox = styled.div<{ width: number }>`
   width: ${({ width }) => width + 'px'};
 
   position: relative;
-  margin-right: 8px;
+
+  // 무슨 필터인지 쓰려면 빼야하는 속성
+  /* margin-right: 8px; */
 `;
 
-const SelectHeader = styled.div`
+const selectedHeader = css`
+  color: ${theme.palette.font.white};
+  background-color: ${theme.palette.main};
+  &:hover {
+    background-color: ${theme.palette.dark};
+  }
+`;
+
+const defaultHeader = css`
+  color: ${theme.palette.fontBlack};
+  background-color: white;
+  &:hover {
+    background-color: ${theme.palette.lightGrey};
+  }
+`;
+
+const SelectHeader = styled.div<{ selected: boolean }>`
   width: 100%;
   display: flex;
   align-items: center;
@@ -87,10 +126,9 @@ const SelectHeader = styled.div`
   border: 1px solid #bfbfbf;
   font-size: 0.75rem;
   margin-bottom: 3px;
-  &:hover {
-    background-color: #eee;
-    cursor: pointer;
-  }
+  cursor: pointer;
+
+  ${({ selected }) => (selected ? selectedHeader : defaultHeader)}
 `;
 
 const SelectListBox = styled.ul`
