@@ -34,7 +34,6 @@ const SignUpProfileForm = () => {
   const [user, setUser, onChangeValue, onChangeValidity] = useForm(
     SIGN_UP_PROFILE_INITIAL,
   );
-  const [validNicknameMessage, setValidNicknameMessage] = useState('');
 
   const onValidate = (name: string, value: string) => {
     const isValid = REGEX_BY_TYPE[name].test(value);
@@ -62,8 +61,15 @@ const SignUpProfileForm = () => {
   };
 
   const onClickNickname = () => {
-    const isValid = validateNickname(user.nickname.value);
-    console.log(isValid);
+    const value = user.nickname.value;
+    const name = 'nicknameValidity';
+    if (!user.nickname.validity) return;
+    validateNickname(user.nickname.value).then(isValid => {
+      const message = isValid
+        ? MESSAGE_BY_TYPE[name].success
+        : MESSAGE_BY_TYPE[name].error;
+      onChangeValidity('nickname', isValid, message);
+    });
   };
 
   const onChangeMajor = (e: ChangeEvent<HTMLInputElement>) => {
@@ -77,7 +83,6 @@ const SignUpProfileForm = () => {
     if (value.length > 0) onChangeValidity(name, true, '');
     onChangeValue(name, value);
   };
-  console.log(user);
   return (
     <Container onSubmit={e => e.preventDefault()}>
       <Wrapper>
