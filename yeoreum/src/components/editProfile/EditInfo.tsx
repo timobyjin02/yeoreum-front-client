@@ -42,11 +42,16 @@ function EditInfo({ userData, setUserData }: ProfileEditProps) {
           readOnly
         />
         <InfoTitle>학과</InfoTitle>
-        <InfoInput
-          name="major"
-          onChange={handleInputChange}
-          value={userData.major}
-        />
+        <MajorWrapper>
+          <InfoInput
+            name="major"
+            onChange={handleInputChange}
+            value={userData.major}
+            className={'readOnly'}
+            readOnly
+          />
+          <CertificationButton>인증</CertificationButton>
+        </MajorWrapper>
         <InfoTitle>소개</InfoTitle>
         <InfoDescription
           name="description"
@@ -95,6 +100,22 @@ const InfoInput = styled.input`
   }
 `;
 
+const MajorWrapper = styled.div`
+  display: flex;
+`;
+
+const CertificationButton = styled.button`
+  width: 70px;
+  height: 34px;
+  border-radius: 8px;
+  margin-left: 10px;
+  color: ${({ theme }) => theme.palette.main};
+  border: 1px solid ${({ theme }) => theme.palette.main};
+  background-color: inherit;
+
+  cursor: pointer;
+`;
+
 const InfoDescription = styled.textarea`
   display: flex;
   width: 340px;
@@ -121,7 +142,7 @@ const InfoDescription = styled.textarea`
 const EditButton = styled.button`
   float: right;
   width: 70px;
-  height: 44px;
+  height: 40px;
   border-radius: 8px;
   color: ${({ theme }) => theme.palette.font.white};
   background: ${({ theme }) => theme.palette.main};

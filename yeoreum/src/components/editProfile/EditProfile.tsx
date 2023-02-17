@@ -104,7 +104,7 @@ const ProfileImgEditBtn = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100px;
+  width: 110px;
   height: 48px;
   margin-top: 18px;
   border-radius: 8px;
