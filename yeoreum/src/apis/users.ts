@@ -40,8 +40,17 @@ const requestPutEditProfileImage = async (file: Blob) => {
 
 const requestPatchEditProfile = (nickname: string, description: string) => {
   const body = { nickname, description };
-  console.log(nickname);
+  // console.log(nickname);
   remote.patch(`/api/users/profile`, body, config);
+};
+
+const requestPatchMajorUpload = (file: Blob, major: string) => {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('major', major);
+  remote.patch(`/api/users/major`, formData, config);
+
+  // return data.response.user;
 };
 
 export {
@@ -50,4 +59,5 @@ export {
   requestGetUserBoards,
   requestPutEditProfileImage,
   requestPatchEditProfile,
+  requestPatchMajorUpload,
 };

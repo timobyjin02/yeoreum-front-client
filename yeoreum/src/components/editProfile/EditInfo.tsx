@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { requestPatchEditProfile } from '../../apis/users';
 import { UserProfileResponseType } from '../../types/user';
+import MajorChange from './MajorChange';
 
 interface ProfileEditProps {
   userData: any;
@@ -42,16 +43,7 @@ function EditInfo({ userData, setUserData }: ProfileEditProps) {
           readOnly
         />
         <InfoTitle>학과</InfoTitle>
-        <MajorWrapper>
-          <InfoInput
-            name="major"
-            onChange={handleInputChange}
-            value={userData.major}
-            className={'readOnly'}
-            readOnly
-          />
-          <CertificationButton>인증</CertificationButton>
-        </MajorWrapper>
+        <MajorChange userData={userData} />
         <InfoTitle>소개</InfoTitle>
         <InfoDescription
           name="description"
@@ -68,7 +60,7 @@ export default EditInfo;
 
 const ProfileInfoWrapper = styled.div``;
 
-const ProfileInfoes = styled.form``;
+const ProfileInfoes = styled.div``;
 
 const InfoTitle = styled.div`
   margin-bottom: 8px;
@@ -104,16 +96,19 @@ const MajorWrapper = styled.div`
   display: flex;
 `;
 
-const CertificationButton = styled.button`
-  width: 70px;
-  height: 34px;
+const MajorChangeButton = styled.button`
+  width: 80px;
+  height: 38px;
   border-radius: 8px;
   margin-left: 10px;
-  color: ${({ theme }) => theme.palette.main};
-  border: 1px solid ${({ theme }) => theme.palette.main};
-  background-color: inherit;
+  color: ${({ theme }) => theme.palette.font.white};
+  background: ${({ theme }) => theme.palette.main};
 
   cursor: pointer;
+`;
+
+const ImgEditInput = styled.input`
+  display: none;
 `;
 
 const InfoDescription = styled.textarea`
