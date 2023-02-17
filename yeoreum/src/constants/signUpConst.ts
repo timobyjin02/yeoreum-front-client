@@ -83,7 +83,7 @@ export const SIGN_UP_PROFILE_MESSAGE_BY_TYPE = {
     success: '2글자 이상 10글자 이하 영문, 한글, 숫자 조합',
     error: '2글자 이상 10글자 이하 영문, 한글, 숫자 조합',
   },
-  nicknameValidity: {
+  nicknameDuplication: {
     success: '사용 가능한 닉네임입니다.',
     error: '중복된 닉네임입니다.',
   },

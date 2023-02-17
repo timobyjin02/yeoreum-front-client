@@ -34,8 +34,11 @@ const SignUpProfileForm = () => {
   const [user, setUser, onChangeValue, onChangeValidity] = useForm(
     SIGN_UP_PROFILE_INITIAL,
   );
-
   const [userImg, setUserImg] = useState('');
+  const [nicknameDuplicationStatus, setNicknameDuplicationStatus] = useState({
+    message: '',
+    duplication: undefined,
+  });
   const onChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, files } = e.target;
 
@@ -58,6 +61,10 @@ const SignUpProfileForm = () => {
     if (value.length !== 0) return;
     const message = '2글자 이상 10글자 이하 영문, 한글, 숫자 조합';
     onChangeValidity(name, undefined, message);
+    setNicknameDuplicationStatus(pre => ({
+      duplication: undefined,
+      message: '중복확인을 눌러주세요.',
+    }));
   };
 
   const onChangeNickname = (e: ChangeEvent<HTMLInputElement>) => {
@@ -65,20 +72,26 @@ const SignUpProfileForm = () => {
     onChangeValue(name, value);
     const { isValid, message } = onValidate(name, value);
     onChangeValidity(name, isValid, message);
+    setNicknameDuplicationStatus(pre => ({
+      duplication: undefined,
+      message: '중복확인을 눌러주세요.',
+    }));
   };
 
   const onClickNickname = () => {
     const value = user.nickname.value;
-    const name = 'nicknameValidity';
+    const name = 'nickname';
     if (!user.nickname.validity) return;
     validateNickname(user.nickname.value).then(isValid => {
-      const message = isValid
-        ? MESSAGE_BY_TYPE[name].success
-        : MESSAGE_BY_TYPE[name].error;
-      onChangeValidity('nickname', isValid, message);
+      setNicknameDuplicationStatus({
+        message: isValid
+          ? MESSAGE_BY_TYPE.nicknameDuplication.success
+          : MESSAGE_BY_TYPE.nicknameDuplication.error,
+        duplication: isValid,
+      });
     });
   };
-
+  console.log(nicknameDuplicationStatus);
   const onChangeMajor = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     onValidate(name, value);
@@ -149,6 +162,11 @@ const SignUpProfileForm = () => {
       {user.nickname.message.length > 0 && (
         <AlertP success={user.nickname.validity}>
           {user.nickname.message}
+        </AlertP>
+      )}
+      {nicknameDuplicationStatus.message.length > 0 && (
+        <AlertP success={nicknameDuplicationStatus.duplication}>
+          {nicknameDuplicationStatus.message}
         </AlertP>
       )}
       <Wrapper>
