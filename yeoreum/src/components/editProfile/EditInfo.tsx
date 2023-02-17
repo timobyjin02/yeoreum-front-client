@@ -1,33 +1,63 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
+import { requestGetUserProfile } from '../../apis/users';
+import { UserProfileResponseType } from '../../types/user';
 
 function EditInfo() {
-  const [inputValue, setInputValue] = useState({
-    nickname: '',
-    department: '',
+  const [userData, setUserData] = useState<UserProfileResponseType>({
+    userNo: 0,
     email: '',
+    nickname: '',
+    major: '',
+    gender: 0,
     description: '',
+    profileImage: '',
+    grade: '',
   });
+  // const [img, setImg] = useState(null);
+  // const [nickname, setNickname] = useState('');
+  // const [email, setEmail] = useState('');
+  // const [major, setMajor] = useState('');
+  // const [description, setDescription] = useState('');
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const { value, name } = e.target;
-    setInputValue({
-      ...inputValue,
+
+    setUserData({
+      ...userData,
       [name]: value,
     });
   };
+
+  useEffect(() => {
+    (async () => {
+      const resultUserData = await requestGetUserProfile();
+
+      setUserData(resultUserData);
+    })();
+  }, []);
 
   return (
     <ProfileInfoWrapper>
       <ProfileInfoes>
         <InfoTitle>닉네임</InfoTitle>
-        <InfoInput name="nickname" onChange={onChange} />
+        <InfoInput
+          name="nickname"
+          onChange={onChange}
+          value={userData.nickname}
+        />
         <InfoTitle>이메일</InfoTitle>
-        <InfoInput name="email" onChange={onChange} />
+        <InfoInput name="email" onChange={onChange} value={userData.email} />
         <InfoTitle>학과</InfoTitle>
-        <InfoInput name="department" onChange={onChange} />
+        <InfoInput name="major" onChange={onChange} value={userData.major} />
         <InfoTitle>소개</InfoTitle>
-        <InfoDescription name="description"></InfoDescription>
+        <InfoDescription
+          name="description"
+          onChange={onChange}
+          value={userData.description}
+        />
       </ProfileInfoes>
       <EditButton>수정</EditButton>
     </ProfileInfoWrapper>
