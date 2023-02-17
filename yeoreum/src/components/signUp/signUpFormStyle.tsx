@@ -179,4 +179,9 @@ export const ProfileImageWrapper = styled.div`
     color: ${({ theme }) => theme.palette.main};
     cursor: pointer;
   }
+  & > img {
+    border: 1px solid ${({ theme }) => theme.palette.line.light};
+    border-radius: 50%;
+    object-fit: cover;
+  }
 `;

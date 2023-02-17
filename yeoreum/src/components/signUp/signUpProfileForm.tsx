@@ -35,6 +35,14 @@ const SignUpProfileForm = () => {
     SIGN_UP_PROFILE_INITIAL,
   );
 
+  const [userImg, setUserImg] = useState('');
+  const onChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, files } = e.target;
+
+    if (!files) return;
+    setUserImg(URL.createObjectURL(files[0]));
+    onChangeValue(name, files[0]);
+  };
   const onValidate = (name: string, value: string) => {
     const isValid = REGEX_BY_TYPE[name].test(value);
     return {
@@ -55,7 +63,6 @@ const SignUpProfileForm = () => {
   const onChangeNickname = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     onChangeValue(name, value);
-    // 중복 검사 추가
     const { isValid, message } = onValidate(name, value);
     onChangeValidity(name, isValid, message);
   };
@@ -90,7 +97,7 @@ const SignUpProfileForm = () => {
           <P>프로필</P>
           <ProfileImageWrapper>
             <Image
-              src="/anonymous.png"
+              src={userImg ? userImg : '/anonymous.png'}
               width="46"
               height="46"
               alt="profileImg"
@@ -98,9 +105,9 @@ const SignUpProfileForm = () => {
             <span>추가</span>
           </ProfileImageWrapper>
           <ProfileInput
-            name="profileImg"
+            name="file"
             type="file"
-            onChange={onChange}
+            onChange={onChangeFile}
           ></ProfileInput>
         </Label>
       </Wrapper>
@@ -160,6 +167,7 @@ const SignUpProfileForm = () => {
         <Label>
           <P>소개</P>
           <DescriptionInput
+            name="description"
             maxLength={150}
             placeholder="소개를 입력해주세요"
             onChange={onChange}

@@ -8,7 +8,7 @@ interface InitialStateType {
 const useForm = (initialState: InitialStateType) => {
   const [state, setState] = useState<InitialStateType>(initialState);
 
-  const onChangeValue = useCallback((name: string, value: string) => {
+  const onChangeValue = useCallback((name: string, value: string | File) => {
     setState(pre => ({
       ...pre,
       [name]: {
