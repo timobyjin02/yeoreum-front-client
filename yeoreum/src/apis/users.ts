@@ -26,7 +26,7 @@ const requestGetUserBoards = async (type: number) => {
   return data.response.users;
 };
 
-const requestPutEditProfile = async (file: Blob) => {
+const requestPutEditProfileImage = async (file: Blob) => {
   const formData = new FormData();
   formData.append('file', file);
   const { data } = await remote.put(
@@ -38,9 +38,16 @@ const requestPutEditProfile = async (file: Blob) => {
   return data.response.user;
 };
 
+const requestPatchEditProfile = (nickname: string, description: string) => {
+  const body = { nickname, description };
+  console.log(nickname);
+  remote.patch(`/api/users/profile`, body, config);
+};
+
 export {
   requestGetUserProfile,
   requestGetUsers,
   requestGetUserBoards,
-  requestPutEditProfile,
+  requestPutEditProfileImage,
+  requestPatchEditProfile,
 };

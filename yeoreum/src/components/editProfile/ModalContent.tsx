@@ -1,6 +1,6 @@
 import React, { useCallback, useRef } from 'react';
 import styled from '@emotion/styled';
-import { requestPutEditProfile } from '../../apis/users';
+import { requestPutEditProfileImage } from '../../apis/users';
 
 interface EditImageProps {
   fileImg: string;
@@ -24,7 +24,7 @@ function ModalContent({ fileImg, setFileImg, onClose }: EditImageProps) {
 
     setFileImg(URL.createObjectURL(e.target.files[0]));
 
-    requestPutEditProfile(e.target.files[0]);
+    requestPutEditProfileImage(e.target.files[0]);
 
     handleClose();
   };

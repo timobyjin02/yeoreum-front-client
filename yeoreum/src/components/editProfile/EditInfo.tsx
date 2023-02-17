@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
-import { requestGetUserProfile } from '../../apis/users';
+import { requestPatchEditProfile } from '../../apis/users';
 import { UserProfileResponseType } from '../../types/user';
 
 interface ProfileEditProps {
@@ -8,13 +8,7 @@ interface ProfileEditProps {
   setUserData: React.Dispatch<React.SetStateAction<UserProfileResponseType>>;
 }
 function EditInfo({ userData, setUserData }: ProfileEditProps) {
-  // const [img, setImg] = useState(null);
-  // const [nickname, setNickname] = useState('');
-  // const [email, setEmail] = useState('');
-  // const [major, setMajor] = useState('');
-  // const [description, setDescription] = useState('');
-
-  const onChange = (
+  const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { value, name } = e.target;
@@ -25,27 +19,40 @@ function EditInfo({ userData, setUserData }: ProfileEditProps) {
     });
   };
 
+  const handleClickChange = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault;
+    requestPatchEditProfile(userData.nickname, userData.description);
+  };
+
   return (
     <ProfileInfoWrapper>
       <ProfileInfoes>
         <InfoTitle>닉네임</InfoTitle>
         <InfoInput
           name="nickname"
-          onChange={onChange}
+          onChange={handleInputChange}
           value={userData.nickname}
         />
         <InfoTitle>이메일</InfoTitle>
-        <InfoInput name="email" onChange={onChange} value={userData.email} />
+        <InfoInput
+          name="email"
+          onChange={handleInputChange}
+          value={userData.email}
+        />
         <InfoTitle>학과</InfoTitle>
-        <InfoInput name="major" onChange={onChange} value={userData.major} />
+        <InfoInput
+          name="major"
+          onChange={handleInputChange}
+          value={userData.major}
+        />
         <InfoTitle>소개</InfoTitle>
         <InfoDescription
           name="description"
-          onChange={onChange}
+          onChange={handleInputChange}
           value={userData.description}
         />
       </ProfileInfoes>
-      <EditButton>수정</EditButton>
+      <EditButton onClick={handleClickChange}>수정</EditButton>
     </ProfileInfoWrapper>
   );
 }

@@ -31,6 +31,7 @@ function EditProfile() {
       const resultUserData = await requestGetUserProfile();
 
       setUserData(resultUserData);
+      setFileImg(resultUserData.profileImage);
     })();
   }, []);
 
