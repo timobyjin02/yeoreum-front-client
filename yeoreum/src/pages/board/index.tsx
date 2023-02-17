@@ -10,18 +10,20 @@ import { RequestGetAllPostsOption } from '../../apis/posts';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import {
   useGetFilterData,
-  useScrollHistory,
+  useGetScrollData,
+  useSaveFilterData,
 } from '../../hooks/useBoardPageData';
+import { useRouter } from 'next/router';
 
 function Board() {
   const token = getToken() as string;
+  const router = useRouter();
   const [option, setOption] = useState<RequestGetAllPostsOption>({
     gender: undefined,
     people: undefined,
     isDone: undefined,
     isImpromptu: undefined,
   });
-  const scrollHistory = useScrollHistory();
 
   useEffect(() => {
     const savedOption = useGetFilterData();
@@ -34,8 +36,21 @@ function Board() {
     usePostsInfiniteQuery(option, token);
 
   useEffect(() => {
-    window.scrollTo(0, scrollHistory);
+    const scrollHistory = useGetScrollData();
+
+    if (!isLoading && !isFetching) {
+      window.scrollTo(0, scrollHistory);
+    }
   }, []);
+
+  const routeChangeEventHandler = () => {
+    useSaveFilterData(option);
+  };
+
+  useEffect(() => {
+    router.events.on('routeChangeStart', routeChangeEventHandler);
+    return () => router.events.off('routeChangeStart', routeChangeEventHandler);
+  }, [routeChangeEventHandler]);
 
   return (
     <PostContainer>
@@ -54,7 +69,9 @@ function Board() {
         );
       })}
       {isError && (
-        <h4 style={{ textAlign: 'center' }}>조건에 맞는 게시글이 없습니다.</h4>
+        <h4 style={{ marginTop: '20px', textAlign: 'center' }}>
+          조건에 맞는 게시글이 없습니다.
+        </h4>
       )}
       {(isLoading || isFetching) && !isError && (
         // 임시 로딩 스피너

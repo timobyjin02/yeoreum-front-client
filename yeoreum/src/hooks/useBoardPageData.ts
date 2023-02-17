@@ -1,27 +1,19 @@
-import { useEffect, useState } from 'react';
-import { throttle } from 'lodash';
 import { useRouter } from 'next/router';
 
-function useScrollHistory() {
-  if (typeof window === 'undefined') return 0;
-  const [scroll, setScroll] = useState(() =>
-    Number(sessionStorage.getItem('scrollOffset')),
-  );
-  const scrollEventHandler = throttle(() => {
+function useSaveScrollData() {
+  if (typeof window !== 'undefined') {
     sessionStorage.setItem('scrollOffset', JSON.stringify(window.scrollY));
-    setScroll(Number(sessionStorage.getItem('scrollOffset')));
-  }, 500);
+  }
+}
 
-  useEffect(() => {
-    window.addEventListener('scroll', scrollEventHandler);
-
-    return () => window.removeEventListener('scroll', scrollEventHandler);
-  }, []);
-  return scroll;
+function useGetScrollData() {
+  return Number(sessionStorage.getItem('scrollOffset'));
 }
 
 function useSaveFilterData(option: any) {
-  sessionStorage.setItem('filterOptions', JSON.stringify(option));
+  if (typeof window !== 'undefined') {
+    sessionStorage.setItem('filterOptions', JSON.stringify(option));
+  }
 }
 
 function useGetFilterData() {
@@ -38,9 +30,15 @@ function useRemoveBoardPageData() {
   }
 }
 
+function useRemoveFilterData() {
+  sessionStorage.removeItem('filterOptions');
+}
+
 export {
-  useScrollHistory,
+  useSaveScrollData,
+  useGetScrollData,
   useSaveFilterData,
   useGetFilterData,
   useRemoveBoardPageData,
+  useRemoveFilterData,
 };

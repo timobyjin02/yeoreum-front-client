@@ -5,32 +5,26 @@ import React, { useRef, useState, useEffect } from 'react';
 import useOutsideClick from '../../hooks/useOutsideClick';
 import { RequestGetAllPostsOption } from '../../apis/posts';
 import { FilterItem, FilterValue } from './Filter';
-import { useSaveFilterData } from '../../hooks/useBoardPageData';
-import { useRouter } from 'next/router';
 
 interface CustomSelectProps {
-  width: number;
   filter: FilterItem;
-  option: RequestGetAllPostsOption;
   setOption: React.Dispatch<React.SetStateAction<RequestGetAllPostsOption>>;
 }
 
-function CustomSelect({ option, width, filter, setOption }: CustomSelectProps) {
+function CustomSelect({ filter, setOption }: CustomSelectProps) {
   const [headerText, setHeaderText] = useState(filter.title);
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef(null);
-
-  const router = useRouter();
 
   // select box의 필터 옵션과 현재 적용 중인 필터 옵션이 일치하는 text를 가져온다.
   const selectedOptionText = filter.options.filter(
     option => filter.currentStatus === option.value,
   )[0].text;
 
-  useOutsideClick(ref, () => setIsOpen(false));
-
-  const handleClick = (event: React.MouseEvent, filterValue: FilterValue) => {
-    setHeaderText((event.target as HTMLLIElement).innerText);
+  const handleClick = (filterValue: FilterValue) => {
+    // 밑에 useEffect로 선택된 옵션에 해당하는 text가 바뀔때마다 HeaderText를 변경하기 때문에
+    // event.target.innerText를 넣어줄 필요가 없다.
+    // // setHeaderText((event.target as HTMLLIElement).innerText);
     setIsOpen(false);
     setOption(prev => ({
       ...prev,
@@ -38,66 +32,45 @@ function CustomSelect({ option, width, filter, setOption }: CustomSelectProps) {
     }));
   };
 
-  const routeChangeEventHandler = () => useSaveFilterData(option);
-
-  useEffect(() => {
-    router.events.on('routeChangeStart', routeChangeEventHandler);
-    return () => router.events.off('routeChangeStart', routeChangeEventHandler);
-  }, [routeChangeEventHandler]);
-
   useEffect(() => {
     setHeaderText(selectedOptionText);
   }, [selectedOptionText]);
 
+  useOutsideClick(ref, () => setIsOpen(false));
+
+  const isSelected = filter.currentStatus !== undefined;
+
   return (
-    <SelectWrapper>
-      <SelectDescription>{filter.title}</SelectDescription>
-      <SelectBox width={width}>
-        <SelectHeader
-          selected={filter.currentStatus !== undefined}
-          onClick={() => setIsOpen(prev => !prev)}
-        >
-          {headerText}
-        </SelectHeader>
-        {isOpen && (
-          <SelectListBox ref={ref}>
-            {filter.options.map((option, index) => (
-              <SelectList
-                key={index}
-                onClick={event => handleClick(event, option.value)}
-              >
-                {option.text}
-              </SelectList>
-            ))}
-          </SelectListBox>
-        )}
-      </SelectBox>
-    </SelectWrapper>
+    <SelectBox>
+      <SelectHeaderWrapper
+        isSelected={isSelected}
+        onClick={() => setIsOpen(prev => !prev)}
+      >
+        <SelectHeaderText>
+          {isSelected ? headerText : filter.title}
+        </SelectHeaderText>
+        <ArrowDown isSelected={isSelected} />
+      </SelectHeaderWrapper>
+      {isOpen && (
+        <SelectListBox ref={ref}>
+          {filter.options.map((option, index) => (
+            <SelectList key={index} onClick={() => handleClick(option.value)}>
+              {option.text}
+            </SelectList>
+          ))}
+        </SelectListBox>
+      )}
+    </SelectBox>
   );
 }
 
 export default CustomSelect;
 
-const SelectWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-right: 8px;
-`;
-
-const SelectDescription = styled.h5`
-  color: ${({ theme }) => theme.palette.fontBlack};
-  font-size: 14px;
-  margin-bottom: 4px;
-`;
-
-const SelectBox = styled.div<{ width: number }>`
-  width: ${({ width }) => width + 'px'};
-
+const SelectBox = styled.div`
+  width: fit-content;
   position: relative;
 
-  // 무슨 필터인지 쓰려면 빼야하는 속성
-  /* margin-right: 8px; */
+  margin-right: 8px;
 `;
 
 const selectedHeader = css`
@@ -116,25 +89,42 @@ const defaultHeader = css`
   }
 `;
 
-const SelectHeader = styled.div<{ selected: boolean }>`
-  width: 100%;
+const SelectHeaderWrapper = styled.div<{ isSelected: boolean }>`
+  width: fit-content;
+  padding: 0 14px;
   display: flex;
   align-items: center;
   justify-content: center;
   height: 30px;
   border-radius: 15px;
-  border: 1px solid #bfbfbf;
+  border: 1px solid ${({ theme }) => theme.palette.grey};
   font-size: 0.75rem;
   margin-bottom: 3px;
   cursor: pointer;
 
-  ${({ selected }) => (selected ? selectedHeader : defaultHeader)}
+  ${({ isSelected }) => (isSelected ? selectedHeader : defaultHeader)}
+`;
+
+const SelectHeaderText = styled.span`
+  margin-right: 4px;
+`;
+
+const ArrowDown = styled.div<{ isSelected: boolean }>`
+  width: 6px;
+  height: 6px;
+  margin: 0 0 1px;
+  border-right: 2px solid
+    ${({ isSelected }) => (isSelected ? 'white' : 'black')};
+  border-bottom: 2px solid
+    ${({ isSelected }) => (isSelected ? 'white' : 'black')};
+  transform: rotate(45deg);
+  transition: 0.1s all;
 `;
 
 const SelectListBox = styled.ul`
   width: 100%;
   position: absolute;
-  border: 1px solid #c4c4c4;
+  border: 1px solid ${({ theme }) => theme.palette.grey};
   border-radius: 5px;
   padding: 5px 0;
   background-color: white;
@@ -146,7 +136,7 @@ const SelectList = styled.li`
   font-size: 0.75rem;
   cursor: pointer;
   &:hover {
-    background-color: #aaa;
-    color: #fff;
+    background-color: ${({ theme }) => theme.palette.disable};
+    color: white;
   }
 `;

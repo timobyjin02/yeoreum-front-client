@@ -13,6 +13,8 @@ import { AxiosError } from 'axios';
 import { useEffect, useRef } from 'react';
 import useIntersectionObserver from '../../hooks/useIntersectionObserver';
 import Link from 'next/link';
+import { useSaveScrollData } from '../../hooks/useBoardPageData';
+import { useRouter } from 'next/router';
 
 interface PostListProps {
   posts?: BoardType[];
@@ -22,10 +24,12 @@ interface PostListProps {
 }
 
 function PostList({ posts, fetchNextPage }: PostListProps) {
-  const ref = useRef(null);
+  const router = useRouter();
+  const ref = router.pathname === '/board' ? useRef(null) : null;
 
   useEffect(() => {
-    if (!ref.current) return;
+    if (ref === null) return;
+    if (!ref.current || router.pathname !== '/board') return;
     useIntersectionObserver(ref.current, fetchNextPage);
   }, []);
 
@@ -33,7 +37,11 @@ function PostList({ posts, fetchNextPage }: PostListProps) {
     <Post>
       {posts?.map((post, idx) => {
         return (
-          <Link key={post.no} href={`/board/post/${post.no}`}>
+          <Link
+            onClick={useSaveScrollData}
+            key={post.no}
+            href={`/board/post/${post.no}`}
+          >
             <List ref={posts.length - 1 === idx ? ref : null}>
               <PostHeader>
                 <Progress status={post.isDone}>
