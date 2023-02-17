@@ -3,17 +3,11 @@ import styled from '@emotion/styled';
 import { requestGetUserProfile } from '../../apis/users';
 import { UserProfileResponseType } from '../../types/user';
 
-function EditInfo() {
-  const [userData, setUserData] = useState<UserProfileResponseType>({
-    userNo: 0,
-    email: '',
-    nickname: '',
-    major: '',
-    gender: 0,
-    description: '',
-    profileImage: '',
-    grade: '',
-  });
+interface ProfileEditProps {
+  userData: any;
+  setUserData: React.Dispatch<React.SetStateAction<UserProfileResponseType>>;
+}
+function EditInfo({ userData, setUserData }: ProfileEditProps) {
   // const [img, setImg] = useState(null);
   // const [nickname, setNickname] = useState('');
   // const [email, setEmail] = useState('');
@@ -30,14 +24,6 @@ function EditInfo() {
       [name]: value,
     });
   };
-
-  useEffect(() => {
-    (async () => {
-      const resultUserData = await requestGetUserProfile();
-
-      setUserData(resultUserData);
-    })();
-  }, []);
 
   return (
     <ProfileInfoWrapper>

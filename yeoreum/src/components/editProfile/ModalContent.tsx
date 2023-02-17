@@ -22,7 +22,7 @@ function ModalContent({ fileImg, setFileImg, onClose }: Props) {
 
     setFileImg(URL.createObjectURL(e.target.files[0]));
 
-    console.log(e.target.files[0].name);
+    // console.log(e.target.files[0].name);
     handleClose();
   };
 

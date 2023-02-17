@@ -1,17 +1,37 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import EditInfo from './EditInfo';
 import Modal from '../common/Modal';
 import ModalContent from './ModalContent';
 import PostContainer from '../board/PostContainer';
+import { requestGetUserProfile } from '../../apis/users';
+import { UserProfileResponseType } from '../../types/user';
 
 function EditProfile() {
   const [isOpen, setIsOpen] = useState(false);
   const [fileImg, setFileImg] = useState('');
+  const [userData, setUserData] = useState<UserProfileResponseType>({
+    userNo: 0,
+    email: '',
+    nickname: '',
+    major: '',
+    gender: 0,
+    description: '',
+    profileImage: '',
+    grade: '',
+  });
 
   const onClick = () => {
     setIsOpen(true);
   };
+
+  useEffect(() => {
+    (async () => {
+      const resultUserData = await requestGetUserProfile();
+
+      setUserData(resultUserData);
+    })();
+  }, []);
 
   return (
     <PostContainer>
@@ -36,7 +56,7 @@ function EditProfile() {
             </Modal>
           )}
         </ProfileImgWrapper>
-        <EditInfo />
+        <EditInfo userData={userData} setUserData={setUserData} />
       </ProfileContainer>
     </PostContainer>
   );
