@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { requestPatchEditProfile } from '../../apis/users';
 import { UserProfileResponseType } from '../../types/user';
@@ -38,6 +38,8 @@ function EditInfo({ userData, setUserData }: ProfileEditProps) {
           name="email"
           onChange={handleInputChange}
           value={userData.email}
+          className={'readOnly'}
+          readOnly
         />
         <InfoTitle>학과</InfoTitle>
         <InfoInput
@@ -86,6 +88,10 @@ const InfoInput = styled.input`
   }
   &::placeholder {
     color: #8e8e8e;
+  }
+  &.readOnly {
+    outline: none;
+    color: ${({ theme }) => theme.palette.font.disable};
   }
 `;
 
