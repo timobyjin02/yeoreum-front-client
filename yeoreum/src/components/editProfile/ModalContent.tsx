@@ -1,13 +1,14 @@
 import React, { useCallback, useRef } from 'react';
 import styled from '@emotion/styled';
+import { requestPutEditProfile } from '../../apis/users';
 
-interface Props {
+interface EditImageProps {
   fileImg: string;
   setFileImg: React.Dispatch<React.SetStateAction<string>>;
   onClose: () => void;
 }
 
-function ModalContent({ fileImg, setFileImg, onClose }: Props) {
+function ModalContent({ fileImg, setFileImg, onClose }: EditImageProps) {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const handleUploadImageClick = useCallback(() => {
@@ -17,12 +18,14 @@ function ModalContent({ fileImg, setFileImg, onClose }: Props) {
     inputRef.current.click();
   }, []);
 
-  const handleUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
     if (!e.target.files) return;
 
     setFileImg(URL.createObjectURL(e.target.files[0]));
 
-    // console.log(e.target.files[0].name);
+    requestPutEditProfile(e.target.files[0]);
+
     handleClose();
   };
 

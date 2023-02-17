@@ -26,4 +26,21 @@ const requestGetUserBoards = async (type: number) => {
   return data.response.users;
 };
 
-export { requestGetUserProfile, requestGetUsers, requestGetUserBoards };
+const requestPutEditProfile = async (file: Blob) => {
+  const formData = new FormData();
+  formData.append('file', file);
+  const { data } = await remote.put(
+    `/api/users/profile-image`,
+    formData,
+    config,
+  );
+
+  return data.response.user;
+};
+
+export {
+  requestGetUserProfile,
+  requestGetUsers,
+  requestGetUserBoards,
+  requestPutEditProfile,
+};

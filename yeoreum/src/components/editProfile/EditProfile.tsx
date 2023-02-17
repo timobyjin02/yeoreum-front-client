@@ -6,6 +6,7 @@ import ModalContent from './ModalContent';
 import PostContainer from '../board/PostContainer';
 import { requestGetUserProfile } from '../../apis/users';
 import { UserProfileResponseType } from '../../types/user';
+import ProfileImage from '../common/ProfileImage';
 
 function EditProfile() {
   const [isOpen, setIsOpen] = useState(false);
@@ -38,7 +39,7 @@ function EditProfile() {
       <Title>계정설정</Title>
       <ProfileContainer>
         <ProfileImgWrapper>
-          <ProfileImg src={fileImg} />
+          <ProfileImage src={fileImg} size={70} />
           <ProfileImgEditBtn onClick={onClick}>프로필 변경</ProfileImgEditBtn>
           {isOpen && (
             <Modal
@@ -96,14 +97,6 @@ const ProfileImgWrapper = styled.div`
   @media (max-width: 640px) {
     margin: 0;
   }
-`;
-
-const ProfileImg = styled.img`
-  width: 70px;
-  height: 70px;
-  border-radius: 50px;
-  object-fit: cover;
-  background-color: #aeaeae;
 `;
 
 const ProfileImgEditBtn = styled.div`
