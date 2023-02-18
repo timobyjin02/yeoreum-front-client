@@ -1,15 +1,54 @@
 import styled from '@emotion/styled';
-import { useState } from 'react';
-
+import { useCallback, useRef, useState } from 'react';
+import { requestPatchMajorUpload } from '../../apis/users';
 interface userDataProps {
   userData: any;
 }
+
 function MajorChange({ userData }: userDataProps) {
   const [isView, setIsView] = useState(false);
-  const [fileImg, setFileImg] = useState('');
+  const [fileImg, setFileImg] = useState<File | null>(null);
+  const [infoInputValue, setInfoInputValue] = useState<string>('');
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   const isViewHandler = () => {
     setIsView(true);
+  };
+
+  const studentIdRegistrationHandler = useCallback(() => {
+    if (!inputRef.current) {
+      return;
+    }
+    inputRef.current.click();
+  }, []);
+
+  const uploadImageHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
+
+    setFileImg(e.target.files[0]);
+
+    alert('학생증 사진이 등록되었습니다');
+  };
+
+  const submitHandler = () => {
+    if (!infoInputValue) {
+      alert('학과를 입력해주세요');
+      return;
+    }
+
+    if (!fileImg) {
+      alert('파일을 업로드해주세요');
+    }
+
+    if (fileImg) {
+      alert('제출 되었습니다');
+    }
+
+    requestPatchMajorUpload(fileImg, userData.major);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInfoInputValue(e.target.value);
   };
 
   return (
@@ -28,17 +67,24 @@ function MajorChange({ userData }: userDataProps) {
           <InfoInput
             className="changeInput"
             placeholder="변경할 학과명을 입력해 주세요"
+            value={infoInputValue}
+            onChange={handleChange}
           />
-          <MajorButtons className="certificationButton">
+          <MajorButtons
+            className="certificationButton"
+            onClick={studentIdRegistrationHandler}
+          >
             학생증 등록
             <ImgEditInput
               type="file"
-              // ref={inputRef}
-              // onChange={handleUploadImage}
+              ref={inputRef}
+              onChange={uploadImageHandler}
               accept={'image/*'}
             />
           </MajorButtons>
-          <MajorButtons className="submitButton">제출</MajorButtons>
+          <MajorButtons className="submitButton" onClick={submitHandler}>
+            제출
+          </MajorButtons>
         </MajorWrap>
       )}
     </MajorWrapper>
@@ -90,6 +136,12 @@ const MajorChangeButton = styled.button`
   background: ${({ theme }) => theme.palette.main};
 
   cursor: pointer;
+`;
+
+const Image = styled.img`
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
 `;
 
 const MajorWrap = styled.div`

@@ -44,7 +44,9 @@ const requestPatchEditProfile = (nickname: string, description: string) => {
   remote.patch(`/api/users/profile`, body, config);
 };
 
-const requestPatchMajorUpload = (file: Blob, major: string) => {
+const requestPatchMajorUpload = (file: Blob | null, major: string) => {
+  if (!file) return;
+
   const formData = new FormData();
   formData.append('file', file);
   formData.append('major', major);
