@@ -1,24 +1,15 @@
 import styled from '@emotion/styled';
 import React, { useRef, useState } from 'react';
 import useOutsideClick from '../../../hooks/useOutsideClick';
+import { PostCreateData } from '../../../types/post';
+import { GenderOptionObject } from './PostGender';
 
 interface CustomDropDownProps {
-  width: number;
-  title: string;
-  placeholder: string;
-  options: OptionObject[];
+  options: GenderOptionObject;
+  setPostData: React.Dispatch<React.SetStateAction<PostCreateData>>;
 }
 
-interface OptionObject {
-  value?: string;
-}
-
-function CustomDropDown({
-  width,
-  title,
-  placeholder,
-  options,
-}: CustomDropDownProps) {
+function CustomDropDown({ options, setPostData }: CustomDropDownProps) {
   const [headerText, setHeaderText] = useState('');
   const [isOpen, setIsOpen] = useState(false);
 
@@ -26,29 +17,36 @@ function CustomDropDown({
 
   useOutsideClick(ref, () => setIsOpen(false));
 
-  const handleClick = (event: React.MouseEvent) => {
+  const handleClick = (event: React.MouseEvent, value: number) => {
+    setPostData(prev => ({
+      ...prev,
+      [options.keyName]: value,
+    }));
     setHeaderText((event.target as HTMLLIElement).innerText);
     setIsOpen(false);
   };
 
   return (
     <GenderContainer>
-      <GenderItem onClick={() => setIsOpen(true)}>{title}</GenderItem>
-      <DropDownBox width={width}>
+      <GenderItem onClick={() => setIsOpen(true)}>{options.title}</GenderItem>
+      <DropDownBox>
         <DropDownHeader
           isPlaceholder={headerText === ''}
           isFocus={isOpen}
           onClick={() => setIsOpen(prev => !prev)}
         >
-          {headerText ? headerText : placeholder}
+          {headerText ? headerText : options.placeholder}
           <Arrow />
         </DropDownHeader>
 
         {isOpen && (
           <DropDownListBox ref={ref}>
-            {options.map((option, index) => (
-              <DropDownList key={index} onClick={handleClick}>
-                {option.value}
+            {options.options.map((option, index) => (
+              <DropDownList
+                key={index}
+                onClick={event => handleClick(event, option.value)}
+              >
+                {option.text}
               </DropDownList>
             ))}
           </DropDownListBox>
@@ -75,8 +73,8 @@ const GenderItem = styled.span`
   cursor: default;
 `;
 
-const DropDownBox = styled.div<{ width: number }>`
-  width: ${({ width }) => width + 'px'};
+const DropDownBox = styled.div`
+  width: 88px;
   position: relative;
 `;
 

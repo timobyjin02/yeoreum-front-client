@@ -1,19 +1,48 @@
 import styled from '@emotion/styled';
 import React from 'react';
+import { PostCreateData } from '../../../types/post';
 
 interface PostInputProps {
+  keyName: string;
+  postData: PostCreateData;
+  setPostData: React.Dispatch<React.SetStateAction<PostCreateData>>;
   title: string;
   textarea?: boolean;
 }
 
-function PostInput({ title, textarea }: PostInputProps) {
+function PostInput({
+  keyName,
+  postData,
+  setPostData,
+  title,
+  textarea,
+}: PostInputProps) {
+  const handleInputChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setPostData(prev => ({
+      ...prev,
+      [keyName]: event.target.value,
+    }));
+  };
+
   return (
     <Container>
       <Subject htmlFor={title}>{title}</Subject>
       {textarea ? (
-        <Textarea id={title} placeholder={`${title}을 입력해주세요.`} />
+        <Textarea
+          id={title}
+          placeholder={`${title}을 입력해주세요.`}
+          value={postData[keyName]}
+          onChange={handleInputChange}
+        />
       ) : (
-        <Input id={title} placeholder={`${title}을 입력해주세요.`} />
+        <Input
+          id={title}
+          placeholder={`${title}을 입력해주세요.`}
+          value={postData[keyName]}
+          onChange={handleInputChange}
+        />
       )}
     </Container>
   );

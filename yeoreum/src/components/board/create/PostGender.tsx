@@ -1,28 +1,48 @@
 import styled from '@emotion/styled';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { PostCreateData } from '../../../types/post';
 import CustomDropDown from './CustomDropDown';
 
-function PostGender() {
-  const option = [];
-  for (let i = 0; i <= 8; i++) {
-    option.push({ value: `${i}명` });
+interface PostGenderProps {
+  setPostData: React.Dispatch<React.SetStateAction<PostCreateData>>;
+}
+
+export interface GenderOptionObject {
+  title: string;
+  keyName: string;
+  placeholder: string;
+  options: Option[];
+}
+
+interface Option {
+  text: string;
+  value: number;
+}
+
+function PostGender({ setPostData }: PostGenderProps) {
+  const maleOption: GenderOptionObject = {
+    title: '남성',
+    keyName: 'recruitMale',
+    placeholder: '인원 수',
+    options: [],
+  };
+  const femaleOption: GenderOptionObject = {
+    title: '여성',
+    keyName: 'recruitFemale',
+    placeholder: '인원 수',
+    options: [],
+  };
+  for (let i = 1; i <= 8; i++) {
+    maleOption.options.push({ text: `${i}명`, value: i });
+    femaleOption.options.push({ text: `${i}명`, value: i });
   }
+
   return (
     <Container>
       <Subject>모집 성별</Subject>
       <GenderWrapper>
-        <CustomDropDown
-          width={88}
-          title="남성"
-          placeholder="인원 수"
-          options={option}
-        />
-        <CustomDropDown
-          width={88}
-          title="여성"
-          placeholder="인원 수"
-          options={option}
-        />
+        <CustomDropDown options={maleOption} setPostData={setPostData} />
+        <CustomDropDown options={femaleOption} setPostData={setPostData} />
       </GenderWrapper>
     </Container>
   );
