@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { requestGetFriendsList } from '../../../apis/friends';
 import { PostCreateData } from '../../../types/post';
 import sliceString from '../../../utils/sliceString';
 import { getToken } from '../../../utils/user';
@@ -26,54 +26,12 @@ function AddPartyMembers({ setPostData }: AddPartyMembersProps) {
   const [friendsEntry, setFriendsEntry] = useState<FriendsList[]>([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
 
-  const users: FriendsList[] = [
-    {
-      friendUserNo: 1,
-      friendNickname: '제주조랑말',
-      friendProfileImage: '',
-    },
-    {
-      friendUserNo: 2,
-      friendNickname: '제주조랑말',
-      friendProfileImage: '',
-    },
-    {
-      friendUserNo: 3,
-      friendNickname: '제주조랑말',
-      friendProfileImage: '',
-    },
-    {
-      friendUserNo: 4,
-      friendNickname: '제주조랑말',
-      friendProfileImage: '',
-    },
-    {
-      friendUserNo: 5,
-      friendNickname: '제주조랑말',
-      friendProfileImage: '',
-    },
-    {
-      friendUserNo: 6,
-      friendNickname: '제주조랑말',
-      friendProfileImage: '',
-    },
-  ];
-
-  const requestGetFriendsList = async (token: string) => {
-    const { data } = await axios('/api/friends', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return data.response.friends;
-  };
-
   useEffect(() => {
     (async () => {
-      const data = await requestGetFriendsList(token);
+      const friends: FriendsList[] = await requestGetFriendsList(token);
       // setFriendsList(data);
-      users.forEach(user => (user.isChecked = false));
-      setFriendsList(users);
+      friends.forEach(friend => (friend.isChecked = false));
+      setFriendsList(friends);
     })();
   }, []);
 
@@ -83,6 +41,26 @@ function AddPartyMembers({ setPostData }: AddPartyMembersProps) {
       hostMembers: friendsEntry?.map(f => f.friendUserNo),
     }));
   }, [friendsEntry]);
+
+  const removeFriendFromEntry = (friend: FriendsList) => {
+    setFriendsList(prev =>
+      prev.map(f => {
+        if (f.friendUserNo !== friend.friendUserNo) {
+          return f;
+        }
+
+        return { ...f, isChecked: false };
+      }),
+    );
+    setFriendsEntry(prev =>
+      prev.filter(f => f.friendUserNo !== friend.friendUserNo),
+    );
+  };
+
+  const modalCloseHandler = () => {
+    setFriendsEntry(() => friendsList.filter(f => f.isChecked === true));
+    setIsOpenModal(false);
+  };
 
   return (
     <Container>
@@ -100,20 +78,7 @@ function AddPartyMembers({ setPostData }: AddPartyMembersProps) {
               />
               <XBtn
                 src="/icons/close.svg"
-                onClick={() => {
-                  setFriendsList(prev =>
-                    prev.map(f => {
-                      if (f.friendUserNo !== friend.friendUserNo) {
-                        return f;
-                      }
-
-                      return { ...f, isChecked: false };
-                    }),
-                  );
-                  setFriendsEntry(prev =>
-                    prev.filter(f => f.friendUserNo !== friend.friendUserNo),
-                  );
-                }}
+                onClick={() => removeFriendFromEntry(friend)}
               />
             </ProfileBox>
             <Nickname>{sliceString(friend.friendNickname, 6)}</Nickname>
@@ -122,20 +87,11 @@ function AddPartyMembers({ setPostData }: AddPartyMembersProps) {
       </AddedList>
       <AddBtn onClick={() => setIsOpenModal(true)}>추가</AddBtn>
       {isOpenModal && (
-        <Modal
-          onClose={() => {
-            setFriendsEntry(() =>
-              friendsList.filter(f => f.isChecked === true),
-            );
-            setIsOpenModal(false);
-          }}
-        >
+        <Modal onClose={modalCloseHandler}>
           <AddFriendModal
+            modalCloseHandler={modalCloseHandler}
             friendsList={friendsList}
             setFriendsList={setFriendsList}
-            setFriendsEntry={setFriendsEntry}
-            setPostData={setPostData}
-            setIsOpenModal={setIsOpenModal}
           />
         </Modal>
       )}

@@ -1,39 +1,26 @@
 import styled from '@emotion/styled';
 import React from 'react';
-import { PostCreateData } from '../../../types/post';
-
 import { FriendsList } from '../../board/create/AddPartyMembers';
 import MyFriendList from './MyFriendList';
 import MyFriendSearch from './MyFriendSearch';
 
 interface PropsType {
+  modalCloseHandler: () => void;
   friendsList: FriendsList[];
   setFriendsList: React.Dispatch<React.SetStateAction<FriendsList[]>>;
-  setFriendsEntry: React.Dispatch<React.SetStateAction<FriendsList[]>>;
-  setPostData: React.Dispatch<React.SetStateAction<PostCreateData>>;
-  setIsOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function AddFriendModal({
   friendsList,
   setFriendsList,
-  setFriendsEntry,
-  setIsOpenModal,
+  // 저장 버튼에서 결국 엔트리로 check된 유저를 넘겨주기 때문에 같은 함수 사용
+  modalCloseHandler,
 }: PropsType) {
   return (
     <Container>
       <ResponsiveHeader>
         <Title>함께할 친구 추가</Title>
-        <SaveButton
-          onClick={() => {
-            setFriendsEntry(() =>
-              friendsList.filter(f => f.isChecked === true),
-            );
-            setIsOpenModal(false);
-          }}
-        >
-          확인
-        </SaveButton>
+        <SaveButton onClick={modalCloseHandler}>확인</SaveButton>
       </ResponsiveHeader>
       <SearchWrapper>
         <MyFriendSearch />
