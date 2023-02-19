@@ -2,13 +2,14 @@ import styled from '@emotion/styled';
 import React from 'react';
 
 interface SubmitButtonProps {
+  onClick: () => void;
   content: string;
 }
 
-function SubmitButton({ content }: SubmitButtonProps) {
+function SubmitButton({ onClick, content }: SubmitButtonProps) {
   return (
     <Container>
-      <Button>{content}</Button>
+      <Button onClick={onClick}>{content}</Button>
     </Container>
   );
 }

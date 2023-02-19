@@ -6,6 +6,9 @@ import PostGender from '../../components/board/create/PostGender';
 import PostInput from '../../components/board/create/PostInput';
 import PostPageTitle from '../../components/board/PostPageTitle';
 import { PostCreateData } from '../../types/post';
+import { getToken } from '../../utils/user';
+import { useRouter } from 'next/router';
+import { useCreatePostMutation } from '../../hooks/queries/posts';
 
 // 나중에 페이지에 렌더링하는 컴포넌트 div대신 section으로 바꾸기
 function PostCreate() {
@@ -19,7 +22,36 @@ function PostCreate() {
     hostMembers: [],
   });
 
+  const router = useRouter();
+
+  const token = getToken() as string;
+
   console.log(postData);
+
+  const onSuccess = (data: any) => {
+    // console.log(data);
+    alert('게시글이 작성되었습니다.');
+    router.push('/board');
+  };
+
+  const onError = (error: any) => {
+    // console.log(error);
+    alert('알 수 없는 오류가 발생했습니다.');
+  };
+
+  const { mutate } = useCreatePostMutation(token, postData, onSuccess, onError);
+
+  const submitPostCreateHandler = () => {
+    if (!postData.title) return alert('제목은 비워둘 수 없습니다.');
+    if (!postData.location) return alert('장소는 비워둘 수 없습니다.');
+    if (!postData.meetingTime) return alert('시간은 비워둘 수 없습니다.');
+    if (postData.recruitMale + postData.recruitFemale < 2)
+      return alert('모집 인원을 한명 이상 설정해주세요.');
+    if (!postData.hostMembers.length)
+      return alert('함께할 친구를 한명 이상 등록해주세요.');
+    if (!postData.description) return alert('내용은 비워둘 수 없습니다.');
+    mutate();
+  };
 
   return (
     <PostContainer>
@@ -36,6 +68,12 @@ function PostCreate() {
         postData={postData}
         setPostData={setPostData}
       />
+      <PostInput
+        title="시간"
+        keyName="meetingTime"
+        postData={postData}
+        setPostData={setPostData}
+      />
       <PostGender setPostData={setPostData} />
       <AddPartyMembers setPostData={setPostData} />
       <PostInput
@@ -45,7 +83,7 @@ function PostCreate() {
         setPostData={setPostData}
         textarea
       />
-      <SubmitButton content="등록하기" />
+      <SubmitButton onClick={submitPostCreateHandler} content="등록하기" />
     </PostContainer>
   );
 }

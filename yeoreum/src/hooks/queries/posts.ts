@@ -1,6 +1,18 @@
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import { RequestGetAllPostsOption, requestGetPosts } from '../../apis/posts';
+import { PostCreateData } from './../../types/post';
+import { useInfiniteQuery, useQuery, useMutation } from '@tanstack/react-query';
+import {
+  RequestGetAllPostsOption,
+  requestGetPosts,
+  requestPostCreatePost,
+} from '../../apis/posts';
 import { AxiosError } from 'axios';
+
+type OnSuccess =
+  | ((data: unknown, variables: void, context: unknown) => unknown)
+  | undefined;
+type OnError =
+  | ((error: any, variables: void, context: unknown) => unknown)
+  | undefined;
 
 const usePostsInfiniteQuery = (
   option: RequestGetAllPostsOption,
@@ -21,4 +33,16 @@ const usePostsInfiniteQuery = (
   );
 };
 
-export { usePostsInfiniteQuery };
+const useCreatePostMutation = (
+  token: string,
+  body: PostCreateData,
+  onSuccess?: OnSuccess,
+  onError?: OnError,
+) => {
+  return useMutation(() => requestPostCreatePost(token, body), {
+    onSuccess,
+    onError,
+  });
+};
+
+export { usePostsInfiniteQuery, useCreatePostMutation };
