@@ -153,17 +153,19 @@ const Nickname = styled.span`
 `;
 
 const AddBtn = styled.button`
-  width: 46px;
-  height: 32px;
+  padding: 8px 16px;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 10px;
-  background-color: #707070;
+  background-color: ${({ theme }) => theme.palette.main};
   color: white;
   align-self: flex-end;
 
   &:hover {
     cursor: pointer;
+  }
+  @media (max-width: 640px) {
+    width: 100%;
   }
 `;

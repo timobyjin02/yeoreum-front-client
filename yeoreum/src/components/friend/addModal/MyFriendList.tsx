@@ -22,7 +22,10 @@ function MyFriendList({ friend, setFriendsList }: ItemProps) {
   };
 
   return (
-    <ListContainer onClick={onClickHandler}>
+    <ListContainer
+      isChecked={friend.isChecked || false}
+      onClick={onClickHandler}
+    >
       {friend.isChecked ? <Check src="/icons/check.svg" /> : <Uncheck />}
       <ProfileImg
         src={
@@ -38,7 +41,7 @@ function MyFriendList({ friend, setFriendsList }: ItemProps) {
 
 export default MyFriendList;
 
-const ListContainer = styled.div`
+const ListContainer = styled.div<{ isChecked: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -47,6 +50,8 @@ const ListContainer = styled.div`
   padding: 0 15px 0 15px;
   margin-right: 5px;
   cursor: pointer;
+  background-color: ${({ isChecked, theme }) =>
+    isChecked ? `${theme.palette.background.light}` : ''};
   &:hover {
     background-color: ${({ theme }) => theme.palette.background.grey};
   }

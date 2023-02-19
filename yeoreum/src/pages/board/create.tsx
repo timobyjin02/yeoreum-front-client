@@ -83,7 +83,7 @@ function PostCreate() {
         setPostData={setPostData}
         textarea
       />
-      <SubmitButton onClick={submitPostCreateHandler} content="등록하기" />
+      <SubmitButton onClick={submitPostCreateHandler} content="등록" />
     </PostContainer>
   );
 }

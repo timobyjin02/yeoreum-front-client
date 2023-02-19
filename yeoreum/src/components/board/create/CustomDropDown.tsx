@@ -63,6 +63,14 @@ const GenderContainer = styled.div`
   align-items: center;
   :first-of-type {
     margin-right: 28px;
+    @media (max-width: 640px) {
+      margin-right: 0;
+    }
+  }
+
+  @media (max-width: 640px) {
+    flex-grow: 1;
+    padding: 0 10px;
   }
 `;
 
@@ -71,11 +79,17 @@ const GenderItem = styled.span`
   font-size: 0.875rem;
   margin-right: 10px;
   cursor: default;
+  @media (max-width: 640px) {
+    flex-shrink: 0;
+  }
 `;
 
 const DropDownBox = styled.div`
   width: 88px;
   position: relative;
+  @media (max-width: 640px) {
+    width: 100%;
+  }
 `;
 
 const DropDownHeader = styled.div<{ isPlaceholder: boolean; isFocus: boolean }>`
@@ -86,7 +100,8 @@ const DropDownHeader = styled.div<{ isPlaceholder: boolean; isFocus: boolean }>`
   align-items: center;
   height: 35px;
   border-radius: 10px;
-  outline: ${({ isFocus }) => (isFocus ? `2px solid #ff515a` : 'none')};
+  outline: ${({ isFocus, theme }) =>
+    isFocus ? `2px solid ${theme.palette.main}` : 'none'};
   font-size: 0.875rem;
   margin: 3px 0;
   background-color: #f3f4f5;
@@ -122,7 +137,7 @@ const DropDownList = styled.li`
   font-size: 0.75rem;
   cursor: pointer;
   &:hover {
-    background-color: rgba(255, 43, 54, 0.5);
+    background-color: ${({ theme }) => theme.palette.disable};
     color: #fff;
   }
 `;

@@ -20,7 +20,7 @@ function AddFriendModal({
     <Container>
       <ResponsiveHeader>
         <Title>함께할 친구 추가</Title>
-        <SaveButton onClick={modalCloseHandler}>확인</SaveButton>
+        <SaveButton onClick={modalCloseHandler}>저장</SaveButton>
       </ResponsiveHeader>
       <SearchWrapper>
         <MyFriendSearch />
@@ -69,6 +69,9 @@ const SaveButton = styled.button`
   color: ${({ theme }) => theme.palette.font.white};
   background-color: ${({ theme }) => theme.palette.main};
   cursor: pointer;
+  @media (min-width: 641px) {
+    display: none;
+  }
 `;
 
 const Title = styled.h4`
@@ -102,6 +105,9 @@ const ListWrapper = styled.div`
 
   ::-webkit-scrollbar {
     width: 0px;
+  }
+  @media (max-width: 640px) {
+    width: 100%;
   }
   /* ::-webkit-scrollbar-thumb {
     height: 30%;

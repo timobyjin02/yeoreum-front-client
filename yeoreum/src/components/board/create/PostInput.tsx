@@ -71,7 +71,7 @@ const Input = styled.input`
   border-radius: 10px;
   outline: none;
   &:focus {
-    outline: 2px solid #ff515a;
+    outline: 2px solid ${({ theme }) => theme.palette.main};
   }
   &::placeholder {
     color: #8e8e8e;
@@ -93,7 +93,7 @@ const Textarea = styled.textarea`
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   &:focus {
-    outline: 2px solid #ff515a;
+    outline: 2px solid ${({ theme }) => theme.palette.main};
   }
   &::placeholder {
     color: #8e8e8e;
