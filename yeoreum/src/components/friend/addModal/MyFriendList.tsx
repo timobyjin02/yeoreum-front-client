@@ -1,29 +1,37 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
-import { FriendListType } from '../../../types/friend';
+import { FriendsList } from '../../board/create/AddPartyMembers';
 
 interface ItemProps {
-  item: FriendListType;
-  setAddedProfile: React.Dispatch<React.SetStateAction<boolean>>;
+  friend: FriendsList;
+  setFriendsList: React.Dispatch<React.SetStateAction<FriendsList[]>>;
 }
 
-function MyFriendList({ item, setAddedProfile }: ItemProps) {
-  const [isDisabled, setIsDisabled] = useState(false);
+function MyFriendList({ friend, setFriendsList }: ItemProps) {
+  const onClickHandler = () => {
+    setFriendsList(prev => {
+      const array = prev.map(f => {
+        if (f.friendUserNo !== friend.friendUserNo) {
+          return f;
+        }
+        return { ...f, isChecked: !friend.isChecked };
+      });
 
-  const addedButtonHandler = () => {
-    setIsDisabled(true);
-    setAddedProfile(true);
+      return array;
+    });
   };
 
   return (
-    <ListContainer key={item.userNo}>
-      <UserInfo>
-        <ProfileImg>{item.profileImage}</ProfileImg>
-        <Nickname>{item.nickname}</Nickname>
-      </UserInfo>
-      <ApplicationButton disabled={isDisabled} onClick={addedButtonHandler}>
-        추가
-      </ApplicationButton>
+    <ListContainer onClick={onClickHandler}>
+      {friend.isChecked ? <Check src="/icons/check.svg" /> : <Uncheck />}
+      <ProfileImg
+        src={
+          friend.friendProfileImage
+            ? friend.friendProfileImage
+            : '/anonymous.png'
+        }
+      />
+      <Nickname>{friend.friendNickname}</Nickname>
     </ListContainer>
   );
 }
@@ -34,17 +42,29 @@ const ListContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
   height: 60px;
-  padding: 0 15px 0 30px;
+  padding: 0 15px 0 15px;
   margin-right: 5px;
+  cursor: pointer;
+  &:hover {
+    background-color: ${({ theme }) => theme.palette.background.grey};
+  }
 `;
 
-const UserInfo = styled.div`
-  display: flex;
-  align-items: center;
+const Check = styled.img`
+  width: 24px;
+  height: 24px;
+  margin-right: 4px;
 `;
 
-const ProfileImg = styled.div`
+const Uncheck = styled.div`
+  width: 24px;
+  height: 24px;
+  margin-right: 4px;
+`;
+
+const ProfileImg = styled.img`
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -52,24 +72,8 @@ const ProfileImg = styled.div`
 `;
 
 const Nickname = styled.div`
-  width: 250px;
+  flex-grow: 1;
   margin-left: 10px;
   font-size: 14px;
   color: ${({ theme }) => theme.palette.font.headline};
-`;
-
-const ApplicationButton = styled.button<{ disabled: boolean }>`
-  width: 58px;
-  height: 30px;
-  border-radius: 8px;
-  color: ${({ theme }) => theme.palette.font.white};
-  background-color: ${({ theme }) => theme.palette.main};
-  cursor: pointer;
-  ${({ disabled }) =>
-    disabled
-      ? `&:disabled {
-    background: #DBDBFF;
-    cursor: default;
-  }`
-      : ''};
 `;

@@ -1,47 +1,142 @@
 import styled from '@emotion/styled';
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { PostCreateData } from '../../../types/post';
 import sliceString from '../../../utils/sliceString';
+import { getToken } from '../../../utils/user';
 import Modal from '../../common/Modal';
-import ElseProfile from '../../elseProfile/ElseProfile';
 import AddFriendModal from '../../friend/addModal/AddFriendModal';
 
-interface Member {
-  nickname: string;
+export interface Friend {
+  friendDescription?: string;
+  friendNickname: string;
+  friendProfileImage: string | null;
+  friendUserNo: number;
+}
+export interface FriendsList extends Friend {
+  isChecked?: boolean;
+}
+interface AddPartyMembersProps {
+  setPostData: React.Dispatch<React.SetStateAction<PostCreateData>>;
 }
 
-function AddPartyMembers() {
-  const [isOpen4, setIsOpen4] = useState(false);
+function AddPartyMembers({ setPostData }: AddPartyMembersProps) {
+  const token = getToken() as string;
+  const [friendsList, setFriendsList] = useState<FriendsList[]>([]);
+  const [friendsEntry, setFriendsEntry] = useState<FriendsList[]>([]);
+  const [isOpenModal, setIsOpenModal] = useState(false);
 
-  const memberList: Member[] = [
-    { nickname: '목꺾기장인' },
-    { nickname: '메가커피대항마' },
-    { nickname: '63빌딩맨손등반' },
-    { nickname: '목꺾기장인' },
+  const users: FriendsList[] = [
+    {
+      friendUserNo: 1,
+      friendNickname: '제주조랑말',
+      friendProfileImage: '',
+    },
+    {
+      friendUserNo: 2,
+      friendNickname: '제주조랑말',
+      friendProfileImage: '',
+    },
+    {
+      friendUserNo: 3,
+      friendNickname: '제주조랑말',
+      friendProfileImage: '',
+    },
+    {
+      friendUserNo: 4,
+      friendNickname: '제주조랑말',
+      friendProfileImage: '',
+    },
+    {
+      friendUserNo: 5,
+      friendNickname: '제주조랑말',
+      friendProfileImage: '',
+    },
+    {
+      friendUserNo: 6,
+      friendNickname: '제주조랑말',
+      friendProfileImage: '',
+    },
   ];
 
-  const addHandler = () => {
-    setIsOpen4(true);
+  const requestGetFriendsList = async (token: string) => {
+    const { data } = await axios('/api/friends', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return data.response.friends;
   };
+
+  useEffect(() => {
+    (async () => {
+      const data = await requestGetFriendsList(token);
+      // setFriendsList(data);
+      users.forEach(user => (user.isChecked = false));
+      setFriendsList(users);
+    })();
+  }, []);
+
+  useEffect(() => {
+    setPostData(prev => ({
+      ...prev,
+      hostMembers: friendsEntry?.map(f => f.friendUserNo),
+    }));
+  }, [friendsEntry]);
 
   return (
     <Container>
       <Subject>함께할 친구</Subject>
       <AddedList>
-        {memberList.map((member, index) => (
+        {friendsEntry?.map((friend, index) => (
           <List key={index}>
             <ProfileBox>
-              <ProfileImg />
-              <XBtn />
+              <ProfileImg
+                src={
+                  friend.friendProfileImage
+                    ? friend.friendProfileImage
+                    : '/anonymous.png'
+                }
+              />
+              <XBtn
+                src="/icons/close.svg"
+                onClick={() => {
+                  setFriendsList(prev =>
+                    prev.map(f => {
+                      if (f.friendUserNo !== friend.friendUserNo) {
+                        return f;
+                      }
+
+                      return { ...f, isChecked: false };
+                    }),
+                  );
+                  setFriendsEntry(prev =>
+                    prev.filter(f => f.friendUserNo !== friend.friendUserNo),
+                  );
+                }}
+              />
             </ProfileBox>
-            <Nickname>{sliceString(member.nickname, 6)}</Nickname>
+            <Nickname>{sliceString(friend.friendNickname, 6)}</Nickname>
           </List>
         ))}
       </AddedList>
-      <AddBtn onClick={addHandler}>추가</AddBtn>
-      {isOpen4 && (
-        <Modal onClose={() => setIsOpen4(false)}>
-          {/* <ElseProfile /> */}
-          <AddFriendModal setIsOpen4={setIsOpen4} />
+      <AddBtn onClick={() => setIsOpenModal(true)}>추가</AddBtn>
+      {isOpenModal && (
+        <Modal
+          onClose={() => {
+            setFriendsEntry(() =>
+              friendsList.filter(f => f.isChecked === true),
+            );
+            setIsOpenModal(false);
+          }}
+        >
+          <AddFriendModal
+            friendsList={friendsList}
+            setFriendsList={setFriendsList}
+            setFriendsEntry={setFriendsEntry}
+            setPostData={setPostData}
+            setIsOpenModal={setIsOpenModal}
+          />
         </Modal>
       )}
     </Container>
@@ -82,19 +177,19 @@ const ProfileBox = styled.div`
   padding: 10px;
 `;
 
-const ProfileImg = styled.div`
+const ProfileImg = styled.img`
   width: 44px;
   height: 44px;
   border-radius: 22px;
   background-color: lightgray;
 `;
 
-const XBtn = styled.button`
-  width: 12px;
-  height: 12px;
-  background-color: black;
+const XBtn = styled.img`
+  width: 16px;
+  height: 16px;
   position: absolute;
   inset: 0 0 auto auto;
+  cursor: pointer;
 `;
 
 const Nickname = styled.span`

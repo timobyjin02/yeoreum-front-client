@@ -1,56 +1,35 @@
 import styled from '@emotion/styled';
-import React, { useState } from 'react';
-import useLockScroll from '../../../hooks/useLockScroll';
+import React from 'react';
+import { PostCreateData } from '../../../types/post';
+
+import { FriendsList } from '../../board/create/AddPartyMembers';
 import MyFriendList from './MyFriendList';
 import MyFriendSearch from './MyFriendSearch';
 
-interface FriendType {
-  id: number;
-  img: string;
-  nickname: string;
-}
-
 interface PropsType {
-  setIsOpen4: React.Dispatch<React.SetStateAction<boolean>>;
+  friendsList: FriendsList[];
+  setFriendsList: React.Dispatch<React.SetStateAction<FriendsList[]>>;
+  setFriendsEntry: React.Dispatch<React.SetStateAction<FriendsList[]>>;
+  setPostData: React.Dispatch<React.SetStateAction<PostCreateData>>;
+  setIsOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function AddFriendModal({ setIsOpen4 }: PropsType) {
-  const [addedList, setAddedList] = useState<FriendType[]>([]);
-  const [addedProfile, setAddedProfile] = useState(false);
-
-  const users = [
-    {
-      userNo: 1,
-      nickname: '제주조랑말',
-      profileImage: '',
-    },
-    {
-      userNo: 2,
-      nickname: '제주조랑말제주조랑말제주조랑말',
-      profileImage: '',
-    },
-  ];
-
+function AddFriendModal({
+  friendsList,
+  setFriendsList,
+  setFriendsEntry,
+  setIsOpenModal,
+}: PropsType) {
   return (
     <Container>
-      {/* {addedProfile && (
-        <Added>
-          {addedList.map((item: any) => {
-            return (
-              <Items key={item.userNo}>
-                <Delete>x</Delete>
-                <Item />
-                <div>{item.nickname}</div>
-              </Items>
-            );
-          })}
-        </Added>
-      )} */}
       <ResponsiveHeader>
-        <Title>친구추가</Title>
+        <Title>함께할 친구 추가</Title>
         <SaveButton
           onClick={() => {
-            setIsOpen4(false);
+            setFriendsEntry(() =>
+              friendsList.filter(f => f.isChecked === true),
+            );
+            setIsOpenModal(false);
           }}
         >
           확인
@@ -60,17 +39,16 @@ function AddFriendModal({ setIsOpen4 }: PropsType) {
         <MyFriendSearch />
       </SearchWrapper>
       <ListWrapper>
-        {users.map(item => {
-          return <MyFriendList setAddedProfile={setAddedProfile} item={item} />;
+        {friendsList.map(friend => {
+          return (
+            <MyFriendList
+              key={friend.friendUserNo}
+              friend={friend}
+              setFriendsList={setFriendsList}
+            />
+          );
         })}
       </ListWrapper>
-      <CheckButton
-        onClick={() => {
-          setIsOpen4(false);
-        }}
-      >
-        확인
-      </CheckButton>
     </Container>
   );
 }
@@ -78,6 +56,8 @@ function AddFriendModal({ setIsOpen4 }: PropsType) {
 export default AddFriendModal;
 
 const Container = styled.div`
+  border: 1px solid ${({ theme }) => theme.palette.line.grey};
+  border-radius: 15px;
   @media (max-width: 640px) {
     width: 100%;
   }
@@ -87,12 +67,8 @@ const ResponsiveHeader = styled.header`
   position: relative;
   display: flex;
   align-items: center;
-  height: 44px;
+  height: 48px;
   border-bottom: 1px solid ${({ theme }) => theme.palette.line.grey};
-
-  @media (min-width: 641px) {
-    display: none;
-  }
 `;
 
 const SaveButton = styled.button`
@@ -108,7 +84,7 @@ const SaveButton = styled.button`
   cursor: pointer;
 `;
 
-const Title = styled.h3`
+const Title = styled.h4`
   width: 100%;
   height: 100%;
   display: flex;
@@ -119,7 +95,8 @@ const Title = styled.h3`
 `;
 
 const SearchWrapper = styled.div`
-  padding: 30px 15px 0 30px;
+  padding: 30px 15px 0 15px;
+  border-bottom: 1px solid ${({ theme }) => theme.palette.line.grey};
 `;
 
 const Added = styled.div`
@@ -131,66 +108,24 @@ const Added = styled.div`
   }
 `;
 
-const Items = styled.div`
-  position: relative;
-  margin-right: 13px;
-`;
-
-const Delete = styled.button`
-  position: absolute;
-  top: -10px;
-  right: 0;
-  width: 16px;
-  height: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background-color: aqua;
-
-  cursor: pointer;
-`;
-
-const Item = styled.div`
-  width: 36px;
-  height: 36px;
-  margin-bottom: 15px;
-  border-radius: 50%;
-  background-color: #3d4954;
-`;
-
 const ListWrapper = styled.div`
+  width: 400px;
   height: 330px;
-  overflow: auto;
+  overflow-y: auto;
 
   ::-webkit-scrollbar {
-    width: 4px;
+    width: 0px;
   }
-  ::-webkit-scrollbar-thumb {
+  /* ::-webkit-scrollbar-thumb {
     height: 30%;
     background: rgba(0, 0, 0, 25%);
     border-radius: 10px;
     border: 1px solid transparent;
+    border-bottom: 4px solid transparent;
     background-clip: padding-box;
-  }
+  } */
 
   @media (max-width: 641px) {
     height: 650px;
-  }
-`;
-
-const CheckButton = styled.button`
-  float: right;
-  width: 58px;
-  height: 30px;
-  margin: 20px 23px 10px 0;
-  border-radius: 8px;
-  color: ${({ theme }) => theme.palette.font.white};
-  background-color: ${({ theme }) => theme.palette.main};
-
-  cursor: pointer;
-
-  @media (max-width: 640px) {
-    display: none;
   }
 `;
