@@ -87,16 +87,16 @@ export const Button = styled.button`
 `;
 
 export const SubmitLink = styled(Link)`
-  display: flex;
-  justify-content: center;
-`;
-export const Submit = styled.button`
+  align-self: center;
   width: 59.2%;
   height: 48px;
-  /* align-self: center; */
+  margin-right: 1.4%;
+`;
+export const Submit = styled.button`
+  width: 100%;
+  height: 100%;
   border-radius: 4px;
   margin-top: 1em;
-  margin-right: 1.4%;
   background-color: ${({ theme }) => theme.palette.main};
   color: white;
   cursor: pointer;
@@ -178,5 +178,10 @@ export const ProfileImageWrapper = styled.div`
     padding-left: 1em;
     color: ${({ theme }) => theme.palette.main};
     cursor: pointer;
+  }
+  & > img {
+    border: 1px solid ${({ theme }) => theme.palette.line.light};
+    border-radius: 50%;
+    object-fit: cover;
   }
 `;

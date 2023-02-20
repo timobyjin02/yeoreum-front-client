@@ -12,6 +12,9 @@ import {
 import { AxiosError } from 'axios';
 import { useEffect, useRef } from 'react';
 import useIntersectionObserver from '../../hooks/useIntersectionObserver';
+import Link from 'next/link';
+import { useSaveScrollData } from '../../hooks/useBoardPageData';
+import { useRouter } from 'next/router';
 
 interface PostListProps {
   posts?: BoardType[];
@@ -21,10 +24,12 @@ interface PostListProps {
 }
 
 function PostList({ posts, fetchNextPage }: PostListProps) {
-  const ref = useRef(null);
+  const router = useRouter();
+  const ref = router.pathname === '/board' ? useRef(null) : null;
 
   useEffect(() => {
-    if (!ref.current) return;
+    if (ref === null) return;
+    if (!ref.current || router.pathname !== '/board') return;
     useIntersectionObserver(ref.current, fetchNextPage);
   }, []);
 
@@ -32,41 +37,47 @@ function PostList({ posts, fetchNextPage }: PostListProps) {
     <Post>
       {posts?.map((post, idx) => {
         return (
-          <List ref={posts.length - 1 === idx ? ref : null} key={post.no}>
-            <PostHeader>
-              <Progress status={post.isDone}>
-                {statusMaker(post.isDone)}
-              </Progress>
-              <CreatedAt>{post.createdDate}</CreatedAt>
-            </PostHeader>
-            <PostTitle>{post.title}</PostTitle>
-            <PostBottom>
-              <Conditions>
-                <Condition>
-                  <GenderCondition>
-                    <임시Icon />
-                    <임시Text>{post.recruitMale}명</임시Text>
-                  </GenderCondition>
-                  <GenderCondition>
-                    <임시Icon />
-                    <임시Text>{post.recruitFemale}명</임시Text>
-                  </GenderCondition>
-                </Condition>
-                <Condition>
-                  <임시Icon />
-                  <임시Text>{post.meetingTime}</임시Text>
-                </Condition>
-                <Condition>
-                  <임시Icon />
-                  <임시Text>{post.location}</임시Text>
-                </Condition>
-              </Conditions>
-              <CreaterInfo>
-                <CreaterImage />
-                <CreaterNickname>{post.hostNickname}</CreaterNickname>
-              </CreaterInfo>
-            </PostBottom>
-          </List>
+          <Link
+            onClick={useSaveScrollData}
+            key={post.no}
+            href={`/board/post/${post.no}`}
+          >
+            <List ref={posts.length - 1 === idx ? ref : null}>
+              <PostHeader>
+                <Progress status={post.isDone}>
+                  {statusMaker(post.isDone)}
+                </Progress>
+                <CreatedAt>{post.createdDate}</CreatedAt>
+              </PostHeader>
+              <PostTitle>{post.title}</PostTitle>
+              <PostBottom>
+                <Conditions>
+                  <Condition>
+                    <GenderCondition>
+                      <ConditionIcon src="/icons/man.svg" />
+                      <ConditionText>{post.recruitMale}명</ConditionText>
+                    </GenderCondition>
+                    <GenderCondition>
+                      <ConditionIcon src="/icons/woman.svg" />
+                      <ConditionText>{post.recruitFemale}명</ConditionText>
+                    </GenderCondition>
+                  </Condition>
+                  <Condition>
+                    <ConditionIcon src="/icons/clock.svg" />
+                    <ConditionText>{post.meetingTime}</ConditionText>
+                  </Condition>
+                  <Condition>
+                    <ConditionIcon src="/icons/location.svg" />
+                    <ConditionText>{post.location}</ConditionText>
+                  </Condition>
+                </Conditions>
+                <CreaterInfo>
+                  <CreaterImage />
+                  <CreaterNickname>{post.hostNickname}</CreaterNickname>
+                </CreaterInfo>
+              </PostBottom>
+            </List>
+          </Link>
         );
       })}
     </Post>
@@ -89,6 +100,9 @@ const List = styled.div`
   display: flex;
   flex-direction: column;
   cursor: pointer;
+  &:hover {
+    background-color: rgba(0, 0, 0, 3%);
+  }
 `;
 
 const PostHeader = styled.div`
@@ -101,7 +115,6 @@ const Progress = styled.p<{ status: PostStatusType }>`
   margin: 0;
   font-size: 0.875rem;
   font-weight: 600;
-  /* color: #648fff; */
   color: ${ProgressColor};
   margin-right: 8px;
 `;
@@ -144,14 +157,13 @@ const GenderCondition = styled.div`
   }
 `;
 
-const 임시Icon = styled.div`
+const ConditionIcon = styled.img`
   width: 15px;
   height: 15px;
-  background-color: lightgray;
-  margin-right: 5px;
+  margin-right: 2px;
 `;
 
-const 임시Text = styled.span`
+const ConditionText = styled.span`
   font-size: 0.6875rem;
   color: #666666;
 `;

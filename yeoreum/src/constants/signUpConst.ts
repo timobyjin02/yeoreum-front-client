@@ -80,16 +80,16 @@ export const SIGN_UP_PROFILE_INITIAL = {
 
 export const SIGN_UP_PROFILE_MESSAGE_BY_TYPE = {
   nickname: {
-    success: '유효합니다.',
-    error: '유효하지 않습니다.',
+    success: '2글자 이상 10글자 이하 영문, 한글, 숫자 조합',
+    error: '2글자 이상 10글자 이하 영문, 한글, 숫자 조합',
+  },
+  nicknameDuplication: {
+    success: '사용 가능한 닉네임입니다.',
+    error: '중복된 닉네임입니다.',
   },
   description: {
     success: '안전한 비밀번호입니다.',
     error: '한글, 숫자, 영어의 조합으로 2자 이상 10자 이하',
-  },
-  gender: {
-    success: '한 번 더 입력해주세요',
-    error: '성별을 입력해주세요.',
   },
   passwordConfirm: {
     success: '일치합니다.',

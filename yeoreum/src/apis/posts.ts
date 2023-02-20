@@ -2,7 +2,7 @@ import axios from 'axios';
 import { PostCreateData } from '../types/post';
 
 export interface RequestGetAllPostsOption {
-  gender?: string | undefined;
+  gender?: number | undefined;
   people?: number | undefined;
   isDone?: boolean | undefined;
   isImpromptu?: boolean | undefined;
