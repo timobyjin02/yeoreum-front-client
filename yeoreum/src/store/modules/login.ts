@@ -25,9 +25,8 @@ const loginSlice = createSlice({
   reducers: {
     loginSuccess: (state, action) => {
       state.isLoggedIn = true;
-      state.userData = action.payload.userData;
+      state.userData = action.payload;
       state.error = null;
-      localStorage.setItem('token', action.payload.token);
     },
     loginFail: (state, action) => {
       state.isLoggedIn = false;

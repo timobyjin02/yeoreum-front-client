@@ -16,6 +16,13 @@ const requestGetUserData = (token: string) => {
   });
 };
 
+const requestPostLogin = () => {
+  return axios.post(`${process.env.NEXT_PUBLIC_URL}/auth/login`, {
+    email: `${process.env.NEXT_PUBLIC_ID}`,
+    password: `${process.env.NEXT_PUBLIC_PASSWORD}`,
+  });
+};
+
 const requestGetUnreadNotices = (token: string) => {
   return axios('/api/notices/unread', {
     headers: {
@@ -24,4 +31,9 @@ const requestGetUnreadNotices = (token: string) => {
   });
 };
 
-export { requestGetNotices, requestGetUserData, requestGetUnreadNotices };
+export {
+  requestGetNotices,
+  requestGetUserData,
+  requestGetUnreadNotices,
+  requestPostLogin,
+};

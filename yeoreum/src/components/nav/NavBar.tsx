@@ -1,28 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import Alarm from '../alarm/Alarm';
 import UserModal from '../userModal/UserModal';
 import Link from 'next/link';
 import Image from 'next/image';
-import axios, { AxiosResponse } from 'axios';
-import { useAppDispatch, useLoginState } from '../../store/hooks';
-import { loginFail, loginSuccess } from '../../store/modules/login';
+import { AxiosResponse } from 'axios';
+import { useLoginState } from '../../store/hooks';
 import { menuDataService, menuDataUsual } from '../../constants/navConst';
-import { useMutation } from '@tanstack/react-query';
-import { getToken } from '../../utils/user';
-import { useUserProfileQuery } from '../../hooks/queries/users';
-
-// 임시 유저 타입
-export interface User {
-  userNo: number;
-  email: string;
-  nickname: string;
-  major: string;
-  gender: number;
-  description: string;
-  profileImage: string;
-  grade: number;
-}
+import { useLoginMutation } from '../../hooks/queries/auth';
 
 interface NavProps {
   isServicePage: boolean;
@@ -30,52 +15,10 @@ interface NavProps {
 }
 
 export function NavUsual({ isServicePage, setHamburger }: NavProps) {
-  const [authenticated, setAuthenticated] = useState(false);
-  const token = getToken() as string;
-  // const { isLoggedIn } = useLoginState();
-  // const dispatch = useAppDispatch();
-  const { data } = useUserProfileQuery(token);
-  const userData = data?.data.response.userProfile;
-
-  const requestPostLogin = () => {
-    return axios.post(`${process.env.NEXT_PUBLIC_URL}/auth/login`, {
-      email: `${process.env.NEXT_PUBLIC_ID}`,
-      password: `${process.env.NEXT_PUBLIC_PASSWORD}`,
-    });
-  };
-
-  useEffect(() => {
-    if (token && data) {
-      setAuthenticated(true);
-    }
-  }, []);
-
-  type OnSuccess =
-    | ((
-        data: AxiosResponse<any, any>,
-        variables: void,
-        context: unknown,
-      ) => unknown)
-    | undefined;
-
-  type OnError =
-    | ((error: any, variables: void, context: unknown) => unknown)
-    | undefined;
-
-  const useLoginMutation = (onSuccess: OnSuccess, onError: OnError) => {
-    return useMutation(requestPostLogin, {
-      onSuccess,
-      onError,
-    });
-  };
+  const { isLoggedIn } = useLoginState();
 
   const onSuccess = (data: AxiosResponse<any, any>) => {
     const token = data.data.response.user.accessToken;
-    // const payload = {
-    //   userData: jwtDecode(token),
-    //   token,
-    // };
-    // dispatch(loginSuccess(payload));
     localStorage.setItem('token', token);
     alert('로그인 완료');
     window.location.reload();
@@ -84,10 +27,9 @@ export function NavUsual({ isServicePage, setHamburger }: NavProps) {
   const onError = (error: any) => {
     console.log(error);
     alert('로그인 에러');
-    // dispatch(loginFail(error));
   };
 
-  const { mutate } = useLoginMutation(onSuccess, onError);
+  const { mutate: login } = useLoginMutation(onSuccess, onError);
 
   const menuDataByPage = isServicePage ? menuDataService : menuDataUsual;
 
@@ -122,7 +64,7 @@ export function NavUsual({ isServicePage, setHamburger }: NavProps) {
               </NavMenu>
             )}
           </ArrangeContainer>
-          {authenticated ? (
+          {isLoggedIn ? (
             <ArrangeContainer>
               {isServicePage ? (
                 <NavMenu service={isServicePage}>
@@ -144,10 +86,10 @@ export function NavUsual({ isServicePage, setHamburger }: NavProps) {
                 <></>
               )}
               {isServicePage || <Alarm />}
-              <UserModal userData={userData} />
+              <UserModal />
             </ArrangeContainer>
           ) : (
-            <LoginButton onClick={() => mutate()}>로그인</LoginButton>
+            <LoginButton onClick={() => login()}>로그인</LoginButton>
           )}
           <HamburgerButton onClick={() => setHamburger?.(true)}>
             <Image
