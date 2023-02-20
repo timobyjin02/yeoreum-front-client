@@ -8,13 +8,12 @@ const requestGetNotices = (token: string) => {
   });
 };
 
-const requestGetUserData = async (token: string) => {
-  const { data } = await axios.get('/api/users/profile', {
+const requestGetUserData = (token: string) => {
+  return axios.get('/api/users/profile', {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
-  return data.response;
 };
 
 const requestGetUnreadNotices = (token: string) => {
