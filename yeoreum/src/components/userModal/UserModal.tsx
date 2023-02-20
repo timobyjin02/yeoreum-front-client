@@ -3,20 +3,27 @@ import styled from '@emotion/styled';
 import useOutsideClick from '../../hooks/useOutsideClick';
 import useResize from '../../hooks/useResize';
 import Link from 'next/link';
-import { logout } from '../../utils/user';
-import { User } from '../nav/NavBar';
 import Image from 'next/image';
+import { useAppDispatch, useLoginState } from '../../store/hooks';
+import { logout } from '../../store/modules/login';
 
-interface UserModalProps {
-  userData?: Pick<User, 'profileImage' | 'nickname'>;
-}
-
-export default function UserModal({ userData }: UserModalProps) {
+export default function UserModal() {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement | null>(null);
 
+  const { userData } = useLoginState();
+
+  const dispatch = useAppDispatch();
+
   useOutsideClick(ref, () => setIsOpen(false));
   useResize('below', 640, () => setIsOpen(false));
+
+  const handleLogoutClick = () => {
+    localStorage.removeItem('token');
+    dispatch(logout);
+    alert('로그아웃 되었습니다.');
+    window.location.reload();
+  };
 
   return (
     <Wrapper ref={ref}>
@@ -26,8 +33,9 @@ export default function UserModal({ userData }: UserModalProps) {
             width={300}
             height={300}
             alt="userProfile"
-            // src={userData?.profileImage}
-            src="/anonymous.png"
+            src={
+              userData?.profileImage ? userData?.profileImage : '/anonymous.png'
+            }
           />
         ) : (
           <ProfileImg
@@ -51,11 +59,7 @@ export default function UserModal({ userData }: UserModalProps) {
               </Link>
               <Item>이용약관</Item>
             </Items>
-            <Logout
-              onClick={() => {
-                logout();
-              }}
-            >
+            <Logout onClick={handleLogoutClick}>
               <Image
                 width={18}
                 height={18}

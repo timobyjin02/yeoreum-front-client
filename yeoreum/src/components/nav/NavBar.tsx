@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import Alarm from '../alarm/Alarm';
 import UserModal from '../userModal/UserModal';
 import Link from 'next/link';
-import { login } from '../../utils/user';
 import Image from 'next/image';
+import axios from 'axios';
+import { useAppDispatch, useLoginState } from '../../store/hooks';
+import { loginSuccess } from '../../store/modules/login';
+import { menuDataService, menuDataUsual } from '../../constants/navConst';
 
 // 임시 유저 타입
 export interface User {
@@ -20,67 +23,39 @@ export interface User {
 
 interface NavProps {
   isServicePage: boolean;
-  type?: string;
-  isThere?: boolean;
-  userData?: Pick<User, 'profileImage' | 'nickname'>;
-  token?: string;
-  setHamburger?: React.Dispatch<React.SetStateAction<boolean>>;
+  setHamburger: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export function NavUsual({
-  isServicePage,
-  userData,
-  token,
-  setHamburger,
-}: NavProps) {
-  const [authenticated, setAuthenticated] = useState(false);
+export function NavUsual({ isServicePage, setHamburger }: NavProps) {
+  const { isLoggedIn } = useLoginState();
+  const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    if (token && setAuthenticated) {
-      setAuthenticated(true);
+  const handleLoginClick = async () => {
+    try {
+      const {
+        data: {
+          response: {
+            user: { accessToken: token },
+          },
+        },
+      } = await axios.post(`${process.env.NEXT_PUBLIC_URL}/auth/login`, {
+        email: `${process.env.NEXT_PUBLIC_ID}`,
+        password: `${process.env.NEXT_PUBLIC_PASSWORD}`,
+      });
+
+      const { data } = await axios.get('/api/users/profile', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      dispatch(loginSuccess(data?.response.userProfile));
+
+      localStorage.setItem('token', token);
+      alert('로그인 완료');
+    } catch (error) {
+      alert('에러 발생');
     }
-  }, []);
-
-  const menuDataUsual = {
-    title: '',
-    menus: [
-      {
-        id: 'board',
-        href: '/board',
-        icon: '/icons/clipboard.svg',
-        text: '게시판',
-      },
-      {
-        id: 'friend',
-        href: '/friend',
-        icon: '/icons/users.svg',
-        text: '친구',
-      },
-      {
-        id: 'chatting',
-        href: '/chatting',
-        icon: '/icons/message.svg',
-        text: '채팅',
-      },
-    ],
-  };
-
-  const menuDataService = {
-    title: '고객센터',
-    menus: [
-      {
-        id: 'friend',
-        href: '/service/inquiry',
-        icon: '',
-        text: '문의하기',
-      },
-      {
-        id: 'board',
-        href: '/board',
-        icon: '',
-        text: '문의내역',
-      },
-    ],
   };
 
   const menuDataByPage = isServicePage ? menuDataService : menuDataUsual;
@@ -116,7 +91,7 @@ export function NavUsual({
               </NavMenu>
             )}
           </ArrangeContainer>
-          {authenticated ? (
+          {isLoggedIn ? (
             <ArrangeContainer>
               {isServicePage ? (
                 <NavMenu service={isServicePage}>
@@ -138,16 +113,10 @@ export function NavUsual({
                 <></>
               )}
               {isServicePage || <Alarm />}
-              <UserModal userData={userData} />
+              <UserModal />
             </ArrangeContainer>
           ) : (
-            <LoginButton
-              onClick={() => {
-                login();
-              }}
-            >
-              로그인
-            </LoginButton>
+            <LoginButton onClick={handleLoginClick}>로그인</LoginButton>
           )}
           <HamburgerButton onClick={() => setHamburger?.(true)}>
             <Image
