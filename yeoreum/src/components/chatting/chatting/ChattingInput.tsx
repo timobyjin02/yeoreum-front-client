@@ -39,7 +39,7 @@ function ChattingInput({ setChats, scrollRef }: Props) {
   return (
     <MessageForm onSubmit={onSendMessage}>
       <FileBox>
-        <Img src="/chatting/folder.png" />
+        <Img src="/icons/paperclip.svg" />
       </FileBox>
       <InputBox>
         <Input
@@ -51,7 +51,7 @@ function ChattingInput({ setChats, scrollRef }: Props) {
       </InputBox>
       <SendButtonBox>
         <SendButton>
-          <Img src="/chatting/send.png" />
+          <Img src="/icons/send.svg" />
         </SendButton>
       </SendButtonBox>
     </MessageForm>
@@ -95,7 +95,8 @@ const SendButtonBox = styled.div`
   padding: 0 15px;
   display: flex;
   justify-content: center;
-  background-color: ${({ theme }) => theme.palette.background.light};
+  border-left: 1px solid ${({ theme }) => theme.palette.background.grey};
+  background-color: ${({ theme }) => theme.palette.background.white};
 `;
 
 const SendButton = styled.button`
