@@ -30,7 +30,7 @@ function MyFriendSearch() {
 export default MyFriendSearch;
 
 const InputBox = styled.div`
-  width: 360px;
+  width: 100%;
   height: 40px;
   display: flex;
   align-items: center;

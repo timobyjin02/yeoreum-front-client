@@ -28,6 +28,20 @@ export interface BoardType {
   title: string;
 }
 
+export interface PostCreateData {
+  [key: string]: any;
+  title: string;
+  description: string;
+  isImpromptu?: boolean;
+  location: string;
+  meetingTime: string;
+  recruitMale: number;
+  recruitFemale: number;
+  hostMembers: UserNo[];
+}
+
+type UserNo = number;
+
 export type MyBoardsResponseType = {
   no: number;
   hostUserNo: number;
