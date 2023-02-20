@@ -1,8 +1,10 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { useUnreadNoticesQuery } from '../../hooks/queries/notices';
 import useOutsideClick from '../../hooks/useOutsideClick';
 import useResize from '../../hooks/useResize';
+import { getToken } from '../../utils/user';
 import AlarmList from './AlarmList';
 
 function Alarm() {
@@ -11,6 +13,15 @@ function Alarm() {
 
   useOutsideClick(ref, () => setIsOpen(false));
   useResize('below', 640, () => setIsOpen(false));
+
+  const token = getToken() as string;
+
+  const { data, isError } = useUnreadNoticesQuery(token);
+
+  const hasUnreadNotices =
+    !isError && data && data.data.response.isUserHasUnreadNotices
+      ? true
+      : false;
 
   return (
     <Wrapper ref={ref}>
@@ -22,7 +33,7 @@ function Alarm() {
         priority
         onClick={() => setIsOpen(prev => !prev)}
       />
-      {true && <AlarmDot />}
+      {hasUnreadNotices && <AlarmDot />}
       {isOpen && <AlarmList />}
     </Wrapper>
   );

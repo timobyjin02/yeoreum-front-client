@@ -17,4 +17,12 @@ const requestGetUserData = async (token: string) => {
   return data.response;
 };
 
-export { requestGetNotices, requestGetUserData };
+const requestGetUnreadNotices = (token: string) => {
+  return axios('/api/notices/unread', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export { requestGetNotices, requestGetUserData, requestGetUnreadNotices };
