@@ -1,17 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 export interface UserProfileDataType {
+  [key: string]: any;
   userNo: number;
-  email: string;
   nickname: string;
-  major: string;
-  gender: number;
-  description: string;
   profileImage: string;
-  grade: string;
 }
 
-interface LoginStateType {
+export interface LoginStateType {
   isLoggedIn: boolean;
   userData: UserProfileDataType | null;
   error: any;
@@ -29,8 +25,9 @@ const loginSlice = createSlice({
   reducers: {
     loginSuccess: (state, action) => {
       state.isLoggedIn = true;
-      state.userData = action.payload;
+      state.userData = action.payload.userData;
       state.error = null;
+      localStorage.setItem('token', action.payload.token);
     },
     loginFail: (state, action) => {
       state.isLoggedIn = false;
@@ -41,6 +38,7 @@ const loginSlice = createSlice({
       state.isLoggedIn = false;
       state.userData = null;
       state.error = null;
+      localStorage.removeItem('token');
     },
   },
 });

@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import Alarm from '../alarm/Alarm';
 import UserModal from '../userModal/UserModal';
 import Link from 'next/link';
 import Image from 'next/image';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { useAppDispatch, useLoginState } from '../../store/hooks';
-import { loginSuccess } from '../../store/modules/login';
+import { loginFail, loginSuccess } from '../../store/modules/login';
 import { menuDataService, menuDataUsual } from '../../constants/navConst';
+import { useMutation } from '@tanstack/react-query';
+import { getToken } from '../../utils/user';
+import { useUserProfileQuery } from '../../hooks/queries/users';
 
 // 임시 유저 타입
 export interface User {
@@ -27,36 +30,64 @@ interface NavProps {
 }
 
 export function NavUsual({ isServicePage, setHamburger }: NavProps) {
-  const { isLoggedIn } = useLoginState();
-  const dispatch = useAppDispatch();
+  const [authenticated, setAuthenticated] = useState(false);
+  const token = getToken() as string;
+  // const { isLoggedIn } = useLoginState();
+  // const dispatch = useAppDispatch();
+  const { data } = useUserProfileQuery(token);
+  const userData = data?.data.response.userProfile;
 
-  const handleLoginClick = async () => {
-    try {
-      const {
-        data: {
-          response: {
-            user: { accessToken: token },
-          },
-        },
-      } = await axios.post(`${process.env.NEXT_PUBLIC_URL}/auth/login`, {
-        email: `${process.env.NEXT_PUBLIC_ID}`,
-        password: `${process.env.NEXT_PUBLIC_PASSWORD}`,
-      });
-
-      const { data } = await axios.get('/api/users/profile', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      dispatch(loginSuccess(data?.response.userProfile));
-
-      localStorage.setItem('token', token);
-      alert('로그인 완료');
-    } catch (error) {
-      alert('에러 발생');
-    }
+  const requestPostLogin = () => {
+    return axios.post(`${process.env.NEXT_PUBLIC_URL}/auth/login`, {
+      email: `${process.env.NEXT_PUBLIC_ID}`,
+      password: `${process.env.NEXT_PUBLIC_PASSWORD}`,
+    });
   };
+
+  useEffect(() => {
+    if (token && data) {
+      setAuthenticated(true);
+    }
+  }, []);
+
+  type OnSuccess =
+    | ((
+        data: AxiosResponse<any, any>,
+        variables: void,
+        context: unknown,
+      ) => unknown)
+    | undefined;
+
+  type OnError =
+    | ((error: any, variables: void, context: unknown) => unknown)
+    | undefined;
+
+  const useLoginMutation = (onSuccess: OnSuccess, onError: OnError) => {
+    return useMutation(requestPostLogin, {
+      onSuccess,
+      onError,
+    });
+  };
+
+  const onSuccess = (data: AxiosResponse<any, any>) => {
+    const token = data.data.response.user.accessToken;
+    // const payload = {
+    //   userData: jwtDecode(token),
+    //   token,
+    // };
+    // dispatch(loginSuccess(payload));
+    localStorage.setItem('token', token);
+    alert('로그인 완료');
+    window.location.reload();
+  };
+
+  const onError = (error: any) => {
+    console.log(error);
+    alert('로그인 에러');
+    // dispatch(loginFail(error));
+  };
+
+  const { mutate } = useLoginMutation(onSuccess, onError);
 
   const menuDataByPage = isServicePage ? menuDataService : menuDataUsual;
 
@@ -91,7 +122,7 @@ export function NavUsual({ isServicePage, setHamburger }: NavProps) {
               </NavMenu>
             )}
           </ArrangeContainer>
-          {isLoggedIn ? (
+          {authenticated ? (
             <ArrangeContainer>
               {isServicePage ? (
                 <NavMenu service={isServicePage}>
@@ -113,10 +144,10 @@ export function NavUsual({ isServicePage, setHamburger }: NavProps) {
                 <></>
               )}
               {isServicePage || <Alarm />}
-              <UserModal />
+              <UserModal userData={userData} />
             </ArrangeContainer>
           ) : (
-            <LoginButton onClick={handleLoginClick}>로그인</LoginButton>
+            <LoginButton onClick={() => mutate()}>로그인</LoginButton>
           )}
           <HamburgerButton onClick={() => setHamburger?.(true)}>
             <Image

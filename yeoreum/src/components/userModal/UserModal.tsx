@@ -1,29 +1,33 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from '@emotion/styled';
 import useOutsideClick from '../../hooks/useOutsideClick';
 import useResize from '../../hooks/useResize';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useAppDispatch, useLoginState } from '../../store/hooks';
-import { logout } from '../../store/modules/login';
+import { logout } from '../../utils/user';
+import { User } from '../nav/NavBar';
+// import { logout } from '../../store/modules/login';
 
-export default function UserModal() {
+interface UserModalProps {
+  userData: User;
+}
+
+export default function UserModal({ userData }: UserModalProps) {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement | null>(null);
 
-  const { userData } = useLoginState();
+  // const { userData } = useLoginState();
 
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
+
+  // const handleLogoutClick = () => {
+  //   dispatch(logout());
+  //   alert('로그아웃 되었습니다.');
+  // };
 
   useOutsideClick(ref, () => setIsOpen(false));
   useResize('below', 640, () => setIsOpen(false));
-
-  const handleLogoutClick = () => {
-    localStorage.removeItem('token');
-    dispatch(logout);
-    alert('로그아웃 되었습니다.');
-    window.location.reload();
-  };
 
   return (
     <Wrapper ref={ref}>
@@ -59,7 +63,7 @@ export default function UserModal() {
               </Link>
               <Item>이용약관</Item>
             </Items>
-            <Logout onClick={handleLogoutClick}>
+            <Logout onClick={() => logout()}>
               <Image
                 width={18}
                 height={18}
