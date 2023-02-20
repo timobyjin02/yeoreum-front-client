@@ -2,13 +2,14 @@ import styled from '@emotion/styled';
 import React from 'react';
 
 interface SubmitButtonProps {
+  onClick: () => void;
   content: string;
 }
 
-function SubmitButton({ content }: SubmitButtonProps) {
+function SubmitButton({ onClick, content }: SubmitButtonProps) {
   return (
     <Container>
-      <Button>{content}</Button>
+      <Button onClick={onClick}>{content}</Button>
     </Container>
   );
 }
@@ -25,8 +26,8 @@ const Container = styled.div`
 `;
 
 const Button = styled.button`
-  padding: 12px 16px;
-  background-color: #e86b66;
+  padding: 16px 24px;
+  background-color: ${({ theme }) => theme.palette.main};
   font-size: 16px;
   font-weight: 600;
   color: white;
@@ -38,6 +39,6 @@ const Button = styled.button`
   }
 
   @media (max-width: 640px) {
-    width: 50%;
+    width: 100%;
   }
 `;

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { PostCreateData } from '../types/post';
 
 export interface RequestGetAllPostsOption {
   gender?: number | undefined;
@@ -27,4 +28,12 @@ const requestGetPosts = (
   });
 };
 
-export { requestGetPosts };
+const requestPostCreatePost = (token: string, body: PostCreateData) => {
+  return axios.post('/api/boards', body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export { requestGetPosts, requestPostCreatePost };

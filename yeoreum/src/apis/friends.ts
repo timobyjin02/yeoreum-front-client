@@ -10,6 +10,15 @@ export const config = {
 
 export const body = {};
 
+const requestGetFriendsList = async (token: string) => {
+  const { data } = await axios('/api/friends', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return data.response.friends;
+};
+
 const requestGetSearchFriends = async (value: string) => {
   const { data } = await remote.get(`/api/friends/${value}`, config);
   return data.response;
@@ -24,4 +33,8 @@ const requestPostFriendApplication = async (receiverNo: number) => {
   return data.response;
 };
 
-export { requestGetSearchFriends, requestPostFriendApplication };
+export {
+  requestGetFriendsList,
+  requestGetSearchFriends,
+  requestPostFriendApplication,
+};
