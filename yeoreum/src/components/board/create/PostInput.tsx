@@ -1,19 +1,48 @@
 import styled from '@emotion/styled';
 import React from 'react';
+import { PostCreateData } from '../../../types/post';
 
 interface PostInputProps {
+  keyName: string;
+  postData: PostCreateData;
+  setPostData: React.Dispatch<React.SetStateAction<PostCreateData>>;
   title: string;
   textarea?: boolean;
 }
 
-function PostInput({ title, textarea }: PostInputProps) {
+function PostInput({
+  keyName,
+  postData,
+  setPostData,
+  title,
+  textarea,
+}: PostInputProps) {
+  const handleInputChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setPostData(prev => ({
+      ...prev,
+      [keyName]: event.target.value,
+    }));
+  };
+
   return (
     <Container>
       <Subject htmlFor={title}>{title}</Subject>
       {textarea ? (
-        <Textarea id={title} placeholder={`${title}을 입력해주세요.`} />
+        <Textarea
+          id={title}
+          placeholder={`${title}을 입력해주세요.`}
+          value={postData[keyName]}
+          onChange={handleInputChange}
+        />
       ) : (
-        <Input id={title} placeholder={`${title}을 입력해주세요.`} />
+        <Input
+          id={title}
+          placeholder={`${title}을 입력해주세요.`}
+          value={postData[keyName]}
+          onChange={handleInputChange}
+        />
       )}
     </Container>
   );
@@ -42,7 +71,7 @@ const Input = styled.input`
   border-radius: 10px;
   outline: none;
   &:focus {
-    outline: 2px solid #ff515a;
+    outline: 2px solid ${({ theme }) => theme.palette.main};
   }
   &::placeholder {
     color: #8e8e8e;
@@ -64,7 +93,7 @@ const Textarea = styled.textarea`
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   &:focus {
-    outline: 2px solid #ff515a;
+    outline: 2px solid ${({ theme }) => theme.palette.main};
   }
   &::placeholder {
     color: #8e8e8e;

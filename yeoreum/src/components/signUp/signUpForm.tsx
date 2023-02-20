@@ -1,5 +1,5 @@
 import { ChangeEvent, FocusEvent, useCallback, useState } from 'react';
-import { Validity } from '../../types/signUp';
+import { Validity, ConstType, RegexType } from '../../types/signUp';
 import useForm from '../../hooks/useForm';
 import {
   SIGN_UP_INITIAL,
@@ -19,8 +19,8 @@ import {
 } from './signUpFormStyle';
 
 const Form = () => {
-  const MESSAGE_BY_TYPE = SIGN_UP_MESSAGE_BY_TYPE;
-  const REGEX_BY_TYPE = SIGN_UP_REGEX_BY_TYPE;
+  const MESSAGE_BY_TYPE: ConstType = SIGN_UP_MESSAGE_BY_TYPE;
+  const REGEX_BY_TYPE: RegexType = SIGN_UP_REGEX_BY_TYPE;
   const [emailVerificationStatus, setEmailVerificationStatus] = useState(0);
   const [user, setUser, onChangeValue, onChangeValidity] =
     useForm(SIGN_UP_INITIAL);
@@ -35,14 +35,14 @@ const Form = () => {
       if (comparedValueTypes.includes(type)) {
         return curValue === targetValue;
       }
-      return (REGEX_BY_TYPE as any)[type].test(curValue);
+      return REGEX_BY_TYPE[type].test(curValue as string);
     })();
 
     return {
       isValid,
       message: isValid
-        ? (MESSAGE_BY_TYPE as any)[type].success
-        : (MESSAGE_BY_TYPE as any)[type].error,
+        ? MESSAGE_BY_TYPE[type].success
+        : MESSAGE_BY_TYPE[type].error,
     };
   };
 
