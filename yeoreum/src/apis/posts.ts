@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export interface RequestGetAllPostsOption {
-  gender?: string | undefined;
+  gender?: number | undefined;
   people?: number | undefined;
   isDone?: boolean | undefined;
   isImpromptu?: boolean | undefined;
