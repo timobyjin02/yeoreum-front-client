@@ -1,4 +1,5 @@
 import { FocusEvent, ChangeEvent } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import {
   Container,
@@ -7,6 +8,7 @@ import {
   AlertP,
   Input,
   Label,
+  Button,
   SubmitLink,
   Submit,
   GenderWrapper,
@@ -23,21 +25,34 @@ import {
   SIGN_UP_PROFILE_REGEX_BY_TYPE,
 } from '../../constants/signUpConst';
 import useForm from '../../hooks/useForm';
+import validateNickname from '../../apis/validateNickname';
+import { ConstType, RegexType } from '../../types/signUp';
 
 const SignUpProfileForm = () => {
-  const MESSAGE_BY_TYPE = SIGN_UP_PROFILE_MESSAGE_BY_TYPE;
-  const REGEX_BY_TYPE = SIGN_UP_PROFILE_REGEX_BY_TYPE;
+  const MESSAGE_BY_TYPE: ConstType = SIGN_UP_PROFILE_MESSAGE_BY_TYPE;
+  const REGEX_BY_TYPE: RegexType = SIGN_UP_PROFILE_REGEX_BY_TYPE;
   const [user, setUser, onChangeValue, onChangeValidity] = useForm(
     SIGN_UP_PROFILE_INITIAL,
   );
+  const [userImg, setUserImg] = useState('');
+  const [nicknameDuplicationStatus, setNicknameDuplicationStatus] = useState({
+    message: '',
+    duplication: undefined,
+  });
+  const onChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, files } = e.target;
 
+    if (!files) return;
+    setUserImg(URL.createObjectURL(files[0]));
+    onChangeValue(name, files[0]);
+  };
   const onValidate = (name: string, value: string) => {
-    const isValid = (REGEX_BY_TYPE as any)[name].test(value);
+    const isValid = REGEX_BY_TYPE[name].test(value);
     return {
       isValid,
       message: isValid
-        ? (MESSAGE_BY_TYPE as any)[name].success
-        : (MESSAGE_BY_TYPE as any)[name].error,
+        ? MESSAGE_BY_TYPE[name].success
+        : MESSAGE_BY_TYPE[name].error,
     };
   };
 
@@ -46,16 +61,37 @@ const SignUpProfileForm = () => {
     if (value.length !== 0) return;
     const message = '2글자 이상 10글자 이하 영문, 한글, 숫자 조합';
     onChangeValidity(name, undefined, message);
+    setNicknameDuplicationStatus(pre => ({
+      duplication: undefined,
+      message: '중복확인을 눌러주세요.',
+    }));
   };
 
   const onChangeNickname = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     onChangeValue(name, value);
-    // 중복 검사 추가
     const { isValid, message } = onValidate(name, value);
     onChangeValidity(name, isValid, message);
+    setNicknameDuplicationStatus(pre => ({
+      duplication: undefined,
+      message: '중복확인을 눌러주세요.',
+    }));
   };
 
+  const onClickNickname = () => {
+    const value = user.nickname.value;
+    const name = 'nickname';
+    if (!user.nickname.validity) return;
+    validateNickname(user.nickname.value).then(isValid => {
+      setNicknameDuplicationStatus({
+        message: isValid
+          ? MESSAGE_BY_TYPE.nicknameDuplication.success
+          : MESSAGE_BY_TYPE.nicknameDuplication.error,
+        duplication: isValid,
+      });
+    });
+  };
+  console.log(nicknameDuplicationStatus);
   const onChangeMajor = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     onValidate(name, value);
@@ -67,15 +103,14 @@ const SignUpProfileForm = () => {
     if (value.length > 0) onChangeValidity(name, true, '');
     onChangeValue(name, value);
   };
-  console.log(user);
   return (
-    <Container>
+    <Container onSubmit={e => e.preventDefault()}>
       <Wrapper>
         <Label>
           <P>프로필</P>
           <ProfileImageWrapper>
             <Image
-              src="/anonymous.png"
+              src={userImg ? userImg : '/anonymous.png'}
               width="46"
               height="46"
               alt="profileImg"
@@ -83,9 +118,9 @@ const SignUpProfileForm = () => {
             <span>추가</span>
           </ProfileImageWrapper>
           <ProfileInput
-            name="profileImg"
+            name="file"
             type="file"
-            onChange={onChange}
+            onChange={onChangeFile}
           ></ProfileInput>
         </Label>
       </Wrapper>
@@ -122,10 +157,16 @@ const SignUpProfileForm = () => {
             onChange={onChangeNickname}
           ></Input>
         </Label>
+        <Button onClick={onClickNickname}>중복확인</Button>
       </Wrapper>
       {user.nickname.message.length > 0 && (
         <AlertP success={user.nickname.validity}>
           {user.nickname.message}
+        </AlertP>
+      )}
+      {nicknameDuplicationStatus.message.length > 0 && (
+        <AlertP success={nicknameDuplicationStatus.duplication}>
+          {nicknameDuplicationStatus.message}
         </AlertP>
       )}
       <Wrapper>
@@ -134,7 +175,7 @@ const SignUpProfileForm = () => {
           <Input
             name="major"
             type="text"
-            maxLength={16}
+            maxLength={30}
             placeholder="학과를 입력해주세요"
             onChange={onChangeMajor}
           ></Input>
@@ -144,6 +185,7 @@ const SignUpProfileForm = () => {
         <Label>
           <P>소개</P>
           <DescriptionInput
+            name="description"
             maxLength={150}
             placeholder="소개를 입력해주세요"
             onChange={onChange}
