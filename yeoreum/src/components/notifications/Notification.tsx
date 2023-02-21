@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { AlarmType } from '../../types/alarm';
-import { alarmDataByType } from '../alarm/AlarmListItem';
+import noticeDataByType from '../../utils/noticeDataByType';
+import noticeRequestByType from '../../utils/noticeRequestByType';
 
 interface AlarmListItemProps {
   alarmInfo: AlarmType;
@@ -10,7 +11,18 @@ interface AlarmListItemProps {
 function Notification({ alarmInfo }: AlarmListItemProps) {
   if (alarmInfo.type < 1 || alarmInfo.type > 11) return null;
 
-  const data = alarmDataByType(alarmInfo);
+  const data = noticeDataByType(alarmInfo);
+
+  const { accept, reject } = noticeRequestByType(alarmInfo.type);
+
+  const { mutate: acceptClick } = data.acceptClickHandler?.(
+    accept.onSuccess,
+    accept.onError,
+  );
+  const { mutate: rejectClick } = data.rejectClickHandler?.(
+    reject.onSuccess,
+    reject.onError,
+  );
 
   return (
     <List>
@@ -19,7 +31,16 @@ function Notification({ alarmInfo }: AlarmListItemProps) {
       <NotificationText isRead={Boolean(data.isRead)}>
         {data.text}
       </NotificationText>
-      {data.btn && <Btn isRead={Boolean(data.isRead)}>{data.btn}</Btn>}
+      {data.acceptBtn && (
+        <Btn onClick={acceptClick} isRead={Boolean(data.isRead)}>
+          {data.acceptBtn}
+        </Btn>
+      )}
+      {data.rejectBtn && (
+        <Btn onClick={rejectClick} isRead={Boolean(data.isRead)}>
+          {data.rejectBtn}
+        </Btn>
+      )}
     </List>
   );
 }
