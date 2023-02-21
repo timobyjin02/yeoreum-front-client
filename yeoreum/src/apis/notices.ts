@@ -8,13 +8,32 @@ const requestGetNotices = (token: string) => {
   });
 };
 
-const requestGetUserData = async (token: string) => {
-  const { data } = await axios.get('/api/users/profile', {
+const requestGetUserData = (token: string) => {
+  return axios.get('/api/users/profile', {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
-  return data.response;
 };
 
-export { requestGetNotices, requestGetUserData };
+const requestPostLogin = () => {
+  return axios.post(`${process.env.NEXT_PUBLIC_URL}/auth/login`, {
+    email: `${process.env.NEXT_PUBLIC_ID}`,
+    password: `${process.env.NEXT_PUBLIC_PASSWORD}`,
+  });
+};
+
+const requestGetUnreadNotices = (token: string) => {
+  return axios('/api/notices/unread', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export {
+  requestGetNotices,
+  requestGetUserData,
+  requestGetUnreadNotices,
+  requestPostLogin,
+};

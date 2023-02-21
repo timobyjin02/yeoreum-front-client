@@ -1,9 +1,21 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { loginSlice } from './modules/login';
 import modalReducer from './modules/modal';
 
+const rootReducer = {
+  modal: modalReducer,
+  login: loginSlice.reducer,
+};
+
 export const store = configureStore({
-  reducer: {
-    modal: modalReducer,
+  reducer: rootReducer,
+  preloadedState: {
+    login: {
+      userData: {
+        nickname: '',
+        profileImage: '/anonymous.png',
+      },
+    },
   },
 });
 
