@@ -48,5 +48,6 @@ jobs:
             - name: Docker run
               run: |
                   cd ~/summer
+                  docker-compose down
                   docker-compose pull
                   docker-compose up -d
