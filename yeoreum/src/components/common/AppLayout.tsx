@@ -2,7 +2,7 @@ import Footer from '../footer/Footer';
 import Nav from '../nav/Nav';
 import React, { useEffect, useState } from 'react';
 import { getToken } from '../../utils/user';
-import { useAppDispatch } from '../../store/hooks';
+import { useAppDispatch, useLoginState } from '../../store/hooks';
 import { loginSuccess } from '../../store/modules/login';
 import jwtDecode from 'jwt-decode';
 
@@ -12,13 +12,15 @@ interface Children {
 
 function AppLayout({ children }: Children) {
   const [state, setState] = useState();
+  const [loading, setLoading] = useState(true);
   const token = getToken() as string;
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (token) {
-      setState(jwtDecode(token));
+      setState(() => jwtDecode(token));
     }
+    setLoading(false);
   }, []);
 
   if (state) {
@@ -27,7 +29,7 @@ function AppLayout({ children }: Children) {
 
   return (
     <>
-      {state && (
+      {loading || (
         <>
           <Nav />
           {children}
