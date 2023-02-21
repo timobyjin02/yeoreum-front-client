@@ -20,4 +20,12 @@ const requestPostChatRoomInvitation = async (
   return data.response;
 };
 
-export { requestPostChatRoomInvitation };
+const requestGetCurrentChatLog = async (chatsRoomNo: number) => {
+  const { data } = await remote.get(
+    `/api/chats/${chatsRoomNo}/chat-log`,
+    config,
+  );
+  return data.response.currentChatLog;
+};
+
+export { requestPostChatRoomInvitation, requestGetCurrentChatLog };

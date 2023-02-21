@@ -1,28 +1,38 @@
 import styled from '@emotion/styled';
-import { ChatInfo } from '../../../types/chat';
+import { useEffect, useState } from 'react';
+import { requestGetCurrentChatLog } from '../../../apis/chats';
+import { ChatInfo, ChatLogType } from '../../../types/chat';
 
 const ChattingContent = ({
   chats,
   scrollRef,
 }: {
-  chats: ChatInfo[];
+  chats: ChatLogType[];
   scrollRef: React.RefObject<HTMLDivElement>;
 }) => {
+  const [chatLogList, setChatLogList] = useState<ChatLogType[]>([]);
+  useEffect(() => {
+    (async () => {
+      const responseCurrentChatLog = await requestGetCurrentChatLog(2);
+      setChatLogList(responseCurrentChatLog);
+      // console.log(responseCurrentChatLog);
+    })();
+  }, []);
+
   return (
     <Containers>
-      {chats.map((chat, index) => (
+      {chatLogList.map((chat, index) => (
         <MessageBox
           key={index}
           ref={chats.length - 1 === index ? scrollRef : null}
+          // className={21 === chat.userNo ? 'my_message' : ''}
         >
           <span>
-            {/* {chat.username
-        ? socket.id === chat.username
-          ? ''
-          : chat.username
-        : ''} */}
+            {chat.userNo ? (21 === chat.userNo ? '' : chat.userNo) : ''}
           </span>
-          <Message className="message">{chat.message}</Message>
+          <Message className={21 === chat.userNo ? 'my_message' : 'message'}>
+            {chat.message}
+          </Message>
         </MessageBox>
       ))}
     </Containers>
@@ -51,16 +61,16 @@ const MessageBox = styled.div`
   display: flex;
   flex-direction: column;
 
-  /* .my_message { */
-  /* align-self: flex-end; */
-
-  .message {
+  .my_message {
     align-self: flex-end;
-    color: ${({ theme }) => theme.palette.font.headline};
     background: ${({ theme }) => theme.palette.disable};
-    filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.25));
+
+    .message {
+      align-self: flex-end;
+      color: ${({ theme }) => theme.palette.font.headline};
+      filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.25));
+    }
   }
-  /* } */
 `;
 
 const Message = styled.span`
