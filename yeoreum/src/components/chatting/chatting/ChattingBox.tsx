@@ -1,12 +1,40 @@
 import styled from '@emotion/styled';
 import ChattingContent from './ChattingContent';
 import ChattingInput from './ChattingInput';
-import React, { useRef, useState } from 'react';
-import { ChatInfo } from '../../../types/chat';
+import React, { useEffect, useRef, useState } from 'react';
+import { ChatInfo, ChatLogType } from '../../../types/chat';
+import { socket } from '../../../pages/_app';
+// import { socket } from '../../../pages/_app';
+
+interface User {
+  userNo: number;
+  nickname: string;
+  profileImage: string;
+}
+
+interface ChatRoom {
+  roomName: string;
+  chatRoomNo: number;
+  users: User[];
+}
 
 function ChattingBox() {
-  const [chats, setChats] = useState<ChatInfo[]>([]);
+  const [chats, setChats] = useState<ChatLogType[]>([]);
+  const [rooms, setRooms] = useState<ChatRoom[]>([]);
+
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const roomListHandler = ({ response }: any) => {
+      console.log(response);
+    };
+
+    socket.emit('init-socket', roomListHandler);
+
+    return () => {
+      socket.off('init-socket', roomListHandler);
+    };
+  }, []);
 
   return (
     <Container>
