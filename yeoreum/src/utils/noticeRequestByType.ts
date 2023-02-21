@@ -62,6 +62,7 @@ export default function noticeRequestByType(type: number) {
           console.log('알림 타입 3 수락 성공', data);
         },
         onError: error => {
+          console.log(error.response.status);
           console.log('알림 타입 3 수락 오류', error);
         },
       },
@@ -71,6 +72,7 @@ export default function noticeRequestByType(type: number) {
           console.log('알림 타입 3 거절 성공', data);
         },
         onError: error => {
+          console.log(error.response.status);
           console.log('알림 타입 3 거절 오류', error);
         },
       },

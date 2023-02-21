@@ -9,9 +9,9 @@ import { OnError, OnSuccess } from '../../../types/mutation';
 const useAcceptFriend = (
   friendNo: number,
   senderUserNo: number,
+  onSuccess: OnSuccess,
+  onError: OnError,
   token: string,
-  onSuccess?: OnSuccess,
-  onError?: OnError,
 ) => {
   return useMutation<AxiosResponse<any, any>, unknown, void, unknown>(
     () => requestAcceptFriend(friendNo as number, senderUserNo, token),
@@ -22,9 +22,9 @@ const useAcceptFriend = (
 const useRejectFriend = (
   friendNo: number,
   senderUserNo: number,
+  onSuccess: OnSuccess,
+  onError: OnError,
   token: string,
-  onSuccess?: OnSuccess,
-  onError?: OnError,
 ) => {
   return useMutation<AxiosResponse<any, any>, unknown, void, unknown>(
     () => requestRejectFriend(friendNo as number, senderUserNo, token),

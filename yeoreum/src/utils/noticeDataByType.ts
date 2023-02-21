@@ -1,3 +1,5 @@
+import { useAcceptChat } from '../hooks/queries/notices/chatRequestHandling';
+import { useHandleBoard } from '../hooks/queries/notices/boardRequestHandling';
 import {
   useAcceptFriend,
   useRejectFriend,
@@ -36,13 +38,27 @@ export default function noticeDataByType(alarmData: AlarmType) {
       text: `${senderNickname}에게 온 여름 초대가 있습니다.`,
       acceptBtn: '수락',
       rejectBtn: '거절',
-      // chatRoomNo,
+      acceptClickHandler: (onSuccess: OnSuccess, onError: OnError) =>
+        useAcceptChat(
+          chatRoomNo as number,
+          { type, senderNo: senderUserNo, receiverNo: 999 },
+          onSuccess,
+          onError,
+          token,
+        ),
     },
     2: {
       text: `${senderNickname}에게 온 여름 초대가 있습니다.`,
       acceptBtn: '수락',
       rejectBtn: '거절',
-      // chatRoomNo,
+      acceptClickHandler: (onSuccess: OnSuccess, onError: OnError) =>
+        useAcceptChat(
+          chatRoomNo as number,
+          { type, senderNo: senderUserNo, receiverNo: 999 },
+          onSuccess,
+          onError,
+          token,
+        ),
     },
     3: {
       text: `${senderNickname}에게 온 친구 요청이 있습니다.`,
@@ -52,17 +68,17 @@ export default function noticeDataByType(alarmData: AlarmType) {
         useAcceptFriend(
           friendNo as number,
           senderUserNo,
-          token,
           onSuccess,
           onError,
+          token,
         ),
       rejectClickHandler: (onSuccess: OnSuccess, onError: OnError) =>
         useRejectFriend(
           friendNo as number,
           senderUserNo,
-          token,
           onSuccess,
           onError,
+          token,
         ),
     },
     4: {
@@ -72,16 +88,50 @@ export default function noticeDataByType(alarmData: AlarmType) {
       text: `여름 신청(게스트) 파티 초대 알림`,
       acceptBtn: '수락',
       rejectBtn: '거절',
-      // boardNo,
+      acceptClickHandler: (onSuccess: OnSuccess, onError: OnError) =>
+        useHandleBoard(
+          boardNo as number,
+          type,
+          true,
+          onSuccess,
+          onError,
+          token,
+        ),
+      rejectClickHandler: (onSuccess: OnSuccess, onError: OnError) =>
+        useHandleBoard(
+          boardNo as number,
+          type,
+          false,
+          onSuccess,
+          onError,
+          token,
+        ),
     },
     6: {
-      text: '가입 조건 부적절로 회원가입이 반려됨',
+      text: '학과 변경 신청 반려',
     },
     7: {
       text: 'type 7 게시글 파티 초대 알림',
       acceptBtn: '수락',
       rejectBtn: '거절',
-      //: boardNo,
+      acceptClickHandler: (onSuccess: OnSuccess, onError: OnError) =>
+        useHandleBoard(
+          boardNo as number,
+          type,
+          true,
+          onSuccess,
+          onError,
+          token,
+        ),
+      rejectClickHandler: (onSuccess: OnSuccess, onError: OnError) =>
+        useHandleBoard(
+          boardNo as number,
+          type,
+          false,
+          onSuccess,
+          onError,
+          token,
+        ),
     },
     8: {
       text: 'type 8 게시글 파티 초대 누가 거절해서 게시글 삭제됨',
