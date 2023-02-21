@@ -4,10 +4,9 @@ import { Provider } from 'react-redux';
 import { store } from '../store/store';
 import { ThemeProvider } from '@emotion/react';
 import theme from '../styles/theme';
-import Nav from '../components/nav/Nav';
-import Footer from '../components/footer/Footer';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useRemoveBoardPageData } from '../hooks/useBoardPageData';
+import AppLayout from '../components/common/AppLayout';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,9 +23,9 @@ export default function App({ Component, pageProps }: AppProps) {
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
         <Provider store={store}>
-          <Nav />
-          <Component {...pageProps} />
-          <Footer />
+          <AppLayout>
+            <Component {...pageProps} />
+          </AppLayout>
         </Provider>
       </QueryClientProvider>
     </ThemeProvider>

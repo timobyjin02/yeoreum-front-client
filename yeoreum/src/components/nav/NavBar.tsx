@@ -1,87 +1,35 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import Alarm from '../alarm/Alarm';
 import UserModal from '../userModal/UserModal';
 import Link from 'next/link';
-import { login } from '../../utils/user';
 import Image from 'next/image';
-
-// 임시 유저 타입
-export interface User {
-  userNo: number;
-  email: string;
-  nickname: string;
-  major: string;
-  gender: number;
-  description: string;
-  profileImage: string;
-  grade: number;
-}
+import { AxiosResponse } from 'axios';
+import { useLoginState } from '../../store/hooks';
+import { menuDataService, menuDataUsual } from '../../constants/navConst';
+import { useLoginMutation } from '../../hooks/queries/auth';
 
 interface NavProps {
   isServicePage: boolean;
-  type?: string;
-  isThere?: boolean;
-  userData?: Pick<User, 'profileImage' | 'nickname'>;
-  token?: string;
-  setHamburger?: React.Dispatch<React.SetStateAction<boolean>>;
+  setHamburger: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export function NavUsual({
-  isServicePage,
-  userData,
-  token,
-  setHamburger,
-}: NavProps) {
-  const [authenticated, setAuthenticated] = useState(false);
+export function NavUsual({ isServicePage, setHamburger }: NavProps) {
+  const { isLoggedIn } = useLoginState();
 
-  useEffect(() => {
-    if (token && setAuthenticated) {
-      setAuthenticated(true);
-    }
-  }, []);
-
-  const menuDataUsual = {
-    title: '',
-    menus: [
-      {
-        id: 'board',
-        href: '/board',
-        icon: '/icons/clipboard.svg',
-        text: '게시판',
-      },
-      {
-        id: 'friend',
-        href: '/friend',
-        icon: '/icons/users.svg',
-        text: '친구',
-      },
-      {
-        id: 'chatting',
-        href: '/chatting',
-        icon: '/icons/message.svg',
-        text: '채팅',
-      },
-    ],
+  const onSuccess = (data: AxiosResponse<any, any>) => {
+    const token = data.data.response.user.accessToken;
+    localStorage.setItem('token', token);
+    alert('로그인 완료');
+    window.location.reload();
   };
 
-  const menuDataService = {
-    title: '고객센터',
-    menus: [
-      {
-        id: 'friend',
-        href: '/service/inquiry',
-        icon: '',
-        text: '문의하기',
-      },
-      {
-        id: 'board',
-        href: '/board',
-        icon: '',
-        text: '문의내역',
-      },
-    ],
+  const onError = (error: any) => {
+    console.log(error);
+    alert('로그인 에러');
   };
+
+  const { mutate: login } = useLoginMutation(onSuccess, onError);
 
   const menuDataByPage = isServicePage ? menuDataService : menuDataUsual;
 
@@ -116,7 +64,7 @@ export function NavUsual({
               </NavMenu>
             )}
           </ArrangeContainer>
-          {authenticated ? (
+          {isLoggedIn ? (
             <ArrangeContainer>
               {isServicePage ? (
                 <NavMenu service={isServicePage}>
@@ -138,16 +86,10 @@ export function NavUsual({
                 <></>
               )}
               {isServicePage || <Alarm />}
-              <UserModal userData={userData} />
+              <UserModal />
             </ArrangeContainer>
           ) : (
-            <LoginButton
-              onClick={() => {
-                login();
-              }}
-            >
-              로그인
-            </LoginButton>
+            <LoginButton onClick={() => login()}>로그인</LoginButton>
           )}
           <HamburgerButton onClick={() => setHamburger?.(true)}>
             <Image

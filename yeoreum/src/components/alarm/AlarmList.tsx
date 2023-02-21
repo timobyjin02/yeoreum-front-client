@@ -10,65 +10,17 @@ function AlarmList() {
   const { data } = useNoticesQuery(token);
   const noticesData = data?.data.response.notices;
 
-  // const alarmArray = [
-  //   {
-  //     noticeNo: 6,
-  //     type: 6,
-  //     senderUserNo: 20,
-  //     senderNickname: 'aaa',
-  //     senderProfileImage: '',
-  //     isRead: 0,
-  //     createdDate: '2023-01-16T04:19:47.137Z',
-  //   },
-  //   {
-  //     noticeNo: 5,
-  //     type: 5,
-  //     senderUserNo: 20,
-  //     senderNickname: 'aaa',
-  //     senderProfileImage: '',
-  //     isRead: 0,
-  //     createdDate: '2023-01-16T04:19:47.137Z',
-  //     boardNo: 1,
-  //   },
-  //   {
-  //     noticeNo: 4,
-  //     type: 4,
-  //     senderUserNo: 20,
-  //     senderNickname: 'aaa',
-  //     senderProfileImage: '',
-  //     isRead: 0,
-  //     createdDate: '2023-01-16T04:19:47.137Z',
-  //     friendNo: 2,
-  //   },
-  //   {
-  //     noticeNo: 3,
-  //     type: 3,
-  //     senderUserNo: 20,
-  //     senderNickname: 'aaa',
-  //     senderProfileImage: '',
-  //     isRead: 0,
-  //     createdDate: '2023-01-16T04:19:47.137Z',
-  //     friendNo: 1,
-  //   },
-  //   {
-  //     noticeNo: 2,
-  //     type: 2,
-  //     senderUserNo: 20,
-  //     senderNickname: 'aaa',
-  //     senderProfileImage: '',
-  //     isRead: 0,
-  //     createdDate: '2023-01-16T04:19:47.137Z',
-  //     chatRoomNo: 1,
-  //   },
-  // ];
-
   return (
     <AlarmContainer>
       <AlarmModalBox>
         <AlarmLists>
-          {noticesData?.map((alarm: AlarmType, idx: number) => (
-            <AlarmListItem key={idx} alarmData={alarm} />
-          ))}
+          {noticesData?.length ? (
+            noticesData?.map((alarm: AlarmType, idx: number) => (
+              <AlarmListItem key={idx} alarmData={alarm} />
+            ))
+          ) : (
+            <>알림이 하나도 없누</>
+          )}
         </AlarmLists>
       </AlarmModalBox>
     </AlarmContainer>
@@ -95,7 +47,7 @@ const AlarmModalBox = styled.div`
   position: absolute;
   top: 8px;
   width: 100%;
-  min-height: 128px;
+  min-height: 68px;
   max-height: 428px;
   background-color: white;
   border-radius: 4px;
