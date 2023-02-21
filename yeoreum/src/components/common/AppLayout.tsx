@@ -2,9 +2,8 @@ import Footer from '../footer/Footer';
 import Nav from '../nav/Nav';
 import React, { useEffect, useState } from 'react';
 import { getToken } from '../../utils/user';
-import axios from 'axios';
 import { useAppDispatch } from '../../store/hooks';
-import { loginFail, loginSuccess } from '../../store/modules/login';
+import { loginSuccess } from '../../store/modules/login';
 import jwtDecode from 'jwt-decode';
 
 interface Children {
@@ -25,8 +24,6 @@ function AppLayout({ children }: Children) {
   if (state) {
     dispatch(loginSuccess(state));
   }
-
-  console.log(state);
 
   return (
     <>
