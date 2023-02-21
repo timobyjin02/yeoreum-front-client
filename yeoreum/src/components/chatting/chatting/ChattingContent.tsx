@@ -1,27 +1,28 @@
 import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
 import { requestGetCurrentChatLog } from '../../../apis/chats';
-import { ChatInfo, ChatLogType } from '../../../types/chat';
+import { ChatLogType } from '../../../types/chat';
 
 const ChattingContent = ({
   chats,
+  setChats,
   scrollRef,
 }: {
   chats: ChatLogType[];
+  setChats: React.Dispatch<React.SetStateAction<ChatLogType[]>>;
   scrollRef: React.RefObject<HTMLDivElement>;
 }) => {
-  const [chatLogList, setChatLogList] = useState<ChatLogType[]>([]);
   useEffect(() => {
     (async () => {
       const responseCurrentChatLog = await requestGetCurrentChatLog(2);
-      setChatLogList(responseCurrentChatLog);
-      // console.log(responseCurrentChatLog);
+      setChats(responseCurrentChatLog);
+      console.log(responseCurrentChatLog);
     })();
   }, []);
 
   return (
     <Containers>
-      {chatLogList.map((chat, index) => (
+      {chats.map((chat, index) => (
         <MessageBox
           key={index}
           ref={chats.length - 1 === index ? scrollRef : null}

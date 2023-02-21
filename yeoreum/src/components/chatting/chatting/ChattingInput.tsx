@@ -1,33 +1,34 @@
 import React, { useState, useCallback, FormEvent } from 'react';
 import styled from '@emotion/styled';
-import { ChatInfo } from '../../../types/chat';
+import { ChatLogType } from '../../../types/chat';
 
-interface Props {
-  setChats: React.Dispatch<React.SetStateAction<ChatInfo[]>>;
+interface ChatsProps {
+  setChats: React.Dispatch<React.SetStateAction<ChatLogType[]>>;
   scrollRef: React.RefObject<HTMLDivElement>;
 }
 
-function ChattingInput({ setChats, scrollRef }: Props) {
+function ChattingInput({ setChats, scrollRef }: ChatsProps) {
   const [message, setMessage] = useState<string>('');
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(e.target.value);
   };
 
-  const chat = {
-    username: 'a',
-    chatRoomNo: 1,
-    message: '안녕',
-  };
-
-  const onSendMessage = useCallback(
+  const sendMessageHandler = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       if (!message) return alert('메시지를 입력해 주세요.');
+
+      const newChat = {
+        chatLogNo: 0,
+        userNo: 0,
+        message: message,
+        sendedTime: '',
+      };
+
+      setChats(prevChats => [...prevChats, newChat]);
       setMessage('');
 
-      setChats(prevChats => [...prevChats, chat]);
-      setMessage('');
       setTimeout(
         () => scrollRef?.current?.scrollIntoView({ block: 'end' }),
         50,
@@ -37,14 +38,14 @@ function ChattingInput({ setChats, scrollRef }: Props) {
   );
 
   return (
-    <MessageForm onSubmit={onSendMessage}>
+    <MessageForm onSubmit={sendMessageHandler}>
       <FileBox>
         <Img src="/icons/paperclip.svg" />
       </FileBox>
       <InputBox>
         <Input
           type="text"
-          onChange={handleChange}
+          onChange={inputChangeHandler}
           value={message}
           placeholder="Message"
         />
@@ -97,6 +98,8 @@ const SendButtonBox = styled.div`
   justify-content: center;
   border-left: 1px solid ${({ theme }) => theme.palette.background.grey};
   background-color: ${({ theme }) => theme.palette.background.white};
+
+  cursor: pointer;
 `;
 
 const SendButton = styled.button`

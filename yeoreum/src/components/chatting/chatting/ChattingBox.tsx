@@ -2,9 +2,8 @@ import styled from '@emotion/styled';
 import ChattingContent from './ChattingContent';
 import ChattingInput from './ChattingInput';
 import React, { useEffect, useRef, useState } from 'react';
-import { ChatInfo, ChatLogType } from '../../../types/chat';
+import { ChatLogType } from '../../../types/chat';
 import { socket } from '../../../pages/_app';
-// import { socket } from '../../../pages/_app';
 
 interface User {
   userNo: number;
@@ -26,11 +25,9 @@ function ChattingBox() {
 
   useEffect(() => {
     const roomListHandler = ({ response }: any) => {
-      console.log(response);
+      // console.log(response);
     };
-
     socket.emit('init-socket', roomListHandler);
-
     return () => {
       socket.off('init-socket', roomListHandler);
     };
@@ -39,7 +36,11 @@ function ChattingBox() {
   return (
     <Container>
       <Header>홍유진, 김현수, 김민호....</Header>
-      <ChattingContent scrollRef={scrollRef} chats={chats} />
+      <ChattingContent
+        scrollRef={scrollRef}
+        chats={chats}
+        setChats={setChats}
+      />
       <ChattingInput scrollRef={scrollRef} setChats={setChats} />
     </Container>
   );
