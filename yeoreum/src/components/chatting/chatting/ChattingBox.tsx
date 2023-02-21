@@ -5,33 +5,16 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ChatLogType } from '../../../types/chat';
 import { socket } from '../../../pages/_app';
 
-interface User {
-  userNo: number;
-  nickname: string;
-  profileImage: string;
+interface ChatsProps {
+  chats: ChatLogType[];
+  setChats: React.Dispatch<React.SetStateAction<ChatLogType[]>>;
 }
 
-interface ChatRoom {
-  roomName: string;
-  chatRoomNo: number;
-  users: User[];
-}
-
-function ChattingBox() {
-  const [chats, setChats] = useState<ChatLogType[]>([]);
-  const [rooms, setRooms] = useState<ChatRoom[]>([]);
+function ChattingBox({ chats, setChats }: ChatsProps) {
+  // const [chats, setChats] = useState<ChatLogType[]>([]);
+  // const [rooms, setRooms] = useState<ChatRoom[]>([]);
 
   const scrollRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const roomListHandler = ({ response }: any) => {
-      // console.log(response);
-    };
-    socket.emit('init-socket', roomListHandler);
-    return () => {
-      socket.off('init-socket', roomListHandler);
-    };
-  }, []);
 
   return (
     <Container>

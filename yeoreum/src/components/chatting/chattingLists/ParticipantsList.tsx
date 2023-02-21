@@ -2,43 +2,43 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import Modal from '../../common/Modal';
 import ElseProfile from '../../elseProfile/ElseProfile';
+import { ChatRoom } from '../../../pages/chatting';
+import ProfileImage from '../../common/ProfileImage';
 
-function ParticipantsList() {
-  const [isOpen1, setIsOpen1] = useState(false);
+interface ChatUserProps {
+  chatData: ChatRoom[];
+}
 
-  const 임시list = [
-    {
-      userNo: 1,
-      createrData: {
-        profileImage: '',
-        nickname: '무친저글링',
-      },
-    },
-  ];
+function ParticipantsList({ chatData }: ChatUserProps) {
+  const [isOpen, setIsOpen] = useState(false);
 
   const openProfile = () => {
-    setIsOpen1(true);
+    setIsOpen(true);
   };
+
+  console.log(chatData);
 
   return (
     <>
-      {임시list.map(item => {
+      {chatData.map((item, index) => {
         return (
-          <div>
+          <div key={index}>
             <ListBox>
-              <Box key={item.userNo} onClick={openProfile}>
-                {isOpen1 && (
-                  <Modal
-                    onClose={() => {
-                      setIsOpen1(false);
-                    }}
-                  >
-                    <ElseProfile />
-                  </Modal>
-                )}
-                <ProfileImg>{item.createrData.profileImage}</ProfileImg>
-                <Nickname>{item.createrData.nickname}</Nickname>
-              </Box>
+              {item.users.map(user => (
+                <Item key={user.userNo} onClick={openProfile}>
+                  {isOpen && (
+                    <Modal
+                      onClose={() => {
+                        setIsOpen(false);
+                      }}
+                    >
+                      {/* <ElseProfile /> */}
+                    </Modal>
+                  )}
+                  <ProfileImage src={user.profileImage} size={23} />
+                  <Nickname>{user.nickname}</Nickname>
+                </Item>
+              ))}
             </ListBox>
           </div>
         );
@@ -51,20 +51,13 @@ export default ParticipantsList;
 
 const ListBox = styled.div`
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   padding: 16px 10px;
 `;
 
-const Box = styled.div`
+const Item = styled.div`
   display: flex;
   min-width: 150px;
-`;
-
-const ProfileImg = styled.div`
-  width: 23px;
-  height: 23px;
-  margin-right: 10px;
-  background-color: #f3f4f5;
 `;
 
 const Nickname = styled.span`
