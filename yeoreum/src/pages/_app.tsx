@@ -18,7 +18,7 @@ const queryClient = new QueryClient({
   },
 });
 
-export const socket = io('http://54.180.208.119:4000/chat', {
+export const socket = io(`${process.env.NEXT_PUBLIC_SOCKET_URL}/chat`, {
   auth: {
     token: getToken(),
   },
