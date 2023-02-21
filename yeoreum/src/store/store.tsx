@@ -9,6 +9,14 @@ const rootReducer = {
 
 export const store = configureStore({
   reducer: rootReducer,
+  preloadedState: {
+    login: {
+      userData: {
+        nickname: '',
+        profileImage: '/anonymous.png',
+      },
+    },
+  },
 });
 
 export type RootState = ReturnType<typeof store.getState>;

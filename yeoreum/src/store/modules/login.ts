@@ -2,15 +2,15 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export interface UserProfileDataType {
   [key: string]: any;
-  userNo: number;
+  userNo?: number;
   nickname: string;
   profileImage: string;
 }
 
 export interface LoginStateType {
-  isLoggedIn: boolean;
+  isLoggedIn?: boolean;
   userData: UserProfileDataType | null;
-  error: any;
+  error?: any;
 }
 
 const initialState: LoginStateType = {
