@@ -4,12 +4,14 @@ import AllUserList from './AllUserList';
 import AllUserSearch from './AllUserSearch';
 import { requestGetUsers } from '../../../apis/users';
 import { UsersResponseType } from '../../../types/user';
+import { getToken } from '../../../utils/user';
 
 interface PropsType {
   onClose: () => void;
 }
 
 function ApplicationFriendModal({ onClose }: PropsType) {
+  const token = getToken() as string;
   const [searchTerm, setSearchTerm] = useState('');
   const [lists, setLists] = useState<UsersResponseType[]>([]);
   const [loading, setLoading] = useState(false);
@@ -19,7 +21,7 @@ function ApplicationFriendModal({ onClose }: PropsType) {
 
     (async () => {
       setLoading(true);
-      const users = await requestGetUsers(searchTerm);
+      const users = await requestGetUsers(searchTerm, token);
 
       setLists(users);
     })();

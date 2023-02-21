@@ -3,12 +3,14 @@ import styled from '@emotion/styled';
 import { requestPatchEditProfile } from '../../apis/users';
 import { UserProfileResponseType } from '../../types/user';
 import MajorChange from './MajorChange';
+import { getToken } from '../../utils/user';
 
 interface ProfileEditProps {
   userData: any;
   setUserData: React.Dispatch<React.SetStateAction<UserProfileResponseType>>;
 }
 function EditInfo({ userData, setUserData }: ProfileEditProps) {
+  const token = getToken() as string;
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
@@ -22,7 +24,7 @@ function EditInfo({ userData, setUserData }: ProfileEditProps) {
 
   const handleClickChange = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault;
-    requestPatchEditProfile(userData.nickname, userData.description);
+    requestPatchEditProfile(userData.nickname, userData.description, token);
   };
 
   return (

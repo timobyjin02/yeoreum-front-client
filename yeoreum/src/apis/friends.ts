@@ -2,14 +2,6 @@ import axios from 'axios';
 
 const remote = axios.create();
 
-// export const config = {
-//   headers: {
-//     Authorization: `Bearer ${token}`,
-//   },
-// };
-
-export const body = {};
-
 const requestGetFriendsList = async (token: string) => {
   const { data } = await axios('/api/friends', {
     headers: {

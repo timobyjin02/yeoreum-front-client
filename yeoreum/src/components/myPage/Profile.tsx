@@ -4,8 +4,10 @@ import { useRouter } from 'next/router';
 import { requestGetUserProfile } from '../../apis/users';
 import { UserProfileResponseType } from '../../types/user';
 import ProfileImage from '../common/ProfileImage';
+import { getToken } from '../../utils/user';
 
 function Profile() {
+  const token = getToken() as string;
   const [userProfileInfo, setUserProfileInfo] =
     useState<UserProfileResponseType>({
       userNo: 0,
@@ -22,7 +24,7 @@ function Profile() {
 
   useEffect(() => {
     (async () => {
-      const userProfile = await requestGetUserProfile();
+      const userProfile = await requestGetUserProfile(token);
 
       setUserProfileInfo(userProfile);
     })();

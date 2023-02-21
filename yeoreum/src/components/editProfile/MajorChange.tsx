@@ -1,11 +1,13 @@
 import styled from '@emotion/styled';
 import { useCallback, useRef, useState } from 'react';
 import { requestPatchMajorUpload } from '../../apis/users';
+import { getToken } from '../../utils/user';
 interface userDataProps {
   userData: any;
 }
 
 function MajorChange({ userData }: userDataProps) {
+  const token = getToken() as string;
   const [isView, setIsView] = useState(false);
   const [fileImg, setFileImg] = useState<File | null>(null);
   const [infoInputValue, setInfoInputValue] = useState<string>('');
@@ -44,7 +46,7 @@ function MajorChange({ userData }: userDataProps) {
       alert('제출 되었습니다');
     }
 
-    requestPatchMajorUpload(fileImg, userData.major);
+    requestPatchMajorUpload(fileImg, userData.major, token);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -7,8 +7,10 @@ import PostContainer from '../board/PostContainer';
 import { requestGetUserProfile } from '../../apis/users';
 import { UserProfileResponseType } from '../../types/user';
 import ProfileImage from '../common/ProfileImage';
+import { getToken } from '../../utils/user';
 
 function EditProfile() {
+  const token = getToken() as string;
   const [isOpen, setIsOpen] = useState(false);
   const [fileImg, setFileImg] = useState('');
   const [userData, setUserData] = useState<UserProfileResponseType>({
@@ -28,7 +30,7 @@ function EditProfile() {
 
   useEffect(() => {
     (async () => {
-      const resultUserData = await requestGetUserProfile();
+      const resultUserData = await requestGetUserProfile(token);
 
       setUserData(resultUserData);
       setFileImg(resultUserData.profileImage);
