@@ -1,40 +1,25 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import { ChatRoom } from '../../../pages/chatting';
 
-function ChatList() {
-  const 임시list = [
-    {
-      userNo: 1,
-      createrData: {
-        profileImage: '',
-        nickname: '무친저글링, 제주조랑말, 까지발덩크',
-      },
-    },
-    {
-      userNo: 2,
-      createrData: {
-        profileImage: '',
-        nickname: '제주조랑말, 까지발덩크',
-      },
-    },
-    {
-      userNo: 3,
-      createrData: {
-        profileImage: '',
-        nickname: '까지발덩크',
-      },
-    },
-  ];
+interface ChatRoomProps {
+  chatData: ChatRoom[];
+}
 
+function ChatList({ chatData }: ChatRoomProps) {
   return (
     <>
-      {임시list.map(item => {
+      {chatData.map(item => {
         return (
-          <ListBox>
-            <Box key={item.userNo}>
-              <ProfileImg>{item.createrData.profileImage}</ProfileImg>
-              <Nickname>{item.createrData.nickname}</Nickname>
-            </Box>
+          <ListBox key={item.chatRoomNo}>
+            <Item>
+              <ImageWrapper>
+                {item.users.map(user => (
+                  <Img src={user.profileImage} />
+                ))}
+              </ImageWrapper>
+              <Nickname>{item.roomName}</Nickname>
+            </Item>
           </ListBox>
         );
       })}
@@ -50,21 +35,31 @@ const ListBox = styled.div`
   padding: 16px 10px;
 `;
 
-const Box = styled.div`
+const Item = styled.div`
   display: flex;
+  align-items: center;
+
+  margin-bottom: 20px;
   min-width: 150px;
 `;
 
-const ProfileImg = styled.div`
-  width: 24px;
-  height: 24px;
-  margin-right: 10px;
-  background-color: #f3f4f5;
+const ImageWrapper = styled.div`
+  display: flex;
+`;
+
+const Img = styled.img`
+  width: 30px;
+  height: 30px;
+  margin-right: 4px;
+  border-radius: 50%;
+  border: 1px solid ${({ theme }) => theme.palette.background.grey};
 `;
 
 const Nickname = styled.div`
   width: 200px;
-  font-size: 14px;
+  margin-left: 12px;
+  font-size: 15px;
+  font-weight: 600;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

@@ -21,7 +21,7 @@ function ChattingListBox({ chatData, setChatData }: ChatDataProps) {
     {
       id: 1,
       title: '채팅',
-      content: <ChatList />,
+      content: <ChatList chatData={chatData} />,
     },
   ];
 

@@ -16,8 +16,6 @@ function ParticipantsList({ chatData }: ChatUserProps) {
     setIsOpen(true);
   };
 
-  console.log(chatData);
-
   return (
     <>
       {chatData.map((item, index) => {
@@ -35,7 +33,7 @@ function ParticipantsList({ chatData }: ChatUserProps) {
                       {/* <ElseProfile /> */}
                     </Modal>
                   )}
-                  <ProfileImage src={user.profileImage} size={23} />
+                  <ProfileImage src={user.profileImage} size={50} />
                   <Nickname>{user.nickname}</Nickname>
                 </Item>
               ))}
@@ -57,10 +55,15 @@ const ListBox = styled.div`
 
 const Item = styled.div`
   display: flex;
+  align-items: center;
+  margin-bottom: 20px;
   min-width: 150px;
+  min-height: 50px;
 `;
 
 const Nickname = styled.span`
-  font-size: 14px;
+  margin-left: 20px;
+  font-size: 15px;
+  font-weight: 600;
   color: ${({ theme }) => theme.palette.font.headline};
 `;

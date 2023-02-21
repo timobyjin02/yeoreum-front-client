@@ -1,24 +1,24 @@
 import styled from '@emotion/styled';
 import ChattingContent from './ChattingContent';
 import ChattingInput from './ChattingInput';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { ChatLogType } from '../../../types/chat';
-import { socket } from '../../../pages/_app';
+import { ChatRoom } from '../../../pages/chatting';
 
 interface ChatsProps {
   chats: ChatLogType[];
+  chatData: ChatRoom[];
   setChats: React.Dispatch<React.SetStateAction<ChatLogType[]>>;
 }
 
-function ChattingBox({ chats, setChats }: ChatsProps) {
-  // const [chats, setChats] = useState<ChatLogType[]>([]);
-  // const [rooms, setRooms] = useState<ChatRoom[]>([]);
-
+function ChattingBox({ chats, chatData, setChats }: ChatsProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   return (
     <Container>
-      <Header>홍유진, 김현수, 김민호....</Header>
+      {chatData.map((chatRoom, index) => (
+        <Header key={index}>{chatRoom.roomName}</Header>
+      ))}
       <ChattingContent
         scrollRef={scrollRef}
         chats={chats}

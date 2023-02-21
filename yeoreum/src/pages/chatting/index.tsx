@@ -42,7 +42,7 @@ export default function Chatting() {
 
   return (
     <Container>
-      <ChattingBox chats={chats} setChats={setChats} />
+      <ChattingBox chats={chats} chatData={chatData} setChats={setChats} />
       <ChattingListsBox chatData={chatData} setChatData={setChatData} />
     </Container>
   );
