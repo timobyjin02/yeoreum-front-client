@@ -5,8 +5,10 @@ import UserSearch from '../../components/friend/page/UserSearch';
 import MyFriendList from '../../components/friend/page/MyFriendList';
 import { requestGetSearchFriends } from '../../apis/friends';
 import { FriendResponseType } from '../../types/friend';
+import { getToken } from '../../utils/user';
 
 function index() {
+  const token = getToken() as string;
   const [searchTerm, setSearchTerm] = useState('');
   const [friendList, setFriendList] = useState<FriendResponseType>([]);
   const [loading, setLoading] = useState(false);
@@ -14,7 +16,7 @@ function index() {
   useEffect(() => {
     (async () => {
       setLoading(true);
-      const friends = await requestGetSearchFriends(searchTerm);
+      const friends = await requestGetSearchFriends(searchTerm, token);
       setFriendList(friends);
 
       if (!searchTerm) {
