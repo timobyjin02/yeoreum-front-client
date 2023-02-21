@@ -1,35 +1,57 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
+import { requestPatchEditProfile } from '../../apis/users';
+import { UserProfileResponseType } from '../../types/user';
+import MajorChange from './MajorChange';
 
-function EditInfo() {
-  const [inputValue, setInputValue] = useState({
-    nickname: '',
-    department: '',
-    email: '',
-    description: '',
-  });
-
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+interface ProfileEditProps {
+  userData: any;
+  setUserData: React.Dispatch<React.SetStateAction<UserProfileResponseType>>;
+}
+function EditInfo({ userData, setUserData }: ProfileEditProps) {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const { value, name } = e.target;
-    setInputValue({
-      ...inputValue,
+
+    setUserData({
+      ...userData,
       [name]: value,
     });
+  };
+
+  const handleClickChange = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault;
+    requestPatchEditProfile(userData.nickname, userData.description);
   };
 
   return (
     <ProfileInfoWrapper>
       <ProfileInfoes>
         <InfoTitle>닉네임</InfoTitle>
-        <InfoInput name="nickname" onChange={onChange} />
+        <InfoInput
+          name="nickname"
+          onChange={handleInputChange}
+          value={userData.nickname}
+        />
         <InfoTitle>이메일</InfoTitle>
-        <InfoInput name="email" onChange={onChange} />
+        <InfoInput
+          name="email"
+          onChange={handleInputChange}
+          value={userData.email}
+          className={'readOnly'}
+          readOnly
+        />
         <InfoTitle>학과</InfoTitle>
-        <InfoInput name="department" onChange={onChange} />
+        <MajorChange userData={userData} />
         <InfoTitle>소개</InfoTitle>
-        <InfoDescription name="description"></InfoDescription>
+        <InfoDescription
+          name="description"
+          onChange={handleInputChange}
+          value={userData.description}
+        />
       </ProfileInfoes>
-      <EditButton>수정</EditButton>
+      <EditButton onClick={handleClickChange}>수정</EditButton>
     </ProfileInfoWrapper>
   );
 }
@@ -38,7 +60,7 @@ export default EditInfo;
 
 const ProfileInfoWrapper = styled.div``;
 
-const ProfileInfoes = styled.form``;
+const ProfileInfoes = styled.div``;
 
 const InfoTitle = styled.div`
   margin-bottom: 8px;
@@ -64,6 +86,29 @@ const InfoInput = styled.input`
   &::placeholder {
     color: #8e8e8e;
   }
+  &.readOnly {
+    outline: none;
+    color: ${({ theme }) => theme.palette.font.disable};
+  }
+`;
+
+const MajorWrapper = styled.div`
+  display: flex;
+`;
+
+const MajorChangeButton = styled.button`
+  width: 80px;
+  height: 38px;
+  border-radius: 8px;
+  margin-left: 10px;
+  color: ${({ theme }) => theme.palette.font.white};
+  background: ${({ theme }) => theme.palette.main};
+
+  cursor: pointer;
+`;
+
+const ImgEditInput = styled.input`
+  display: none;
 `;
 
 const InfoDescription = styled.textarea`
@@ -92,7 +137,7 @@ const InfoDescription = styled.textarea`
 const EditButton = styled.button`
   float: right;
   width: 70px;
-  height: 44px;
+  height: 40px;
   border-radius: 8px;
   color: ${({ theme }) => theme.palette.font.white};
   background: ${({ theme }) => theme.palette.main};

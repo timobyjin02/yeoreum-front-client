@@ -1,24 +1,46 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import EditInfo from './EditInfo';
 import Modal from '../common/Modal';
 import ModalContent from './ModalContent';
 import PostContainer from '../board/PostContainer';
+import { requestGetUserProfile } from '../../apis/users';
+import { UserProfileResponseType } from '../../types/user';
+import ProfileImage from '../common/ProfileImage';
 
 function EditProfile() {
   const [isOpen, setIsOpen] = useState(false);
   const [fileImg, setFileImg] = useState('');
+  const [userData, setUserData] = useState<UserProfileResponseType>({
+    userNo: 0,
+    email: '',
+    nickname: '',
+    major: '',
+    gender: 0,
+    description: '',
+    profileImage: '',
+    grade: '',
+  });
 
   const onClick = () => {
     setIsOpen(true);
   };
+
+  useEffect(() => {
+    (async () => {
+      const resultUserData = await requestGetUserProfile();
+
+      setUserData(resultUserData);
+      setFileImg(resultUserData.profileImage);
+    })();
+  }, []);
 
   return (
     <PostContainer>
       <Title>계정설정</Title>
       <ProfileContainer>
         <ProfileImgWrapper>
-          <ProfileImg src={fileImg} />
+          <ProfileImage src={fileImg} size={70} />
           <ProfileImgEditBtn onClick={onClick}>프로필 변경</ProfileImgEditBtn>
           {isOpen && (
             <Modal
@@ -36,7 +58,7 @@ function EditProfile() {
             </Modal>
           )}
         </ProfileImgWrapper>
-        <EditInfo />
+        <EditInfo userData={userData} setUserData={setUserData} />
       </ProfileContainer>
     </PostContainer>
   );
@@ -78,19 +100,11 @@ const ProfileImgWrapper = styled.div`
   }
 `;
 
-const ProfileImg = styled.img`
-  width: 70px;
-  height: 70px;
-  border-radius: 50px;
-  object-fit: cover;
-  background-color: #aeaeae;
-`;
-
 const ProfileImgEditBtn = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100px;
+  width: 110px;
   height: 48px;
   margin-top: 18px;
   border-radius: 8px;

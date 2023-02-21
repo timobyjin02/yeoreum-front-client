@@ -24,7 +24,6 @@ function Profile() {
     (async () => {
       const userProfile = await requestGetUserProfile();
 
-      // console.log(userProfile);
       setUserProfileInfo(userProfile);
     })();
   }, []);
