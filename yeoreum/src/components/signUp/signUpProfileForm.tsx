@@ -1,5 +1,6 @@
 import { FocusEvent, ChangeEvent } from 'react';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 import Image from 'next/image';
 import {
   Container,
@@ -9,7 +10,7 @@ import {
   Input,
   Label,
   Button,
-  SubmitLink,
+  SubmitWrapper,
   Submit,
   GenderWrapper,
   GenderLabel,
@@ -29,6 +30,8 @@ import validateNickname from '../../apis/validateNickname';
 import { ConstType, RegexType } from '../../types/signUp';
 
 const SignUpProfileForm = () => {
+  const router = useRouter();
+  const USER_NO = router.query.userNo;
   const MESSAGE_BY_TYPE: ConstType = SIGN_UP_PROFILE_MESSAGE_BY_TYPE;
   const REGEX_BY_TYPE: RegexType = SIGN_UP_PROFILE_REGEX_BY_TYPE;
   const [user, setUser, onChangeValue, onChangeValidity] = useForm(
@@ -91,17 +94,34 @@ const SignUpProfileForm = () => {
       });
     });
   };
-  console.log(nicknameDuplicationStatus);
   const onChangeMajor = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    onValidate(name, value);
     onChangeValue(name, value);
+    const { isValid, message } = onValidate(name, value);
+    onChangeValidity(name, isValid, message);
   };
 
   const onChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     if (value.length > 0) onChangeValidity(name, true, '');
     onChangeValue(name, value);
+  };
+
+  const onSubmit = () => {
+    if (!nicknameDuplicationStatus.duplication) {
+      alert('닉네임 중복 확인버튼을 눌러주세요');
+      return;
+    }
+    for (let key in user) {
+      if (!user[key].validity) {
+        alert(user[key] + '가 유효하지 않습니다.');
+        return;
+      }
+    }
+
+    router.push({
+      pathname: `/signup/certificate/${USER_NO}`,
+    });
   };
   return (
     <Container onSubmit={e => e.preventDefault()}>
@@ -192,9 +212,9 @@ const SignUpProfileForm = () => {
           />
         </Label>
       </DescriptionWrapper>
-      <SubmitLink href="">
-        <Submit>제출</Submit>
-      </SubmitLink>
+      <SubmitWrapper>
+        <Submit onClick={onSubmit}>다음</Submit>
+      </SubmitWrapper>
     </Container>
   );
 };
