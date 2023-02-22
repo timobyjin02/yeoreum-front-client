@@ -58,7 +58,7 @@ function MajorChange({ userData }: userDataProps) {
       <MajorWrap>
         <InfoInput
           name="major"
-          value={userData.major}
+          value={userData?.major || ''}
           className={'readOnly'}
           readOnly
         />

@@ -1,17 +1,28 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import { remote, requestPatchEditProfile } from '../../apis/users';
 import { UserProfileResponseType } from '../../types/user';
 import MajorChange from './MajorChange';
 import { getToken } from '../../utils/user';
+import {
+  QueryObserverResult,
+  RefetchOptions,
+  RefetchQueryFilters,
+} from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 
 interface ProfileEditProps {
+  refetch: <TPageData>(
+    options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined,
+  ) => Promise<QueryObserverResult<any, AxiosError<unknown, any>>>;
   userData: any;
   setUserData: React.Dispatch<React.SetStateAction<UserProfileResponseType>>;
 }
-function EditInfo({ userData, setUserData }: ProfileEditProps) {
-  const token = getToken() as string;
+function EditInfo({ refetch, userData, setUserData }: ProfileEditProps) {
+  useEffect(() => {
+    refetch();
+  }, []);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -29,12 +40,7 @@ function EditInfo({ userData, setUserData }: ProfileEditProps) {
     const res = await requestPatchEditProfile(
       userData.nickname,
       userData.description,
-      // token,
     );
-
-    // const newToken = res.accessToken;
-
-    // localStorage.setItem('token', newToken);
 
     window.location.reload();
   };
@@ -46,13 +52,13 @@ function EditInfo({ userData, setUserData }: ProfileEditProps) {
         <InfoInput
           name="nickname"
           onChange={handleInputChange}
-          value={userData.nickname}
+          value={userData?.nickname || ''}
         />
         <InfoTitle>이메일</InfoTitle>
         <InfoInput
           name="email"
           onChange={handleInputChange}
-          value={userData.email}
+          value={userData?.email || ''}
           className={'readOnly'}
           readOnly
         />
@@ -62,7 +68,7 @@ function EditInfo({ userData, setUserData }: ProfileEditProps) {
         <InfoDescription
           name="description"
           onChange={handleInputChange}
-          value={userData.description}
+          value={userData?.description || ''}
         />
       </ProfileInfoes>
       <EditButton onClick={handleClickChange}>수정</EditButton>

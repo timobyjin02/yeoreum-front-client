@@ -1,23 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { requestGetUserData } from '../../apis/notices';
+import { requestGetUserProfile } from '../../apis/users';
 
-const useUserProfileQuery = (token: string) => {
+const useUserProfileQuery = () => {
   return useQuery<any, AxiosError, any, ['userProfile']>(
     ['userProfile'],
-    () => requestGetUserData(token),
+    requestGetUserProfile,
     {
-      placeholderData: {
-        data: {
-          response: {
-            userProfile: {
-              profileImage: null,
-            },
-          },
-        },
-      },
       retry: 0,
-      // refetchOnWindowFocus: false
     },
   );
 };

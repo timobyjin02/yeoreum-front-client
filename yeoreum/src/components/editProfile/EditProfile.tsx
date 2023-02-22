@@ -8,6 +8,7 @@ import { requestGetUserProfile } from '../../apis/users';
 import { UserProfileResponseType } from '../../types/user';
 import ProfileImage from '../common/ProfileImage';
 import { getToken } from '../../utils/user';
+import { useUserProfileQuery } from '../../hooks/queries/users';
 
 function EditProfile() {
   const token = getToken() as string;
@@ -28,14 +29,13 @@ function EditProfile() {
     setIsOpen(true);
   };
 
-  useEffect(() => {
-    (async () => {
-      const resultUserData = await requestGetUserProfile();
+  const { data, refetch } = useUserProfileQuery();
+  const user = data?.data.response.userProfile;
 
-      setUserData(resultUserData);
-      setFileImg(resultUserData.profileImage);
-    })();
-  }, []);
+  useEffect(() => {
+    setUserData(user);
+    setFileImg(user?.profileImage);
+  }, [user]);
 
   return (
     <PostContainer>
@@ -60,7 +60,11 @@ function EditProfile() {
             </Modal>
           )}
         </ProfileImgWrapper>
-        <EditInfo userData={userData} setUserData={setUserData} />
+        <EditInfo
+          refetch={refetch}
+          userData={userData}
+          setUserData={setUserData}
+        />
       </ProfileContainer>
     </PostContainer>
   );

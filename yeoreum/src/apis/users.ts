@@ -3,10 +3,8 @@ import tokenAxios from './config';
 
 export const remote = axios.create();
 
-const requestGetUserProfile = async () => {
-  const { data } = await tokenAxios.get(`/users/profile`, {});
-
-  return data.response.userProfile;
+const requestGetUserProfile = () => {
+  return tokenAxios.get(`/users/profile`);
 };
 
 const requestGetUsers = async (value: string, token: string) => {

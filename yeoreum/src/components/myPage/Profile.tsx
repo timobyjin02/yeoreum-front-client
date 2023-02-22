@@ -5,6 +5,7 @@ import { requestGetUserProfile } from '../../apis/users';
 import { UserProfileResponseType } from '../../types/user';
 import ProfileImage from '../common/ProfileImage';
 import { getToken } from '../../utils/user';
+import { useUserProfileQuery } from '../../hooks/queries/users';
 
 function Profile() {
   const token = getToken() as string;
@@ -21,25 +22,19 @@ function Profile() {
     });
 
   const router = useRouter();
-
-  useEffect(() => {
-    (async () => {
-      const userProfile = await requestGetUserProfile();
-
-      setUserProfileInfo(userProfile);
-    })();
-  }, []);
+  const { data } = useUserProfileQuery();
+  const user = data?.data.response.userProfile;
 
   return (
     <Container>
       <UserProfile>
         <ImageWrapper>
-          <ProfileImage src={userProfileInfo.profileImage} size={70} />
+          <ProfileImage src={user?.profileImage} size={70} />
         </ImageWrapper>
         <InfoWrapper>
-          <Major>{userProfileInfo.major}</Major>
-          <Nickname>{userProfileInfo.nickname}</Nickname>
-          <Description>{userProfileInfo.description}</Description>
+          <Major>{user?.major}</Major>
+          <Nickname>{user?.nickname}</Nickname>
+          <Description>{user?.description}</Description>
         </InfoWrapper>
       </UserProfile>
       <EditButton
