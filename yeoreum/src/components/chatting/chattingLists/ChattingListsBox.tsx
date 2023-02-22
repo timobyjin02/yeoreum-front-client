@@ -2,20 +2,26 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import ParticipantsList from './ParticipantsList';
 import ChatList from './ChatList';
+import { ChatRoom } from '../../../pages/chatting';
 
-function ChattingListBox() {
+interface ChatDataProps {
+  chatData: ChatRoom[];
+  setChatData: React.Dispatch<React.SetStateAction<ChatRoom[]>>;
+}
+
+function ChattingListBox({ chatData, setChatData }: ChatDataProps) {
   const [viewList, setViewList] = useState(0);
 
   const tabs = [
     {
       id: 0,
       title: '참여인원',
-      content: <ParticipantsList />,
+      content: <ParticipantsList chatData={chatData} />,
     },
     {
       id: 1,
       title: '채팅',
-      content: <ChatList />,
+      content: <ChatList chatData={chatData} />,
     },
   ];
 
