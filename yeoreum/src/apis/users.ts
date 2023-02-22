@@ -27,12 +27,10 @@ const requestGetUserBoards = async (type: number, token: string) => {
   return data.response.users;
 };
 
-const requestPutEditProfileImage = async (file: Blob) => {
+const requestPutEditProfileImage = (file: Blob) => {
   const formData = new FormData();
   formData.append('file', file);
-  const { data } = await tokenAxios.put(`/users/profile-image`, formData, {});
-
-  return data.response;
+  return tokenAxios.put(`/users/profile-image`, formData);
 };
 
 const requestPatchEditProfile = (nickname: string, description: string) => {

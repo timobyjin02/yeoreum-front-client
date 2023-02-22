@@ -4,7 +4,9 @@ import { useRouter } from 'next/router';
 import {
   requestGetUserProfile,
   requestPatchEditProfile,
+  requestPutEditProfileImage,
 } from '../../apis/users';
+import { getToken } from '../../utils/user';
 
 const useUserProfileQuery = () => {
   return useQuery<any, AxiosError, any, ['userProfile']>(
@@ -33,4 +35,22 @@ const useProfileEditMutation = (nickname: string, description: string) => {
   });
 };
 
-export { useUserProfileQuery, useProfileEditMutation };
+const useProfileImageEditMutation = () => {
+  return useMutation((file: Blob) => requestPutEditProfileImage(file), {
+    onError: (error: any) => {
+      console.log('프로필 수정 에러', error);
+    },
+    onSuccess: data => {
+      console.log('프로필 수정 성공', data);
+      const newAccessToken = data.data.response.accessToken;
+      localStorage.setItem('token', newAccessToken);
+      console.log(getToken());
+    },
+  });
+};
+
+export {
+  useUserProfileQuery,
+  useProfileEditMutation,
+  useProfileImageEditMutation,
+};

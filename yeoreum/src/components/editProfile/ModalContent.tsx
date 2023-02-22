@@ -2,6 +2,7 @@ import React, { useCallback, useRef } from 'react';
 import styled from '@emotion/styled';
 import { remote, requestPutEditProfileImage } from '../../apis/users';
 import { getToken } from '../../utils/user';
+import { useProfileImageEditMutation } from '../../hooks/queries/users';
 
 interface EditImageProps {
   fileImg: string;
@@ -10,7 +11,6 @@ interface EditImageProps {
 }
 
 function ModalContent({ fileImg, setFileImg, onClose }: EditImageProps) {
-  const token = getToken() as string;
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const handleUploadImageClick = useCallback(() => {
@@ -20,19 +20,14 @@ function ModalContent({ fileImg, setFileImg, onClose }: EditImageProps) {
     inputRef.current.click();
   }, []);
 
+  const { mutate } = useProfileImageEditMutation();
+
   const handleUploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     if (!e.target.files) return;
 
     setFileImg(URL.createObjectURL(e.target.files[0]));
-
-    const res = await requestPutEditProfileImage(e.target.files[0]);
-
-    // const newToken = res.accessToken;
-
-    // localStorage.setItem('token', newToken);
-
-    window.location.reload();
+    mutate(e.target.files[0]);
 
     handleClose();
   };

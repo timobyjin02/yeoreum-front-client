@@ -29,7 +29,7 @@ function EditProfile() {
     setIsOpen(true);
   };
 
-  const { data, refetch } = useUserProfileQuery();
+  const { data } = useUserProfileQuery();
   const user = data?.data.response.userProfile;
 
   useEffect(() => {
@@ -60,11 +60,7 @@ function EditProfile() {
             </Modal>
           )}
         </ProfileImgWrapper>
-        <EditInfo
-          refetch={refetch}
-          userData={userData}
-          setUserData={setUserData}
-        />
+        <EditInfo userData={userData} setUserData={setUserData} />
       </ProfileContainer>
     </PostContainer>
   );
