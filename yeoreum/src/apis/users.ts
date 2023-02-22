@@ -8,7 +8,7 @@ const requestGetUserProfile = () => {
 };
 
 const requestGetUsers = async (value: string, token: string) => {
-  const { data } = await tokenAxios.get(`/users/?nickname=${value}`, {
+  const { data } = await remote.get(`/users/?nickname=${value}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -30,28 +30,14 @@ const requestGetUserBoards = async (type: number, token: string) => {
 const requestPutEditProfileImage = async (file: Blob) => {
   const formData = new FormData();
   formData.append('file', file);
-  const { data } = await tokenAxios.put(`/users/profile-image`, formData, {
-    // headers: {
-    //   Authorization: `Bearer ${token}`,
-    // },
-  });
+  const { data } = await tokenAxios.put(`/users/profile-image`, formData, {});
 
   return data.response;
 };
 
-const requestPatchEditProfile = async (
-  nickname: string,
-  description: string,
-  // token: string,
-) => {
+const requestPatchEditProfile = (nickname: string, description: string) => {
   const body = { nickname, description };
-  const { data } = await tokenAxios.patch(`/users/profile`, body, {
-    // headers: {
-    //   Authorization: `Bearer ${token}`,
-    // },
-  });
-
-  return data.response.user;
+  return tokenAxios.patch(`/users/profile`, body);
 };
 
 const requestPatchMajorUpload = (

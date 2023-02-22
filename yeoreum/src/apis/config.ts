@@ -19,20 +19,20 @@ tokenAxios.interceptors.request.use(
   },
 );
 
-tokenAxios.interceptors.response.use(
-  response => {
-    const newToken = response.data.accessToken;
-    if (newToken) {
-      localStorage.setItem('token', newToken);
-      tokenAxios.defaults.headers.common[
-        'Authorization'
-      ] = `Bearer ${newToken}`;
-    }
-    return response;
-  },
-  error => {
-    return Promise.reject(error);
-  },
-);
+// tokenAxios.interceptors.response.use(
+//   response => {
+//     const newToken = response.data.accessToken;
+//     if (newToken) {
+//       localStorage.setItem('token', newToken);
+//       tokenAxios.defaults.headers.common[
+//         'Authorization'
+//       ] = `Bearer ${newToken}`;
+//     }
+//     return response;
+//   },
+//   error => {
+//     return Promise.reject(error);
+//   },
+// );
 
 export default tokenAxios;

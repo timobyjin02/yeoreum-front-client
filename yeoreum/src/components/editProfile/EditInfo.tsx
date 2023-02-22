@@ -5,24 +5,21 @@ import { remote, requestPatchEditProfile } from '../../apis/users';
 import { UserProfileResponseType } from '../../types/user';
 import MajorChange from './MajorChange';
 import { getToken } from '../../utils/user';
+
 import {
-  QueryObserverResult,
-  RefetchOptions,
-  RefetchQueryFilters,
-} from '@tanstack/react-query';
-import { AxiosError } from 'axios';
+  useProfileEditMutation,
+  useUserProfileQuery,
+} from '../../hooks/queries/users';
 
 interface ProfileEditProps {
-  refetch: <TPageData>(
-    options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined,
-  ) => Promise<QueryObserverResult<any, AxiosError<unknown, any>>>;
   userData: any;
   setUserData: React.Dispatch<React.SetStateAction<UserProfileResponseType>>;
 }
-function EditInfo({ refetch, userData, setUserData }: ProfileEditProps) {
+function EditInfo({ userData, setUserData }: ProfileEditProps) {
+  const { refetch } = useUserProfileQuery();
   useEffect(() => {
     refetch();
-  }, []);
+  }, [refetch]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -35,15 +32,10 @@ function EditInfo({ refetch, userData, setUserData }: ProfileEditProps) {
     });
   };
 
-  const handleClickChange = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault;
-    const res = await requestPatchEditProfile(
-      userData.nickname,
-      userData.description,
-    );
-
-    window.location.reload();
-  };
+  const { mutate: profileEditHandler } = useProfileEditMutation(
+    userData?.nickname,
+    userData?.description,
+  );
 
   return (
     <ProfileInfoWrapper>
@@ -71,7 +63,7 @@ function EditInfo({ refetch, userData, setUserData }: ProfileEditProps) {
           value={userData?.description || ''}
         />
       </ProfileInfoes>
-      <EditButton onClick={handleClickChange}>수정</EditButton>
+      <EditButton onClick={() => profileEditHandler()}>수정</EditButton>
     </ProfileInfoWrapper>
   );
 }

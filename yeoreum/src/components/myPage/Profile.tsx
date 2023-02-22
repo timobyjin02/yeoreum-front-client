@@ -1,26 +1,9 @@
-import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
-import { requestGetUserProfile } from '../../apis/users';
-import { UserProfileResponseType } from '../../types/user';
 import ProfileImage from '../common/ProfileImage';
-import { getToken } from '../../utils/user';
 import { useUserProfileQuery } from '../../hooks/queries/users';
 
 function Profile() {
-  const token = getToken() as string;
-  const [userProfileInfo, setUserProfileInfo] =
-    useState<UserProfileResponseType>({
-      userNo: 0,
-      email: '',
-      nickname: '',
-      major: '',
-      gender: 0,
-      description: '',
-      profileImage: '',
-      grade: '',
-    });
-
   const router = useRouter();
   const { data } = useUserProfileQuery();
   const user = data?.data.response.userProfile;
