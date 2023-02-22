@@ -105,3 +105,23 @@ export const SIGN_UP_PROFILE_REGEX_BY_TYPE = {
   nickname: /^(?=.*[a-zA-Z0-9가-힣])[a-zA-Z0-9가-힣]{2,10}$/,
   major: /^(?=.*[a-zA-Z가-힣])[a-zA-Z가-힣]{2,20}$/,
 };
+
+export const SIGN_UP_CERTIFICATE_INITIAL = {
+  major: {
+    value: '',
+    validity: undefined,
+    message: '',
+  },
+  studentId: {
+    value: '',
+    validity: undefined,
+    message: '',
+  },
+};
+
+export const SIGN_UP_CERTIFICATE_MESSAGE_BY_TYPE = {
+  major: {
+    success: '학생증을 업로드 해주세요.',
+    error: '학생증을 업로드 해주세요.',
+  },
+};
