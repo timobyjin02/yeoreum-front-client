@@ -3,18 +3,14 @@ import tokenAxios from './config';
 
 export const remote = axios.create();
 
-const requestGetUserProfile = async (token: string) => {
-  const { data } = await remote.get(`/api/users/profile`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+const requestGetUserProfile = async () => {
+  const { data } = await tokenAxios.get(`/users/profile`, {});
 
   return data.response.userProfile;
 };
 
 const requestGetUsers = async (value: string, token: string) => {
-  const { data } = await remote.get(`/api/users/?nickname=${value}`, {
+  const { data } = await tokenAxios.get(`/users/?nickname=${value}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -33,13 +29,13 @@ const requestGetUserBoards = async (type: number, token: string) => {
   return data.response.users;
 };
 
-const requestPutEditProfileImage = async (file: Blob, token: string) => {
+const requestPutEditProfileImage = async (file: Blob) => {
   const formData = new FormData();
   formData.append('file', file);
-  const { data } = await remote.put(`/api/users/profile-image`, formData, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+  const { data } = await tokenAxios.put(`/users/profile-image`, formData, {
+    // headers: {
+    //   Authorization: `Bearer ${token}`,
+    // },
   });
 
   return data.response;
@@ -48,13 +44,13 @@ const requestPutEditProfileImage = async (file: Blob, token: string) => {
 const requestPatchEditProfile = async (
   nickname: string,
   description: string,
-  token: string,
+  // token: string,
 ) => {
   const body = { nickname, description };
-  const { data } = await remote.patch(`/api/users/profile`, body, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+  const { data } = await tokenAxios.patch(`/users/profile`, body, {
+    // headers: {
+    //   Authorization: `Bearer ${token}`,
+    // },
   });
 
   return data.response.user;

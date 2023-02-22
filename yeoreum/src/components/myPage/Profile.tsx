@@ -24,7 +24,7 @@ function Profile() {
 
   useEffect(() => {
     (async () => {
-      const userProfile = await requestGetUserProfile(token);
+      const userProfile = await requestGetUserProfile();
 
       setUserProfileInfo(userProfile);
     })();

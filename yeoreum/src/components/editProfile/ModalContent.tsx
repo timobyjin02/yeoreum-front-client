@@ -26,11 +26,11 @@ function ModalContent({ fileImg, setFileImg, onClose }: EditImageProps) {
 
     setFileImg(URL.createObjectURL(e.target.files[0]));
 
-    const res = await requestPutEditProfileImage(e.target.files[0], token);
+    const res = await requestPutEditProfileImage(e.target.files[0]);
 
-    const newToken = res.accessToken;
+    // const newToken = res.accessToken;
 
-    localStorage.setItem('token', newToken);
+    // localStorage.setItem('token', newToken);
 
     window.location.reload();
 

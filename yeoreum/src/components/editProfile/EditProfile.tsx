@@ -30,7 +30,7 @@ function EditProfile() {
 
   useEffect(() => {
     (async () => {
-      const resultUserData = await requestGetUserProfile(token);
+      const resultUserData = await requestGetUserProfile();
 
       setUserData(resultUserData);
       setFileImg(resultUserData.profileImage);

@@ -29,12 +29,12 @@ function EditInfo({ userData, setUserData }: ProfileEditProps) {
     const res = await requestPatchEditProfile(
       userData.nickname,
       userData.description,
-      token,
+      // token,
     );
 
-    const newToken = res.accessToken;
+    // const newToken = res.accessToken;
 
-    localStorage.setItem('token', newToken);
+    // localStorage.setItem('token', newToken);
 
     window.location.reload();
   };
