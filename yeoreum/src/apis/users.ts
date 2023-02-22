@@ -8,7 +8,7 @@ const requestGetUserProfile = () => {
 };
 
 const requestGetUsers = async (value: string, token: string) => {
-  const { data } = await remote.get(`/users/?nickname=${value}`, {
+  const { data } = await remote.get(`/api/users?nickname=${value}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
