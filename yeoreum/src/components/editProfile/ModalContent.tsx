@@ -1,6 +1,6 @@
 import React, { useCallback, useRef } from 'react';
 import styled from '@emotion/styled';
-import { requestPutEditProfileImage } from '../../apis/users';
+import { remote, requestPutEditProfileImage } from '../../apis/users';
 import { getToken } from '../../utils/user';
 
 interface EditImageProps {
@@ -26,7 +26,13 @@ function ModalContent({ fileImg, setFileImg, onClose }: EditImageProps) {
 
     setFileImg(URL.createObjectURL(e.target.files[0]));
 
-    requestPutEditProfileImage(e.target.files[0], token);
+    const res = await requestPutEditProfileImage(e.target.files[0], token);
+
+    const newToken = res.accessToken;
+
+    localStorage.setItem('token', newToken);
+
+    window.location.reload();
 
     handleClose();
   };

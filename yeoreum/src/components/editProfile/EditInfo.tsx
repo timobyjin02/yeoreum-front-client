@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { requestPatchEditProfile } from '../../apis/users';
+import { useRouter } from 'next/router';
+import { remote, requestPatchEditProfile } from '../../apis/users';
 import { UserProfileResponseType } from '../../types/user';
 import MajorChange from './MajorChange';
 import { getToken } from '../../utils/user';
@@ -11,6 +12,7 @@ interface ProfileEditProps {
 }
 function EditInfo({ userData, setUserData }: ProfileEditProps) {
   const token = getToken() as string;
+
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
@@ -22,9 +24,19 @@ function EditInfo({ userData, setUserData }: ProfileEditProps) {
     });
   };
 
-  const handleClickChange = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClickChange = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault;
-    requestPatchEditProfile(userData.nickname, userData.description, token);
+    const res = await requestPatchEditProfile(
+      userData.nickname,
+      userData.description,
+      token,
+    );
+
+    const newToken = res.accessToken;
+
+    localStorage.setItem('token', newToken);
+
+    window.location.reload();
   };
 
   return (

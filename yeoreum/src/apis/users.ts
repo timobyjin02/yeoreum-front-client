@@ -1,6 +1,7 @@
 import axios from 'axios';
+import tokenAxios from './config';
 
-const remote = axios.create();
+export const remote = axios.create();
 
 const requestGetUserProfile = async (token: string) => {
   const { data } = await remote.get(`/api/users/profile`, {
@@ -41,21 +42,22 @@ const requestPutEditProfileImage = async (file: Blob, token: string) => {
     },
   });
 
-  return data.response.user;
+  return data.response;
 };
 
-const requestPatchEditProfile = (
+const requestPatchEditProfile = async (
   nickname: string,
   description: string,
   token: string,
 ) => {
   const body = { nickname, description };
-  // console.log(nickname);
-  remote.patch(`/api/users/profile`, body, {
+  const { data } = await remote.patch(`/api/users/profile`, body, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
+
+  return data.response.user;
 };
 
 const requestPatchMajorUpload = (
@@ -73,8 +75,6 @@ const requestPatchMajorUpload = (
       Authorization: `Bearer ${token}`,
     },
   });
-
-  // return data.response.user;
 };
 
 export {

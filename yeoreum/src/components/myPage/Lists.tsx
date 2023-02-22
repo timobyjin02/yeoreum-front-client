@@ -50,7 +50,7 @@ function Lists() {
         {tabs
           .filter(tab => actived === tab.id)
           .map(tab => (
-            <div>{tab.content}</div>
+            <div key={tab.id}>{tab.content}</div>
           ))}
       </ViewList>
     </Container>
