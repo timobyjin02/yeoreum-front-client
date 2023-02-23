@@ -5,7 +5,9 @@ import { store } from '../store/store';
 import { ThemeProvider } from '@emotion/react';
 import theme from '../styles/theme';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { io } from 'socket.io-client';
 import { useRemoveBoardPageData } from '../hooks/useBoardPageData';
+import { getToken } from '../utils/user';
 import AppLayout from '../components/common/AppLayout';
 
 const queryClient = new QueryClient({
@@ -13,6 +15,12 @@ const queryClient = new QueryClient({
     queries: {
       staleTime: Infinity,
     },
+  },
+});
+
+export const socket = io(`${process.env.NEXT_PUBLIC_SOCKET_URL}/chat`, {
+  auth: {
+    token: getToken(),
   },
 });
 

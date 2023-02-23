@@ -7,8 +7,11 @@ import PostContainer from '../board/PostContainer';
 import { requestGetUserProfile } from '../../apis/users';
 import { UserProfileResponseType } from '../../types/user';
 import ProfileImage from '../common/ProfileImage';
+import { getToken } from '../../utils/user';
+import { useUserProfileQuery } from '../../hooks/queries/users';
 
 function EditProfile() {
+  const token = getToken() as string;
   const [isOpen, setIsOpen] = useState(false);
   const [fileImg, setFileImg] = useState('');
   const [userData, setUserData] = useState<UserProfileResponseType>({
@@ -26,14 +29,13 @@ function EditProfile() {
     setIsOpen(true);
   };
 
-  useEffect(() => {
-    (async () => {
-      const resultUserData = await requestGetUserProfile();
+  const { data } = useUserProfileQuery();
+  const user = data?.data.response.userProfile;
 
-      setUserData(resultUserData);
-      setFileImg(resultUserData.profileImage);
-    })();
-  }, []);
+  useEffect(() => {
+    setUserData(user);
+    setFileImg(user?.profileImage);
+  }, [user]);
 
   return (
     <PostContainer>
