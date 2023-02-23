@@ -3,8 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { BoardType } from '../../types/post';
 import PostList from '../board/PostList';
 import { requestGetUserBoards } from '../../apis/users';
+import { getToken } from '../../utils/user';
 
 function Lists() {
+  const token = getToken() as string;
   const [actived, setActived] = useState(0);
   const [posts, setPosts] = useState<BoardType[]>([]);
 
@@ -23,7 +25,7 @@ function Lists() {
 
   useEffect(() => {
     (async () => {
-      const userBoards = await requestGetUserBoards(1);
+      const userBoards = await requestGetUserBoards(1, token);
 
       setPosts(userBoards);
     })();
@@ -48,7 +50,7 @@ function Lists() {
         {tabs
           .filter(tab => actived === tab.id)
           .map(tab => (
-            <div>{tab.content}</div>
+            <div key={tab.id}>{tab.content}</div>
           ))}
       </ViewList>
     </Container>

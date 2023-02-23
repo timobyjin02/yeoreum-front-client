@@ -2,14 +2,6 @@ import axios from 'axios';
 
 const remote = axios.create();
 
-export const config = {
-  headers: {
-    Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN}`,
-  },
-};
-
-export const body = {};
-
 const requestGetFriendsList = async (token: string) => {
   const { data } = await axios('/api/friends', {
     headers: {
@@ -19,16 +11,27 @@ const requestGetFriendsList = async (token: string) => {
   return data.response.friends;
 };
 
-const requestGetSearchFriends = async (value: string) => {
-  const { data } = await remote.get(`/api/friends/${value}`, config);
+const requestGetSearchFriends = async (value: string, token: string) => {
+  const { data } = await remote.get(`/api/friends/${value}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   return data.response;
 };
 
-const requestPostFriendApplication = async (receiverNo: number) => {
+const requestPostFriendApplication = async (
+  receiverNo: number,
+  token: string,
+) => {
   const { data } = await remote.post(
     `/api/friends/requests/${receiverNo}`,
     { receiverNo },
-    config,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
   );
   return data.response;
 };

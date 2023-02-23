@@ -1,43 +1,23 @@
-import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
-import { requestGetUserProfile } from '../../apis/users';
-import { UserProfileResponseType } from '../../types/user';
 import ProfileImage from '../common/ProfileImage';
+import { useUserProfileQuery } from '../../hooks/queries/users';
 
 function Profile() {
-  const [userProfileInfo, setUserProfileInfo] =
-    useState<UserProfileResponseType>({
-      userNo: 0,
-      email: '',
-      nickname: '',
-      major: '',
-      gender: 0,
-      description: '',
-      profileImage: '',
-      grade: '',
-    });
-
   const router = useRouter();
-
-  useEffect(() => {
-    (async () => {
-      const userProfile = await requestGetUserProfile();
-
-      setUserProfileInfo(userProfile);
-    })();
-  }, []);
+  const { data } = useUserProfileQuery();
+  const user = data?.data.response.userProfile;
 
   return (
     <Container>
       <UserProfile>
         <ImageWrapper>
-          <ProfileImage src={userProfileInfo.profileImage} size={70} />
+          <ProfileImage src={user?.profileImage} size={70} />
         </ImageWrapper>
         <InfoWrapper>
-          <Major>{userProfileInfo.major}</Major>
-          <Nickname>{userProfileInfo.nickname}</Nickname>
-          <Description>{userProfileInfo.description}</Description>
+          <Major>{user?.major}</Major>
+          <Nickname>{user?.nickname}</Nickname>
+          <Description>{user?.description}</Description>
         </InfoWrapper>
       </UserProfile>
       <EditButton
