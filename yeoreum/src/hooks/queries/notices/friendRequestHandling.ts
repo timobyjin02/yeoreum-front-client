@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import {
   requestAcceptFriend,
@@ -26,9 +26,17 @@ const useRejectFriend = (
   onError: OnError,
   token: string,
 ) => {
+  const queryClient = useQueryClient();
+
   return useMutation<AxiosResponse<any, any>, unknown, void, unknown>(
     () => requestRejectFriend(friendNo as number, senderUserNo, token),
-    { onSuccess, onError },
+    {
+      onSuccess,
+      onError,
+      onSettled: () => {
+        queryClient.invalidateQueries(['notice']);
+      },
+    },
   );
 };
 

@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import { requestHandleBoard } from '../../../apis/notices/boardRequestHandling';
@@ -11,9 +12,16 @@ const useHandleBoard = (
   onError: OnError,
   token: string,
 ) => {
+  const queryClient = useQueryClient();
   return useMutation<AxiosResponse<any, any>, unknown, void, unknown>(
     () => requestHandleBoard(boardNo, type, isAccepted, token),
-    { onSuccess, onError },
+    {
+      onSuccess,
+      onError,
+      onSettled: () => {
+        queryClient.invalidateQueries(['notice']);
+      },
+    },
   );
 };
 

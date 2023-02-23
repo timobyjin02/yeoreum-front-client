@@ -1,14 +1,13 @@
 import axios from 'axios';
 
-export interface requestAcceptChatBody {
+export interface requestChatBody {
   senderNo: number;
-  receiverNo: number;
   type: number;
 }
 
 const requestAcceptChat = (
   chatRoomNo: number,
-  requestBody: requestAcceptChatBody,
+  requestBody: requestChatBody,
   token: string,
 ) => {
   return axios.patch(`/api/chats/${chatRoomNo}/invitation`, requestBody, {
@@ -16,13 +15,12 @@ const requestAcceptChat = (
   });
 };
 
-// 아직 백엔드에 채팅 초대 거절 api가 없음
 const requestRejectChat = (
   chatRoomNo: number,
-  requestBody: requestAcceptChatBody,
+  requestBody: requestChatBody,
   token: string,
 ) => {
-  return axios.delete(`/api/chats/${chatRoomNo}/invitation`, {
+  return axios.post(`/api/chats/${chatRoomNo}/invitation`, requestBody, {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
