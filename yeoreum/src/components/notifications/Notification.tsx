@@ -3,46 +3,81 @@ import styled from '@emotion/styled';
 import { AlarmType } from '../../types/alarm';
 import noticeDataByType from '../../utils/noticeDataByType';
 import noticeRequestByType from '../../utils/noticeRequestByType';
+import { useReadNoticeMutation } from '../../hooks/queries/notices';
+import { getToken } from '../../utils/user';
 
 interface AlarmListItemProps {
-  alarmInfo: AlarmType;
+  alarmData: AlarmType;
 }
 
-function Notification({ alarmInfo }: AlarmListItemProps) {
-  if (alarmInfo.type < 1 || alarmInfo.type > 11) return null;
+function Notification({ alarmData }: AlarmListItemProps) {
+  if (alarmData.type < 1 || alarmData.type > 12) return null;
 
-  const data = noticeDataByType(alarmInfo);
+  const { mutate } = useReadNoticeMutation(getToken() as string);
 
-  const { accept, reject } = noticeRequestByType(alarmInfo.type);
+  const handleReadNotice = () => mutate(alarmData.noticeNo);
 
-  const { mutate: acceptClick } = data.acceptClickHandler?.(
-    accept.onSuccess,
-    accept.onError,
-  );
-  const { mutate: rejectClick } = data.rejectClickHandler?.(
-    reject.onSuccess,
-    reject.onError,
-  );
+  const data = noticeDataByType(alarmData);
 
-  return (
-    <List>
-      <Light isRead={Boolean(data.isRead)} />
-      <ProfileImage src={data.imageUrl ? data.imageUrl : '/anonymous.png'} />
-      <NotificationText isRead={Boolean(data.isRead)}>
-        {data.text}
-      </NotificationText>
-      {data.acceptBtn && (
-        <Btn onClick={acceptClick} isRead={Boolean(data.isRead)}>
-          {data.acceptBtn}
-        </Btn>
-      )}
-      {data.rejectBtn && (
-        <Btn onClick={rejectClick} isRead={Boolean(data.isRead)}>
-          {data.rejectBtn}
-        </Btn>
-      )}
-    </List>
-  );
+  if (
+    !(
+      alarmData.type === 1 ||
+      alarmData.type === 2 ||
+      alarmData.type === 3 ||
+      alarmData.type === 5 ||
+      alarmData.type === 7
+    )
+  ) {
+    return (
+      <List>
+        <Light
+          style={{ cursor: 'pointer' }}
+          isRead={Boolean(alarmData.isRead)}
+        />
+        <ProfileImage src={data.imageUrl ? data.imageUrl : '/anonymous.png'} />
+        <NotificationText
+          isRead={Boolean(alarmData.isRead)}
+          onClick={alarmData.isRead ? () => {} : handleReadNotice}
+        >
+          {data.text}
+        </NotificationText>
+      </List>
+    );
+  } else {
+    const { accept, reject } = noticeRequestByType(alarmData.type);
+
+    const { mutate: acceptClick } = data.acceptClickHandler?.(
+      accept.onSuccess,
+      accept.onError,
+    );
+    const { mutate: rejectClick } = data.rejectClickHandler?.(
+      reject.onSuccess,
+      reject.onError,
+    );
+
+    return (
+      <List>
+        <Light isRead={Boolean(alarmData.isRead)} />
+        <ProfileImage src={data.imageUrl ? data.imageUrl : '/anonymous.png'} />
+        <NotificationText
+          isRead={Boolean(alarmData.isRead)}
+          onClick={alarmData.isRead ? () => {} : handleReadNotice}
+        >
+          {data.text}
+        </NotificationText>
+        {data.acceptBtn && (
+          <Btn onClick={acceptClick} isRead={Boolean(alarmData.isRead)}>
+            {data.acceptBtn}
+          </Btn>
+        )}
+        {data.rejectBtn && (
+          <Btn onClick={rejectClick} isRead={Boolean(alarmData.isRead)}>
+            {data.rejectBtn}
+          </Btn>
+        )}
+      </List>
+    );
+  }
 }
 
 export default Notification;
@@ -73,9 +108,11 @@ const ProfileImage = styled.img`
 `;
 
 const NotificationText = styled.span<{ isRead: boolean }>`
+  height: 100%;
+  display: flex;
+  align-items: center;
   font-size: 13px;
   flex-grow: 1;
-  display: block;
   color: ${({ isRead }) => (isRead ? 'lightgray' : 'inherit')};
 `;
 

@@ -1,37 +1,64 @@
 import styled from '@emotion/styled';
+import { useReadNoticeMutation } from '../../hooks/queries/notices';
 import { AlarmType } from '../../types/alarm';
 import noticeDataByType from '../../utils/noticeDataByType';
 import noticeRequestByType from '../../utils/noticeRequestByType';
 import sliceString from '../../utils/sliceString';
+import { getToken } from '../../utils/user';
 
 interface AlarmListItemProps {
   alarmData: AlarmType;
 }
 
 function AlarmListItem({ alarmData }: AlarmListItemProps) {
-  if (alarmData.type < 1 || alarmData.type > 11) return null;
+  if (alarmData.type < 1 || alarmData.type > 12) return null;
 
   const data = noticeDataByType(alarmData);
 
-  const { accept, reject } = noticeRequestByType(alarmData.type);
+  const { mutate } = useReadNoticeMutation(getToken() as string);
 
-  const { mutate: acceptClick } = data.acceptClickHandler?.(
-    accept.onSuccess,
-    accept.onError,
-  );
-  const { mutate: rejectClick } = data.rejectClickHandler?.(
-    reject.onSuccess,
-    reject.onError,
-  );
+  const handleReadNotice = () => mutate(alarmData.noticeNo);
 
-  return (
-    <List>
-      <ProfileImage src={data.imageUrl ? data.imageUrl : '/anonymous.png'} />
-      <AlarmText>{sliceString(data.text, 36)}</AlarmText>
-      {data.acceptBtn && <Btn onClick={acceptClick}>{data.acceptBtn}</Btn>}
-      {data.rejectBtn && <Btn onClick={rejectClick}>{data.rejectBtn}</Btn>}
-    </List>
-  );
+  if (
+    !(
+      alarmData.type === 1 ||
+      alarmData.type === 2 ||
+      alarmData.type === 3 ||
+      alarmData.type === 5 ||
+      alarmData.type === 7
+    )
+  ) {
+    return (
+      <List>
+        <ProfileImage src={data.imageUrl ? data.imageUrl : '/anonymous.png'} />
+        <AlarmText onClick={alarmData.isRead ? () => {} : handleReadNotice}>
+          {sliceString(data.text, 36)}
+        </AlarmText>
+      </List>
+    );
+  } else {
+    const { accept, reject } = noticeRequestByType(alarmData.type);
+
+    const { mutate: acceptClick } = data.acceptClickHandler?.(
+      accept.onSuccess,
+      accept.onError,
+    );
+    const { mutate: rejectClick } = data.rejectClickHandler?.(
+      reject.onSuccess,
+      reject.onError,
+    );
+
+    return (
+      <List>
+        <ProfileImage src={data.imageUrl ? data.imageUrl : '/anonymous.png'} />
+        <AlarmText onClick={alarmData.isRead ? () => {} : handleReadNotice}>
+          {sliceString(data.text, 36)}
+        </AlarmText>
+        {data.acceptBtn && <Btn onClick={acceptClick}>{data.acceptBtn}</Btn>}
+        {data.rejectBtn && <Btn onClick={rejectClick}>{data.rejectBtn}</Btn>}
+      </List>
+    );
+  }
 }
 
 export default AlarmListItem;
@@ -55,6 +82,9 @@ const ProfileImage = styled.img`
 `;
 
 const AlarmText = styled.span`
+  height: 100%;
+  display: flex;
+  align-items: center;
   font-size: 13px;
   flex-grow: 1;
 `;

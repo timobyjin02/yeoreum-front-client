@@ -18,7 +18,7 @@ export default function noticeRequestByType(type: number) {
     1: {
       accept: {
         onSuccess: data => {
-          alert('타입 1 게시글에서 초대되었습니다.');
+          alert('타입 1 여름 채팅 초대를 수락했습니다.');
           console.log('알림 타입 1 수락 성공', data);
         },
         onError: error => {
@@ -27,7 +27,7 @@ export default function noticeRequestByType(type: number) {
       },
       reject: {
         onSuccess: data => {
-          alert('타입 1 게시글에서 초대되었습니다.');
+          alert('타입 1 여름 채팅 초대를 거절했습니다.');
           console.log('알림 타입 1 거절 성공', data);
         },
         onError: error => {
@@ -38,7 +38,7 @@ export default function noticeRequestByType(type: number) {
     2: {
       accept: {
         onSuccess: data => {
-          alert('타입 2 게시글에서 초대되었습니다.');
+          alert('타입 2 여름 채팅 초대를 수락했습니다.');
           console.log('알림 타입 2 수락 성공', data);
         },
         onError: error => {
@@ -47,7 +47,7 @@ export default function noticeRequestByType(type: number) {
       },
       reject: {
         onSuccess: data => {
-          alert('타입 2 게시글에서 초대되었습니다.');
+          alert('타입 2 여름 채팅 초대를 거절했습니다.');
           console.log('알림 타입 2 거절 성공', data);
         },
         onError: error => {
@@ -68,7 +68,7 @@ export default function noticeRequestByType(type: number) {
       },
       reject: {
         onSuccess: data => {
-          alert('타입 3 친구 요청을 수락했습니다.');
+          alert('타입 3 친구 요청을 거절했습니다.');
           console.log('알림 타입 3 거절 성공', data);
         },
         onError: error => {
@@ -80,7 +80,7 @@ export default function noticeRequestByType(type: number) {
     5: {
       accept: {
         onSuccess: data => {
-          alert('타입 5 여름 참가 파티에 초대되었습니다.');
+          alert('타입 5 여름 참가 초대를 수락했습니다.');
           console.log('알림 타입 5 수락 성공', data);
         },
         onError: error => {
@@ -89,7 +89,7 @@ export default function noticeRequestByType(type: number) {
       },
       reject: {
         onSuccess: data => {
-          alert('타입 5 여름 참가 파티에 초대되었습니다.');
+          alert('타입 5 여름 참가 초대를 거절했습니다.');
           console.log('알림 타입 5 거절 성공', data);
         },
         onError: error => {
@@ -100,7 +100,7 @@ export default function noticeRequestByType(type: number) {
     7: {
       accept: {
         onSuccess: data => {
-          alert('타입 7 여름 모집 파티에 초대되었습니다.');
+          alert('타입 7 여름 모집 초대를 수락했습니다.');
           console.log('알림 타입 7 수락 성공', data);
         },
         onError: error => {
@@ -109,7 +109,7 @@ export default function noticeRequestByType(type: number) {
       },
       reject: {
         onSuccess: data => {
-          alert('타입 7 여름 모집 파티에 초대되었습니다.');
+          alert('타입 7 여름 모집 초대를 거절했습니다.');
           console.log('알림 타입 7 거절 성공', data);
         },
         onError: error => {
