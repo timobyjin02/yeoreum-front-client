@@ -45,7 +45,7 @@ const AlarmModalBox = styled.div`
   flex-direction: column;
   justify-content: space-between;
   position: absolute;
-  top: 8px;
+  top: 6px;
   width: 100%;
   min-height: 68px;
   max-height: 428px;

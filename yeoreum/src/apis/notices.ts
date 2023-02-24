@@ -23,7 +23,7 @@ const requestPostLogin = () => {
   });
 };
 
-const requestGetUnreadNotices = (token: string) => {
+const requestGetHasUnreadNotices = (token: string) => {
   return axios('/api/notices/unread', {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -31,9 +31,23 @@ const requestGetUnreadNotices = (token: string) => {
   });
 };
 
+const requestPatchReadNotice = (noticeNo: number, token: string) => {
+  console.log(noticeNo, token);
+  return axios.patch(
+    `/api/notices/${noticeNo}`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+};
+
 export {
   requestGetNotices,
   requestGetUserData,
-  requestGetUnreadNotices,
+  requestGetHasUnreadNotices,
+  requestPatchReadNotice,
   requestPostLogin,
 };
