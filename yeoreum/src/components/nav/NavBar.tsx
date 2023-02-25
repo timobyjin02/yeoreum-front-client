@@ -157,12 +157,15 @@ const YeoreumLogo = styled.img<{ service?: boolean }>`
   height: 32px;
   margin-bottom: 1px;
   color: lightgray;
-  margin-right: ${({ service }) => (service ? '30px' : '44px')};
+  margin-right: ${({ service }) => (service ? '20px' : '44px')};
   font-size: 30px;
   font-weight: 600;
   &:hover {
     cursor: pointer;
     transition: 0.5s;
+  }
+  @media (max-width: 640px) {
+    margin-left: 12px;
   }
 `;
 

@@ -6,6 +6,8 @@ import { useRouter } from 'next/router';
 import React, { useRef, useState } from 'react';
 import useLockScroll from '../../hooks/useLockScroll';
 import useOutsideClick from '../../hooks/useOutsideClick';
+import { useAppDispatch, useLoginState } from '../../store/hooks';
+import { logout } from '../../store/modules/login';
 import Menu from './Menu';
 
 const navMenu = [
@@ -24,11 +26,20 @@ interface HamburgerProps {
 
 function Hamburger({ onClose }: HamburgerProps) {
   const router = useRouter();
-  const [authenticated, setAuthenticated] = useState(true);
   const ref = useRef<HTMLDivElement | null>(null);
+
+  const dispatch = useAppDispatch();
+
+  const { userData, isLoggedIn } = useLoginState();
+
   useOutsideClick(ref, onClose);
 
   useLockScroll();
+
+  const handleClickLogout = () => {
+    dispatch(logout());
+    alert('로그아웃 되었습니다.');
+  };
 
   return (
     <HamburgerBackground>
@@ -44,12 +55,12 @@ function Hamburger({ onClose }: HamburgerProps) {
           </CloseButton>
         </CloseDiv>
         <UserInfo>
-          {authenticated ? (
+          {isLoggedIn ? (
             <UserInfoHeader>
               <ProfileWrapper>
-                <ProfileImg />
+                <ProfileImg src="/anonymous.png" />
                 <ProfileMiddle>
-                  <Nickname>안녕하세요안녕하</Nickname>
+                  <Nickname>{userData?.nickname}</Nickname>
                   <MyPageButton
                     onClick={() => {
                       router.push('/mypage');
@@ -87,6 +98,10 @@ function Hamburger({ onClose }: HamburgerProps) {
         </UserInfo>
         <Menu onClose={onClose} alt="menu" options={navMenu} />
         <Menu onClose={onClose} alt="notice-menu" options={noticeMenu} />
+        <Logout onClick={handleClickLogout}>
+          <Image width={18} height={18} alt="logout" src="/icons/logout.svg" />
+          <LogoutText>로그아웃</LogoutText>
+        </Logout>
       </HamburgerModal>
     </HamburgerBackground>
   );
@@ -179,11 +194,10 @@ const ProfileWrapper = styled.div`
   align-items: center;
 `;
 
-const ProfileImg = styled.div`
+const ProfileImg = styled.img`
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background-color: lightgray;
   margin-right: 12px;
   flex-shrink: 0;
 `;
@@ -250,4 +264,22 @@ const LoginButton = styled.button`
   border-radius: 8px;
 
   cursor: pointer;
+`;
+
+const Logout = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: 13px;
+  &:hover {
+    cursor: pointer;
+  }
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+`;
+
+const LogoutText = styled.span`
+  color: ${({ theme }) => theme.palette.font.body};
+  margin-left: 2px;
 `;
