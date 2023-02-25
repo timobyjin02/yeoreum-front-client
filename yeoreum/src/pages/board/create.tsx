@@ -6,7 +6,6 @@ import PostGender from '../../components/board/create/PostGender';
 import PostInput from '../../components/board/create/PostInput';
 import PostPageTitle from '../../components/board/PostPageTitle';
 import { PostCreateData } from '../../types/post';
-import { getToken } from '../../utils/user';
 import { useRouter } from 'next/router';
 import { useCreatePostMutation } from '../../hooks/queries/posts';
 
@@ -23,8 +22,6 @@ function PostCreate() {
   });
 
   const router = useRouter();
-
-  console.log(postData);
 
   const onSuccess = (data: any) => {
     // console.log(data);
