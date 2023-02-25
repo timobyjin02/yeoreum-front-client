@@ -1,31 +1,49 @@
 import styled from '@emotion/styled';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
 import React, { useState, useRef } from 'react';
+import { usePostDetailQuery } from '../../../hooks/queries/posts';
 import useOutsideClick from '../../../hooks/useOutsideClick';
-import { PostType } from '../../../types/post';
 
-interface HeaderProps {
-  postData: PostType;
-}
-
-function PostDetailHeader({ postData }: HeaderProps) {
+function PostDetailHeader() {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef(null);
+
+  const router = useRouter();
+  const boardNo = Number(router.query.postNo);
+
+  const { data } = usePostDetailQuery(boardNo);
+
+  const postData = data?.data.response.board;
 
   useOutsideClick(ref, () => setIsOpen(false));
 
   return (
     <Header>
       <PostPageShortcut>{'≪ 여름게시판'}</PostPageShortcut>
-      <PostTitle>{postData.title}</PostTitle>
+      <PostTitle>{postData?.title}</PostTitle>
       <PostInfo>
         <FlexRowContainer>
-          <PosterProfile />
+          <PosterProfile
+            width={100}
+            height={100}
+            src={'/anonymous.png'}
+            alt="profile"
+            priority
+          />
           <NicknameDate>
-            <Nickname>{postData.nickname}</Nickname>
+            <Nickname>{postData?.hostNickname}</Nickname>
             <PostedAt>2022.10.8</PostedAt>
           </NicknameDate>
         </FlexRowContainer>
-        <MoreBtn onClick={() => setIsOpen(true)} />
+        <MoreBtn
+          width={24}
+          height={24}
+          src={'/icons/more.svg'}
+          alt="profile"
+          priority
+          onClick={() => setIsOpen(true)}
+        />
         {isOpen && (
           <ReportModal ref={ref}>
             <ReportBtn>게시글 신고하기</ReportBtn>
@@ -70,7 +88,7 @@ const PostInfo = styled.div`
   justify-content: space-between;
 `;
 
-const PosterProfile = styled.div`
+const PosterProfile = styled(Image)`
   width: 44px;
   height: 44px;
   border-radius: 50%;
@@ -92,11 +110,15 @@ const PostedAt = styled.span`
   color: ${({ theme }) => theme.palette.fontGrey};
 `;
 
-const MoreBtn = styled.div`
+const MoreBtn = styled(Image)`
   width: 24px;
   height: 24px;
-  background-color: lightgray;
   position: relative;
+  cursor: pointer;
+  &:hover {
+    border-radius: 4px;
+    background-color: ${({ theme }) => theme.palette.lightGrey};
+  }
 `;
 
 const ReportModal = styled.div`
@@ -122,6 +144,6 @@ const ReportBtn = styled.button`
   cursor: pointer;
 
   &:hover {
-    background-color: #e1e1e1;
+    background-color: ${({ theme }) => theme.palette.lightGrey};
   }
 `;

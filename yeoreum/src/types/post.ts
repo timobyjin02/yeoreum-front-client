@@ -26,6 +26,7 @@ export interface BoardType {
   recruitMale: number;
   recruitFemale: number;
   title: string;
+  teamNo?: number;
 }
 
 export interface PostCreateData {
@@ -38,6 +39,13 @@ export interface PostCreateData {
   recruitMale: number;
   recruitFemale: number;
   hostMembers: UserNo[];
+}
+
+export interface ApplicationCreateData {
+  [key: string]: any;
+  title: string;
+  description: string;
+  guests: UserNo[];
 }
 
 type UserNo = number;

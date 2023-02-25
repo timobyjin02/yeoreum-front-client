@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { PostCreateData } from '../types/post';
+import { ApplicationCreateData, PostCreateData } from '../types/post';
+import tokenAxios from './config';
 
 export interface RequestGetAllPostsOption {
   gender?: number | undefined;
@@ -28,12 +29,34 @@ const requestGetPosts = (
   });
 };
 
-const requestPostCreatePost = (token: string, body: PostCreateData) => {
-  return axios.post('/api/boards', body, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+const requestPostCreatePost = (body: PostCreateData) => {
+  return tokenAxios.post('/boards', body);
 };
 
-export { requestGetPosts, requestPostCreatePost };
+const requestPostCreateApplication = (
+  boardNo: number,
+  body: ApplicationCreateData,
+) => {
+  return tokenAxios.post(`/boards/${boardNo}/join`, body);
+};
+
+const requestGetPostDetail = (boardNo: number) => {
+  return tokenAxios(`/boards/${boardNo}`);
+};
+
+const requestGetPostApplication = (boardNo: number) => {
+  return tokenAxios(`/boards/apply/${boardNo}?page=1`);
+};
+
+const requestGetApplicationDetail = (boardNo: number, teamNo: number) => {
+  return tokenAxios(`/boards/apply/${boardNo}/${teamNo}`);
+};
+
+export {
+  requestGetPosts,
+  requestPostCreatePost,
+  requestPostCreateApplication,
+  requestGetPostDetail,
+  requestGetPostApplication,
+  requestGetApplicationDetail,
+};

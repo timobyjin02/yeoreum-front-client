@@ -24,8 +24,6 @@ function PostCreate() {
 
   const router = useRouter();
 
-  const token = getToken() as string;
-
   console.log(postData);
 
   const onSuccess = (data: any) => {
@@ -39,7 +37,7 @@ function PostCreate() {
     alert('알 수 없는 오류가 발생했습니다.');
   };
 
-  const { mutate } = useCreatePostMutation(token, postData, onSuccess, onError);
+  const { mutate } = useCreatePostMutation(postData, onSuccess, onError);
 
   const submitPostCreateHandler = () => {
     if (!postData.title) return alert('제목은 비워둘 수 없습니다.');
@@ -75,7 +73,7 @@ function PostCreate() {
         setPostData={setPostData}
       />
       <PostGender setPostData={setPostData} />
-      <AddPartyMembers setPostData={setPostData} />
+      <AddPartyMembers keyName="hostMembers" setPostData={setPostData} />
       <PostInput
         title="내용"
         keyName="description"

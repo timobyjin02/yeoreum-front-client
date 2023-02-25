@@ -1,8 +1,9 @@
-import styled from '@emotion/styled';
+import { useRouter } from 'next/router';
 import React from 'react';
 import PostDetailHeader from '../../../components/board/post/PostDetailHeader';
 import PostDetailMain from '../../../components/board/post/PostDetailMain';
 import PostContainer from '../../../components/board/PostContainer';
+import { usePostDetailQuery } from '../../../hooks/queries/posts';
 
 function PostDetail() {
   const postData = {
@@ -29,8 +30,8 @@ function PostDetail() {
   };
   return (
     <PostContainer>
-      <PostDetailHeader postData={postData} />
-      <PostDetailMain postData={postData} />
+      <PostDetailHeader />
+      <PostDetailMain />
     </PostContainer>
   );
 }

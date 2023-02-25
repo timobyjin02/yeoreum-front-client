@@ -1,17 +1,20 @@
 import styled from '@emotion/styled';
+import { useRouter } from 'next/router';
 import React from 'react';
-import { PostType } from '../../../types/post';
+import { usePostDetailQuery } from '../../../hooks/queries/posts';
 
-interface MainProps {
-  postData: PostType;
-  application?: boolean;
-}
+function PostDetailMain() {
+  const router = useRouter();
+  const boardNo = Number(router.query.postNo);
 
-function PostDetailMain({ postData, application }: MainProps) {
+  const { data } = usePostDetailQuery(boardNo);
+
+  const postData = data?.data.response.board;
+  console.log(postData);
   return (
     <Main>
       <ContentWrapper>
-        <Content>{postData.description}</Content>
+        <Content>{postData?.description}</Content>
       </ContentWrapper>
       <YeoreumInfo>
         <Subject>만남 정보</Subject>
@@ -20,27 +23,27 @@ function PostDetailMain({ postData, application }: MainProps) {
             <ConditionTitle>모집인원</ConditionTitle>
             <FlexRowContainer>
               <GenderCondition>
-                <임시Icon />
-                <임시Text>{postData.male}명</임시Text>
+                <임시Icon src="/icons/man.svg" />
+                <임시Text>{postData?.male}명</임시Text>
               </GenderCondition>
               <GenderCondition>
-                <임시Icon />
-                <임시Text>{postData.female}명</임시Text>
+                <임시Icon src="/icons/woman.svg" />
+                <임시Text>{postData?.female}명</임시Text>
               </GenderCondition>
             </FlexRowContainer>
           </EachCondition>
           <EachCondition>
             <ConditionTitle>시간</ConditionTitle>
             <Condition>
-              <임시Icon />
-              <임시Text>{postData.meetingTime}</임시Text>
+              <임시Icon src="/icons/clock.svg" />
+              <임시Text>{postData?.meetingTime}</임시Text>
             </Condition>
           </EachCondition>
           <EachCondition>
             <ConditionTitle>장소</ConditionTitle>
             <Condition>
-              <임시Icon />
-              <임시Text>{postData.location}</임시Text>
+              <임시Icon src="/icons/location.svg" />
+              <임시Text>{postData?.location}</임시Text>
             </Condition>
           </EachCondition>
         </Conditions>
@@ -49,22 +52,24 @@ function PostDetailMain({ postData, application }: MainProps) {
         <Subject>여름 멤버</Subject>
         <Members>
           <Member>
-            <MemberProfile />
-            <MemberNickname>{postData.nickname}</MemberNickname>
+            <MemberProfile src="/anonymous.png" />
+            <MemberNickname>{postData?.hostNickname}</MemberNickname>
             <WriterTag>작성자</WriterTag>
           </Member>
-          {postData.hostNicknames.map(nickname => {
+          {postData?.hostMemberNicknames.map((nickname: string) => {
             if (postData.nickname === nickname) return;
             return (
               <Member>
-                <MemberProfile />
+                <MemberProfile src="/anonymous.png" />
                 <MemberNickname>{nickname}</MemberNickname>
               </Member>
             );
           })}
         </Members>
       </YeoreumInfo>
-      <PostButton>{application ? '신청수락' : '신청하기'}</PostButton>
+      <PostButton onClick={() => router.push(`/apply/${boardNo}/create`)}>
+        신청하기
+      </PostButton>
     </Main>
   );
 }
@@ -101,7 +106,7 @@ const YeoreumInfo = styled.div`
 const Subject = styled.div`
   font-size: 1.125rem;
   font-weight: 600;
-  color: #ff444d;
+  color: ${({ theme }) => theme.palette.main};
   margin-bottom: 20px;
 `;
 
@@ -135,11 +140,10 @@ const GenderCondition = styled.div`
   }
 `;
 
-const 임시Icon = styled.div`
+const 임시Icon = styled.img`
   width: 15px;
   height: 15px;
-  background-color: lightgray;
-  margin-right: 5px;
+  margin-right: 2px;
 `;
 
 const 임시Text = styled.span`
@@ -163,7 +167,7 @@ const Member = styled.li`
   margin-bottom: 12px;
 `;
 
-const MemberProfile = styled.div`
+const MemberProfile = styled.img`
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -182,10 +186,10 @@ const WriterTag = styled.div`
   width: 56px;
   height: 24px;
   border-radius: 12px;
-  border: 1px solid #ff565f;
+  border: 1px solid ${({ theme }) => theme.palette.main};
   font-size: 12px;
   font-weight: 600;
-  color: #ff565f;
+  color: ${({ theme }) => theme.palette.main};
   margin-left: 10px;
 `;
 
@@ -203,7 +207,7 @@ const PostButton = styled.button`
   font-size: 17px;
   font-weight: 600;
   color: white;
-  background-color: #ff565f;
+  background-color: ${({ theme }) => theme.palette.main};
 
   cursor: pointer;
 

@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import React, { useEffect, useState } from 'react';
 import { requestGetFriendsList } from '../../../apis/friends';
-import { PostCreateData } from '../../../types/post';
+import { ApplicationCreateData, PostCreateData } from '../../../types/post';
 import sliceString from '../../../utils/sliceString';
 import { getToken } from '../../../utils/user';
 import Modal from '../../common/Modal';
@@ -17,10 +17,13 @@ export interface FriendsList extends Friend {
   isChecked?: boolean;
 }
 interface AddPartyMembersProps {
-  setPostData: React.Dispatch<React.SetStateAction<PostCreateData>>;
+  keyName: string;
+  setPostData:
+    | React.Dispatch<React.SetStateAction<PostCreateData>>
+    | React.Dispatch<React.SetStateAction<ApplicationCreateData>>;
 }
 
-function AddPartyMembers({ setPostData }: AddPartyMembersProps) {
+function AddPartyMembers({ keyName, setPostData }: AddPartyMembersProps) {
   const token = getToken() as string;
   const [friendsList, setFriendsList] = useState<FriendsList[]>([]);
   const [friendsEntry, setFriendsEntry] = useState<FriendsList[]>([]);
@@ -36,9 +39,9 @@ function AddPartyMembers({ setPostData }: AddPartyMembersProps) {
   }, []);
 
   useEffect(() => {
-    setPostData(prev => ({
+    setPostData((prev: any) => ({
       ...prev,
-      hostMembers: friendsEntry?.map(f => f.friendUserNo),
+      [keyName]: friendsEntry?.map(f => f.friendUserNo),
     }));
   }, [friendsEntry]);
 
