@@ -6,7 +6,6 @@ import { ThemeProvider } from '@emotion/react';
 import theme from '../styles/theme';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { io } from 'socket.io-client';
-import { useRemoveBoardPageData } from '../hooks/useBoardPageData';
 import { getToken } from '../utils/user';
 import AppLayout from '../components/common/AppLayout';
 
@@ -25,8 +24,6 @@ export const socket = io(`${process.env.NEXT_PUBLIC_SOCKET_URL}/chat`, {
 });
 
 export default function App({ Component, pageProps }: AppProps) {
-  useRemoveBoardPageData();
-
   return (
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
