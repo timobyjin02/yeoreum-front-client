@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import useLockScroll from '../../hooks/useLockScroll';
 import useOutsideClick from '../../hooks/useOutsideClick';
 import { useAppDispatch, useLoginState } from '../../store/hooks';
@@ -99,7 +99,13 @@ function Hamburger({ onClose }: HamburgerProps) {
         <Menu onClose={onClose} alt="menu" options={navMenu} />
         <Menu onClose={onClose} alt="notice-menu" options={noticeMenu} />
         <Logout onClick={handleClickLogout}>
-          <Image width={18} height={18} alt="logout" src="/icons/logout.svg" />
+          <Image
+            style={{ transform: 'rotate(180deg)' }}
+            width={20}
+            height={20}
+            alt="logout"
+            src="/icons/logout.svg"
+          />
           <LogoutText>로그아웃</LogoutText>
         </Logout>
       </HamburgerModal>
@@ -270,13 +276,13 @@ const Logout = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  font-size: 13px;
+  font-size: 14px;
   &:hover {
     cursor: pointer;
   }
   position: absolute;
   bottom: 12px;
-  right: 12px;
+  right: 20px;
 `;
 
 const LogoutText = styled.span`
