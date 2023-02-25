@@ -1,26 +1,32 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
 import React, { useState, useRef } from 'react';
 import { usePostDetailQuery } from '../../../hooks/queries/posts';
 import useOutsideClick from '../../../hooks/useOutsideClick';
+import { useLoginState } from '../../../store/hooks';
 
-function PostDetailHeader() {
+interface PostDetailHeaderProps {
+  postNo: number;
+}
+
+function PostDetailHeader({ postNo }: PostDetailHeaderProps) {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef(null);
 
-  const router = useRouter();
-  const boardNo = Number(router.query.postNo);
+  const { userData } = useLoginState();
 
-  const { data } = usePostDetailQuery(boardNo);
-
+  const { data } = usePostDetailQuery(postNo);
   const postData = data?.data.response.board;
+
+  const isMyPost = postData?.hostUserNo === userData?.userNo;
 
   useOutsideClick(ref, () => setIsOpen(false));
 
   return (
     <Header>
-      <PostPageShortcut>{'≪ 여름게시판'}</PostPageShortcut>
+      <PostPageShortcut onClick={() => history.back()}>
+        {'≪ 여름게시판'}
+      </PostPageShortcut>
       <PostTitle>{postData?.title}</PostTitle>
       <PostInfo>
         <FlexRowContainer>
@@ -36,18 +42,22 @@ function PostDetailHeader() {
             <PostedAt>2022.10.8</PostedAt>
           </NicknameDate>
         </FlexRowContainer>
-        <MoreBtn
-          width={24}
-          height={24}
-          src={'/icons/more.svg'}
-          alt="profile"
-          priority
-          onClick={() => setIsOpen(true)}
-        />
-        {isOpen && (
-          <ReportModal ref={ref}>
-            <ReportBtn>게시글 신고하기</ReportBtn>
-          </ReportModal>
+        {isMyPost || (
+          <>
+            <MoreBtn
+              width={24}
+              height={24}
+              src={'/icons/more.svg'}
+              alt="profile"
+              priority
+              onClick={() => setIsOpen(true)}
+            />
+            {isOpen && (
+              <ReportModal ref={ref}>
+                <ReportBtn>게시글 신고하기</ReportBtn>
+              </ReportModal>
+            )}
+          </>
         )}
       </PostInfo>
     </Header>
@@ -66,8 +76,10 @@ const Header = styled.header`
 
 const PostPageShortcut = styled.span`
   font-size: 0.875rem;
-  color: ${({ theme }) => theme.palette.fontGrey};
-  margin-bottom: 30px;
+  color: ${({ theme }) => theme.palette.main};
+  margin-bottom: 20px;
+  font-weight: 500;
+  cursor: pointer;
 `;
 
 const PostTitle = styled.h3`

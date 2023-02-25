@@ -2,15 +2,24 @@ import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { usePostDetailQuery } from '../../../hooks/queries/posts';
+import { useLoginState } from '../../../store/hooks';
 
-function PostDetailMain() {
+interface PostDetailMainProps {
+  postNo: number;
+}
+
+function PostDetailMain({ postNo }: PostDetailMainProps) {
   const router = useRouter();
-  const boardNo = Number(router.query.postNo);
 
-  const { data } = usePostDetailQuery(boardNo);
+  const { userData } = useLoginState();
 
+  const { data } = usePostDetailQuery(postNo);
   const postData = data?.data.response.board;
-  console.log(postData);
+
+  const isMyPost = postData?.hostUserNo === userData?.userNo;
+
+  const href = isMyPost ? `/apply/${postNo}` : `/apply/${postNo}/create`;
+
   return (
     <Main>
       <ContentWrapper>
@@ -23,27 +32,27 @@ function PostDetailMain() {
             <ConditionTitle>모집인원</ConditionTitle>
             <FlexRowContainer>
               <GenderCondition>
-                <임시Icon src="/icons/man.svg" />
-                <임시Text>{postData?.male}명</임시Text>
+                <ConditionIcon src="/icons/man.svg" />
+                <ConditionText>{postData?.recruitMale}명</ConditionText>
               </GenderCondition>
               <GenderCondition>
-                <임시Icon src="/icons/woman.svg" />
-                <임시Text>{postData?.female}명</임시Text>
+                <ConditionIcon src="/icons/woman.svg" />
+                <ConditionText>{postData?.recruitFemale}명</ConditionText>
               </GenderCondition>
             </FlexRowContainer>
           </EachCondition>
           <EachCondition>
             <ConditionTitle>시간</ConditionTitle>
             <Condition>
-              <임시Icon src="/icons/clock.svg" />
-              <임시Text>{postData?.meetingTime}</임시Text>
+              <ConditionIcon src="/icons/clock.svg" />
+              <ConditionText>{postData?.meetingTime}</ConditionText>
             </Condition>
           </EachCondition>
           <EachCondition>
             <ConditionTitle>장소</ConditionTitle>
             <Condition>
-              <임시Icon src="/icons/location.svg" />
-              <임시Text>{postData?.location}</임시Text>
+              <ConditionIcon src="/icons/location.svg" />
+              <ConditionText>{postData?.location}</ConditionText>
             </Condition>
           </EachCondition>
         </Conditions>
@@ -67,8 +76,8 @@ function PostDetailMain() {
           })}
         </Members>
       </YeoreumInfo>
-      <PostButton onClick={() => router.push(`/apply/${boardNo}/create`)}>
-        신청하기
+      <PostButton onClick={() => router.push(href)}>
+        {isMyPost ? '신청내역' : '신청하기'}
       </PostButton>
     </Main>
   );
@@ -140,13 +149,13 @@ const GenderCondition = styled.div`
   }
 `;
 
-const 임시Icon = styled.img`
+const ConditionIcon = styled.img`
   width: 15px;
   height: 15px;
   margin-right: 2px;
 `;
 
-const 임시Text = styled.span`
+const ConditionText = styled.span`
   font-size: 14px;
 `;
 

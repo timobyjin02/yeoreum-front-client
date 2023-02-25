@@ -86,7 +86,7 @@ function PostList({ posts, fetchNextPage, isApplication }: PostListProps) {
                     </Condition>
                   </Conditions>
                   <CreaterInfo>
-                    <CreaterImage />
+                    <CreaterImage src="anonymous.png" />
                     <CreaterNickname>{post.hostNickname}</CreaterNickname>
                   </CreaterInfo>
                 </PostBottom>
@@ -191,7 +191,7 @@ const CreaterInfo = styled.div`
   }
 `;
 
-const CreaterImage = styled.div`
+const CreaterImage = styled.img`
   width: 20px;
   height: 20px;
   background-color: lightgray;
