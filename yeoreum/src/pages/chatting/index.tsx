@@ -2,21 +2,9 @@ import React, { useEffect, useState } from 'react';
 import Container from '../../components/chatting/Container';
 import ChattingBox from '../../components/chatting/chatting/ChattingBox';
 import ChattingListsBox from '../../components/chatting/chattingLists/ChattingListsBox';
-import { ChatLogType } from '../../types/chat';
+import { ChatLogType, ChatRoom } from '../../types/chat';
 import { socket } from '../_app';
 import { useChatRoomInvitationMutation } from '../../hooks/queries/chat';
-
-interface User {
-  userNo: number;
-  nickname: string;
-  profileImage: string;
-}
-
-export interface ChatRoom {
-  roomName: string;
-  chatRoomNo: number;
-  users: User[];
-}
 
 export default function Chatting() {
   const [chats, setChats] = useState<ChatLogType[]>([]);
