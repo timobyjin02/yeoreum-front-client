@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import Modal from '../../common/Modal';
 import ElseProfile from '../../elseProfile/ElseProfile';
@@ -7,9 +7,11 @@ import ProfileImage from '../../common/ProfileImage';
 
 interface ChatUserProps {
   chatData: ChatRoom[];
+  setA: any;
+  a: ChatRoom | null;
 }
 
-function ParticipantsList({ chatData }: ChatUserProps) {
+function ParticipantsList({ chatData, setA, a }: ChatUserProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const openProfile = () => {
@@ -18,29 +20,27 @@ function ParticipantsList({ chatData }: ChatUserProps) {
 
   return (
     <>
-      {chatData.map((item, index) => {
-        return (
-          <div key={index}>
-            <ListBox>
-              {item.users.map(user => (
-                <Item key={user.userNo} onClick={openProfile}>
-                  {isOpen && (
-                    <Modal
-                      onClose={() => {
-                        setIsOpen(false);
-                      }}
-                    >
-                      {/* <ElseProfile /> */}
-                    </Modal>
-                  )}
-                  <ProfileImage src={user.profileImage} size={50} />
-                  <Nickname>{user.nickname}</Nickname>
-                </Item>
-              ))}
-            </ListBox>
-          </div>
-        );
-      })}
+      {a?.users && (
+        <div>
+          <ListBox onClick={() => setA(a)}>
+            {a.users.map(user => (
+              <Item key={user.userNo}>
+                {isOpen && (
+                  <Modal
+                    onClose={() => {
+                      setIsOpen(false);
+                    }}
+                  >
+                    {/* <ElseProfile /> */}
+                  </Modal>
+                )}
+                <ProfileImage src={user.profileImage} size={50} />
+                <Nickname>{user.nickname}</Nickname>
+              </Item>
+            ))}
+          </ListBox>
+        </div>
+      )}
     </>
   );
 }
