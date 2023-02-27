@@ -2,16 +2,19 @@ import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import Modal from '../../common/Modal';
 import ElseProfile from '../../elseProfile/ElseProfile';
-import { ChatRoom } from '../../../pages/chatting';
 import ProfileImage from '../../common/ProfileImage';
+import { ChatRoom } from '../../../types/chat';
 
 interface ChatUserProps {
   chatData: ChatRoom[];
-  setA: any;
-  a: ChatRoom | null;
+  setChatSocketData: any;
+  chatSocketData: ChatRoom | null;
 }
 
-function ParticipantsList({ chatData, setA, a }: ChatUserProps) {
+function ParticipantsList({
+  setChatSocketData,
+  chatSocketData,
+}: ChatUserProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const openProfile = () => {
@@ -20,10 +23,10 @@ function ParticipantsList({ chatData, setA, a }: ChatUserProps) {
 
   return (
     <>
-      {a?.users && (
+      {chatSocketData?.users && (
         <div>
-          <ListBox onClick={() => setA(a)}>
-            {a.users.map(user => (
+          <ListBox onClick={() => setChatSocketData(chatSocketData)}>
+            {chatSocketData.users.map(user => (
               <Item key={user.userNo}>
                 {isOpen && (
                   <Modal

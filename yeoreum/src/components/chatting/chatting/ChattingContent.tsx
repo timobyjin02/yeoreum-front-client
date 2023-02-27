@@ -6,22 +6,22 @@ const ChattingContent = ({
   chats,
   setChats,
   scrollRef,
-  ddd,
-  a,
+  currentChatLog,
+  chatSocketData,
 }: {
   chats: ChatLogType[];
   setChats: React.Dispatch<React.SetStateAction<ChatLogType[]>>;
   scrollRef: React.RefObject<HTMLDivElement>;
-  ddd: any;
-  a: any;
+  currentChatLog: any;
+  chatSocketData: any;
 }) => {
   useEffect(() => {
-    if (!ddd) return;
-    setChats(ddd.reverse());
-  }, [ddd]);
+    if (!currentChatLog) return;
+    setChats(currentChatLog.reverse());
+  }, [currentChatLog]);
 
   const getNickname = (userNo: number) => {
-    return a?.users.find((user: any) => user.userNo === userNo);
+    return chatSocketData?.users.find((user: any) => user.userNo === userNo);
   };
 
   return (

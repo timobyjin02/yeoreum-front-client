@@ -2,39 +2,35 @@ import styled from '@emotion/styled';
 import ChattingContent from './ChattingContent';
 import ChattingInput from './ChattingInput';
 import React, { useRef } from 'react';
-import { ChatLogType } from '../../../types/chat';
-import { ChatRoom } from '../../../pages/chatting';
+import { ChatLogType, ChatRoom } from '../../../types/chat';
 import { useCurrentChatLog } from '../../../hooks/queries/chat';
 
 interface ChatsProps {
   chats: ChatLogType[];
-  chatData: ChatRoom[];
   setChats: React.Dispatch<React.SetStateAction<ChatLogType[]>>;
-  a: any;
+  chatSocketData: any;
 }
 
-function ChattingBox({ chats, chatData, setChats, a }: ChatsProps) {
+function ChattingBox({ chats, setChats, chatSocketData }: ChatsProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const { data } = useCurrentChatLog(a?.chatRoomNo);
-  const ddd = data?.data.response.currentChatLog;
+  const { data } = useCurrentChatLog(chatSocketData?.chatRoomNo);
+  const currentChatLog = data?.data.response.currentChatLog;
 
   return (
     <Container>
-      <Header>{a?.roomName}</Header>
+      <Header>{chatSocketData?.roomName}</Header>
       <ChattingContent
         scrollRef={scrollRef}
         chats={chats}
         setChats={setChats}
-        ddd={ddd}
-        a={a}
+        currentChatLog={currentChatLog}
+        chatSocketData={chatSocketData}
       />
       <ChattingInput
         scrollRef={scrollRef}
         setChats={setChats}
-        ddd={ddd}
-        chatData={chatData}
-        a={a}
+        chatSocketData={chatSocketData}
       />
     </Container>
   );

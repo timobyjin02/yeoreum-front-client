@@ -1,15 +1,15 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { ChatRoom } from '../../../pages/chatting';
 import { css } from '@emotion/react';
 import ProfileImage from '../../common/ProfileImage';
+import { ChatRoom } from '../../../types/chat';
 
 interface ChatRoomProps {
   chatData: ChatRoom[];
-  setA: any;
+  setChatSocketData: any;
 }
 
-function ChatList({ chatData, setA }: ChatRoomProps) {
+function ChatList({ chatData, setChatSocketData }: ChatRoomProps) {
   return (
     <>
       {chatData.map(item => {
@@ -17,20 +17,15 @@ function ChatList({ chatData, setA }: ChatRoomProps) {
 
         return (
           <ListBox
-            onClick={() => setA(item)}
+            onClick={() => setChatSocketData(item)}
             key={item.chatRoomNo}
             hasMultipleUsers={item.users.length >= 4}
           >
             <Item hasMultipleUsers={item.users.length >= 4}>
               <ImageWrapper>
                 <ImageRow>
-                  {users.slice(0, 2).map((user, index) => (
-                    <Img
-                      key={user.userNo}
-                      src={user.profileImage}
-                      size={30}
-                      // size={index === 0 ? 50 : 30}
-                    />
+                  {users.slice(0, 2).map(user => (
+                    <Img key={user.userNo} src={user.profileImage} size={30} />
                   ))}
                 </ImageRow>
                 <ImageRow>

@@ -9,7 +9,7 @@ import { useChatRoomInvitationMutation } from '../../hooks/queries/chat';
 export default function Chatting() {
   const [chats, setChats] = useState<ChatLogType[]>([]);
   const [chatData, setChatData] = useState<ChatRoom[]>([]);
-  const [a, setA] = useState();
+  const [chatSocketData, setChatSocketData] = useState();
 
   useChatRoomInvitationMutation(18, 27);
 
@@ -17,7 +17,7 @@ export default function Chatting() {
     const roomListHandler = ({ response }: any) => {
       const socketData = response.chatRooms;
       setChatData(socketData);
-      setA(socketData[0]);
+      setChatSocketData(socketData[0]);
     };
     socket.emit('init-socket', roomListHandler);
     return () => {
@@ -29,15 +29,13 @@ export default function Chatting() {
     <Container>
       <ChattingBox
         chats={chats}
-        chatData={chatData}
         setChats={setChats}
-        a={a}
+        chatSocketData={chatSocketData}
       />
       <ChattingListsBox
         chatData={chatData}
-        setChatData={setChatData}
-        setA={setA}
-        a={a}
+        setChatSocketData={setChatSocketData}
+        chatSocketData={chatSocketData}
       />
     </Container>
   );
