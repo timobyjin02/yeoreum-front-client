@@ -25,12 +25,9 @@ const ChattingContent = ({
   };
 
   return (
-    <Containers>
+    <Containers ref={scrollRef}>
       {chats?.map((chat, index) => (
-        <MessageBox
-          key={index}
-          ref={chats.length - 1 === index ? scrollRef : null}
-        >
+        <MessageBox key={index}>
           <span>
             {chat.userNo
               ? 21 === chat.userNo

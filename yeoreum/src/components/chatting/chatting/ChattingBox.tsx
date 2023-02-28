@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import ChattingContent from './ChattingContent';
 import ChattingInput from './ChattingInput';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { ChatLogType, ChatRoom } from '../../../types/chat';
 import { useCurrentChatLog } from '../../../hooks/queries/chat';
 
@@ -17,6 +17,17 @@ function ChattingBox({ chats, setChats, chatSocketData }: ChatsProps) {
   const { data } = useCurrentChatLog(chatSocketData?.chatRoomNo);
   const currentChatLog = data?.data.response.currentChatLog;
 
+  useEffect(() => {
+    if (!scrollRef.current) return;
+
+    const chatContainer = scrollRef.current;
+    const { scrollHeight, clientHeight } = chatContainer;
+
+    if (scrollHeight > clientHeight) {
+      chatContainer.scrollTop = scrollHeight - clientHeight;
+    }
+  }, [chats.length]);
+
   return (
     <Container>
       <Header>{chatSocketData?.roomName}</Header>
@@ -27,11 +38,7 @@ function ChattingBox({ chats, setChats, chatSocketData }: ChatsProps) {
         currentChatLog={currentChatLog}
         chatSocketData={chatSocketData}
       />
-      <ChattingInput
-        scrollRef={scrollRef}
-        setChats={setChats}
-        chatSocketData={chatSocketData}
-      />
+      <ChattingInput setChats={setChats} chatSocketData={chatSocketData} />
     </Container>
   );
 }
