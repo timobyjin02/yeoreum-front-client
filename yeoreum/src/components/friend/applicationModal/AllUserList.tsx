@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { FriendListType } from '../../../types/friend';
 import ProfileImage from '../../common/ProfileImage';
 import { UsersResponseType } from '../../../types/user';
-import { requestPostFriendApplication } from '../../../apis/friends';
 import { usePostFriendApplicationMutation } from '../../../hooks/queries/friends';
 
 interface ItemProps {

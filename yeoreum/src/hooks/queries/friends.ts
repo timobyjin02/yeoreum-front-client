@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import {
+  requestGetFriendsValidate,
   requestGetSearchFriends,
   requestPostFriendApplication,
 } from '../../apis/friends';
@@ -27,4 +28,19 @@ const usePostFriendApplicationMutation = (receiverNo: number) => {
   });
 };
 
-export { useSearchFriendsQuery, usePostFriendApplicationMutation };
+const useFriendsValidateQuery = (friendUserNo: string) => {
+  return useQuery<any, AxiosError, any, string[]>(
+    ['userProfile', friendUserNo],
+    () => requestGetFriendsValidate(friendUserNo),
+    {
+      retry: 0,
+      staleTime: 0,
+    },
+  );
+};
+
+export {
+  useSearchFriendsQuery,
+  usePostFriendApplicationMutation,
+  useFriendsValidateQuery,
+};
