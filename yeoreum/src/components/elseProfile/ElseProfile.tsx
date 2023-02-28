@@ -1,33 +1,53 @@
 import styled from '@emotion/styled';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
+import {
+  useFriendsValidateQuery,
+  usePostFriendApplicationMutation,
+} from '../../hooks/queries/friends';
+import { useLoginState } from '../../store/hooks';
+import { FriendResponseType } from '../../types/friend';
 import ProfileImage from '../common/ProfileImage';
 import dummyData from '../myPage/dummyData';
 import DuelModal from './DuelModal';
 
 interface FriendProps {
-  img: string;
-  name: string;
-  description: string;
+  modal: FriendResponseType;
 }
 
-function ElseProfile({ img, name, description }: FriendProps) {
+function ElseProfile({ modal }: FriendProps) {
   const modalRef = useRef(null);
+
+  const { mutate } = usePostFriendApplicationMutation(
+    modal.friendUserNo as number,
+  );
+
+  const applicationHandler = () => {
+    mutate();
+  };
+
+  const { data } = useFriendsValidateQuery(modal.friendUserNo as number);
+
+  const isFriend = data?.data.response.isFriend;
 
   return (
     <ProfileWrap ref={modalRef}>
       <ImageWrapper>
-        <ProfileImage src={img} size={70} />
+        <ProfileImage src={modal.friendProfileImage} size={70} />
       </ImageWrapper>
       <ProfileEvent>
-        <Nickname>{name}</Nickname>
+        <Nickname>{modal.friendNickname}</Nickname>
         <Wrap>
-          <AddFriend>친구신청</AddFriend>
+          {isFriend ? (
+            <AddFriend className="isFriend">이미 친구</AddFriend>
+          ) : (
+            <AddFriend onClick={applicationHandler}>친구신청</AddFriend>
+          )}
           <DuelModal />
         </Wrap>
       </ProfileEvent>
       <div></div>
       <ProfileInfo>
-        <Description>{description}</Description>
+        <Description>{modal.friendDescription}</Description>
         <Graph>
           <ColorGraph>
             <Ballon>{dummyData.rating}</Ballon>
@@ -97,6 +117,10 @@ const AddFriend = styled.button`
   background-color: ${({ theme }) => theme.palette.main};
 
   cursor: pointer;
+  &.isFriend {
+    background-color: ${({ theme }) => theme.palette.disable};
+    cursor: default;
+  }
 `;
 
 const ProfileInfo = styled.div`

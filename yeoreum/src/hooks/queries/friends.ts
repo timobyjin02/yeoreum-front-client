@@ -47,14 +47,15 @@ const usePostFriendApplicationMutation = (receiverNo: number) => {
   return useMutation(() => requestPostFriendApplication(receiverNo), {
     onError: (error: any) => {
       console.log('친구 신청 에러', error);
+      alert(error.response.data.message);
     },
     onSuccess: data => {
-      console.log('프로필 수정 성공', data);
+      console.log('친구 신청 성공', data);
     },
   });
 };
 
-const useFriendsValidateQuery = (friendUserNo: number) => {
+const useFriendsValidateQuery = (friendUserNo: number | undefined) => {
   return useQuery<any, AxiosError, any, any[]>(
     ['userProfile', friendUserNo],
     () => requestGetFriendsValidate(friendUserNo),

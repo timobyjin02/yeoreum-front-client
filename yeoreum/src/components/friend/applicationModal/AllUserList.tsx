@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import ProfileImage from '../../common/ProfileImage';
 import { UsersResponseType } from '../../../types/user';
@@ -9,13 +8,10 @@ interface ItemProps {
 }
 
 function AllUserList({ item }: ItemProps) {
-  const [isDisabled, setIsDisabled] = useState(false);
-
   const { mutate } = usePostFriendApplicationMutation(item.userNo);
 
   const applicationHandler = () => {
     mutate();
-    setIsDisabled(true);
   };
 
   return (
@@ -24,9 +20,7 @@ function AllUserList({ item }: ItemProps) {
         <ProfileImage src={item.profileImage} size={40} />
         <Nickname>{item.nickname}</Nickname>
       </UserInfo>
-      <ApplicationButton disabled={isDisabled} onClick={applicationHandler}>
-        신청
-      </ApplicationButton>
+      <ApplicationButton onClick={applicationHandler}>신청</ApplicationButton>
     </AllUsersList>
   );
 }
@@ -54,18 +48,11 @@ const Nickname = styled.div`
   color: ${({ theme }) => theme.palette.font.headline};
 `;
 
-const ApplicationButton = styled.button<{ disabled: boolean }>`
+const ApplicationButton = styled.button`
   width: 58px;
   height: 30px;
   border-radius: 8px;
   color: white;
   background-color: ${({ theme }) => theme.palette.main};
   cursor: pointer;
-  ${({ disabled }) =>
-    disabled
-      ? `&:disabled {
-    background: #dbdbff;
-    cursor: default;
-  }`
-      : ''};
 `;

@@ -5,7 +5,7 @@ export interface FriendListType {
 }
 
 export type FriendResponseType = {
-  friendUserNo: number;
+  friendUserNo: number | null;
   friendNickname: string;
   friendDescription: string;
   friendProfileImage: string;
