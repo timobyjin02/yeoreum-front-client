@@ -3,9 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { requestGetFriendsList } from '../../../apis/friends';
 import { ApplicationCreateData, PostCreateData } from '../../../types/post';
 import sliceString from '../../../utils/sliceString';
-import { getToken } from '../../../utils/user';
 import Modal from '../../common/Modal';
 import AddFriendModal from '../../friend/addModal/AddFriendModal';
+import { useFriendsQuery } from '../../../hooks/queries/friends';
 
 export interface Friend {
   friendDescription?: string;
@@ -24,19 +24,17 @@ interface AddPartyMembersProps {
 }
 
 function AddPartyMembers({ keyName, setPostData }: AddPartyMembersProps) {
-  const token = getToken() as string;
   const [friendsList, setFriendsList] = useState<FriendsList[]>([]);
   const [friendsEntry, setFriendsEntry] = useState<FriendsList[]>([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
 
+  const { data } = useFriendsQuery();
+  const friends: FriendsList[] = data?.data.response.friends;
+
   useEffect(() => {
-    (async () => {
-      const friends: FriendsList[] = await requestGetFriendsList(token);
-      // setFriendsList(data);
-      friends.forEach(friend => (friend.isChecked = false));
-      setFriendsList(friends);
-    })();
-  }, []);
+    friends?.forEach(friend => (friend.isChecked = false));
+    setFriendsList(friends);
+  }, [friends]);
 
   useEffect(() => {
     setPostData((prev: any) => ({
