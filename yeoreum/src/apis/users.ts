@@ -38,21 +38,11 @@ const requestPatchEditProfile = (nickname: string, description: string) => {
   return tokenAxios.patch(`/users/profile`, body);
 };
 
-const requestPatchMajorUpload = (
-  file: Blob | null,
-  major: string,
-  token: string,
-) => {
-  if (!file) return;
-
+const requestPatchMajorUpload = (file: Blob | null, major: string) => {
   const formData = new FormData();
-  formData.append('file', file);
+  formData.append('file', file ?? '');
   formData.append('major', major);
-  remote.patch(`/api/users/major`, formData, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  return tokenAxios.patch(`/users/major`, formData);
 };
 
 export {
