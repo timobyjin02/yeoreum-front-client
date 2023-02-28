@@ -1,31 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import AllUserList from './AllUserList';
 import AllUserSearch from './AllUserSearch';
 import { requestGetUsers } from '../../../apis/users';
 import { UsersResponseType } from '../../../types/user';
-import { getToken } from '../../../utils/user';
+import { useNotFriendsQuery } from '../../../hooks/queries/friends';
 
 interface PropsType {
   onClose: () => void;
 }
 
 function ApplicationFriendModal({ onClose }: PropsType) {
-  const token = getToken() as string;
   const [searchTerm, setSearchTerm] = useState('');
-  const [lists, setLists] = useState<UsersResponseType[]>([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (!searchTerm) return;
-
-    (async () => {
-      setLoading(true);
-      const users = await requestGetUsers(searchTerm, token);
-
-      setLists(users);
-    })();
-  }, [searchTerm]);
+  const { data } = useNotFriendsQuery(searchTerm);
+  const lists = data?.data.response.searchResult;
 
   const TextBySearchTerm = ({
     searchTerm,
@@ -58,7 +48,7 @@ function ApplicationFriendModal({ onClose }: PropsType) {
       </SearchWrapper>
       <ListWrapper>
         {lists.length > 0 ? (
-          lists.map((item, index) => {
+          lists.map((item: UsersResponseType, index: number) => {
             return <AllUserList key={index} item={item} />;
           })
         ) : (

@@ -15,8 +15,12 @@ const requestPostFriendApplication = (receiverNo: number) => {
   });
 };
 
-const requestGetFriendsValidate = (friendUserNo: string) => {
+const requestGetFriendsValidate = (friendUserNo: number) => {
   return tokenAxios.get(`/friends/validate/${friendUserNo}`);
+};
+
+const requestGetNotFriendList = (nickname: string) => {
+  return tokenAxios.get(`/friends/not-friends/${nickname}`);
 };
 
 export {
@@ -24,4 +28,5 @@ export {
   requestGetSearchFriends,
   requestPostFriendApplication,
   requestGetFriendsValidate,
+  requestGetNotFriendList,
 };
