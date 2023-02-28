@@ -16,7 +16,6 @@ export default function Chatting() {
   useEffect(() => {
     const roomListHandler = ({ response }: any) => {
       const socketData = response.chatRooms;
-      // console.log(socketData);
       setChatData(socketData);
       setChatSocketData(socketData[0]);
     };

@@ -35,8 +35,6 @@ function ChattingInput({ setChats, chatSocketData }: ChatsProps) {
         { userNo: 21, message, chatRoomNo: chatSocketData?.chatRoomNo },
         ({ response }: any) => {
           const chats = response.messagePayload;
-          console.log(response);
-          console.log(chats);
 
           setChats(prevChats => [...prevChats, chats]);
           setMessage('');
