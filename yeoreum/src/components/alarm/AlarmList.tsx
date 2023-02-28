@@ -2,12 +2,10 @@ import styled from '@emotion/styled';
 import React from 'react';
 import AlarmListItem from './AlarmListItem';
 import { AlarmType } from '../../types/alarm';
-import { getToken } from '../../utils/user';
 import { useNoticesQuery } from '../../hooks/queries/notices';
 
 function AlarmList() {
-  const token = getToken() as string;
-  const { data } = useNoticesQuery(token);
+  const { data } = useNoticesQuery();
   const noticesData = data?.data.response.notices;
 
   return (

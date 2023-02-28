@@ -4,7 +4,6 @@ import { AlarmType } from '../../types/alarm';
 import noticeDataByType from '../../utils/noticeDataByType';
 import noticeRequestByType from '../../utils/noticeRequestByType';
 import { useReadNoticeMutation } from '../../hooks/queries/notices';
-import { getToken } from '../../utils/user';
 
 interface AlarmListItemProps {
   alarmData: AlarmType;
@@ -13,7 +12,7 @@ interface AlarmListItemProps {
 function Notification({ alarmData }: AlarmListItemProps) {
   if (alarmData.type < 1 || alarmData.type > 12) return null;
 
-  const { mutate } = useReadNoticeMutation(getToken() as string);
+  const { mutate } = useReadNoticeMutation();
 
   const handleReadNotice = () => mutate(alarmData.noticeNo);
 

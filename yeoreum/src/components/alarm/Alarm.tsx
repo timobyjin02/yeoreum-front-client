@@ -4,7 +4,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useUnreadNoticesQuery } from '../../hooks/queries/notices';
 import useOutsideClick from '../../hooks/useOutsideClick';
 import useResize from '../../hooks/useResize';
-import { getToken } from '../../utils/user';
 import AlarmList from './AlarmList';
 
 function Alarm() {
@@ -14,9 +13,7 @@ function Alarm() {
   useOutsideClick(ref, () => setIsOpen(false));
   useResize('below', 640, () => setIsOpen(false));
 
-  const token = getToken() as string;
-
-  const { data, isError } = useUnreadNoticesQuery(token);
+  const { data, isError } = useUnreadNoticesQuery();
 
   const hasUnreadNotices =
     !isError && data && data.data.response.isUserHasUnreadNotices

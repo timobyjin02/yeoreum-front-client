@@ -11,10 +11,9 @@ const useAcceptFriend = (
   senderUserNo: number,
   onSuccess: OnSuccess,
   onError: OnError,
-  token: string,
 ) => {
   return useMutation<AxiosResponse<any, any>, unknown, void, unknown>(
-    () => requestAcceptFriend(friendNo as number, senderUserNo, token),
+    () => requestAcceptFriend(friendNo as number, senderUserNo),
     { onSuccess, onError },
   );
 };
@@ -24,12 +23,11 @@ const useRejectFriend = (
   senderUserNo: number,
   onSuccess: OnSuccess,
   onError: OnError,
-  token: string,
 ) => {
   const queryClient = useQueryClient();
 
   return useMutation<AxiosResponse<any, any>, unknown, void, unknown>(
-    () => requestRejectFriend(friendNo as number, senderUserNo, token),
+    () => requestRejectFriend(friendNo as number, senderUserNo),
     {
       onSuccess,
       onError,

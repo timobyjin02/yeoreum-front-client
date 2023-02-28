@@ -15,7 +15,7 @@ function AlarmListItem({ alarmData }: AlarmListItemProps) {
 
   const data = noticeDataByType(alarmData);
 
-  const { mutate } = useReadNoticeMutation(getToken() as string);
+  const { mutate } = useReadNoticeMutation();
 
   const handleReadNotice = () => mutate(alarmData.noticeNo);
 

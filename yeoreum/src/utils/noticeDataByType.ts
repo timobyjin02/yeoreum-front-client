@@ -9,7 +9,6 @@ import {
 } from '../hooks/queries/notices/friendRequestHandling';
 import { AlarmType } from '../types/alarm';
 import { OnError, OnSuccess } from '../types/mutation';
-import { getToken } from './user';
 
 interface AlarmDataObject {
   [key: string]: {
@@ -34,7 +33,6 @@ export default function noticeDataByType(alarmData: AlarmType) {
     chatRoomNo,
     senderUserNo,
   } = alarmData;
-  const token = getToken() as string;
 
   const alarmDataObject: AlarmDataObject = {
     1: {
@@ -47,7 +45,6 @@ export default function noticeDataByType(alarmData: AlarmType) {
           { type, senderNo: senderUserNo },
           onSuccess,
           onError,
-          token,
         ),
       rejectClickHandler: (onSuccess: OnSuccess, onError: OnError) =>
         useRejectChat(
@@ -55,7 +52,6 @@ export default function noticeDataByType(alarmData: AlarmType) {
           { type, senderNo: senderUserNo },
           onSuccess,
           onError,
-          token,
         ),
     },
     2: {
@@ -68,7 +64,6 @@ export default function noticeDataByType(alarmData: AlarmType) {
           { type, senderNo: senderUserNo },
           onSuccess,
           onError,
-          token,
         ),
       rejectClickHandler: (onSuccess: OnSuccess, onError: OnError) =>
         useRejectChat(
@@ -76,7 +71,6 @@ export default function noticeDataByType(alarmData: AlarmType) {
           { type, senderNo: senderUserNo },
           onSuccess,
           onError,
-          token,
         ),
     },
     3: {
@@ -84,21 +78,9 @@ export default function noticeDataByType(alarmData: AlarmType) {
       acceptBtn: '수락',
       rejectBtn: '거절',
       acceptClickHandler: (onSuccess: OnSuccess, onError: OnError) =>
-        useAcceptFriend(
-          friendNo as number,
-          senderUserNo,
-          onSuccess,
-          onError,
-          token,
-        ),
+        useAcceptFriend(friendNo as number, senderUserNo, onSuccess, onError),
       rejectClickHandler: (onSuccess: OnSuccess, onError: OnError) =>
-        useRejectFriend(
-          friendNo as number,
-          senderUserNo,
-          onSuccess,
-          onError,
-          token,
-        ),
+        useRejectFriend(friendNo as number, senderUserNo, onSuccess, onError),
     },
     4: {
       text: `type 4 ${senderNickname}에게 친구 요청을 수락했습니다.`,
@@ -108,23 +90,9 @@ export default function noticeDataByType(alarmData: AlarmType) {
       acceptBtn: '수락',
       rejectBtn: '거절',
       acceptClickHandler: (onSuccess: OnSuccess, onError: OnError) =>
-        useHandleBoard(
-          boardNo as number,
-          type,
-          true,
-          onSuccess,
-          onError,
-          token,
-        ),
+        useHandleBoard(boardNo as number, type, true, onSuccess, onError),
       rejectClickHandler: (onSuccess: OnSuccess, onError: OnError) =>
-        useHandleBoard(
-          boardNo as number,
-          type,
-          false,
-          onSuccess,
-          onError,
-          token,
-        ),
+        useHandleBoard(boardNo as number, type, false, onSuccess, onError),
     },
     6: {
       text: 'type 6 학과 변경 신청 반려',
@@ -134,23 +102,9 @@ export default function noticeDataByType(alarmData: AlarmType) {
       acceptBtn: '수락',
       rejectBtn: '거절',
       acceptClickHandler: (onSuccess: OnSuccess, onError: OnError) =>
-        useHandleBoard(
-          boardNo as number,
-          type,
-          true,
-          onSuccess,
-          onError,
-          token,
-        ),
+        useHandleBoard(boardNo as number, type, true, onSuccess, onError),
       rejectClickHandler: (onSuccess: OnSuccess, onError: OnError) =>
-        useHandleBoard(
-          boardNo as number,
-          type,
-          false,
-          onSuccess,
-          onError,
-          token,
-        ),
+        useHandleBoard(boardNo as number, type, false, onSuccess, onError),
     },
     8: {
       text: 'type 8 게시글 파티 초대 누가 거절해서 게시글 삭제됨',

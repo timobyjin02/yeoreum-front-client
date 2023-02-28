@@ -12,10 +12,9 @@ const useAcceptChat = (
   requestBody: requestChatBody,
   onSuccess: OnSuccess,
   onError: OnError,
-  token: string,
 ) => {
   return useMutation<AxiosResponse<any, any>, unknown, void, unknown>(
-    () => requestAcceptChat(chatRoomNo, requestBody, token),
+    () => requestAcceptChat(chatRoomNo, requestBody),
     { onSuccess, onError },
   );
 };
@@ -26,12 +25,11 @@ const useRejectChat = (
   requestBody: requestChatBody,
   onSuccess: OnSuccess,
   onError: OnError,
-  token: string,
 ) => {
   const queryClient = useQueryClient();
 
   return useMutation<AxiosResponse<any, any>, unknown, void, unknown>(
-    () => requestRejectChat(chatRoomNo, requestBody, token),
+    () => requestRejectChat(chatRoomNo, requestBody),
     {
       onSuccess,
       onError,
