@@ -14,7 +14,7 @@ const requestPostFriendApplication = (receiverNo: number) => {
   });
 };
 
-const requestGetFriendsValidate = (friendUserNo: number) => {
+const requestGetFriendsValidate = (friendUserNo: number | undefined) => {
   return tokenAxios.get(`/friends/validate/${friendUserNo}`);
 };
 
