@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { ChangeEvent, useState } from 'react';
+import { SignUpProps } from '../../types/signUp';
 import {
   Container,
   Wrapper,
@@ -11,7 +12,7 @@ import {
   Submit,
   SubmitWrapper,
   ProfileInput as StudentIdInput,
-} from './signUpFormStyle';
+} from './SignUpFormStyle';
 import {
   SIGN_UP_CERTIFICATE_INITIAL,
   SIGN_UP_PROFILE_REGEX_BY_TYPE,
@@ -19,7 +20,7 @@ import {
 } from '../../constants/signUpConst';
 import useForm from '../../hooks/useForm';
 
-const SignUpCertificate = () => {
+const SignUpCertificate = (setUserStatus: SignUpProps) => {
   const MESSAGE_BY_TYPE = SIGN_UP_CERTIFICATE_MESSAGE_BY_TYPE;
   const MAJOR_REGEX = SIGN_UP_PROFILE_REGEX_BY_TYPE.major;
   const router = useRouter();
