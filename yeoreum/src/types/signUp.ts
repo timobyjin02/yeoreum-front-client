@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from 'react';
+
 export type Validity = boolean | undefined;
 
 export interface ConstType {
@@ -10,4 +12,8 @@ export interface RegexType {
 
 export interface AlertProps {
   success: Validity;
+}
+
+export interface SignUpProps {
+  setUserStatus: Dispatch<SetStateAction<Number | undefined>>;
 }

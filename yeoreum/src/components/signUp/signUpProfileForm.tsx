@@ -2,6 +2,7 @@ import { FocusEvent, ChangeEvent } from 'react';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import { SignUpProps } from '../../types/signUp';
 import {
   Container,
   Wrapper,
@@ -19,7 +20,7 @@ import {
   DescriptionWrapper,
   ProfileInput,
   ProfileImageWrapper,
-} from './signUpFormStyle';
+} from './SignUpFormStyle';
 import {
   SIGN_UP_PROFILE_INITIAL,
   SIGN_UP_PROFILE_MESSAGE_BY_TYPE,
@@ -29,7 +30,7 @@ import useForm from '../../hooks/useForm';
 import validateNickname from '../../apis/validateNickname';
 import { ConstType, RegexType } from '../../types/signUp';
 
-const SignUpProfileForm = () => {
+const SignUpProfileForm = (setUserStatus: SignUpProps) => {
   const router = useRouter();
   const USER_NO = router.query.userNo;
   const MESSAGE_BY_TYPE: ConstType = SIGN_UP_PROFILE_MESSAGE_BY_TYPE;

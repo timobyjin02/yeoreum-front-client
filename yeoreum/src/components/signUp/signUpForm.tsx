@@ -1,5 +1,10 @@
 import { ChangeEvent, FocusEvent, useCallback, useState } from 'react';
-import { Validity, ConstType, RegexType } from '../../types/signUp';
+import {
+  Validity,
+  ConstType,
+  RegexType,
+  SignUpProps,
+} from '../../types/signUp';
 import useForm from '../../hooks/useForm';
 import {
   SIGN_UP_INITIAL,
@@ -14,11 +19,11 @@ import {
   Input,
   Label,
   Button,
-  SubmitLink,
+  SubmitWrapper,
   Submit,
-} from './signUpFormStyle';
+} from './SignUpFormStyle';
 
-const Form = () => {
+const Form = (setUserStatus: SignUpProps) => {
   const MESSAGE_BY_TYPE: ConstType = SIGN_UP_MESSAGE_BY_TYPE;
   const REGEX_BY_TYPE: RegexType = SIGN_UP_REGEX_BY_TYPE;
   const [emailVerificationStatus, setEmailVerificationStatus] = useState(0);
@@ -213,9 +218,9 @@ const Form = () => {
           {user.passwordConfirm.message}
         </AlertP>
       )}
-      <SubmitLink href="/signup/profile/1">
+      <SubmitWrapper>
         <Submit>다음</Submit>
-      </SubmitLink>
+      </SubmitWrapper>
     </Container>
   );
 };
