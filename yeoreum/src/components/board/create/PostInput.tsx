@@ -1,11 +1,13 @@
 import styled from '@emotion/styled';
 import React from 'react';
-import { PostCreateData } from '../../../types/post';
+import { ApplicationCreateData, PostCreateData } from '../../../types/post';
 
 interface PostInputProps {
   keyName: string;
-  postData: PostCreateData;
-  setPostData: React.Dispatch<React.SetStateAction<PostCreateData>>;
+  postData: PostCreateData | ApplicationCreateData;
+  setPostData:
+    | React.Dispatch<React.SetStateAction<PostCreateData>>
+    | React.Dispatch<React.SetStateAction<ApplicationCreateData>>;
   title: string;
   textarea?: boolean;
 }
@@ -20,7 +22,7 @@ function PostInput({
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    setPostData(prev => ({
+    setPostData((prev: any) => ({
       ...prev,
       [keyName]: event.target.value,
     }));

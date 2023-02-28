@@ -6,7 +6,6 @@ import PostGender from '../../components/board/create/PostGender';
 import PostInput from '../../components/board/create/PostInput';
 import PostPageTitle from '../../components/board/PostPageTitle';
 import { PostCreateData } from '../../types/post';
-import { getToken } from '../../utils/user';
 import { useRouter } from 'next/router';
 import { useCreatePostMutation } from '../../hooks/queries/posts';
 
@@ -24,10 +23,6 @@ function PostCreate() {
 
   const router = useRouter();
 
-  const token = getToken() as string;
-
-  console.log(postData);
-
   const onSuccess = (data: any) => {
     // console.log(data);
     alert('게시글이 작성되었습니다.');
@@ -39,7 +34,7 @@ function PostCreate() {
     alert('알 수 없는 오류가 발생했습니다.');
   };
 
-  const { mutate } = useCreatePostMutation(token, postData, onSuccess, onError);
+  const { mutate } = useCreatePostMutation(postData, onSuccess, onError);
 
   const submitPostCreateHandler = () => {
     if (!postData.title) return alert('제목은 비워둘 수 없습니다.');
@@ -75,7 +70,7 @@ function PostCreate() {
         setPostData={setPostData}
       />
       <PostGender setPostData={setPostData} />
-      <AddPartyMembers setPostData={setPostData} />
+      <AddPartyMembers keyName="hostMembers" setPostData={setPostData} />
       <PostInput
         title="내용"
         keyName="description"

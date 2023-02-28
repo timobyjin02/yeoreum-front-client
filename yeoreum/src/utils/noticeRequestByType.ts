@@ -119,8 +119,5 @@ export default function noticeRequestByType(type: number) {
     },
   };
 
-  return {
-    accept: noticeRequestObject[type].accept,
-    reject: noticeRequestObject[type].reject,
-  };
+  return noticeRequestObject[type];
 }
