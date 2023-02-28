@@ -4,6 +4,7 @@ import { FriendListType } from '../../../types/friend';
 import ProfileImage from '../../common/ProfileImage';
 import { UsersResponseType } from '../../../types/user';
 import { requestPostFriendApplication } from '../../../apis/friends';
+import { usePostFriendApplicationMutation } from '../../../hooks/queries/friends';
 
 interface ItemProps {
   item: UsersResponseType;
@@ -12,8 +13,10 @@ interface ItemProps {
 function AllUserList({ item }: ItemProps) {
   const [isDisabled, setIsDisabled] = useState(false);
 
+  const { mutate } = usePostFriendApplicationMutation(item.userNo);
+
   const applicationHandler = () => {
-    requestPostFriendApplication(item.userNo);
+    mutate();
     setIsDisabled(true);
   };
 

@@ -9,11 +9,10 @@ const requestGetSearchFriends = (value: string) => {
   return tokenAxios.get(`/friends/${value}`);
 };
 
-const requestPostFriendApplication = async (receiverNo: number) => {
-  const { data } = await tokenAxios.post(`/friends/requests/${receiverNo}`, {
+const requestPostFriendApplication = (receiverNo: number) => {
+  return tokenAxios.post(`/friends/requests/${receiverNo}`, {
     receiverNo,
   });
-  return data.response;
 };
 
 export {
