@@ -9,6 +9,8 @@ function Nav() {
   const { pathname } = useRouter();
   // 고객센터 페이지인지 아닌지
   const isServicePage = pathname.slice(0, 8) === '/service';
+  const isInErrorPage = pathname.slice(0, 7) === '/_error';
+  const isInChatPage = pathname.slice(0, 9) === '/chatting';
 
   const [hamburger, setHamburger] = useState(false);
 
@@ -16,11 +18,19 @@ function Nav() {
 
   return (
     <>
-      <NavUsual isServicePage={isServicePage} setHamburger={setHamburger} />
-      {hamburger && (
-        <ModalPortal>
-          <Hamburger onClose={() => setHamburger(false)} />
-        </ModalPortal>
+      {isInErrorPage || (
+        <>
+          <NavUsual
+            isInChatPage={isInChatPage}
+            isServicePage={isServicePage}
+            setHamburger={setHamburger}
+          />
+          {hamburger && (
+            <ModalPortal>
+              <Hamburger onClose={() => setHamburger(false)} />
+            </ModalPortal>
+          )}
+        </>
       )}
     </>
   );

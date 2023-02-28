@@ -17,7 +17,7 @@ export default function Chatting() {
     const roomListHandler = ({ response }: any) => {
       const socketData = response.chatRooms;
       setChatData(socketData);
-      setChatSocketData(socketData[0]);
+      setChatSocketData(socketData?.[0]);
     };
     socket.emit('init-socket', roomListHandler);
     return () => {
