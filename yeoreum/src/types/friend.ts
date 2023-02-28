@@ -9,4 +9,4 @@ export type FriendResponseType = {
   friendNickname: string;
   friendDescription: string;
   friendProfileImage: string;
-}[];
+};

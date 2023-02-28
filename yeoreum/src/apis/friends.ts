@@ -5,9 +5,8 @@ const requestGetFriendsList = async () => {
   return data.response.friends;
 };
 
-const requestGetSearchFriends = async (value: string) => {
-  const { data } = await tokenAxios.get(`/friends/${value}`);
-  return data.response;
+const requestGetSearchFriends = (value: string) => {
+  return tokenAxios.get(`/friends/${value}`);
 };
 
 const requestPostFriendApplication = async (receiverNo: number) => {
