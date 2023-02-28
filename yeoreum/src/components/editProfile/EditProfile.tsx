@@ -4,14 +4,13 @@ import EditInfo from './EditInfo';
 import Modal from '../common/Modal';
 import ModalContent from './ModalContent';
 import PostContainer from '../board/PostContainer';
-import { requestGetUserProfile } from '../../apis/users';
 import { UserProfileResponseType } from '../../types/user';
 import ProfileImage from '../common/ProfileImage';
-import { getToken } from '../../utils/user';
+
 import { useUserProfileQuery } from '../../hooks/queries/users';
+import { requestGetUserProfile } from '../../apis/users';
 
 function EditProfile() {
-  const token = getToken() as string;
   const [isOpen, setIsOpen] = useState(false);
   const [fileImg, setFileImg] = useState('');
   const [userData, setUserData] = useState<UserProfileResponseType>({
