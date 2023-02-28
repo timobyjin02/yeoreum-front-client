@@ -1,12 +1,7 @@
 import tokenAxios from './config';
 
-const requestGetFriendsList = async (token: string) => {
-  const { data } = await tokenAxios('/friends', {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return data.response.friends;
+const requestGetFriendsList = () => {
+  return tokenAxios('/friends');
 };
 
 const requestGetSearchFriends = (value: string) => {
@@ -27,10 +22,20 @@ const requestGetNotFriendList = (nickname: string) => {
   return tokenAxios.get(`/friends/not-friends/${nickname}`);
 };
 
+const requestGetFriendsReceivedList = () => {
+  return tokenAxios.get('/friends/requests/received');
+};
+
+const requestGetFriendsSentList = () => {
+  return tokenAxios.get('/friends/requests/sent');
+};
+
 export {
   requestGetFriendsList,
   requestGetSearchFriends,
   requestPostFriendApplication,
   requestGetFriendsValidate,
   requestGetNotFriendList,
+  requestGetFriendsReceivedList,
+  requestGetFriendsSentList,
 };

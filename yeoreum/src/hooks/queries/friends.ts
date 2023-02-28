@@ -1,11 +1,25 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import {
+  requestGetFriendsList,
+  requestGetFriendsReceivedList,
+  requestGetFriendsSentList,
   requestGetFriendsValidate,
   requestGetNotFriendList,
   requestGetSearchFriends,
   requestPostFriendApplication,
 } from '../../apis/friends';
+
+const useFriendsQuery = () => {
+  return useQuery<any, AxiosError, any, ['friends']>(
+    ['friends'],
+    requestGetFriendsList,
+    {
+      retry: 0,
+      staleTime: 0,
+    },
+  );
+};
 
 const useSearchFriendsQuery = (value: string) => {
   return useQuery<any, AxiosError, any, string[]>(
@@ -51,9 +65,34 @@ const useFriendsValidateQuery = (friendUserNo: number) => {
   );
 };
 
+const useFriendsReceivedQuery = () => {
+  return useQuery<any, AxiosError, any, ['friendsReceived']>(
+    ['friendsReceived'],
+    requestGetFriendsReceivedList,
+    {
+      retry: 0,
+      staleTime: 0,
+    },
+  );
+};
+
+const useFriendsSentQuery = () => {
+  return useQuery<any, AxiosError, any, ['friendsSent']>(
+    ['friendsSent'],
+    requestGetFriendsSentList,
+    {
+      retry: 0,
+      staleTime: 0,
+    },
+  );
+};
+
 export {
+  useFriendsQuery,
   useSearchFriendsQuery,
   usePostFriendApplicationMutation,
   useFriendsValidateQuery,
   useNotFriendsQuery,
+  useFriendsReceivedQuery,
+  useFriendsSentQuery,
 };

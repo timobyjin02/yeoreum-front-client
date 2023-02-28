@@ -1,37 +1,71 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
+import {
+  useFriendsQuery,
+  useFriendsReceivedQuery,
+  useFriendsSentQuery,
+} from '../../../hooks/queries/friends';
+import { FriendResponseType } from '../../../types/friend';
 import sliceString from '../../../utils/sliceString';
+import Modal from '../../common/Modal';
 import ProfileImage from '../../common/ProfileImage';
+import ElseProfile from '../../elseProfile/ElseProfile';
 
-function FriendList() {
+interface Tab {
+  id: number;
+  title: string;
+  response: string;
+}
+interface TabProps {
+  tab: Tab;
+}
+
+interface ApiObject {
+  [key: number]: any;
+}
+
+function FriendList({ tab }: TabProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const api: ApiObject = {
+    0: useFriendsQuery(),
+    1: useFriendsSentQuery(),
+    2: useFriendsReceivedQuery(),
+  };
+  const { data } = api[tab.id];
+  const response = data?.data.response;
+  const friends = response?.[tab.response];
 
   const openProfileHandler = () => {
     setIsOpen(true);
   };
 
   return (
-    <List>
-      <ImageWrapper>
-        {/* <ProfileImage src={friend?.friendProfileImage} size={70} /> */}
-      </ImageWrapper>
-      <InfoWrapper onClick={openProfileHandler}>
-        {/* {isOpen && (
-                  <Modal onClose={() => setIsOpen(false)}>
-                    <ElseProfile
-                      img={friend.friendProfileImage}
-                      name={friend.friendNickname}
-                      description={friend.friendDescription}
-                    />
-                  </Modal>
-                )} */}
-        <Nickname>sss</Nickname>
-        <Description>
-          ddd
-          {/* {sliceString(, 65)} */}
-        </Description>
-      </InfoWrapper>
-    </List>
+    <>
+      {friends?.map((friend: FriendResponseType) => {
+        return (
+          <List>
+            <ImageWrapper>
+              <ProfileImage src={friend?.friendProfileImage} size={70} />
+            </ImageWrapper>
+            <InfoWrapper onClick={openProfileHandler}>
+              {isOpen && (
+                <Modal onClose={() => setIsOpen(false)}>
+                  <ElseProfile
+                    img={friend.friendProfileImage}
+                    name={friend.friendNickname}
+                    description={friend.friendDescription}
+                  />
+                </Modal>
+              )}
+              <Nickname>{friend.friendNickname}</Nickname>
+              <Description>
+                {sliceString(friend.friendDescription, 65)}
+              </Description>
+            </InfoWrapper>
+          </List>
+        );
+      })}
+    </>
   );
 }
 

@@ -9,17 +9,17 @@ function FriendMain() {
     {
       id: 0,
       title: '친구 목록',
-      content: <FriendList />,
+      response: 'friends',
     },
     {
       id: 1,
       title: '보낸 신청',
-      content: <div>보낸</div>,
+      response: 'sentFriendRequests',
     },
     {
       id: 2,
       title: '받은 신청',
-      content: <div>받은</div>,
+      response: 'receivedRequests',
     },
   ];
 
@@ -42,7 +42,9 @@ function FriendMain() {
         {tabs
           .filter(tab => viewList === tab.id)
           .map(tab => (
-            <ListItem key={tab.id}>{tab.content}</ListItem>
+            <ListItem key={tab.id}>
+              <FriendList tab={tab} />
+            </ListItem>
           ))}
       </ListsBox>
     </MainContainer>
