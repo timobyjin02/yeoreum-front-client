@@ -16,6 +16,9 @@ interface ProfileEditProps {
   setUserData: React.Dispatch<React.SetStateAction<UserProfileResponseType>>;
 }
 function EditInfo({ userData, setUserData }: ProfileEditProps) {
+  const [error, setError] = useState(false);
+  const pattern = /^[a-zA-Z가-힣]{2,12}$/;
+
   const { refetch } = useUserProfileQuery();
   useEffect(() => {
     refetch();
@@ -25,6 +28,16 @@ function EditInfo({ userData, setUserData }: ProfileEditProps) {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { value, name } = e.target;
+
+    if (name === 'description' && value.length > 255) {
+      return; // 입력 막기
+    }
+
+    if (!pattern.test(value)) {
+      setError(true);
+    } else {
+      setError(false);
+    }
 
     setUserData({
       ...userData,
@@ -40,16 +53,22 @@ function EditInfo({ userData, setUserData }: ProfileEditProps) {
   return (
     <ProfileInfoWrapper>
       <ProfileInfoes>
-        <InfoTitle>닉네임</InfoTitle>
-        <InfoInput
-          name="nickname"
-          onChange={handleInputChange}
-          value={userData?.nickname || ''}
-        />
+        <NicknameWrapper>
+          <InfoTitle>닉네임</InfoTitle>
+          <InfoInput
+            name="nickname"
+            onChange={handleInputChange}
+            value={userData?.nickname || ''}
+          />
+          {error && (
+            <Text>
+              닉네임은 2 ~ 12자의 영문 및 한글, 특수문자는 사용할 수 없습니다
+            </Text>
+          )}
+        </NicknameWrapper>
         <InfoTitle>이메일</InfoTitle>
         <InfoInput
           name="email"
-          onChange={handleInputChange}
           value={userData?.email || ''}
           className={'readOnly'}
           readOnly
@@ -61,7 +80,9 @@ function EditInfo({ userData, setUserData }: ProfileEditProps) {
           name="description"
           onChange={handleInputChange}
           value={userData?.description || ''}
+          maxLength={255}
         />
+        <DescText>{userData?.description?.length || 0}/255</DescText>
       </ProfileInfoes>
       <EditButton onClick={() => profileEditHandler()}>수정</EditButton>
     </ProfileInfoWrapper>
@@ -104,6 +125,23 @@ const InfoInput = styled.input`
   }
 `;
 
+const NicknameWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Text = styled.span`
+  margin-top: -10px;
+  margin-bottom: 20px;
+  font-size: 11px;
+  color: ${({ theme }) => theme.palette.main};
+`;
+
+const DescText = styled.span`
+  font-size: 12px;
+  color: ${({ theme }) => theme.palette.font.subHeadline};
+`;
+
 const MajorWrapper = styled.div`
   display: flex;
 `;
@@ -127,7 +165,6 @@ const InfoDescription = styled.textarea`
   display: flex;
   width: 340px;
   min-height: 100px;
-  margin-bottom: 50px;
   padding: 12px;
   font-size: 1rem;
   background-color: ${({ theme }) => theme.palette.background.light};
