@@ -11,10 +11,10 @@ interface FriendListProps {
 }
 
 function FriendPage({ friendList }: FriendListProps) {
-  const [isOpen4, setIsOpen4] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const openProfileHandler = () => {
-    setIsOpen4(true);
+    setIsOpen(true);
   };
 
   return (
@@ -27,8 +27,8 @@ function FriendPage({ friendList }: FriendListProps) {
                 <ProfileImage src={friend.friendProfileImage} size={70} />
               </ImageWrapper>
               <InfoWrapper onClick={openProfileHandler}>
-                {isOpen4 && (
-                  <Modal onClose={() => setIsOpen4(false)}>
+                {isOpen && (
+                  <Modal onClose={() => setIsOpen(false)}>
                     <ElseProfile
                       img={friend.friendProfileImage}
                       name={friend.friendNickname}

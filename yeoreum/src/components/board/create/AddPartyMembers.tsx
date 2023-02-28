@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { requestGetFriendsList } from '../../../apis/friends';
 import { PostCreateData } from '../../../types/post';
 import sliceString from '../../../utils/sliceString';
-import { getToken } from '../../../utils/user';
 import Modal from '../../common/Modal';
 import AddFriendModal from '../../friend/addModal/AddFriendModal';
 
@@ -21,14 +20,13 @@ interface AddPartyMembersProps {
 }
 
 function AddPartyMembers({ setPostData }: AddPartyMembersProps) {
-  const token = getToken() as string;
   const [friendsList, setFriendsList] = useState<FriendsList[]>([]);
   const [friendsEntry, setFriendsEntry] = useState<FriendsList[]>([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   useEffect(() => {
     (async () => {
-      const friends: FriendsList[] = await requestGetFriendsList(token);
+      const friends: FriendsList[] = await requestGetFriendsList();
       // setFriendsList(data);
       friends.forEach(friend => (friend.isChecked = false));
       setFriendsList(friends);

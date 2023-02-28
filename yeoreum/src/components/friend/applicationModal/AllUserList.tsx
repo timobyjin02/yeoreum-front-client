@@ -4,18 +4,16 @@ import { FriendListType } from '../../../types/friend';
 import ProfileImage from '../../common/ProfileImage';
 import { UsersResponseType } from '../../../types/user';
 import { requestPostFriendApplication } from '../../../apis/friends';
-import { getToken } from '../../../utils/user';
 
 interface ItemProps {
   item: UsersResponseType;
 }
 
 function AllUserList({ item }: ItemProps) {
-  const token = getToken() as string;
   const [isDisabled, setIsDisabled] = useState(false);
 
   const applicationHandler = () => {
-    requestPostFriendApplication(item.userNo, token);
+    requestPostFriendApplication(item.userNo);
     setIsDisabled(true);
   };
 
