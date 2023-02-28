@@ -1,43 +1,81 @@
 import styled from '@emotion/styled';
+import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
+import FooterMenus from './FooterMenus';
+
+export interface MenuOptionObject {
+  title: string;
+  items: MenuItem[];
+}
+
+export interface MenuItem {
+  text: string;
+  href: string;
+}
 
 function Footer() {
   const { pathname } = useRouter();
   const isInChatPage = pathname.slice(0, 9) === '/chatting';
+  const isInErrorPage = pathname.slice(0, 7) === '/_error';
+
+  const navOption: MenuOptionObject = {
+    title: '바로가기',
+    items: [
+      { text: '게시판', href: '/board' },
+      { text: '친구', href: '/friend' },
+      { text: '채팅', href: '/chatting' },
+    ],
+  };
+
+  const serviceOption: MenuOptionObject = {
+    title: '고객센터',
+    items: [
+      { text: '문의하기', href: '/service/inquiry' },
+      { text: '신고하기', href: '/service/notice' },
+      { text: '자주 묻는 질문', href: '/service/notice' },
+    ],
+  };
+
+  const noticeOption: MenuOptionObject = {
+    title: '공지사항',
+    items: [
+      { text: '공지사항', href: '/service/notice' },
+      { text: '이벤트', href: '/service/notice' },
+      { text: '업데이트 내역', href: '/service/notice' },
+    ],
+  };
+
+  const yeoreumOption: MenuOptionObject = {
+    title: '여름이었다',
+    items: [
+      { text: '서비스 소개', href: '' },
+      { text: '사용설명서', href: '' },
+    ],
+  };
+
   return (
     <>
-      {isInChatPage ? null : (
+      {isInErrorPage || isInChatPage ? null : (
         <FooterBackground>
           <FooterContainer>
             <FooterMenu>
-              <Menu>
-                <MenuTitle>바로가기</MenuTitle>
-                <MenuItem>게시판</MenuItem>
-                <MenuItem>친구</MenuItem>
-                <MenuItem>채팅</MenuItem>
-              </Menu>
-              <Menu>
-                <MenuTitle>고객센터</MenuTitle>
-                <MenuItem>문의하기</MenuItem>
-                <MenuItem>신고하기</MenuItem>
-                <MenuItem>자주 묻는 질문</MenuItem>
-              </Menu>
-              <Menu>
-                <MenuTitle>공지사항</MenuTitle>
-                <MenuItem>공지사항</MenuItem>
-                <MenuItem>이벤트</MenuItem>
-                <MenuItem>업데이트 내역</MenuItem>
-              </Menu>
-              <Menu>
-                <MenuTitle>여름이었다</MenuTitle>
-                <MenuItem>서비스 소개</MenuItem>
-                <MenuItem>사용설명서</MenuItem>
-              </Menu>
+              <FooterMenus option={navOption} />
+              <FooterMenus option={serviceOption} />
+              <FooterMenus option={noticeOption} />
+              <FooterMenus option={yeoreumOption} />
             </FooterMenu>
             <FooterBottom>
               <FooterInfo>
-                <YeoreumLogo>로고</YeoreumLogo>
+                <Link href="/">
+                  <YeoreumLogo
+                    width={250}
+                    height={72}
+                    alt="yeorerm-logo"
+                    src="/logo2.png"
+                  />
+                </Link>
                 <Terms>
                   <PolicyAndTerms>개인정보처리방침</PolicyAndTerms>
                   <PolicyAndTerms>이용약관</PolicyAndTerms>
@@ -86,27 +124,6 @@ const FooterMenu = styled.div`
   } ;
 `;
 
-const Menu = styled.ul`
-  min-width: 125px;
-  flex-basis: 250px;
-  font-size: 15px;
-  @media (max-width: 640px) {
-    flex-basis: auto;
-    padding-bottom: 30px;
-  } ;
-`;
-
-const MenuTitle = styled.li`
-  font-weight: 600;
-  line-height: 30px;
-  padding-bottom: 5px;
-`;
-
-const MenuItem = styled.li`
-  line-height: 30px;
-  color: #a0a0a0; ;
-`;
-
 const FooterBottom = styled.div`
   display: flex;
   @media (max-width: 640px) {
@@ -120,11 +137,10 @@ const FooterInfo = styled.div`
   padding-right: 60px;
 `;
 
-const YeoreumLogo = styled.div`
-  color: #ff2b37;
-  font-size: 26px;
-  font-weight: 600;
-  padding-bottom: 10px;
+const YeoreumLogo = styled(Image)`
+  width: 130px;
+  height: 36px;
+  margin-bottom: 10px;
 `;
 
 const Terms = styled.div`

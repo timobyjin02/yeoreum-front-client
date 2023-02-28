@@ -11,10 +11,15 @@ import { useLoginMutation } from '../../hooks/queries/auth';
 
 interface NavProps {
   isServicePage: boolean;
+  isInChatPage: boolean;
   setHamburger: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export function NavUsual({ isServicePage, setHamburger }: NavProps) {
+export function NavUsual({
+  isInChatPage,
+  isServicePage,
+  setHamburger,
+}: NavProps) {
   const { isLoggedIn } = useLoginState();
 
   const onSuccess = (data: AxiosResponse<any, any>) => {
@@ -35,7 +40,7 @@ export function NavUsual({ isServicePage, setHamburger }: NavProps) {
 
   return (
     <>
-      <Container show>
+      <Container isInChatPage={isInChatPage} show>
         <NavContainer>
           <ArrangeContainer>
             <StyledLink href="/">
@@ -101,7 +106,7 @@ export function NavUsual({ isServicePage, setHamburger }: NavProps) {
           </HamburgerButton>
         </NavContainer>
       </Container>
-      <Kernel />
+      <Kernel isInChatPage={isInChatPage} />
     </>
   );
 }
@@ -115,9 +120,15 @@ const StyledLink = styled(Link)`
   align-items: center;
 `;
 
-const Kernel = styled.div`
+const Kernel = styled.div<{ isInChatPage: boolean }>`
   height: 60px;
   width: 100%;
+  ${({ isInChatPage }) =>
+    isInChatPage
+      ? `@media (max-width: 640px) {
+    display:none;
+  }`
+      : ''}
 `;
 
 const ArrangeContainer = styled.div`
@@ -125,7 +136,7 @@ const ArrangeContainer = styled.div`
   align-items: center;
 `;
 
-const Container = styled.nav<{ show: boolean }>`
+const Container = styled.nav<{ isInChatPage: boolean; show: boolean }>`
   color: #181818;
   z-index: 9999;
   display: flex;
@@ -138,6 +149,12 @@ const Container = styled.nav<{ show: boolean }>`
     show ? 'white' : 'rgba(255, 255, 255, 0)'};
   transition-timing-function: ease-in;
   transition: all 0.2s;
+  ${({ isInChatPage }) =>
+    isInChatPage
+      ? `@media (max-width: 640px) {
+    display:none;
+  }`
+      : ''}
 `;
 
 const NavContainer = styled.div`

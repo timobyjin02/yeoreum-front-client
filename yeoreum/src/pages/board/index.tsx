@@ -68,17 +68,15 @@ function Board() {
       </div>
       <Filter option={option} setOption={setOption} />
       {/* <SearchBox /> */}
-      {data?.pages.map((group, idx) => {
-        return (
-          <Fragment key={idx}>
-            <PostList
-              key={idx}
-              posts={group?.data.response.boardPagenation.boards}
-              fetchNextPage={fetchNextPage}
-            />
-          </Fragment>
-        );
-      })}
+      {data?.pages.map((group, idx) => (
+        <Fragment key={idx}>
+          <PostList
+            key={idx}
+            posts={group?.data.response.boardPagenation.boards}
+            fetchNextPage={fetchNextPage}
+          />
+        </Fragment>
+      ))}
       {isError && (
         <h4 style={{ marginTop: '20px', textAlign: 'center' }}>
           조건에 맞는 게시글이 없습니다.

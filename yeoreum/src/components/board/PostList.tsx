@@ -38,63 +38,60 @@ function PostList({ posts, fetchNextPage, isApplication }: PostListProps) {
 
   return (
     <Post>
-      {posts?.map((post, idx) => {
-        console.log(post);
-        return (
-          <Link
-            onClick={useSaveScrollData}
-            key={`${post.no}${idx}`}
-            href={
-              isApplication
-                ? `/apply/${boardNo}/application/${post.teamNo}`
-                : `/board/post/${post.no}`
-            }
-          >
-            <List ref={posts.length - 1 === idx ? ref : null}>
-              <PostHeader>
-                <Progress status={post.isDone}>
-                  {statusMaker(post.isDone)}
-                </Progress>
-                <CreatedAt>{post.createdDate}</CreatedAt>
-              </PostHeader>
-              <PostTitle>{post.title}</PostTitle>
-              {isApplication && (
-                <ApplicationDescription>
-                  {post.description}
-                </ApplicationDescription>
-              )}
-              {isApplication || (
-                <PostBottom>
-                  <Conditions>
-                    <Condition>
-                      <GenderCondition>
-                        <ConditionIcon src="/icons/man.svg" />
-                        <ConditionText>{post.recruitMale}명</ConditionText>
-                      </GenderCondition>
-                      <GenderCondition>
-                        <ConditionIcon src="/icons/woman.svg" />
-                        <ConditionText>{post.recruitFemale}명</ConditionText>
-                      </GenderCondition>
-                    </Condition>
-                    <Condition>
-                      <ConditionIcon src="/icons/clock.svg" />
-                      <ConditionText>{post.meetingTime}</ConditionText>
-                    </Condition>
-                    <Condition>
-                      <ConditionIcon src="/icons/location.svg" />
-                      <ConditionText>{post.location}</ConditionText>
-                    </Condition>
-                  </Conditions>
-                  <CreaterInfo>
-                    <CreaterImage src="anonymous.png" />
-                    <CreaterNickname>{post.hostNickname}</CreaterNickname>
-                  </CreaterInfo>
-                </PostBottom>
-              )}
-            </List>
-          </Link>
-        );
-      })}
+      {posts?.map((post, idx) => (
+        <Link
+          onClick={useSaveScrollData}
+          key={`${post.no}${idx}`}
+          href={
+            isApplication
+              ? `/apply/${boardNo}/application/${post.teamNo}`
+              : `/board/post/${post.no}`
+          }
+        >
+          <List ref={posts.length - 1 === idx ? ref : null}>
+            <PostHeader>
+              <Progress status={post.isDone}>
+                {statusMaker(post.isDone)}
+              </Progress>
+              <CreatedAt>{post.createdDate}</CreatedAt>
+            </PostHeader>
+            <PostTitle>{post.title}</PostTitle>
+            {isApplication && (
+              <ApplicationDescription>
+                {post.description}
+              </ApplicationDescription>
+            )}
+            {isApplication || (
+              <PostBottom>
+                <Conditions>
+                  <Condition>
+                    <GenderCondition>
+                      <ConditionIcon src="/icons/man.svg" />
+                      <ConditionText>{post.recruitMale}명</ConditionText>
+                    </GenderCondition>
+                    <GenderCondition>
+                      <ConditionIcon src="/icons/woman.svg" />
+                      <ConditionText>{post.recruitFemale}명</ConditionText>
+                    </GenderCondition>
+                  </Condition>
+                  <Condition>
+                    <ConditionIcon src="/icons/clock.svg" />
+                    <ConditionText>{post.meetingTime}</ConditionText>
+                  </Condition>
+                  <Condition>
+                    <ConditionIcon src="/icons/location.svg" />
+                    <ConditionText>{post.location}</ConditionText>
+                  </Condition>
+                </Conditions>
+                <CreaterInfo>
+                  <CreaterImage src="anonymous.png" />
+                  <CreaterNickname>{post.hostNickname}</CreaterNickname>
+                </CreaterInfo>
+              </PostBottom>
+            )}
+          </List>
+        </Link>
+      ))}
     </Post>
   );
 }
