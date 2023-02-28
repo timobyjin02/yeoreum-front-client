@@ -12,9 +12,8 @@ export interface RequestGetAllPostsOption {
 const requestGetPosts = (
   pageParam: number,
   option: RequestGetAllPostsOption,
-  token: string,
 ) => {
-  const url = `/api/boards?${
+  const url = `/boards?${
     option.gender === undefined ? '' : `gender=${option.gender}&`
   }${option.people === undefined ? '' : `people=${option.people}&`}${
     option.isDone === undefined ? '' : `isDone=${option.isDone}&`
@@ -22,11 +21,7 @@ const requestGetPosts = (
     option.isImpromptu === undefined ? '' : `isImpromptu=${option.isDone}&`
   }${`page=${pageParam}`}`;
 
-  return axios.get(url, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  return tokenAxios.get(url);
 };
 
 const requestPostCreatePost = (body: PostCreateData) => {

@@ -10,11 +10,10 @@ const useHandleBoard = (
   isAccepted: boolean,
   onSuccess: OnSuccess,
   onError: OnError,
-  token: string,
 ) => {
   const queryClient = useQueryClient();
   return useMutation<AxiosResponse<any, any>, unknown, void, unknown>(
-    () => requestHandleBoard(boardNo, type, isAccepted, token),
+    () => requestHandleBoard(boardNo, type, isAccepted),
     {
       onSuccess,
       onError,

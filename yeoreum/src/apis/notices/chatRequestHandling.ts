@@ -1,4 +1,4 @@
-import axios from 'axios';
+import tokenAxios from '../config';
 
 export interface requestChatBody {
   senderNo: number;
@@ -8,21 +8,15 @@ export interface requestChatBody {
 const requestAcceptChat = (
   chatRoomNo: number,
   requestBody: requestChatBody,
-  token: string,
 ) => {
-  return axios.patch(`/api/chats/${chatRoomNo}/invitation`, requestBody, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  return tokenAxios.patch(`/chats/${chatRoomNo}/invitation`, requestBody);
 };
 
 const requestRejectChat = (
   chatRoomNo: number,
   requestBody: requestChatBody,
-  token: string,
 ) => {
-  return axios.post(`/api/chats/${chatRoomNo}/invitation`, requestBody, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  return tokenAxios.post(`/chats/${chatRoomNo}/invitation`, requestBody);
 };
 
 export { requestAcceptChat, requestRejectChat };

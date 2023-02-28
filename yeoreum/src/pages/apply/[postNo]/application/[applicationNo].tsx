@@ -19,7 +19,6 @@ function ApplicationDetail({ postNo, applicationNo }: ApplicationPageProps) {
 
   return (
     <PostContainer>
-      {/* <PostDetailHeader /> */}
       <DetailHeader param={param} />
       <DetailMain param={param} />
     </PostContainer>

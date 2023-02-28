@@ -1,25 +1,11 @@
-import axios from 'axios';
+import tokenAxios from '../config';
 
-const requestAcceptFriend = (
-  friendNo: number,
-  senderUserNo: number,
-  token: string,
-) => {
-  return axios.patch(
-    `/api/friends/requests/${friendNo}/${senderUserNo}`,
-    {},
-    { headers: { Authorization: `Bearer ${token}` } },
-  );
+const requestAcceptFriend = (friendNo: number, senderUserNo: number) => {
+  return tokenAxios.patch(`/friends/requests/${friendNo}/${senderUserNo}`, {});
 };
 
-const requestRejectFriend = (
-  friendNo: number,
-  senderUserNo: number,
-  token: string,
-) => {
-  return axios.delete(`/api/friends/requests/${friendNo}/${senderUserNo}`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+const requestRejectFriend = (friendNo: number, senderUserNo: number) => {
+  return tokenAxios.delete(`/friends/requests/${friendNo}/${senderUserNo}`);
 };
 
 export { requestAcceptFriend, requestRejectFriend };

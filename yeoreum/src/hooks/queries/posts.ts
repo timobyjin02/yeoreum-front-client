@@ -22,12 +22,9 @@ type OnError =
   | ((error: any, variables: void, context: unknown) => unknown)
   | undefined;
 
-const usePostsInfiniteQuery = (
-  option: RequestGetAllPostsOption,
-  token: string,
-) => {
+const usePostsInfiniteQuery = (option: RequestGetAllPostsOption) => {
   const fetchPostsData = ({ pageParam = 1 }) => {
-    return requestGetPosts(pageParam, option, token);
+    return requestGetPosts(pageParam, option);
   };
 
   return useInfiniteQuery<any, AxiosError, any, ['posts', PostsQueryKeyObject]>(
@@ -74,22 +71,26 @@ const useCreateApplicationMutation = (
 };
 
 const usePostDetailQuery = (boardNo: number) => {
-  const router = useRouter();
-  return useQuery(['postDetail'], () => requestGetPostDetail(boardNo), {
-    retry: 0,
-    staleTime: 0,
-    refetchOnWindowFocus: false,
-    onError: error => {
-      console.log('해당 게시글이 없습니다.', error);
-      // router.push('/404');
+  // const router = useRouter();
+  return useQuery(
+    ['postDetail', boardNo],
+    () => requestGetPostDetail(boardNo),
+    {
+      retry: 0,
+      staleTime: 0,
+      refetchOnWindowFocus: false,
+      onError: error => {
+        console.log('해당 게시글이 없습니다.', error);
+        // router.push('/404');
+      },
     },
-  });
+  );
 };
 
 const useApplicationList = (boardNo: number) => {
-  const router = useRouter();
+  // const router = useRouter();
   return useQuery(
-    ['applicationList'],
+    ['applicationList', boardNo],
     () => requestGetPostApplication(boardNo),
     {
       retry: 0,
@@ -106,9 +107,9 @@ const useApplicationList = (boardNo: number) => {
 };
 
 const useApplicationDetailQuery = (boardNo: number, teamNo: number) => {
-  const router = useRouter();
+  // const router = useRouter();
   return useQuery(
-    ['applicationDetail'],
+    ['applicationDetail', boardNo, teamNo],
     () => requestGetApplicationDetail(boardNo, teamNo),
     {
       retry: 0,
