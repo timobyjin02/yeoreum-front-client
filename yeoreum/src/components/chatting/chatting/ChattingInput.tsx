@@ -1,14 +1,26 @@
-import React, { useState, useCallback, FormEvent } from 'react';
+import React, { useState, useCallback, FormEvent, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { ChatLogType } from '../../../types/chat';
+import { socket } from '../../../pages/_app';
 
 interface ChatsProps {
   setChats: React.Dispatch<React.SetStateAction<ChatLogType[]>>;
   scrollRef: React.RefObject<HTMLDivElement>;
+  chatSocketData: any;
 }
 
-function ChattingInput({ setChats, scrollRef }: ChatsProps) {
+function ChattingInput({ setChats, scrollRef, chatSocketData }: ChatsProps) {
   const [message, setMessage] = useState<string>('');
+
+  useEffect(() => {
+    const messageHandler = (chat: ChatLogType) =>
+      setChats(prevChats => [...prevChats, chat]);
+    socket.on('message', messageHandler);
+
+    return () => {
+      socket.off('message', messageHandler);
+    };
+  }, [setChats]);
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(e.target.value);
@@ -19,22 +31,20 @@ function ChattingInput({ setChats, scrollRef }: ChatsProps) {
       e.preventDefault();
       if (!message) return alert('메시지를 입력해 주세요.');
 
-      const newChat = {
-        chatLogNo: 0,
-        userNo: 0,
-        message: message,
-        sendedTime: '',
-      };
+      socket.emit(
+        'message',
+        { userNo: 21, message, chatRoomNo: chatSocketData?.chatRoomNo },
+        ({ response }: any) => {
+          const chats = response.messagePayload;
+          console.log(response);
+          console.log(chats);
 
-      setChats(prevChats => [...prevChats, newChat]);
-      setMessage('');
-
-      setTimeout(
-        () => scrollRef?.current?.scrollIntoView({ block: 'end' }),
-        50,
+          setChats(prevChats => [...prevChats, chats]);
+          setMessage('');
+        },
       );
     },
-    [message],
+    [message, setChats],
   );
 
   return (

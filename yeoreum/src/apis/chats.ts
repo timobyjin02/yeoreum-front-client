@@ -1,31 +1,26 @@
 import axios from 'axios';
+import { getToken } from '../utils/user';
+import tokenAxios from './config';
 
 const remote = axios.create();
 
+const token = getToken();
+
 export const config = {
   headers: {
-    Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN}`,
+    Authorization: `Bearer ${token}`,
   },
 };
 
-const requestPostChatRoomInvitation = async (
-  chatsRoomNo: number,
-  userNo: number,
-) => {
-  const { data } = await remote.post(
-    `/api/chats/${chatsRoomNo}/invitation/${userNo}`,
-    { chatsRoomNo, userNo },
-    config,
-  );
-  return data.response;
+const requestPostChatRoomInvitation = (chatsRoomNo: number, userNo: number) => {
+  return tokenAxios.post(`/chats/${chatsRoomNo}/invitation/${userNo}`, {
+    chatsRoomNo,
+    userNo,
+  });
 };
 
-const requestGetCurrentChatLog = async (chatsRoomNo: number) => {
-  const { data } = await remote.get(
-    `/api/chats/${chatsRoomNo}/chat-log`,
-    config,
-  );
-  return data.response.currentChatLog;
+const requestGetCurrentChatLog = (chatsRoomNo: number) => {
+  return tokenAxios.get(`/chats/${chatsRoomNo}/chat-log`);
 };
 
 export { requestPostChatRoomInvitation, requestGetCurrentChatLog };

@@ -1,27 +1,40 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import styled from '@emotion/styled';
 import ParticipantsList from './ParticipantsList';
 import ChatList from './ChatList';
-import { ChatRoom } from '../../../pages/chatting';
+import { ChatRoom } from '../../../types/chat';
 
 interface ChatDataProps {
   chatData: ChatRoom[];
-  setChatData: React.Dispatch<React.SetStateAction<ChatRoom[]>>;
+  setChatSocketData: any;
+  chatSocketData: any;
 }
 
-function ChattingListBox({ chatData, setChatData }: ChatDataProps) {
+function ChattingListBox({
+  chatData,
+  setChatSocketData,
+  chatSocketData,
+}: ChatDataProps) {
   const [viewList, setViewList] = useState(0);
 
   const tabs = [
     {
       id: 0,
       title: '참여인원',
-      content: <ParticipantsList chatData={chatData} />,
+      content: (
+        <ParticipantsList
+          chatData={chatData}
+          setChatSocketData={setChatSocketData}
+          chatSocketData={chatSocketData}
+        />
+      ),
     },
     {
       id: 1,
-      title: '채팅',
-      content: <ChatList chatData={chatData} />,
+      title: '목록',
+      content: (
+        <ChatList chatData={chatData} setChatSocketData={setChatSocketData} />
+      ),
     },
   ];
 
@@ -44,7 +57,7 @@ function ChattingListBox({ chatData, setChatData }: ChatDataProps) {
         {tabs
           .filter(tab => viewList === tab.id)
           .map(tab => (
-            <ListItem>{tab.content}</ListItem>
+            <ListItem key={tab.id}>{tab.content}</ListItem>
           ))}
       </ListsBox>
     </Container>
