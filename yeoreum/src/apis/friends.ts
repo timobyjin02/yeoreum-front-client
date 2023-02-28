@@ -1,43 +1,41 @@
-import axios from 'axios';
+import tokenAxios from './config';
 
-const remote = axios.create();
-
-const requestGetFriendsList = async (token: string) => {
-  const { data } = await axios('/api/friends', {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return data.response.friends;
+const requestGetFriendsList = () => {
+  return tokenAxios('/friends');
 };
 
-const requestGetSearchFriends = async (value: string, token: string) => {
-  const { data } = await remote.get(`/api/friends/${value}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return data.response;
+const requestGetSearchFriends = (value: string) => {
+  return tokenAxios.get(`/friends/${value}`);
 };
 
-const requestPostFriendApplication = async (
-  receiverNo: number,
-  token: string,
-) => {
-  const { data } = await remote.post(
-    `/api/friends/requests/${receiverNo}`,
-    { receiverNo },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    },
-  );
-  return data.response;
+const requestPostFriendApplication = (receiverNo: number) => {
+  return tokenAxios.post(`/friends/requests/${receiverNo}`, {
+    receiverNo,
+  });
+};
+
+const requestGetFriendsValidate = (friendUserNo: number) => {
+  return tokenAxios.get(`/friends/validate/${friendUserNo}`);
+};
+
+const requestGetNotFriendList = (nickname: string) => {
+  return tokenAxios.get(`/friends/not-friends/${nickname}`);
+};
+
+const requestGetFriendsReceivedList = () => {
+  return tokenAxios.get('/friends/requests/received');
+};
+
+const requestGetFriendsSentList = () => {
+  return tokenAxios.get('/friends/requests/sent');
 };
 
 export {
   requestGetFriendsList,
   requestGetSearchFriends,
   requestPostFriendApplication,
+  requestGetFriendsValidate,
+  requestGetNotFriendList,
+  requestGetFriendsReceivedList,
+  requestGetFriendsSentList,
 };
