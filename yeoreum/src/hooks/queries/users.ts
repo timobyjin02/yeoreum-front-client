@@ -3,6 +3,7 @@ import { AxiosError, AxiosResponse } from 'axios';
 import jwtDecode from 'jwt-decode';
 import { useRouter } from 'next/router';
 import {
+  requestGetUserBoards,
   requestGetUserProfile,
   requestPatchEditProfile,
   requestPatchMajorUpload,
@@ -73,9 +74,21 @@ const useMajorUploadMutation = () => {
   );
 };
 
+const useBoardsMyPageQuery = (type: number) => {
+  return useQuery<any, AxiosError, any, any[]>(
+    ['boardsMyPage', type],
+    () => requestGetUserBoards(type),
+    {
+      retry: 0,
+      staleTime: 0,
+    },
+  );
+};
+
 export {
   useUserProfileQuery,
   useProfileEditMutation,
   useProfileImageEditMutation,
   useMajorUploadMutation,
+  useBoardsMyPageQuery,
 };

@@ -17,14 +17,8 @@ const requestGetUsers = async (value: string, token: string) => {
   return data.response.users;
 };
 
-const requestGetUserBoards = async (type: number, token: string) => {
-  const { data } = await remote.get(`/api/boards/my-page/${type}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  return data.response.users;
+const requestGetUserBoards = async (type: number) => {
+  return tokenAxios.get(`/boards/my-page/${type}`);
 };
 
 const requestPutEditProfileImage = (file: Blob) => {
