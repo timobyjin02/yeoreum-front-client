@@ -80,7 +80,7 @@ const ImageRow = styled.div`
 
   flex-direction: row;
 
-  &:nth-child(2) {
+  &:nth-of-type(2) {
     margin-top: 4px;
   }
 `;
