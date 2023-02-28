@@ -58,6 +58,7 @@ export default function UserModal() {
             </Items>
             <Logout onClick={handleClickLogout}>
               <Image
+                style={{ transform: 'rotate(180deg)' }}
                 width={18}
                 height={18}
                 alt="logout"

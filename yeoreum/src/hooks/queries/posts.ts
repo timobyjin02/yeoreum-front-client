@@ -1,18 +1,23 @@
-import { PostCreateData } from './../../types/post';
+import { PostCreateData, ApplicationCreateData } from '../../types/post';
 import { useInfiniteQuery, useQuery, useMutation } from '@tanstack/react-query';
 import {
   RequestGetAllPostsOption,
+  requestGetApplicationDetail,
+  requestGetPostApplication,
+  requestGetPostDetail,
   requestGetPosts,
+  requestPostCreateApplication,
   requestPostCreatePost,
 } from '../../apis/posts';
 import { AxiosError } from 'axios';
+import { useRouter } from 'next/router';
 
 type PostsQueryKeyObject = RequestGetAllPostsOption;
 
 type OnSuccess =
   | ((data: unknown, variables: void, context: unknown) => unknown)
   | undefined;
-  
+
 type OnError =
   | ((error: any, variables: void, context: unknown) => unknown)
   | undefined;
@@ -29,6 +34,7 @@ const usePostsInfiniteQuery = (
     ['posts', option],
     fetchPostsData,
     {
+      keepPreviousData: true,
       getNextPageParam: (lastPage, pages) => {
         const boardPagenationData = lastPage.data.response.boardPagenation;
         const { page, totalPage } = boardPagenationData;
@@ -45,15 +51,82 @@ const usePostsInfiniteQuery = (
 };
 
 const useCreatePostMutation = (
-  token: string,
   body: PostCreateData,
   onSuccess?: OnSuccess,
   onError?: OnError,
 ) => {
-  return useMutation(() => requestPostCreatePost(token, body), {
+  return useMutation(() => requestPostCreatePost(body), {
     onSuccess,
     onError,
   });
 };
 
-export { usePostsInfiniteQuery, useCreatePostMutation };
+const useCreateApplicationMutation = (
+  boardNo: number,
+  body: ApplicationCreateData,
+  onSuccess: OnSuccess,
+  onError: OnError,
+) => {
+  return useMutation(() => requestPostCreateApplication(boardNo, body), {
+    onSuccess,
+    onError,
+  });
+};
+
+const usePostDetailQuery = (boardNo: number) => {
+  const router = useRouter();
+  return useQuery(['postDetail'], () => requestGetPostDetail(boardNo), {
+    retry: 0,
+    staleTime: 0,
+    refetchOnWindowFocus: false,
+    onError: error => {
+      console.log('해당 게시글이 없습니다.', error);
+      // router.push('/404');
+    },
+  });
+};
+
+const useApplicationList = (boardNo: number) => {
+  const router = useRouter();
+  return useQuery(
+    ['applicationList'],
+    () => requestGetPostApplication(boardNo),
+    {
+      retry: 0,
+      refetchOnWindowFocus: false,
+      onError: (error: any) => {
+        console.log(error);
+        // const errorData = error.response.data;
+        // if (errorData.statusCode === 404) {
+        //   router.push('/404');
+        // }
+      },
+    },
+  );
+};
+
+const useApplicationDetailQuery = (boardNo: number, teamNo: number) => {
+  const router = useRouter();
+  return useQuery(
+    ['applicationDetail'],
+    () => requestGetApplicationDetail(boardNo, teamNo),
+    {
+      retry: 0,
+      staleTime: 0,
+      refetchOnWindowFocus: false,
+      onError: error => {
+        console.log('해당 게시글이 없습니다.', error);
+        // router.push('/404');
+      },
+    },
+  );
+};
+
+export {
+  usePostsInfiniteQuery,
+  useCreatePostMutation,
+  usePostDetailQuery,
+  useCreateApplicationMutation,
+  useApplicationList,
+  useApplicationDetailQuery,
+};

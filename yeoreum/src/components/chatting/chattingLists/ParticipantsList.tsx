@@ -1,15 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import Modal from '../../common/Modal';
 import ElseProfile from '../../elseProfile/ElseProfile';
-import { ChatRoom } from '../../../pages/chatting';
 import ProfileImage from '../../common/ProfileImage';
+import { ChatRoom } from '../../../types/chat';
 
 interface ChatUserProps {
   chatData: ChatRoom[];
+  setChatSocketData: any;
+  chatSocketData: ChatRoom | null;
 }
 
-function ParticipantsList({ chatData }: ChatUserProps) {
+function ParticipantsList({
+  setChatSocketData,
+  chatSocketData,
+}: ChatUserProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const openProfile = () => {
@@ -18,29 +23,27 @@ function ParticipantsList({ chatData }: ChatUserProps) {
 
   return (
     <>
-      {chatData.map((item, index) => {
-        return (
-          <div key={index}>
-            <ListBox>
-              {item.users.map(user => (
-                <Item key={user.userNo} onClick={openProfile}>
-                  {isOpen && (
-                    <Modal
-                      onClose={() => {
-                        setIsOpen(false);
-                      }}
-                    >
-                      {/* <ElseProfile /> */}
-                    </Modal>
-                  )}
-                  <ProfileImage src={user.profileImage} size={50} />
-                  <Nickname>{user.nickname}</Nickname>
-                </Item>
-              ))}
-            </ListBox>
-          </div>
-        );
-      })}
+      {chatSocketData?.users && (
+        <div>
+          <ListBox onClick={() => setChatSocketData(chatSocketData)}>
+            {chatSocketData.users.map(user => (
+              <Item key={user.userNo}>
+                {isOpen && (
+                  <Modal
+                    onClose={() => {
+                      setIsOpen(false);
+                    }}
+                  >
+                    {/* <ElseProfile /> */}
+                  </Modal>
+                )}
+                <ProfileImage src={user.profileImage} size={50} />
+                <Nickname>{user.nickname}</Nickname>
+              </Item>
+            ))}
+          </ListBox>
+        </div>
+      )}
     </>
   );
 }

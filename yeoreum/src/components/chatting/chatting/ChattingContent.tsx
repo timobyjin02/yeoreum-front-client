@@ -1,35 +1,42 @@
 import styled from '@emotion/styled';
-import { useEffect, useState } from 'react';
-import { requestGetCurrentChatLog } from '../../../apis/chats';
+import { useEffect } from 'react';
 import { ChatLogType } from '../../../types/chat';
 
 const ChattingContent = ({
   chats,
   setChats,
   scrollRef,
+  currentChatLog,
+  chatSocketData,
 }: {
   chats: ChatLogType[];
   setChats: React.Dispatch<React.SetStateAction<ChatLogType[]>>;
   scrollRef: React.RefObject<HTMLDivElement>;
+  currentChatLog: any;
+  chatSocketData: any;
 }) => {
   useEffect(() => {
-    (async () => {
-      const responseCurrentChatLog = await requestGetCurrentChatLog(2);
-      setChats(responseCurrentChatLog);
-      console.log(responseCurrentChatLog);
-    })();
-  }, []);
+    if (!currentChatLog) return;
+    setChats(currentChatLog.reverse());
+  }, [currentChatLog]);
+
+  const getNickname = (userNo: number) => {
+    return chatSocketData?.users.find((user: any) => user.userNo === userNo);
+  };
 
   return (
     <Containers>
-      {chats.map((chat, index) => (
+      {chats?.map((chat, index) => (
         <MessageBox
           key={index}
           ref={chats.length - 1 === index ? scrollRef : null}
-          // className={21 === chat.userNo ? 'my_message' : ''}
         >
           <span>
-            {chat.userNo ? (21 === chat.userNo ? '' : chat.userNo) : ''}
+            {chat.userNo
+              ? 21 === chat.userNo
+                ? ''
+                : getNickname(chat.userNo)?.nickname
+              : ''}
           </span>
           <Message className={21 === chat.userNo ? 'my_message' : 'message'}>
             {chat.message}

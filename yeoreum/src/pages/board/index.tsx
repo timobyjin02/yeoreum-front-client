@@ -14,6 +14,8 @@ import {
   useSaveFilterData,
 } from '../../hooks/useBoardPageData';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
+import Link from 'next/link';
 
 function Board() {
   const token = getToken() as string;
@@ -54,9 +56,20 @@ function Board() {
 
   return (
     <PostContainer>
-      <BoardTitle title="게시판" />
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
+        <BoardTitle title="게시판" />
+        <Link href="/board/create">
+          <Image src="/icons/edit.svg" width={26} height={26} alt="edit" />
+        </Link>
+      </div>
       <Filter option={option} setOption={setOption} />
-      <SearchBox />
+      {/* <SearchBox /> */}
       {data?.pages.map((group, idx) => {
         return (
           <Fragment key={idx}>

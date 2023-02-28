@@ -1,17 +1,29 @@
 import styled from '@emotion/styled';
+import { useRouter } from 'next/router';
 import React from 'react';
-import { PostType } from '../../../types/post';
+import { usePostDetailQuery } from '../../../hooks/queries/posts';
+import { useLoginState } from '../../../store/hooks';
 
-interface MainProps {
-  postData: PostType;
-  application?: boolean;
+interface PostDetailMainProps {
+  postNo: number;
 }
 
-function PostDetailMain({ postData, application }: MainProps) {
+function PostDetailMain({ postNo }: PostDetailMainProps) {
+  const router = useRouter();
+
+  const { userData } = useLoginState();
+
+  const { data } = usePostDetailQuery(postNo);
+  const postData = data?.data.response.board;
+
+  const isMyPost = postData?.hostUserNo === userData?.userNo;
+
+  const href = isMyPost ? `/apply/${postNo}` : `/apply/${postNo}/create`;
+
   return (
     <Main>
       <ContentWrapper>
-        <Content>{postData.description}</Content>
+        <Content>{postData?.description}</Content>
       </ContentWrapper>
       <YeoreumInfo>
         <Subject>만남 정보</Subject>
@@ -20,27 +32,27 @@ function PostDetailMain({ postData, application }: MainProps) {
             <ConditionTitle>모집인원</ConditionTitle>
             <FlexRowContainer>
               <GenderCondition>
-                <임시Icon />
-                <임시Text>{postData.male}명</임시Text>
+                <ConditionIcon src="/icons/man.svg" />
+                <ConditionText>{postData?.recruitMale}명</ConditionText>
               </GenderCondition>
               <GenderCondition>
-                <임시Icon />
-                <임시Text>{postData.female}명</임시Text>
+                <ConditionIcon src="/icons/woman.svg" />
+                <ConditionText>{postData?.recruitFemale}명</ConditionText>
               </GenderCondition>
             </FlexRowContainer>
           </EachCondition>
           <EachCondition>
             <ConditionTitle>시간</ConditionTitle>
             <Condition>
-              <임시Icon />
-              <임시Text>{postData.meetingTime}</임시Text>
+              <ConditionIcon src="/icons/clock.svg" />
+              <ConditionText>{postData?.meetingTime}</ConditionText>
             </Condition>
           </EachCondition>
           <EachCondition>
             <ConditionTitle>장소</ConditionTitle>
             <Condition>
-              <임시Icon />
-              <임시Text>{postData.location}</임시Text>
+              <ConditionIcon src="/icons/location.svg" />
+              <ConditionText>{postData?.location}</ConditionText>
             </Condition>
           </EachCondition>
         </Conditions>
@@ -49,22 +61,24 @@ function PostDetailMain({ postData, application }: MainProps) {
         <Subject>여름 멤버</Subject>
         <Members>
           <Member>
-            <MemberProfile />
-            <MemberNickname>{postData.nickname}</MemberNickname>
+            <MemberProfile src="/anonymous.png" />
+            <MemberNickname>{postData?.hostNickname}</MemberNickname>
             <WriterTag>작성자</WriterTag>
           </Member>
-          {postData.hostNicknames.map(nickname => {
+          {postData?.hostMemberNicknames.map((nickname: string) => {
             if (postData.nickname === nickname) return;
             return (
               <Member>
-                <MemberProfile />
+                <MemberProfile src="/anonymous.png" />
                 <MemberNickname>{nickname}</MemberNickname>
               </Member>
             );
           })}
         </Members>
       </YeoreumInfo>
-      <PostButton>{application ? '신청수락' : '신청하기'}</PostButton>
+      <PostButton onClick={() => router.push(href)}>
+        {isMyPost ? '신청내역' : '신청하기'}
+      </PostButton>
     </Main>
   );
 }
@@ -101,7 +115,7 @@ const YeoreumInfo = styled.div`
 const Subject = styled.div`
   font-size: 1.125rem;
   font-weight: 600;
-  color: #ff444d;
+  color: ${({ theme }) => theme.palette.main};
   margin-bottom: 20px;
 `;
 
@@ -135,14 +149,13 @@ const GenderCondition = styled.div`
   }
 `;
 
-const 임시Icon = styled.div`
+const ConditionIcon = styled.img`
   width: 15px;
   height: 15px;
-  background-color: lightgray;
-  margin-right: 5px;
+  margin-right: 2px;
 `;
 
-const 임시Text = styled.span`
+const ConditionText = styled.span`
   font-size: 14px;
 `;
 
@@ -163,7 +176,7 @@ const Member = styled.li`
   margin-bottom: 12px;
 `;
 
-const MemberProfile = styled.div`
+const MemberProfile = styled.img`
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -182,10 +195,10 @@ const WriterTag = styled.div`
   width: 56px;
   height: 24px;
   border-radius: 12px;
-  border: 1px solid #ff565f;
+  border: 1px solid ${({ theme }) => theme.palette.main};
   font-size: 12px;
   font-weight: 600;
-  color: #ff565f;
+  color: ${({ theme }) => theme.palette.main};
   margin-left: 10px;
 `;
 
@@ -203,7 +216,7 @@ const PostButton = styled.button`
   font-size: 17px;
   font-weight: 600;
   color: white;
-  background-color: #ff565f;
+  background-color: ${({ theme }) => theme.palette.main};
 
   cursor: pointer;
 

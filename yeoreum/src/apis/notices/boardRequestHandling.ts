@@ -9,7 +9,7 @@ const requestHandleBoard = (
   const param = type === 5 ? 'guest' : 'host';
 
   return axios.patch(
-    `/api/boards/${boardNo}/invite/${param}`,
+    `/api/boards/${boardNo}/invitation/${param}`,
     { isAccepted },
     {
       headers: { Authorization: `Bearer ${token}` },

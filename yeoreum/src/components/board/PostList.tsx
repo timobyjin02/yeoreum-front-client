@@ -17,13 +17,14 @@ import { useSaveScrollData } from '../../hooks/useBoardPageData';
 import { useRouter } from 'next/router';
 
 interface PostListProps {
+  isApplication?: boolean;
   posts?: BoardType[];
   fetchNextPage?: (
     options?: FetchNextPageOptions | undefined,
   ) => Promise<InfiniteQueryObserverResult<any, AxiosError<unknown, any>>>;
 }
 
-function PostList({ posts, fetchNextPage }: PostListProps) {
+function PostList({ posts, fetchNextPage, isApplication }: PostListProps) {
   const router = useRouter();
   const ref = router.pathname === '/board' ? useRef(null) : null;
 
@@ -33,14 +34,21 @@ function PostList({ posts, fetchNextPage }: PostListProps) {
     useIntersectionObserver(ref.current, fetchNextPage);
   }, []);
 
+  const boardNo = Number(router.query.postNo);
+
   return (
     <Post>
       {posts?.map((post, idx) => {
+        console.log(post);
         return (
           <Link
             onClick={useSaveScrollData}
-            key={post.no}
-            href={`/board/post/${post.no}`}
+            key={`${post.no}${idx}`}
+            href={
+              isApplication
+                ? `/apply/${boardNo}/application/${post.teamNo}`
+                : `/board/post/${post.no}`
+            }
           >
             <List ref={posts.length - 1 === idx ? ref : null}>
               <PostHeader>
@@ -50,32 +58,39 @@ function PostList({ posts, fetchNextPage }: PostListProps) {
                 <CreatedAt>{post.createdDate}</CreatedAt>
               </PostHeader>
               <PostTitle>{post.title}</PostTitle>
-              <PostBottom>
-                <Conditions>
-                  <Condition>
-                    <GenderCondition>
-                      <ConditionIcon src="/icons/man.svg" />
-                      <ConditionText>{post.recruitMale}명</ConditionText>
-                    </GenderCondition>
-                    <GenderCondition>
-                      <ConditionIcon src="/icons/woman.svg" />
-                      <ConditionText>{post.recruitFemale}명</ConditionText>
-                    </GenderCondition>
-                  </Condition>
-                  <Condition>
-                    <ConditionIcon src="/icons/clock.svg" />
-                    <ConditionText>{post.meetingTime}</ConditionText>
-                  </Condition>
-                  <Condition>
-                    <ConditionIcon src="/icons/location.svg" />
-                    <ConditionText>{post.location}</ConditionText>
-                  </Condition>
-                </Conditions>
-                <CreaterInfo>
-                  <CreaterImage />
-                  <CreaterNickname>{post.hostNickname}</CreaterNickname>
-                </CreaterInfo>
-              </PostBottom>
+              {isApplication && (
+                <ApplicationDescription>
+                  {post.description}
+                </ApplicationDescription>
+              )}
+              {isApplication || (
+                <PostBottom>
+                  <Conditions>
+                    <Condition>
+                      <GenderCondition>
+                        <ConditionIcon src="/icons/man.svg" />
+                        <ConditionText>{post.recruitMale}명</ConditionText>
+                      </GenderCondition>
+                      <GenderCondition>
+                        <ConditionIcon src="/icons/woman.svg" />
+                        <ConditionText>{post.recruitFemale}명</ConditionText>
+                      </GenderCondition>
+                    </Condition>
+                    <Condition>
+                      <ConditionIcon src="/icons/clock.svg" />
+                      <ConditionText>{post.meetingTime}</ConditionText>
+                    </Condition>
+                    <Condition>
+                      <ConditionIcon src="/icons/location.svg" />
+                      <ConditionText>{post.location}</ConditionText>
+                    </Condition>
+                  </Conditions>
+                  <CreaterInfo>
+                    <CreaterImage src="anonymous.png" />
+                    <CreaterNickname>{post.hostNickname}</CreaterNickname>
+                  </CreaterInfo>
+                </PostBottom>
+              )}
             </List>
           </Link>
         );
@@ -96,7 +111,7 @@ const List = styled.div`
   max-width: 600px;
   min-height: 100px;
   padding: 8px 20px 10px;
-  border-bottom: 1px solid #bbb;
+  border-bottom: 1px solid #d0d0d0;
   display: flex;
   flex-direction: column;
   cursor: pointer;
@@ -176,7 +191,7 @@ const CreaterInfo = styled.div`
   }
 `;
 
-const CreaterImage = styled.div`
+const CreaterImage = styled.img`
   width: 20px;
   height: 20px;
   background-color: lightgray;
@@ -186,4 +201,10 @@ const CreaterImage = styled.div`
 
 const CreaterNickname = styled.span`
   font-size: 0.75rem;
+`;
+
+const ApplicationDescription = styled.span`
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
 `;

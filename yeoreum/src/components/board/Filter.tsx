@@ -122,6 +122,6 @@ const ResetFilterBtn = styled.div`
 const Filtering = styled.div`
   display: flex;
   padding: 25px 0 50px;
-  border-bottom: 2px solid #aaa;
+  border-bottom: 2px solid #ccc;
   margin-bottom: 30px;
 `;

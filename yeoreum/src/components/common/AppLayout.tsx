@@ -5,6 +5,7 @@ import { getToken } from '../../utils/user';
 import { useAppDispatch, useLoginState } from '../../store/hooks';
 import { loginSuccess } from '../../store/modules/login';
 import jwtDecode from 'jwt-decode';
+import { useRemoveBoardPageData } from '../../hooks/useBoardPageData';
 
 interface Children {
   children: React.ReactNode;
@@ -15,6 +16,8 @@ function AppLayout({ children }: Children) {
   const [loading, setLoading] = useState(true);
   const token = getToken() as string;
   const dispatch = useAppDispatch();
+
+  useRemoveBoardPageData();
 
   useEffect(() => {
     if (token) {

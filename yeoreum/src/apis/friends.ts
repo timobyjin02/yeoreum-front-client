@@ -1,7 +1,11 @@
 import tokenAxios from './config';
 
-const requestGetFriendsList = async () => {
-  const { data } = await tokenAxios('/friends');
+const requestGetFriendsList = async (token: string) => {
+  const { data } = await tokenAxios('/friends', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   return data.response.friends;
 };
 

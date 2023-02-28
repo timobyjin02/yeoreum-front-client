@@ -32,7 +32,6 @@ const requestGetHasUnreadNotices = (token: string) => {
 };
 
 const requestPatchReadNotice = (noticeNo: number, token: string) => {
-  console.log(noticeNo, token);
   return axios.patch(
     `/api/notices/${noticeNo}`,
     {},
