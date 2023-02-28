@@ -1,20 +1,15 @@
-import axios from 'axios';
+import tokenAxios from '../config';
 
 const requestHandleBoard = (
   boardNo: number,
   type: number,
   isAccepted: boolean,
-  token: string,
 ) => {
   const param = type === 5 ? 'guest' : 'host';
 
-  return axios.patch(
-    `/api/boards/${boardNo}/invitation/${param}`,
-    { isAccepted },
-    {
-      headers: { Authorization: `Bearer ${token}` },
-    },
-  );
+  return tokenAxios.patch(`/boards/${boardNo}/invitation/${param}`, {
+    isAccepted,
+  });
 };
 
 export { requestHandleBoard };

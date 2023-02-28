@@ -4,7 +4,6 @@ import PostList from '../../components/board/PostList';
 import SearchBox from '../../components/board/SearchBox';
 import BoardTitle from '../../components/board/PostPageTitle';
 import PostContainer from '../../components/board/PostContainer';
-import { getToken } from '../../utils/user';
 import { usePostsInfiniteQuery } from '../../hooks/queries/posts';
 import { RequestGetAllPostsOption } from '../../apis/posts';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
@@ -18,7 +17,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 function Board() {
-  const token = getToken() as string;
   const router = useRouter();
   const [option, setOption] = useState<RequestGetAllPostsOption>({
     gender: undefined,
@@ -35,7 +33,7 @@ function Board() {
   }, []);
 
   const { data, fetchNextPage, isFetching, isLoading, isError } =
-    usePostsInfiniteQuery(option, token);
+    usePostsInfiniteQuery(option);
 
   useEffect(() => {
     const scrollHistory = useGetScrollData();

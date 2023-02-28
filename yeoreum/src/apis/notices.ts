@@ -1,46 +1,26 @@
-import axios from 'axios';
+import tokenAxios from './config';
 
-const requestGetNotices = (token: string) => {
-  return axios.get('/api/notices', {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+const requestGetNotices = () => {
+  return tokenAxios.get('/notices');
 };
 
-const requestGetUserData = (token: string) => {
-  return axios.get('/api/users/profile', {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+const requestGetUserData = () => {
+  return tokenAxios.get('/users/profile');
 };
 
 const requestPostLogin = () => {
-  return axios.post(`${process.env.NEXT_PUBLIC_URL}/auth/login`, {
+  return tokenAxios.post(`${process.env.NEXT_PUBLIC_URL}/auth/login`, {
     email: `${process.env.NEXT_PUBLIC_ID}`,
     password: `${process.env.NEXT_PUBLIC_PASSWORD}`,
   });
 };
 
-const requestGetHasUnreadNotices = (token: string) => {
-  return axios('/api/notices/unread', {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+const requestGetHasUnreadNotices = () => {
+  return tokenAxios('/notices/unread');
 };
 
-const requestPatchReadNotice = (noticeNo: number, token: string) => {
-  return axios.patch(
-    `/api/notices/${noticeNo}`,
-    {},
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    },
-  );
+const requestPatchReadNotice = (noticeNo: number) => {
+  return tokenAxios.patch(`/notices/${noticeNo}`, {});
 };
 
 export {
