@@ -44,12 +44,7 @@ function MajorChange({ userData }: userDataProps) {
       alert('파일을 업로드해주세요');
     }
 
-    // if (fileImg) {
-    //   alert('제출 되었습니다');
-    // }
-
     mutate([fileImg, userData.major]);
-    // requestPatchMajorUpload(fileImg, userData.major);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
