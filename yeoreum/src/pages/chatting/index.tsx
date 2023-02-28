@@ -11,11 +11,12 @@ export default function Chatting() {
   const [chatData, setChatData] = useState<ChatRoom[]>([]);
   const [chatSocketData, setChatSocketData] = useState();
 
-  useChatRoomInvitationMutation(18, 27);
+  // useChatRoomInvitationMutation(18, 27);
 
   useEffect(() => {
     const roomListHandler = ({ response }: any) => {
       const socketData = response.chatRooms;
+      // console.log(socketData);
       setChatData(socketData);
       setChatSocketData(socketData[0]);
     };
