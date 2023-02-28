@@ -1,10 +1,11 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import jwtDecode from 'jwt-decode';
 import { useRouter } from 'next/router';
 import {
   requestGetUserProfile,
   requestPatchEditProfile,
+  requestPatchMajorUpload,
   requestPutEditProfileImage,
 } from '../../apis/users';
 import { useAppDispatch } from '../../store/hooks';
@@ -56,8 +57,25 @@ const useProfileImageEditMutation = () => {
   });
 };
 
+const useMajorUploadMutation = () => {
+  return useMutation<AxiosResponse<any, any>, any, [Blob | null, string]>(
+    params => requestPatchMajorUpload(params[0], params[1]),
+    {
+      onError: (error: any) => {
+        console.log('학과 수정 에러', error);
+        alert(error.response.data.message);
+      },
+      onSuccess: data => {
+        console.log('학과 수정 성공', data);
+        alert('제출 되었습니다');
+      },
+    },
+  );
+};
+
 export {
   useUserProfileQuery,
   useProfileEditMutation,
   useProfileImageEditMutation,
+  useMajorUploadMutation,
 };

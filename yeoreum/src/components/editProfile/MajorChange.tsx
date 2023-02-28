@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { useCallback, useRef, useState } from 'react';
 import { requestPatchMajorUpload } from '../../apis/users';
+import { useMajorUploadMutation } from '../../hooks/queries/users';
 import { getToken } from '../../utils/user';
 interface userDataProps {
   userData: any;
@@ -9,10 +10,11 @@ interface userDataProps {
 function MajorChange({ userData }: userDataProps) {
   const token = getToken() as string;
   const [isView, setIsView] = useState(false);
-  const [fileImg, setFileImg] = useState<File | null>(null);
+  const [fileImg, setFileImg] = useState<Blob | null>(null);
   const [infoInputValue, setInfoInputValue] = useState<string>('');
   const inputRef = useRef<HTMLInputElement | null>(null);
 
+  const { mutate } = useMajorUploadMutation();
   const isViewHandler = () => {
     setIsView(true);
   };
@@ -42,11 +44,12 @@ function MajorChange({ userData }: userDataProps) {
       alert('파일을 업로드해주세요');
     }
 
-    if (fileImg) {
-      alert('제출 되었습니다');
-    }
+    // if (fileImg) {
+    //   alert('제출 되었습니다');
+    // }
 
-    requestPatchMajorUpload(fileImg, userData.major, token);
+    mutate([fileImg, userData.major]);
+    // requestPatchMajorUpload(fileImg, userData.major);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
