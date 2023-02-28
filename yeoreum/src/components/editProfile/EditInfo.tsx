@@ -30,7 +30,7 @@ function EditInfo({ userData, setUserData }: ProfileEditProps) {
     const { value, name } = e.target;
 
     if (name === 'description' && value.length > 255) {
-      return; // 입력 막기
+      return;
     }
 
     if (!pattern.test(value)) {
@@ -140,25 +140,6 @@ const Text = styled.span`
 const DescText = styled.span`
   font-size: 12px;
   color: ${({ theme }) => theme.palette.font.subHeadline};
-`;
-
-const MajorWrapper = styled.div`
-  display: flex;
-`;
-
-const MajorChangeButton = styled.button`
-  width: 80px;
-  height: 38px;
-  border-radius: 8px;
-  margin-left: 10px;
-  color: ${({ theme }) => theme.palette.font.white};
-  background: ${({ theme }) => theme.palette.main};
-
-  cursor: pointer;
-`;
-
-const ImgEditInput = styled.input`
-  display: none;
 `;
 
 const InfoDescription = styled.textarea`
