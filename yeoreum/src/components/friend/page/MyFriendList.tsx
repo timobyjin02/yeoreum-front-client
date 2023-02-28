@@ -5,37 +5,31 @@ import Modal from '../../common/Modal';
 import sliceString from '../../../utils/sliceString';
 import { FriendResponseType } from '../../../types/friend';
 import ProfileImage from '../../common/ProfileImage';
+import { useSearchFriendsQuery } from '../../../hooks/queries/friends';
 
 interface FriendListProps {
-  friendList: FriendResponseType;
+  searchTerm: string;
 }
 
-function FriendPage({ friendList }: FriendListProps) {
-  const [isOpen4, setIsOpen4] = useState(false);
+function FriendPage({ searchTerm }: FriendListProps) {
+  const { data } = useSearchFriendsQuery(searchTerm);
 
-  const openProfileHandler = () => {
-    setIsOpen4(true);
-  };
+  const responseFriendData = data?.data.response;
+
+  const friendList = searchTerm
+    ? responseFriendData?.searchResult
+    : responseFriendData?.friends;
 
   return (
     <div>
-      {friendList.length > 0 ? (
-        friendList.map((friend, index) => {
+      {friendList?.length > 0 ? (
+        friendList.map((friend: FriendResponseType, index: number) => {
           return (
             <List key={index}>
               <ImageWrapper>
-                <ProfileImage src={friend.friendProfileImage} size={70} />
+                <ProfileImage src={friend?.friendProfileImage} size={70} />
               </ImageWrapper>
-              <InfoWrapper onClick={openProfileHandler}>
-                {isOpen4 && (
-                  <Modal onClose={() => setIsOpen4(false)}>
-                    <ElseProfile
-                      img={friend.friendProfileImage}
-                      name={friend.friendNickname}
-                      description={friend.friendDescription}
-                    />
-                  </Modal>
-                )}
+              <InfoWrapper>
                 <Nickname>{friend.friendNickname}</Nickname>
                 <Description>
                   {sliceString(friend.friendDescription, 65)}

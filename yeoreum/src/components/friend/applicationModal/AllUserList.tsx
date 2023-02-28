@@ -1,21 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { FriendListType } from '../../../types/friend';
 import ProfileImage from '../../common/ProfileImage';
 import { UsersResponseType } from '../../../types/user';
-import { requestPostFriendApplication } from '../../../apis/friends';
-import { getToken } from '../../../utils/user';
+import { usePostFriendApplicationMutation } from '../../../hooks/queries/friends';
 
 interface ItemProps {
   item: UsersResponseType;
 }
 
 function AllUserList({ item }: ItemProps) {
-  const token = getToken() as string;
   const [isDisabled, setIsDisabled] = useState(false);
 
+  const { mutate } = usePostFriendApplicationMutation(item.userNo);
+
   const applicationHandler = () => {
-    requestPostFriendApplication(item.userNo, token);
+    mutate();
     setIsDisabled(true);
   };
 
