@@ -34,29 +34,26 @@ function FriendList({ tab }: TabProps) {
   const { data } = api[tab.id];
   const response = data?.data.response;
   const friends = response?.[tab.response];
+  const [modal, setModal] = useState({
+    friendProfileImage: '',
+    friendNickname: '',
+    friendDescription: '',
+  });
 
-  const openProfileHandler = () => {
+  const openProfileHandler = (friend: FriendResponseType) => {
+    setModal(friend);
     setIsOpen(true);
   };
 
   return (
     <>
-      {friends?.map((friend: FriendResponseType) => {
+      {friends?.map((friend: FriendResponseType, index: number) => {
         return (
-          <List>
+          <List key={index}>
             <ImageWrapper>
               <ProfileImage src={friend?.friendProfileImage} size={70} />
             </ImageWrapper>
-            <InfoWrapper onClick={openProfileHandler}>
-              {isOpen && (
-                <Modal onClose={() => setIsOpen(false)}>
-                  <ElseProfile
-                    img={friend.friendProfileImage}
-                    name={friend.friendNickname}
-                    description={friend.friendDescription}
-                  />
-                </Modal>
-              )}
+            <InfoWrapper onClick={() => openProfileHandler(friend)}>
               <Nickname>{friend.friendNickname}</Nickname>
               <Description>
                 {sliceString(friend.friendDescription, 65)}
@@ -65,6 +62,15 @@ function FriendList({ tab }: TabProps) {
           </List>
         );
       })}
+      {isOpen && (
+        <Modal onClose={() => setIsOpen(false)}>
+          <ElseProfile
+            img={modal.friendProfileImage}
+            name={modal.friendNickname}
+            description={modal.friendDescription}
+          />
+        </Modal>
+      )}
     </>
   );
 }

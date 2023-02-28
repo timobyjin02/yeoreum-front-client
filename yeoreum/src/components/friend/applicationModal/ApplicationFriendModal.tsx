@@ -47,7 +47,7 @@ function ApplicationFriendModal({ onClose }: PropsType) {
         />
       </SearchWrapper>
       <ListWrapper>
-        {lists.length > 0 ? (
+        {lists?.length > 0 ? (
           lists.map((item: UsersResponseType, index: number) => {
             return <AllUserList key={index} item={item} />;
           })

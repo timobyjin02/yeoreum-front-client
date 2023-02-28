@@ -12,8 +12,6 @@ interface FriendListProps {
 }
 
 function FriendPage({ searchTerm }: FriendListProps) {
-  const [isOpen, setIsOpen] = useState(false);
-
   const { data } = useSearchFriendsQuery(searchTerm);
 
   const responseFriendData = data?.data.response;
@@ -21,10 +19,6 @@ function FriendPage({ searchTerm }: FriendListProps) {
   const friendList = searchTerm
     ? responseFriendData?.searchResult
     : responseFriendData?.friends;
-
-  const openProfileHandler = () => {
-    setIsOpen(true);
-  };
 
   return (
     <div>
@@ -35,16 +29,7 @@ function FriendPage({ searchTerm }: FriendListProps) {
               <ImageWrapper>
                 <ProfileImage src={friend?.friendProfileImage} size={70} />
               </ImageWrapper>
-              <InfoWrapper onClick={openProfileHandler}>
-                {isOpen && (
-                  <Modal onClose={() => setIsOpen(false)}>
-                    <ElseProfile
-                      img={friend.friendProfileImage}
-                      name={friend.friendNickname}
-                      description={friend.friendDescription}
-                    />
-                  </Modal>
-                )}
+              <InfoWrapper>
                 <Nickname>{friend.friendNickname}</Nickname>
                 <Description>
                   {sliceString(friend.friendDescription, 65)}
