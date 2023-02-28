@@ -34,7 +34,8 @@ function FriendList({ tab }: TabProps) {
   const { data } = api[tab.id];
   const response = data?.data.response;
   const friends = response?.[tab.response];
-  const [modal, setModal] = useState({
+  const [modal, setModal] = useState<FriendResponseType>({
+    friendUserNo: null,
     friendProfileImage: '',
     friendNickname: '',
     friendDescription: '',
@@ -65,9 +66,11 @@ function FriendList({ tab }: TabProps) {
       {isOpen && (
         <Modal onClose={() => setIsOpen(false)}>
           <ElseProfile
-            img={modal.friendProfileImage}
-            name={modal.friendNickname}
-            description={modal.friendDescription}
+            modal={modal}
+
+            // img={modal.friendProfileImage}
+            // name={modal.friendNickname}
+            // description={modal.friendDescription}
           />
         </Modal>
       )}

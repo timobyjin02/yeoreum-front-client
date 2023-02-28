@@ -5,11 +5,10 @@ import { socket } from '../../../pages/_app';
 
 interface ChatsProps {
   setChats: React.Dispatch<React.SetStateAction<ChatLogType[]>>;
-  scrollRef: React.RefObject<HTMLDivElement>;
   chatSocketData: any;
 }
 
-function ChattingInput({ setChats, scrollRef, chatSocketData }: ChatsProps) {
+function ChattingInput({ setChats, chatSocketData }: ChatsProps) {
   const [message, setMessage] = useState<string>('');
 
   useEffect(() => {
@@ -36,8 +35,6 @@ function ChattingInput({ setChats, scrollRef, chatSocketData }: ChatsProps) {
         { userNo: 21, message, chatRoomNo: chatSocketData?.chatRoomNo },
         ({ response }: any) => {
           const chats = response.messagePayload;
-          console.log(response);
-          console.log(chats);
 
           setChats(prevChats => [...prevChats, chats]);
           setMessage('');

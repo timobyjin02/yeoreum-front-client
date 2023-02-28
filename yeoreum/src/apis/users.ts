@@ -17,14 +17,8 @@ const requestGetUsers = async (value: string, token: string) => {
   return data.response.users;
 };
 
-const requestGetUserBoards = async (type: number, token: string) => {
-  const { data } = await remote.get(`/api/boards/my-page/${type}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  return data.response.users;
+const requestGetUserBoards = async (type: number) => {
+  return tokenAxios.get(`/boards/my-page/${type}`);
 };
 
 const requestPutEditProfileImage = (file: Blob) => {
@@ -38,21 +32,11 @@ const requestPatchEditProfile = (nickname: string, description: string) => {
   return tokenAxios.patch(`/users/profile`, body);
 };
 
-const requestPatchMajorUpload = (
-  file: Blob | null,
-  major: string,
-  token: string,
-) => {
-  if (!file) return;
-
+const requestPatchMajorUpload = (file: Blob | null, major: string) => {
   const formData = new FormData();
-  formData.append('file', file);
+  formData.append('file', file ?? '');
   formData.append('major', major);
-  remote.patch(`/api/users/major`, formData, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  return tokenAxios.patch(`/users/major`, formData);
 };
 
 export {

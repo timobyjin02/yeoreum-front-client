@@ -1,35 +1,30 @@
 import styled from '@emotion/styled';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { BoardType } from '../../types/post';
 import PostList from '../board/PostList';
-import { requestGetUserBoards } from '../../apis/users';
-import { getToken } from '../../utils/user';
+import { useBoardsMyPageQuery } from '../../hooks/queries/users';
 
 function Lists() {
-  const token = getToken() as string;
   const [actived, setActived] = useState(0);
-  const [posts, setPosts] = useState<BoardType[]>([]);
+
+  const { data } = useBoardsMyPageQuery(1);
+  const { data: bookMark } = useBoardsMyPageQuery(4);
+
+  const myBoards = data?.data.response.boards;
+  const myBookMark = bookMark?.data.response.boards;
 
   const tabs = [
     {
       id: 0,
       title: '내가 쓴 글',
-      content: <PostList posts={posts} />,
+      content: <PostList posts={myBoards} />,
     },
     {
       id: 1,
       title: '좋아요',
-      // content: <PostList />,
+      content: <PostList posts={myBookMark} />,
     },
   ];
-
-  useEffect(() => {
-    (async () => {
-      const userBoards = await requestGetUserBoards(1, token);
-
-      setPosts(userBoards);
-    })();
-  }, []);
 
   return (
     <Container>
