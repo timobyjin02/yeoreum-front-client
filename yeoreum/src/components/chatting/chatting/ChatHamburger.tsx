@@ -81,7 +81,7 @@ to {
 
 const HamburgerModal = styled.div`
   position: fixed;
-  width: 300px;
+  width: 80%;
   height: 100%;
 
   display: flex;
