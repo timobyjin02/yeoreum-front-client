@@ -47,6 +47,10 @@ const requestGetApplicationDetail = (boardNo: number, teamNo: number) => {
   return tokenAxios(`/boards/apply/${boardNo}/${teamNo}`);
 };
 
+const requestPostCreateChatRoom = (boardNo: number, teamNo: number) => {
+  return tokenAxios.post(`/chats/${boardNo}/${teamNo}`);
+};
+
 export {
   requestGetPosts,
   requestPostCreatePost,
@@ -54,4 +58,5 @@ export {
   requestGetPostDetail,
   requestGetPostApplication,
   requestGetApplicationDetail,
+  requestPostCreateChatRoom,
 };
