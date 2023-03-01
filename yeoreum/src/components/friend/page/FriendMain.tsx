@@ -1,6 +1,9 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
 import FriendList from './FriendList';
+import FriendsRequests from './requestList/FriendsRequests';
+import ReceivedFriendsRequests from './requestList/ReceivedFriendsRequests';
+import SentFriendsRequests from './requestList/SentFriendsRequests';
 
 function FriendMain() {
   const [viewList, setViewList] = useState(0);
@@ -9,17 +12,17 @@ function FriendMain() {
     {
       id: 0,
       title: '친구 목록',
-      response: 'friends',
+      content: <FriendsRequests />,
     },
     {
       id: 1,
       title: '보낸 신청',
-      response: 'sentFriendRequests',
+      content: <SentFriendsRequests />,
     },
     {
       id: 2,
       title: '받은 신청',
-      response: 'receivedRequests',
+      content: <ReceivedFriendsRequests />,
     },
   ];
 
@@ -42,9 +45,7 @@ function FriendMain() {
         {tabs
           .filter(tab => viewList === tab.id)
           .map(tab => (
-            <ListItem key={tab.id}>
-              <FriendList tab={tab} />
-            </ListItem>
+            <ListItem key={tab.id}>{tab.content}</ListItem>
           ))}
       </ListsBox>
     </MainContainer>
@@ -90,3 +91,55 @@ const ListsBox = styled.div`
 const ListItem = styled.div`
   cursor: pointer;
 `;
+
+// 혹시 몰라서 주석
+// function FriendMain() {
+//   const [viewList, setViewList] = useState(0);
+
+//   const tabs = [
+//     {
+//       id: 0,
+//       title: '친구 목록',
+//       response: 'friends',
+//     },
+//     {
+//       id: 1,
+//       title: '보낸 신청',
+//       response: 'sentFriendRequests',
+//     },
+//     {
+//       id: 2,
+//       title: '받은 신청',
+//       response: 'receivedRequests',
+//     },
+//   ];
+
+//   return (
+//     <MainContainer>
+//       <ButtonBox>
+//         {tabs.map(tab => (
+//           <SelectButton
+//             key={tab.id}
+//             onClick={() => {
+//               setViewList(tab.id);
+//             }}
+//             className={viewList === tab.id ? 'active' : ''}
+//           >
+//             {tab.title}
+//           </SelectButton>
+//         ))}
+//       </ButtonBox>
+//       <ListsBox>
+//         {tabs
+//           .filter(tab => viewList === tab.id)
+//           .map(tab => (
+//             <ListItem key={tab.id}>
+//               <FriendList tab={tab} />
+//             </ListItem>
+//           ))}
+//       </ListsBox>
+//     </MainContainer>
+//   );
+// }
+
+// export default FriendMain;
