@@ -10,3 +10,17 @@ export type FriendResponseType = {
   friendDescription: string;
   friendProfileImage: string;
 };
+
+export type SentFriendsResponseType = {
+  receiverUserDescription: string;
+  receiverUserNickname: string;
+  receiverUserNo: number | null;
+  receiverUserProfileImage: string;
+};
+
+export type ReceivedFriendsResponseType = {
+  senderUserDescription: string;
+  senderUserNickname: string;
+  senderUserNo: number | null;
+  senderUserProfileImage: string;
+};
