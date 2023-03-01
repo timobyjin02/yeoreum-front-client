@@ -17,4 +17,7 @@ const Wrapper = styled.div`
   margin: auto;
   display: flex;
   border: 1px solid ${({ theme }) => theme.palette.line.grey};
+  @media (max-width: 640px) {
+    height: 100vh;
+  }
 `;

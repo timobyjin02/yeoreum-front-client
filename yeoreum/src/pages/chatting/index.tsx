@@ -30,6 +30,8 @@ export default function Chatting() {
       <ChattingBox
         chats={chats}
         setChats={setChats}
+        chatData={chatData}
+        setChatSocketData={setChatSocketData}
         chatSocketData={chatSocketData}
       />
       <ChattingListsBox
