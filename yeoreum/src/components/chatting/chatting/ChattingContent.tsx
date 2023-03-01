@@ -2,20 +2,21 @@ import styled from '@emotion/styled';
 import { useEffect } from 'react';
 import { useLoginState } from '../../../store/hooks';
 import { ChatLogType } from '../../../types/chat';
-
-const ChattingContent = ({
-  chats,
-  setChats,
-  scrollRef,
-  currentChatLog,
-  chatSocketData,
-}: {
+interface ChatProps {
   chats: ChatLogType[];
   setChats: React.Dispatch<React.SetStateAction<ChatLogType[]>>;
   scrollRef: React.RefObject<HTMLDivElement>;
   currentChatLog: any;
   chatSocketData: any;
-}) => {
+}
+
+function ChattingContent({
+  chats,
+  setChats,
+  scrollRef,
+  currentChatLog,
+  chatSocketData,
+}: ChatProps) {
   useEffect(() => {
     if (!currentChatLog) return;
     setChats(currentChatLog.reverse());
@@ -49,7 +50,7 @@ const ChattingContent = ({
       ))}
     </Containers>
   );
-};
+}
 
 export default ChattingContent;
 
