@@ -13,8 +13,10 @@ export default function Home() {
       </Head>
       <BannerWrapper>
         <MainBanner src="/banner.svg" />
-        <MainTitle>너의 여름은</MainTitle>
-        <MainDesc>여름과 청춘, 아직 만난 적 없는 너를 찾고 있어</MainDesc>
+        <BannerTextWrapper>
+          <MainTitle>너의 여름은</MainTitle>
+          <MainDesc>여름과 청춘, 아직 만난 적 없는 너를 찾고 있어</MainDesc>
+        </BannerTextWrapper>
       </BannerWrapper>
       <Previews />
       <SubBannerWrapper>
@@ -29,46 +31,42 @@ export default function Home() {
   );
 }
 
-const MainBanner = styled.img`
-  width: 100%;
-  /* display: flex;
-
-height: 608px;
-margin: 40px auto;
-
-width: 975px;
-
-position: relative;
-
-@media (max-width: 975px) {
-  width: 100%;
-  height: 100%;
-  margin: 20px auto;
-  flex-direction: column;
-} */
-`;
-
 const BannerWrapper = styled.div`
   position: relative;
 `;
 
-const MainTitle = styled.span`
+const MainBanner = styled.img`
+  width: 100%;
+`;
+
+const BannerTextWrapper = styled.div`
   position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   top: 45%;
-  left: 29%;
+  left: 33%;
   transform: translate(-50%, -50%);
+  @media (max-width: 975px) {
+    left: 28%;
+  }
+`;
+
+const MainTitle = styled.span`
   font-size: 50px;
   color: #ffffff;
   font-weight: 700;
+  @media (max-width: 975px) {
+    font-size: 30px;
+  }
 `;
 
 const MainDesc = styled.span`
-  position: absolute;
-  top: 55%;
-  left: 33.3%;
-  transform: translate(-50%, -50%);
   font-size: 20px;
   color: #ffffff;
+  @media (max-width: 975px) {
+    font-size: 13px;
+  }
 `;
 
 const SubBannerWrapper = styled.div`
@@ -81,11 +79,10 @@ const SubBannerWrapper = styled.div`
   margin-bottom: 0;
 
   background-color: ${({ theme }) => theme.palette.disable};
+
   @media (max-width: 975px) {
-    width: 100%;
     height: 100%;
-    margin: 20px auto;
-    flex-direction: column;
+    background-color: ${({ theme }) => theme.palette.background.white};
   }
 `;
 
@@ -97,6 +94,11 @@ const SubBannerBox = styled.div`
   height: 250px;
   border-radius: 10px;
   background-color: ${({ theme }) => theme.palette.background.light};
+
+  @media (max-width: 975px) {
+    border-radius: 0;
+    margin-bottom: 40px;
+  }
 `;
 
 const TextWrapper = styled.div`
