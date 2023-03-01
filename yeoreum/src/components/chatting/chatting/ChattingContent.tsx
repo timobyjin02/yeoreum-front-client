@@ -60,6 +60,10 @@ const Containers = styled.div`
     border-radius: 4px;
     background-color: rgba(0, 0, 0, 0.25);
   }
+
+  @media (max-width: 640px) {
+    height: calc(100vh - 122px);
+  }
 `;
 
 const MessageBox = styled.div`
