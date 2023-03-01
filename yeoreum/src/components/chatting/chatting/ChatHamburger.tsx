@@ -6,6 +6,7 @@ import useLockScroll from '../../../hooks/useLockScroll';
 import useOutsideClick from '../../../hooks/useOutsideClick';
 import { ChatRoom } from '../../../types/chat';
 import ChattingListBox from '../chattingLists/ChattingListsBox';
+import HamburgerContent from '../chattingLists/HamburgerContent';
 
 interface HamburgerProps {
   onClose: () => void;
@@ -40,7 +41,8 @@ function ChatHamburger({
           </CloseButton>
         </CloseWrapper>
         <ChatInfoWrapper>
-          <ChattingListBox
+          <Header />
+          <HamburgerContent
             chatData={chatData}
             setChatSocketData={setChatSocketData}
             chatSocketData={chatSocketData}
@@ -117,3 +119,7 @@ const CloseButton = styled.button`
 `;
 
 const ChatInfoWrapper = styled.div``;
+
+const Header = styled.div`
+  height: 50px;
+`;
