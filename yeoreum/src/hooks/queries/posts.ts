@@ -7,6 +7,7 @@ import {
   requestGetPostDetail,
   requestGetPosts,
   requestPostCreateApplication,
+  requestPostCreateChatRoom,
   requestPostCreatePost,
 } from '../../apis/posts';
 import { AxiosError } from 'axios';
@@ -123,6 +124,32 @@ const useApplicationDetailQuery = (boardNo: number, teamNo: number) => {
   );
 };
 
+const useCreateChatMutation = (boardNo: number, teamNo: number) => {
+  const router = useRouter();
+  return useMutation(() => requestPostCreateChatRoom(boardNo, teamNo), {
+    onSuccess: (data: any) => {
+      console.log('여름 신청 수락 성공', data);
+      alert('여름 신청 수락 성공');
+    },
+    onError: (error: any) => {
+      const errorData = error.response.data;
+      console.log('여름 신청 수락 실패', error);
+      if (errorData.statusCode === 404) {
+        alert('이미 게시글의 여름이 성사된 상태입니다.');
+        router.push('/mypage');
+        return;
+      }
+      if (errorData.statusCode === 400) {
+        alert(errorData.message);
+        router.push('/chatting');
+        return;
+      }
+      alert('알 수 없는 오류가 발생했습니다.');
+      router.push('/');
+    },
+  });
+};
+
 export {
   usePostsInfiniteQuery,
   useCreatePostMutation,
@@ -130,4 +157,5 @@ export {
   useCreateApplicationMutation,
   useApplicationList,
   useApplicationDetailQuery,
+  useCreateChatMutation,
 };

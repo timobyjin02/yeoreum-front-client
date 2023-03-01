@@ -1,6 +1,9 @@
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
-import { useApplicationDetailQuery } from '../../../hooks/queries/posts';
+import {
+  useApplicationDetailQuery,
+  useCreateChatMutation,
+} from '../../../hooks/queries/posts';
 import { Param } from '../../../pages/apply/[postNo]/application/[applicationNo]';
 
 interface DetailHeaderProps {
@@ -13,8 +16,13 @@ function DetailMain({ param }: DetailHeaderProps) {
 
   const applicationData = data?.data.response.guestTeam;
 
+  console.log(applicationData);
+
+  const { mutate } = useCreateChatMutation(param.postNo, param.applicationNo);
+
   const btnClickHandler = () => {
-    router.push(`/mypage`);
+    mutate();
+    // router.push(`/mypage`);
   };
 
   return (
