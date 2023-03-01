@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { useEffect } from 'react';
+import { useLoginState } from '../../../store/hooks';
 import { ChatLogType } from '../../../types/chat';
 
 const ChattingContent = ({
@@ -24,18 +25,24 @@ const ChattingContent = ({
     return chatSocketData?.users.find((user: any) => user.userNo === userNo);
   };
 
+  const { userData } = useLoginState();
+
   return (
     <Containers ref={scrollRef}>
       {chats?.map((chat, index) => (
         <MessageBox key={index}>
           <span>
             {chat.userNo
-              ? 21 === chat.userNo
+              ? userData?.userNo === chat.userNo
                 ? ''
                 : getNickname(chat.userNo)?.nickname
               : ''}
           </span>
-          <Message className={21 === chat.userNo ? 'my_message' : 'message'}>
+          <Message
+            className={
+              userData?.userNo === chat.userNo ? 'my_message' : 'message'
+            }
+          >
             {chat.message}
           </Message>
         </MessageBox>
