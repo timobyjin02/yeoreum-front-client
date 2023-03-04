@@ -15,5 +15,9 @@ export interface AlertProps {
 }
 
 export interface SignUpProps {
-  setUserStatus: Dispatch<SetStateAction<Number | undefined>>;
+  setUserInfo: Dispatch<SetStateAction<UserInfoType>>;
+}
+
+export interface UserInfoType {
+  [key: string]: Number | undefined;
 }
