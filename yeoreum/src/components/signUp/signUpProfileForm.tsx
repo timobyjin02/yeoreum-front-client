@@ -1,8 +1,7 @@
 import { FocusEvent, ChangeEvent } from 'react';
 import { useState } from 'react';
-import { useRouter } from 'next/router';
 import Image from 'next/image';
-import { SignUpProps } from '../../types/signUp';
+import { SignUpProfileProps } from '../../types/signUp';
 import {
   Container,
   Wrapper,
@@ -27,12 +26,10 @@ import {
   SIGN_UP_PROFILE_REGEX_BY_TYPE,
 } from '../../constants/signUpConst';
 import useForm from '../../hooks/useForm';
-import validateNickname from '../../apis/validateNickname';
 import { ConstType, RegexType } from '../../types/signUp';
+import { validateNickname, createProfile } from '../../apis/signUp';
 
-const SignUpProfileForm = (setUserStatus: SignUpProps) => {
-  const router = useRouter();
-  const USER_NO = router.query.userNo;
+const SignUpProfileForm = ({ setUserInfo, userInfo }: SignUpProfileProps) => {
   const MESSAGE_BY_TYPE: ConstType = SIGN_UP_PROFILE_MESSAGE_BY_TYPE;
   const REGEX_BY_TYPE: RegexType = SIGN_UP_PROFILE_REGEX_BY_TYPE;
   const [user, setUser, onChangeValue, onChangeValidity] = useForm(
@@ -49,6 +46,7 @@ const SignUpProfileForm = (setUserStatus: SignUpProps) => {
     if (!files) return;
     setUserImg(URL.createObjectURL(files[0]));
     onChangeValue(name, files[0]);
+    onChangeValidity(name, true, '');
   };
   const onValidate = (name: string, value: string) => {
     const isValid = REGEX_BY_TYPE[name].test(value);
@@ -82,24 +80,23 @@ const SignUpProfileForm = (setUserStatus: SignUpProps) => {
     }));
   };
 
-  const onClickNickname = () => {
+  const onClickNickname = async () => {
     const value = user.nickname.value;
     const name = 'nickname';
     if (!user.nickname.validity) return;
-    validateNickname(user.nickname.value).then(isValid => {
+
+    try {
+      const isValid = await validateNickname(user.nickname.value);
+      console.log(isValid);
       setNicknameDuplicationStatus({
         message: isValid
           ? MESSAGE_BY_TYPE.nicknameDuplication.success
           : MESSAGE_BY_TYPE.nicknameDuplication.error,
         duplication: isValid,
       });
-    });
-  };
-  const onChangeMajor = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    onChangeValue(name, value);
-    const { isValid, message } = onValidate(name, value);
-    onChangeValidity(name, isValid, message);
+    } catch (err: any) {
+      alert(err.response?.data?.message);
+    }
   };
 
   const onChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -108,21 +105,31 @@ const SignUpProfileForm = (setUserStatus: SignUpProps) => {
     onChangeValue(name, value);
   };
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     if (!nicknameDuplicationStatus.duplication) {
       alert('닉네임 중복 확인버튼을 눌러주세요');
       return;
     }
+
     for (let key in user) {
       if (!user[key].validity) {
-        alert(user[key] + '가 유효하지 않습니다.');
+        alert(key + '가 유효하지 않습니다.');
         return;
       }
     }
 
-    router.push({
-      pathname: `/signup/certificate/${USER_NO}`,
-    });
+    try {
+      const response = await createProfile(
+        userInfo.userNo,
+        user.nickname.value,
+        user.gender.value,
+        user.description.value,
+        user.file.value,
+      );
+      setUserInfo({ ...response.user });
+    } catch (err: any) {
+      alert(err.response?.data?.message);
+    }
   };
   return (
     <Container onSubmit={e => e.preventDefault()}>
@@ -190,18 +197,7 @@ const SignUpProfileForm = (setUserStatus: SignUpProps) => {
           {nicknameDuplicationStatus.message}
         </AlertP>
       )}
-      <Wrapper>
-        <Label>
-          <P>학과</P>
-          <Input
-            name="major"
-            type="text"
-            maxLength={30}
-            placeholder="학과를 입력해주세요"
-            onChange={onChangeMajor}
-          ></Input>
-        </Label>
-      </Wrapper>
+
       <DescriptionWrapper>
         <Label>
           <P>소개</P>

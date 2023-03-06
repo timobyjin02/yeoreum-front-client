@@ -53,7 +53,7 @@ export const SIGN_UP_REGEX_BY_TYPE = {
 export const SIGN_UP_PROFILE_INITIAL = {
   file: {
     value: '',
-    validity: true,
+    validity: false,
     message: '',
   },
   gender: {
@@ -64,11 +64,6 @@ export const SIGN_UP_PROFILE_INITIAL = {
   nickname: {
     value: '',
     validity: undefined,
-    message: '',
-  },
-  major: {
-    value: '',
-    validity: false,
     message: '',
   },
   description: {
@@ -94,10 +89,6 @@ export const SIGN_UP_PROFILE_MESSAGE_BY_TYPE = {
   passwordConfirm: {
     success: '일치합니다.',
     error: '소개를 입력해주세요.',
-  },
-  major: {
-    success: '일치합니다.',
-    error: '유효하지 않은 학과명입니다.',
   },
 };
 

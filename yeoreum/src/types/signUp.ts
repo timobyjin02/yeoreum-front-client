@@ -18,6 +18,11 @@ export interface SignUpProps {
   setUserInfo: Dispatch<SetStateAction<UserInfoType>>;
 }
 
+export interface SignUpProfileProps {
+  setUserInfo: Dispatch<SetStateAction<UserInfoType>>;
+  userInfo: any;
+}
+
 export interface UserInfoType {
   [key: string]: Number | undefined;
 }
