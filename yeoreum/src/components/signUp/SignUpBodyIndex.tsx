@@ -12,7 +12,7 @@ const SignUpBodyIndex = () => {
   const components = {
     undefined: <SignUpForm setUserInfo={setUserInfo} />,
     0: <SignUpProfileForm setUserInfo={setUserInfo} userInfo={userInfo} />,
-    1: <SignUpCertificate setUserInfo={setUserInfo} />,
+    1: <SignUpCertificate setUserInfo={setUserInfo} userInfo={userInfo} />,
   };
 
   return <>{(components as any)[userInfo.status]}</>;

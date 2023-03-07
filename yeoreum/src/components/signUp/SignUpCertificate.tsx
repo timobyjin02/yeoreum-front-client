@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
-import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { ChangeEvent, useState } from 'react';
-import { SignUpProps } from '../../types/signUp';
+import { SignUpProfileProps } from '../../types/signUp';
+import { uploadCertification } from '../../apis/signUp';
 import {
   Container,
   Wrapper,
@@ -13,25 +13,19 @@ import {
   SubmitWrapper,
   ProfileInput as StudentIdInput,
 } from './SignUpFormStyle';
-import {
-  SIGN_UP_CERTIFICATE_INITIAL,
-  SIGN_UP_PROFILE_REGEX_BY_TYPE,
-  SIGN_UP_CERTIFICATE_MESSAGE_BY_TYPE,
-} from '../../constants/signUpConst';
+import { SIGN_UP_CERTIFICATE_INITIAL } from '../../constants/signUpConst';
 import useForm from '../../hooks/useForm';
 
-const SignUpCertificate = (setUserStatus: SignUpProps) => {
-  const MESSAGE_BY_TYPE = SIGN_UP_CERTIFICATE_MESSAGE_BY_TYPE;
-  const MAJOR_REGEX = SIGN_UP_PROFILE_REGEX_BY_TYPE.major;
-  const router = useRouter();
-  const USER_NO = router.query.userNo;
+const SignUpCertificate = ({ userInfo, setUserInfo }: SignUpProfileProps) => {
   const [user, setUser, onChangeValue, onChangeValidity] = useForm(
     SIGN_UP_CERTIFICATE_INITIAL,
   );
   const [studentIdImg, setStudentIdImg] = useState('');
+
   const onChangeMajor = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     onChangeValue(name, value);
+    onChangeValidity(name, true, '');
   };
 
   const onChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
@@ -40,10 +34,27 @@ const SignUpCertificate = (setUserStatus: SignUpProps) => {
     if (!files) return;
     setStudentIdImg(URL.createObjectURL(files[0]));
     onChangeValue(name, files[0]);
+    onChangeValidity(name, true, '');
   };
 
-  const onSubmit = () => {
-    console.log(user);
+  const onSubmit = async () => {
+    Object.keys(user).map(key => {
+      if (!user[key].validity) {
+        alert(key + '가 유효하지 않습니다.');
+        return;
+      }
+    });
+
+    try {
+      const response = await uploadCertification(
+        userInfo.userNo,
+        user.studentId.value,
+        user.major.value,
+      );
+      setUserInfo({ ...response.user });
+    } catch (err: any) {
+      alert(err.response?.data?.message);
+    }
   };
   return (
     <Container onSubmit={e => e.preventDefault()}>
@@ -63,10 +74,9 @@ const SignUpCertificate = (setUserStatus: SignUpProps) => {
         <Label>
           <P>학생증</P>
           <ImageWrapper>
-            {/* <p>업로드</p> */}
             {!studentIdImg ? (
               <AltDiv>
-                <p>학생을 사진을 올려주세요!</p>
+                <p>학생증 사진을 올려주세요!</p>
               </AltDiv>
             ) : (
               <Image
@@ -138,4 +148,5 @@ const AltDiv = styled.div`
     color: ${({ theme }) => theme.palette.font.subHeadline};
   }
 `;
+
 export default SignUpCertificate;
