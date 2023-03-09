@@ -4,7 +4,7 @@ import Image from 'next/image';
 const Header = () => (
   <Container>
     <ImageWrap>
-      <Image src="/vercel.svg" width={40} height={40} alt="logo" />
+      {/* <Image src="/vercel.svg" width={40} height={40} alt="logo" /> */}
     </ImageWrap>
     <Title>여름 입장</Title>
     <Subtitle>여름을 여름답게 보내기 위해</Subtitle>

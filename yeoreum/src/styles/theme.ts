@@ -1,11 +1,4 @@
 const palette = {
-  // 삭제 예정
-  serviceBtn: '#4CAF50',
-  fontGrey: '#555',
-  fontBlack: '#181818',
-  grey: '#dbdbdb',
-  lightGrey: '#f5f6f7',
-
   main: '#4D49FE',
   dark: '#3E3BCB',
   light: '#DBDBFF',
