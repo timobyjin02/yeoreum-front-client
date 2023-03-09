@@ -11,7 +11,7 @@ export interface RegexType {
 }
 
 export interface AlertProps {
-  success: Validity;
+  success?: Validity;
 }
 
 export interface SignUpProps {

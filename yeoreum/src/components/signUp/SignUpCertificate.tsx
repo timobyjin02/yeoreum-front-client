@@ -7,6 +7,7 @@ import {
   Container,
   Wrapper,
   P,
+  AlertP,
   Label,
   Input,
   Submit,
@@ -58,6 +59,9 @@ const SignUpCertificate = ({ userInfo, setUserInfo }: SignUpProfileProps) => {
   };
   return (
     <Container onSubmit={e => e.preventDefault()}>
+      {userInfo.status === 4 && (
+        <AlertP>학적 인증이 반려되었습니다. 다시 신청해주세요!</AlertP>
+      )}
       <Wrapper>
         <Label>
           <P>학과</P>

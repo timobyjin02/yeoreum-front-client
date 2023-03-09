@@ -35,7 +35,25 @@ const createProfile = async (
   formData.append('gender', gender);
   formData.append('description', description);
   formData.append('file', file);
+
   const { data } = await axios.post(`/api/users/${userNo}/profile`, formData);
+  return data.response;
+};
+
+const uploadCertification = async (
+  userNo: string,
+  file: string,
+  major: string,
+  isDenied?: boolean,
+) => {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('major', major);
+
+  const url = isDenied
+    ? `/api/users/${userNo}/denied-certificate`
+    : `/api/users/${userNo}/certificate`;
+  const { data } = await axios.post(url, formData);
   return data.response;
 };
 
@@ -45,4 +63,5 @@ export {
   requestSignIn,
   validateNickname,
   createProfile,
+  uploadCertification,
 };
