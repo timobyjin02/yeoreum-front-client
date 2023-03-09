@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import SignUpContainer from '../../components/signUp/signUpContainer';
-import SignUpBody from '../../components/signUp/signUpBody';
+import SignUpBody from '../../components/signUp/SignUpBody';
 import SignUpHeader from '../../components/signUp/signUpHeader';
 import SignUpForm from '../../components/signUp/SignUpForm';
 import SignUpBodyIndex from '../../components/signUp/SignUpBodyIndex';

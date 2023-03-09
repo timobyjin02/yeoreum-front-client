@@ -68,7 +68,7 @@ export const SIGN_UP_PROFILE_INITIAL = {
   },
   description: {
     value: '',
-    validity: false,
+    validity: true,
     message: '',
   },
 };
