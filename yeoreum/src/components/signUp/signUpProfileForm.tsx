@@ -1,6 +1,7 @@
 import { FocusEvent, ChangeEvent } from 'react';
 import { useState } from 'react';
 import Image from 'next/image';
+import { SignUpProfileProps } from '../../types/signUp';
 import {
   Container,
   Wrapper,
@@ -9,7 +10,7 @@ import {
   Input,
   Label,
   Button,
-  SubmitLink,
+  SubmitWrapper,
   Submit,
   GenderWrapper,
   GenderLabel,
@@ -18,17 +19,17 @@ import {
   DescriptionWrapper,
   ProfileInput,
   ProfileImageWrapper,
-} from './signUpFormStyle';
+} from './SignUpFormStyle';
 import {
   SIGN_UP_PROFILE_INITIAL,
   SIGN_UP_PROFILE_MESSAGE_BY_TYPE,
   SIGN_UP_PROFILE_REGEX_BY_TYPE,
 } from '../../constants/signUpConst';
 import useForm from '../../hooks/useForm';
-import validateNickname from '../../apis/validateNickname';
 import { ConstType, RegexType } from '../../types/signUp';
+import { validateNickname, createProfile } from '../../apis/signUp';
 
-const SignUpProfileForm = () => {
+const SignUpProfileForm = ({ setUserInfo, userInfo }: SignUpProfileProps) => {
   const MESSAGE_BY_TYPE: ConstType = SIGN_UP_PROFILE_MESSAGE_BY_TYPE;
   const REGEX_BY_TYPE: RegexType = SIGN_UP_PROFILE_REGEX_BY_TYPE;
   const [user, setUser, onChangeValue, onChangeValidity] = useForm(
@@ -45,6 +46,7 @@ const SignUpProfileForm = () => {
     if (!files) return;
     setUserImg(URL.createObjectURL(files[0]));
     onChangeValue(name, files[0]);
+    onChangeValidity(name, true, '');
   };
   const onValidate = (name: string, value: string) => {
     const isValid = REGEX_BY_TYPE[name].test(value);
@@ -78,30 +80,56 @@ const SignUpProfileForm = () => {
     }));
   };
 
-  const onClickNickname = () => {
+  const onClickNickname = async () => {
     const value = user.nickname.value;
     const name = 'nickname';
     if (!user.nickname.validity) return;
-    validateNickname(user.nickname.value).then(isValid => {
+
+    try {
+      const isValid = await validateNickname(user.nickname.value);
+      console.log(isValid);
       setNicknameDuplicationStatus({
         message: isValid
           ? MESSAGE_BY_TYPE.nicknameDuplication.success
           : MESSAGE_BY_TYPE.nicknameDuplication.error,
         duplication: isValid,
       });
-    });
-  };
-  console.log(nicknameDuplicationStatus);
-  const onChangeMajor = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    onValidate(name, value);
-    onChangeValue(name, value);
+    } catch (err: any) {
+      alert(err.response?.data?.message);
+    }
   };
 
   const onChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     if (value.length > 0) onChangeValidity(name, true, '');
     onChangeValue(name, value);
+  };
+
+  const onSubmit = async () => {
+    if (!nicknameDuplicationStatus.duplication) {
+      alert('닉네임 중복 확인버튼을 눌러주세요');
+      return;
+    }
+
+    for (let key in user) {
+      if (!user[key].validity) {
+        alert(key + '가 유효하지 않습니다.');
+        return;
+      }
+    }
+
+    try {
+      const response = await createProfile(
+        userInfo.userNo,
+        user.nickname.value,
+        user.gender.value,
+        user.description.value,
+        user.file.value,
+      );
+      setUserInfo({ ...response.user });
+    } catch (err: any) {
+      alert(err.response?.data?.message);
+    }
   };
   return (
     <Container onSubmit={e => e.preventDefault()}>
@@ -169,18 +197,7 @@ const SignUpProfileForm = () => {
           {nicknameDuplicationStatus.message}
         </AlertP>
       )}
-      <Wrapper>
-        <Label>
-          <P>학과</P>
-          <Input
-            name="major"
-            type="text"
-            maxLength={30}
-            placeholder="학과를 입력해주세요"
-            onChange={onChangeMajor}
-          ></Input>
-        </Label>
-      </Wrapper>
+
       <DescriptionWrapper>
         <Label>
           <P>소개</P>
@@ -192,9 +209,9 @@ const SignUpProfileForm = () => {
           />
         </Label>
       </DescriptionWrapper>
-      <SubmitLink href="">
-        <Submit>제출</Submit>
-      </SubmitLink>
+      <SubmitWrapper>
+        <Submit onClick={onSubmit}>다음</Submit>
+      </SubmitWrapper>
     </Container>
   );
 };

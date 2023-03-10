@@ -1,5 +1,10 @@
 import { ChangeEvent, FocusEvent, useCallback, useState } from 'react';
-import { Validity, ConstType, RegexType } from '../../types/signUp';
+import {
+  Validity,
+  ConstType,
+  RegexType,
+  SignUpProps,
+} from '../../types/signUp';
 import useForm from '../../hooks/useForm';
 import {
   SIGN_UP_INITIAL,
@@ -14,11 +19,17 @@ import {
   Input,
   Label,
   Button,
-  SubmitLink,
+  SubmitWrapper,
   Submit,
-} from './signUpFormStyle';
+} from './SignUpFormStyle';
+import {
+  requestEmailVerification,
+  verifyEmailCode,
+  requestSignIn,
+} from '../../apis/signUp';
+import hashPassword from '../../utils/hashPassword';
 
-const Form = () => {
+const Form = ({ setUserInfo }: SignUpProps) => {
   const MESSAGE_BY_TYPE: ConstType = SIGN_UP_MESSAGE_BY_TYPE;
   const REGEX_BY_TYPE: RegexType = SIGN_UP_REGEX_BY_TYPE;
   const [emailVerificationStatus, setEmailVerificationStatus] = useState(0);
@@ -30,7 +41,11 @@ const Form = () => {
     curValue: string | Validity,
     targetValue?: string | boolean,
   ) => {
-    const comparedValueTypes = ['emailCode', 'prePopulatedPassword'];
+    const comparedValueTypes = [
+      'emailCode',
+      'prePopulatedPassword',
+      'passwordConfirm',
+    ];
     const isValid = (() => {
       if (comparedValueTypes.includes(type)) {
         return curValue === targetValue;
@@ -54,18 +69,33 @@ const Form = () => {
   const onClickEmail = useCallback(() => {
     const { isValid, message } = onValidate('email', user.email.value);
     onChangeValidity('email', isValid, message);
-    isValid && setEmailVerificationStatus(1);
+    if (!isValid) return;
+
+    (async () => {
+      try {
+        const response = await requestEmailVerification(user.email.value);
+        setEmailVerificationStatus(1);
+      } catch (err: any) {
+        alert(err.response?.data?.message);
+      }
+    })();
   }, [user.email.value]);
 
-  const onClickEmailCode = useCallback(() => {
-    const TEMP_CODE = '111111';
-    const { isValid, message } = onValidate(
-      'emailCode',
-      user.emailCode.value,
-      TEMP_CODE,
-    );
-    onChangeValidity('emailCode', isValid, message);
-    isValid && setEmailVerificationStatus(2);
+  const onClickEmailCode = useCallback(async () => {
+    try {
+      const response = await verifyEmailCode(
+        user.email.value,
+        user.emailCode.value,
+      );
+      const message = MESSAGE_BY_TYPE.emailCode.success;
+      onChangeValidity('emailCode', true, message);
+      setEmailVerificationStatus(2);
+    } catch (err: any) {
+      const message = err.response?.data?.message
+        ? err.response.data.message
+        : '올바르지 않은 인증 코드입니다.';
+      onChangeValidity('emailCode', false, message);
+    }
   }, [user.emailCode.value]);
 
   const onChangePassword = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -125,6 +155,20 @@ const Form = () => {
     },
     [],
   );
+  const onClickSubmit = async () => {
+    Object.keys(user).map(key => {
+      if (!user[key].validity) return;
+    });
+
+    try {
+      const password = hashPassword(user.password.value);
+      const email = user.email.value;
+      const responseUser = await requestSignIn(email, password);
+      setUserInfo({ ...responseUser.user });
+    } catch (err: any) {
+      alert(err.response?.data?.message);
+    }
+  };
   return (
     <Container onSubmit={e => e.preventDefault()}>
       <Wrapper>
@@ -149,14 +193,14 @@ const Form = () => {
       {emailVerificationStatus !== 0 ? (
         <Wrapper>
           <Label>
-            <P>00:00</P>
+            <P>인증코드</P>
             {emailVerificationStatus === 1 ? (
               <Input
                 name="emailCode"
                 type="text"
                 maxLength={6}
                 onChange={onChangeEmail}
-                placeholder="인증코드"
+                placeholder="인증코드를 입력해주세요"
               />
             ) : (
               <Input
@@ -213,9 +257,9 @@ const Form = () => {
           {user.passwordConfirm.message}
         </AlertP>
       )}
-      <SubmitLink href="/signup/profile/1">
-        <Submit>다음</Submit>
-      </SubmitLink>
+      <SubmitWrapper>
+        <Submit onClick={onClickSubmit}>다음</Submit>
+      </SubmitWrapper>
     </Container>
   );
 };
