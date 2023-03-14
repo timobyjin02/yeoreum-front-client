@@ -2,6 +2,9 @@ import React, { useState, useCallback, FormEvent, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { ChatLogType } from '../../../types/chat';
 import { socket } from '../../../pages/_app';
+import ModalPortal from '../../modalPortal/ModalPortal';
+import Modal from '../../common/Modal';
+import PromiseModal from './PromiseModal';
 
 interface ChatsProps {
   setChats: React.Dispatch<React.SetStateAction<ChatLogType[]>>;
@@ -10,6 +13,7 @@ interface ChatsProps {
 
 function ChattingInput({ setChats, chatSocketData }: ChatsProps) {
   const [message, setMessage] = useState<string>('');
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const messageHandler = (chat: ChatLogType) =>
@@ -44,6 +48,10 @@ function ChattingInput({ setChats, chatSocketData }: ChatsProps) {
     [message, setChats],
   );
 
+  const openPromiseHandler = () => {
+    setIsOpen(true);
+  };
+
   return (
     <MessageForm onSubmit={sendMessageHandler}>
       <InputBox>
@@ -52,7 +60,16 @@ function ChattingInput({ setChats, chatSocketData }: ChatsProps) {
       <AttachWrapper>
         <FileBox>
           <Img className="file" src="/icons/paperclip.svg" />
-          <Img className="promise" src="/icons/clockBlack.svg" />
+          <Img
+            className="promise"
+            src="/icons/clockBlack.svg"
+            onClick={openPromiseHandler}
+          />
+          {isOpen && (
+            <Modal onClose={() => setIsOpen(false)}>
+              <PromiseModal setIsOpen={setIsOpen} />
+            </Modal>
+          )}
         </FileBox>
         <SendButton>
           <Img className="send" src="/icons/send.svg" />
