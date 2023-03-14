@@ -46,22 +46,18 @@ function ChattingInput({ setChats, chatSocketData }: ChatsProps) {
 
   return (
     <MessageForm onSubmit={sendMessageHandler}>
-      <FileBox>
-        <Img src="/icons/paperclip.svg" />
-      </FileBox>
       <InputBox>
-        <Input
-          type="text"
-          onChange={inputChangeHandler}
-          value={message}
-          placeholder="Message"
-        />
+        <Input type="text" onChange={inputChangeHandler} value={message} />
       </InputBox>
-      <SendButtonBox>
+      <AttachWrapper>
+        <FileBox>
+          <Img className="file" src="/icons/paperclip.svg" />
+          <Img className="promise" src="/icons/clockBlack.svg" />
+        </FileBox>
         <SendButton>
-          <Img src="/icons/send.svg" />
+          <Img className="send" src="/icons/send.svg" />
         </SendButton>
-      </SendButtonBox>
+      </AttachWrapper>
     </MessageForm>
   );
 }
@@ -69,25 +65,13 @@ function ChattingInput({ setChats, chatSocketData }: ChatsProps) {
 export default ChattingInput;
 
 const MessageForm = styled.form`
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   border-top: 1px solid ${({ theme }) => theme.palette.line.grey};
-`;
-
-const FileBox = styled.div`
-  margin-right: 10px;
-  padding: 0 20px;
-  border-right: 1px solid ${({ theme }) => theme.palette.line.grey};
-`;
-
-const Img = styled.img`
-  width: 20px;
 `;
 
 const InputBox = styled.div`
   width: 100%;
+  height: 60px;
+  padding: 5px 10px 0 10px;
 `;
 
 const Input = styled.input`
@@ -98,15 +82,30 @@ const Input = styled.input`
   }
 `;
 
-const SendButtonBox = styled.div`
-  height: 100%;
-  padding: 0 15px;
+const AttachWrapper = styled.div`
   display: flex;
-  justify-content: center;
-  border-left: 1px solid ${({ theme }) => theme.palette.background.grey};
-  background-color: ${({ theme }) => theme.palette.background.white};
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const FileBox = styled.div``;
+
+const Img = styled.img`
+  width: 23px;
+  margin-bottom: 7px;
 
   cursor: pointer;
+  .file& {
+    margin-left: 10px;
+  }
+
+  .promise& {
+    margin-left: 10px;
+  }
+
+  .send& {
+    margin-right: 10px;
+  }
 `;
 
 const SendButton = styled.button`

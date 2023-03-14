@@ -57,7 +57,7 @@ export default ChattingContent;
 const Containers = styled.div`
   width: 100%;
   padding: 10px 20px;
-  height: calc(100vh - 182px);
+  height: calc(100vh - 200px);
   background-color: ${({ theme }) => theme.palette.background.light};
   overflow-y: auto;
 
