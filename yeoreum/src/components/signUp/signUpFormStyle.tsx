@@ -86,7 +86,7 @@ export const Button = styled.button`
   }
 `;
 
-export const SubmitLink = styled(Link)`
+export const SubmitWrapper = styled.div`
   align-self: center;
   width: 59.2%;
   height: 48px;

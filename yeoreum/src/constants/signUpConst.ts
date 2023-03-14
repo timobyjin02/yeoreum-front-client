@@ -53,7 +53,7 @@ export const SIGN_UP_REGEX_BY_TYPE = {
 export const SIGN_UP_PROFILE_INITIAL = {
   file: {
     value: '',
-    validity: true,
+    validity: false,
     message: '',
   },
   gender: {
@@ -66,14 +66,9 @@ export const SIGN_UP_PROFILE_INITIAL = {
     validity: undefined,
     message: '',
   },
-  major: {
-    value: '',
-    validity: false,
-    message: '',
-  },
   description: {
     value: '',
-    validity: false,
+    validity: true,
     message: '',
   },
 };
@@ -95,13 +90,29 @@ export const SIGN_UP_PROFILE_MESSAGE_BY_TYPE = {
     success: '일치합니다.',
     error: '소개를 입력해주세요.',
   },
-  major: {
-    success: '일치합니다.',
-    error: '유효하지 않은 학과명입니다.',
-  },
 };
 
 export const SIGN_UP_PROFILE_REGEX_BY_TYPE = {
   nickname: /^(?=.*[a-zA-Z0-9가-힣])[a-zA-Z0-9가-힣]{2,10}$/,
   major: /^(?=.*[a-zA-Z가-힣])[a-zA-Z가-힣]{2,20}$/,
+};
+
+export const SIGN_UP_CERTIFICATE_INITIAL = {
+  major: {
+    value: '',
+    validity: undefined,
+    message: '',
+  },
+  studentId: {
+    value: '',
+    validity: undefined,
+    message: '',
+  },
+};
+
+export const SIGN_UP_CERTIFICATE_MESSAGE_BY_TYPE = {
+  major: {
+    success: '학생증을 업로드 해주세요.',
+    error: '학생증을 업로드 해주세요.',
+  },
 };

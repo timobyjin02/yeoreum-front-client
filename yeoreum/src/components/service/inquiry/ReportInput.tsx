@@ -33,7 +33,7 @@ const Input = styled.input`
 const ValidateNickname = styled.p`
   font-size: 0.75em;
   padding: 0.8em;
-  color: ${({ theme }) => theme.palette.serviceBtn};
+  color: ${({ theme }) => theme.palette.main};
 `;
 
 export default ReportInput;

@@ -95,7 +95,7 @@ const Submit = styled.input`
   height: 46px;
   margin: 4em;
   border-radius: 5px;
-  background-color: ${({ theme }) => theme.palette.serviceBtn};
+  background-color: ${({ theme }) => theme.palette.main};
   color: #ffffff;
   cursor: pointer;
 `;
