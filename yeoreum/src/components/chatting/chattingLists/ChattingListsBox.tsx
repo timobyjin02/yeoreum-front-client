@@ -96,7 +96,6 @@ const ButtonBox = styled.div`
 `;
 
 const SelectButton = styled.button`
-  /* width: 90px; */
   padding: 0 10px;
   height: 100%;
   margin: 0;
@@ -119,7 +118,7 @@ const ListWrapper = styled.div`
 
 const ListBox = styled.div`
   width: 100%;
-  height: 557px;
+  height: 510px;
   overflow: auto;
   ::-webkit-scrollbar {
     width: 0px;
@@ -132,8 +131,6 @@ const ListItem = styled.div`
 
 const PromiseWrapper = styled.div`
   width: 100%;
-  height: 150px;
-  background-color: red;
 `;
 
 const PromiseTitle = styled.span`
