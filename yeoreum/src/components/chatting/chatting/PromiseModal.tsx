@@ -1,13 +1,46 @@
 import styled from '@emotion/styled';
-import React from 'react';
+import React, { useState } from 'react';
+import { useMeetingMutation } from '../../../hooks/queries/promise';
+import { socket } from '../../../pages/_app';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import moment from 'moment';
 
 interface PromiseeProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  chatSocketData: any;
 }
 
-function PromiseModal({ setIsOpen }: PromiseeProps) {
+function PromiseModal({ setIsOpen, chatSocketData }: PromiseeProps) {
+  const [location, setPlace] = useState('');
+  const [time, setTime] = useState<Date>(new Date());
+
+  const { mutate } = useMeetingMutation(
+    location,
+    time,
+    chatSocketData.chatRoomNo,
+  );
+
+  const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.name === 'location') {
+      setPlace(e.target.value);
+    } else if (e.target.name === 'time') {
+      const newTime = moment(e.target.value, 'YYYY-MM-DD HH:mm:ss').toDate();
+      setTime(newTime);
+    }
+  };
+
+  const datePickerChangeHandler = (date: Date) => {
+    setTime(date);
+  };
+
   const promiseSubmitHandler = () => {
+    console.log('location:', location);
+    console.log('Time:', time);
+
+    // socket.emit('promise', { location, time });
     setIsOpen(false);
+    mutate();
   };
 
   return (
@@ -15,11 +48,11 @@ function PromiseModal({ setIsOpen }: PromiseeProps) {
       <Title>약속을 입력해주세요</Title>
       <InputBox>
         <PromiseTitle>장소</PromiseTitle>
-        <PromiseInput />
+        <PromiseInput name="location" onChange={inputChangeHandler} />
       </InputBox>
       <InputBox>
         <PromiseTitle>시간</PromiseTitle>
-        <PromiseInput />
+        <DatePicker selected={time} onChange={datePickerChangeHandler} />
       </InputBox>
       <SubmitButton onClick={promiseSubmitHandler}>제출</SubmitButton>
     </Container>

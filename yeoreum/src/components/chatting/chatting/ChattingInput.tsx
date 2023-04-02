@@ -39,7 +39,6 @@ function ChattingInput({ setChats, chatSocketData }: ChatsProps) {
         { userNo: 21, message, chatRoomNo: chatSocketData?.chatRoomNo },
         ({ response }: any) => {
           const chats = response.messagePayload;
-
           setChats(prevChats => [...prevChats, chats]);
           setMessage('');
         },
@@ -67,7 +66,10 @@ function ChattingInput({ setChats, chatSocketData }: ChatsProps) {
           />
           {isOpen && (
             <Modal onClose={() => setIsOpen(false)}>
-              <PromiseModal setIsOpen={setIsOpen} />
+              <PromiseModal
+                setIsOpen={setIsOpen}
+                chatSocketData={chatSocketData}
+              />
             </Modal>
           )}
         </FileBox>
