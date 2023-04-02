@@ -14,4 +14,8 @@ const requestGetMeetings = (
   });
 };
 
-export { requestGetMeetings };
+const requestGetPromiseInquiry = (chatRoomNo: number) => {
+  return tokenAxios.get(`/meetings/chats/${chatRoomNo}`);
+};
+
+export { requestGetMeetings, requestGetPromiseInquiry };

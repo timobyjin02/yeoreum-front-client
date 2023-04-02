@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import ParticipantsList from './ParticipantsList';
 import ChatList from './ChatList';
 import { ChatRoom } from '../../../types/chat';
+import { usePromiseInquiry } from '../../../hooks/queries/promise';
 
 interface ChatDataProps {
   chatData: ChatRoom[];
@@ -16,6 +17,9 @@ function ChattingListBox({
   chatSocketData,
 }: ChatDataProps) {
   const [viewList, setViewList] = useState(0);
+
+  const { data } = usePromiseInquiry(chatSocketData?.chatRoomNo);
+  const promiseInfo = data?.data.response.meeting;
 
   const tabs = [
     {
@@ -65,11 +69,11 @@ function ChattingListBox({
           <PromiseTitle>약속</PromiseTitle>
           <PromiseBox>
             <PromiseRow>장소:</PromiseRow>
-            <PromiseColumn>네 마음속</PromiseColumn>
+            <PromiseColumn>{promiseInfo?.location}</PromiseColumn>
           </PromiseBox>
           <PromiseBox>
             <PromiseRow>시간:</PromiseRow>
-            <PromiseColumn>너 될때</PromiseColumn>
+            <PromiseColumn>{promiseInfo?.time}</PromiseColumn>
           </PromiseBox>
         </PromiseWrapper>
       </ListWrapper>

@@ -1,5 +1,9 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { requestGetMeetings } from '../../apis/promise';
+import { AxiosError, AxiosResponse } from 'axios';
+import {
+  requestGetMeetings,
+  requestGetPromiseInquiry,
+} from '../../apis/promise';
 
 const useMeetingMutation = (
   location: string,
@@ -16,4 +20,16 @@ const useMeetingMutation = (
   });
 };
 
-export { useMeetingMutation };
+const usePromiseInquiry = (chatsRoomNo: number) => {
+  return useQuery<
+    AxiosResponse<any, AxiosError>,
+    AxiosError,
+    AxiosResponse<any, AxiosError>,
+    [number]
+  >([chatsRoomNo], () => requestGetPromiseInquiry(chatsRoomNo), {
+    retry: 0,
+    staleTime: 0,
+  });
+};
+
+export { useMeetingMutation, usePromiseInquiry };
